@@ -1,4 +1,4 @@
-# test
+# hr-club-admin
 
 ## Project setup
 ```
