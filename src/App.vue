@@ -1,6 +1,7 @@
 <template>
   <div id="app">
     <div id="nav">
+      <el-button>默认按钮</el-button>
       <router-link to="/">Home</router-link>|
       <router-link to="/about">About</router-link>
     </div>
