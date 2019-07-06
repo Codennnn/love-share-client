@@ -1,7 +1,10 @@
 <template>
   <div class="nav-bar box-shadow">
     <div>
-      <router-link v-for="(item, index) in navIcons" :key="index" :to="item.route">
+      <router-link
+        v-for="(item, index) in navIcons"
+        :key="index"
+        :to="item.route">
         <el-tooltip :open-delay="200" :content="item.tip" effect="light">
           <i class="nav-icon iconfont" :class="item.icon"></i>
         </el-tooltip>
@@ -17,7 +20,10 @@
       </div>
       <el-popover transition="el-zoom-in-bottom" class="popover">
         <template v-for="(pop, index) in popItems">
-          <router-link :to="pop.route" :key="index" class="popover-item">
+          <router-link
+            :to="pop.route"
+            :key="index"
+            class="popover-item">
             <div>
               <div class="inner-item">
                 <i class="inner-icon" :class="pop.icon"></i>
@@ -33,22 +39,23 @@
 </template>
 
 <script>
-import screenfull from "screenfull";
+import screenfull from 'screenfull';
+
 export default {
-  name: "NavBar",
+  name: 'NavBar',
   data() {
     return {
-      activeIndex: "1",
+      activeIndex: '1',
       popItems: [
-        { icon: "el-icon-user", text: "我的信息", route: "" },
-        { icon: "el-icon-trophy", text: "我的社团", route: "/my-club" },
-        { icon: "el-icon-switch-button", text: "退出登录", route: "/login" }
+        { icon: 'el-icon-user', text: '我的信息', route: '' },
+        { icon: 'el-icon-trophy', text: '我的社团', route: '/my-club' },
+        { icon: 'el-icon-switch-button', text: '退出登录', route: '/login' },
       ],
       navIcons: [
-        { tip: "社团", icon: "icon-medal", route: "/club-list" },
-        { tip: "动态", icon: "icon-dynamic", route: "/dynamic-list" },
-        { tip: "活动", icon: "icon-activity", route: "/activity-list" }
-      ]
+        { tip: '社团', icon: 'icon-medal', route: '/club-list' },
+        { tip: '动态', icon: 'icon-dynamic', route: '/dynamic-list' },
+        { tip: '活动', icon: 'icon-activity', route: '/activity-list' },
+      ],
     };
   },
   mounted() {
@@ -65,29 +72,29 @@ export default {
     screenfull() {
       if (!screenfull.enabled) {
         this.$message({
-          message: "您的浏览器不支持全屏显示",
-          type: "warning"
+          message: '您的浏览器不支持全屏显示',
+          type: 'warning',
         });
         return false;
       }
       screenfull.toggle();
       this.isFullscreen = true;
+      return true;
     },
 
     // 是否全屏并按键ESC键的方法
     checkFull() {
-      let isFull =
-        document.fullscreenEnabled ||
-        window.fullScreen ||
-        document.webkitIsFullScreen ||
-        document.msFullscreenEnabled;
+      let isFull = document.fullscreenEnabled
+                  || window.fullScreen
+                  || document.webkitIsFullScreen
+                  || document.msFullscreenEnabled;
       // to fix : false || undefined == undefined
       if (isFull === undefined) {
         isFull = false;
       }
       return isFull;
-    }
-  }
+    },
+  },
 };
 </script>
 

@@ -10,6 +10,7 @@
   "dependencies": {
     "axios": "^0.19.0",
     "core-js": "^2.6.5",
+    "echarts": "^4.2.1",
     "element-ui": "^2.10.1",
     "mockjs": "^1.0.1-beta3",
     "nprogress": "^0.2.0",

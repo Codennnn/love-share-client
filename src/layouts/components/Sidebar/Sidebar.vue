@@ -12,10 +12,10 @@
           <span slot="title">{{ menuItem.title }}</span>
         </template>
         <el-menu-item-group v-for="(subItem, index, key) in menuItem.subMenu" :key="key">
-          <el-menu-item index="/analytics">{{ subItem.title }}</el-menu-item>
+          <el-menu-item :index="subItem.path">{{ subItem.title }}</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
-      <el-menu-item v-else index="/todo-list" :key="index">
+      <el-menu-item v-else :index="menuItem.path" :key="index">
         <i class="sidebar-icon iconfont" :class="menuItem.icon"></i>
         <span slot="title">{{ menuItem.title }}</span>
       </el-menu-item>
@@ -24,53 +24,55 @@
 </template>
 
 <script>
-import SidearItem from "./SidebarItem";
-
 export default {
   data() {
     return {
       isCollapse: false,
       sidebarList: [
         {
-          title: "仪表版",
-          icon: "icon-home",
-          subMenu: [{ title: "数据展示" }, { title: "数据分析" }]
+          title: '仪表版',
+          icon: 'icon-home',
+          subMenu: [{ title: '数据展示', path: '/analytics' }, { title: '数据分析', path: '' }],
         },
         {
-          title: "用户管理",
-          icon: "icon-group",
-          subMenu: [{ title: "用户列表" }, { title: "角色管理" }]
+          title: '用户管理',
+          icon: 'icon-group',
+          subMenu: [{ title: '用户列表', path: '/user-list' }, { title: '角色管理', path: '' }],
         },
         {
-          title: "社团管理",
-          icon: "icon-medal",
+          title: '社团管理',
+          icon: 'icon-medal',
           subMenu: [
-            { title: "社团列表" },
-            { title: "申请列表" },
-            { title: "社团审核" },
-            { title: "创建社团" }
-          ]
+            { title: '社团列表', path: '' },
+            { title: '申请列表', path: '' },
+            { title: '社团审核', path: '' },
+            { title: '创建社团', path: '' },
+          ],
         },
         {
-          title: "动态管理",
-          icon: "icon-dynamic",
-          subMenu: [{ title: "动态列表" }, { title: "动态编辑" }]
+          title: '动态管理',
+          icon: 'icon-dynamic',
+          subMenu: [{ title: '动态列表', path: '' }, { title: '动态编辑', path: '' }],
         },
         {
-          title: "活动管理",
-          icon: "icon-activity",
-          subMenu: [{ title: "活动列表" }, { title: "活动审核" }]
+          title: '活动管理',
+          icon: 'icon-activity',
+          subMenu: [{ title: '活动列表', path: '' }, { title: '活动审核', path: '' }],
         },
-        { title: "待办事项", icon: "icon-todo" }
-      ]
+        { title: '待办事项', icon: 'icon-todo', path: '' },
+      ],
     };
   },
 
-  components: { SidearItem }
+  components: { },
 };
 </script>
 
 <style lang="scss">
+/* 重置侧边栏的高度 */
+.el-menu {
+  height: 100vh;
+}
 .el-menu.side-bar-menu {
   padding: 0 18px;
 }

@@ -13,13 +13,16 @@
 
       <!-- 主区域 -->
       <el-main></el-main>
+
+      <!-- 页脚 -->
+      <el-footer>COPYRIGHT @ 2019 Jack</el-footer>
     </el-container>
   </el-container>
 </template>
 
 <script>
-import Sidebar from "./components/Sidebar";
-import Navbar from "./components/Navbar";
+import Sidebar from './components/Sidebar/Sidebar.vue';
+import Navbar from './components/Navbar/Navbar.vue';
 
 export default {
   data() {
@@ -28,8 +31,8 @@ export default {
 
   components: {
     Sidebar,
-    Navbar
-  }
+    Navbar,
+  },
 };
 </script>
 
@@ -38,4 +41,3 @@ export default {
   height: 100%;
 }
 </style>
-
