@@ -5,66 +5,21 @@
     :collapse="isCollapse"
     router
   >
-    <el-menu-item index @click="isCollapse = !isCollapse">
-      <img src="@/assets/images/logo/logo.png" class="el-icon-menu" />
-      <!-- <span slot="title">意想社团</span> -->
-    </el-menu-item>
-    <el-submenu index="1">
-      <template slot="title">
-        <i class="sidebar-icon iconfont icon-home"></i>
-        <span slot="title">仪表板</span>
-      </template>
-      <el-menu-item-group>
-        <el-menu-item index="/analytics">数据展示</el-menu-item>
-        <el-menu-item index="/about">数据分析</el-menu-item>
-      </el-menu-item-group>
-    </el-submenu>
-    <el-submenu index="2">
-      <template slot="title">
-        <i class="sidebar-icon iconfont icon-group"></i>
-        <span slot="title">用户管理</span>
-      </template>
-      <el-menu-item-group>
-        <el-menu-item index="/user-list">用户列表</el-menu-item>
-        <el-menu-item index="/about">角色管理</el-menu-item>
-      </el-menu-item-group>
-    </el-submenu>
-    <el-submenu index="3">
-      <template slot="title">
-        <i class="sidebar-icon iconfont icon-medal"></i>
-        <span slot="title">社团管理</span>
-      </template>
-      <el-menu-item-group>
-        <el-menu-item index="/club-list">社团列表</el-menu-item>
-        <el-menu-item index="/application-list">申请列表</el-menu-item>
-        <el-menu-item index="/about">社团审核</el-menu-item>
-        <el-menu-item index="/create-club">创建社团</el-menu-item>
-      </el-menu-item-group>
-    </el-submenu>
-    <el-submenu index="4">
-      <template slot="title">
-        <i class="sidebar-icon iconfont icon-dynamic"></i>
-        <span slot="title">动态管理</span>
-      </template>
-      <el-menu-item-group>
-        <el-menu-item index="/dynamic">动态列表</el-menu-item>
-        <el-menu-item index="/123">动态编辑</el-menu-item>
-      </el-menu-item-group>
-    </el-submenu>
-    <el-submenu index="5">
-      <template slot="title">
-        <i class="sidebar-icon iconfont icon-activity"></i>
-        <span slot="title">活动管理</span>
-      </template>
-      <el-menu-item-group>
-        <el-menu-item index="/activity-list">活动列表</el-menu-item>
-        <el-menu-item index="/about">活动审核</el-menu-item>
-      </el-menu-item-group>
-    </el-submenu>
-    <el-menu-item index="/todo-list">
-      <i class="sidebar-icon iconfont icon-todo"></i>
-      <span slot="title">待办事项</span>
-    </el-menu-item>
+    <template v-for="(menuItem,index) in sidebarList">
+      <el-submenu v-if="menuItem.subMenu" :key="index" :index="index.toString()">
+        <template slot="title">
+          <i class="sidebar-icon iconfont" :class="menuItem.icon"></i>
+          <span slot="title">{{ menuItem.title }}</span>
+        </template>
+        <el-menu-item-group v-for="(subItem, index, key) in menuItem.subMenu" :key="key">
+          <el-menu-item index="/analytics">{{ subItem.title }}</el-menu-item>
+        </el-menu-item-group>
+      </el-submenu>
+      <el-menu-item v-else index="/todo-list" :key="index">
+        <i class="sidebar-icon iconfont" :class="menuItem.icon"></i>
+        <span slot="title">{{ menuItem.title }}</span>
+      </el-menu-item>
+    </template>
   </el-menu>
 </template>
 
@@ -74,7 +29,40 @@ import SidearItem from "./SidebarItem";
 export default {
   data() {
     return {
-      isCollapse: false
+      isCollapse: false,
+      sidebarList: [
+        {
+          title: "仪表版",
+          icon: "icon-home",
+          subMenu: [{ title: "数据展示" }, { title: "数据分析" }]
+        },
+        {
+          title: "用户管理",
+          icon: "icon-group",
+          subMenu: [{ title: "用户列表" }, { title: "角色管理" }]
+        },
+        {
+          title: "社团管理",
+          icon: "icon-medal",
+          subMenu: [
+            { title: "社团列表" },
+            { title: "申请列表" },
+            { title: "社团审核" },
+            { title: "创建社团" }
+          ]
+        },
+        {
+          title: "动态管理",
+          icon: "icon-dynamic",
+          subMenu: [{ title: "动态列表" }, { title: "动态编辑" }]
+        },
+        {
+          title: "活动管理",
+          icon: "icon-activity",
+          subMenu: [{ title: "活动列表" }, { title: "活动审核" }]
+        },
+        { title: "待办事项", icon: "icon-todo" }
+      ]
     };
   },
 
