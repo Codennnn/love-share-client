@@ -37,6 +37,9 @@ a {
   text-decoration: none;
 }
 
+/*
+ * 修改浏览器默认的滚动条样式
+ */
 ::selection {
   background: rgba(120, 108, 240, 0.2);
   /* color: #2c3e50; */

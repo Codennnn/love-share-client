@@ -1,7 +1,12 @@
 import Vue from 'vue';
-import { vsButton, vsSelect, vsPopup } from 'vuesax';
+import Vuesax from 'vuesax';
+
 import 'vuesax/dist/vuesax.css';
 
-Vue.use(vsButton);
-Vue.use(vsSelect);
-Vue.use(vsPopup);
+Vue.use(Vuesax, {
+  theme: {
+    colors: {
+      primary: '#7367f0',
+    },
+  },
+});
