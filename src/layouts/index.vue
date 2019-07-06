@@ -1,7 +1,7 @@
 <template>
   <el-container>
     <!-- 侧边栏 -->
-    <el-aside>
+    <el-aside style="width: 14vw;">
       <sidebar class="sidebar-container" />
     </el-aside>
 
@@ -12,10 +12,14 @@
       </el-header>
 
       <!-- 主区域 -->
-      <el-main></el-main>
+      <el-main>
+        <router-view />
+      </el-main>
 
       <!-- 页脚 -->
-      <el-footer>COPYRIGHT @ 2019 Jack</el-footer>
+      <el-footer>
+        <Footer />
+      </el-footer>
     </el-container>
   </el-container>
 </template>
@@ -23,6 +27,7 @@
 <script>
 import Sidebar from './components/Sidebar/Sidebar.vue';
 import Navbar from './components/Navbar/Navbar.vue';
+import Footer from './components/Footer/Footer.vue';
 
 export default {
   data() {
@@ -32,6 +37,7 @@ export default {
   components: {
     Sidebar,
     Navbar,
+    Footer,
   },
 };
 </script>
@@ -39,5 +45,10 @@ export default {
 <style lang="scss" scoped>
 .el-container {
   height: 100%;
+}
+
+.el-footer {
+  display: flex;
+  align-items: center;
 }
 </style>

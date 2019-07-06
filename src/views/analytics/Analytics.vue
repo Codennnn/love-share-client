@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-row :gutter="20">
-      <el-col :span="12">
+      <el-col :xs="24" :lg="12">
         <div class="vx-card bg-purple">
           <div class="vx-card__body">
             <img
@@ -74,7 +74,7 @@ export default {
 .vx-card {
   text-align: center;
   border-radius: 5px;
-  box-shadow: 0 4px 25px 0 rgba(0, 0, 0, 0.1);
+  box-shadow: $baseShadow;
 }
 
 .vx-card__body {
@@ -84,7 +84,7 @@ export default {
   align-items: center;
   justify-content: center;
   padding: 20px 0;
-  color: #f4f4f4;
+  color: #F4F4F4;
 }
 
 .decore-left {
@@ -100,18 +100,19 @@ export default {
 }
 
 .bg-purple {
-  background: linear-gradient(to right, #786cf0, #968ef2);
+  background: linear-gradient(to right, $primaryColor, rgba($primaryColor, .7));
 }
 
 .circle {
-  width: 70px;
-  height: 70px;
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 70px;
+  height: 70px;
   margin: 0 auto;
   border-radius: 50%;
   background: rgba(120, 108, 240, 0.8);
+
   .iconfont {
     font-size: 30px;
   }

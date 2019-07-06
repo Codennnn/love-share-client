@@ -11,6 +11,6 @@ export default { name: 'app' };
 <style lang="scss">
 #app {
   height: 100vh;
-  background-color: rgba(0, 0, 0, .1);
+  background-color: rgb(245, 245, 245);
 }
 </style>

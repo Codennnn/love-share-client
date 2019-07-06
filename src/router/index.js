@@ -20,6 +20,11 @@ export default new Router({
         name: 'analytics',
         component: Analytics,
         meta: { title: '数据分析' },
+      },
+      {
+        path: '/todo-list',
+        component: () => import('@/views/todo-list/TodoList.vue'),
+        meta: { title: '待办事项' },
       }],
     },
     {

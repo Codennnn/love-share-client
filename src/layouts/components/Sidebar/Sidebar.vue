@@ -1,22 +1,25 @@
 <template>
   <el-menu
+    class="wrapper"
     :default-active="this.$route.path"
     :class="{ 'side-bar-menu': !isCollapse }"
     :collapse="isCollapse"
     router
   >
     <template v-for="(menuItem,index) in sidebarList">
+      <!-- 嵌套子菜单 -->
       <el-submenu v-if="menuItem.subMenu" :key="index" :index="index.toString()">
         <template slot="title">
-          <i class="sidebar-icon iconfont" :class="menuItem.icon"></i>
+          <i class="menu-icon iconfont" :class="menuItem.icon"></i>
           <span slot="title">{{ menuItem.title }}</span>
         </template>
         <el-menu-item-group v-for="(subItem, index, key) in menuItem.subMenu" :key="key">
           <el-menu-item :index="subItem.path">{{ subItem.title }}</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
+      <!-- 单个菜单项 -->
       <el-menu-item v-else :index="menuItem.path" :key="index">
-        <i class="sidebar-icon iconfont" :class="menuItem.icon"></i>
+        <i class="menu-icon iconfont" :class="menuItem.icon"></i>
         <span slot="title">{{ menuItem.title }}</span>
       </el-menu-item>
     </template>
@@ -59,7 +62,7 @@ export default {
           icon: 'icon-activity',
           subMenu: [{ title: '活动列表', path: '' }, { title: '活动审核', path: '' }],
         },
-        { title: '待办事项', icon: 'icon-todo', path: '' },
+        { title: '待办事项', icon: 'icon-todo', path: '/todo-list' },
       ],
     };
   },
@@ -69,10 +72,13 @@ export default {
 </script>
 
 <style lang="scss">
+$hoverColor: #F0F0F0;
+
 /* 重置侧边栏的高度 */
-.el-menu {
+.el-menu.wrapper {
   height: 100vh;
 }
+
 .el-menu.side-bar-menu {
   padding: 0 18px;
 }
@@ -82,14 +88,14 @@ export default {
   .el-submenu__title {
     &:hover {
       border-radius: 5px;
-      background-color: #f0f0f0;
+      background-color: $hoverColor;
     }
   }
-  .el-submenu__title .sidebar-icon {
+  .el-submenu__title .menu-icon {
     margin-right: 10px;
     font-size: 22px;
     font-weight: normal;
-    color: #545454;
+    color: $menuIcon;
   }
   .el-menu-item-group {
     ul .el-menu-item {
@@ -97,7 +103,7 @@ export default {
       height: 40px;
       &:hover {
         border-radius: 5px;
-        background-color: #f0f0f0;
+        background-color: $hoverColor;
       }
     }
   }
@@ -106,27 +112,28 @@ export default {
 li.el-menu-item {
   line-height: 40px;
   height: 40px;
+  width: 12vw;
   &:hover {
     border-radius: 5px;
-    background-color: #f0f0f0;
+    background-color: $hoverColor;
   }
-  .sidebar-icon {
+  .menu-icon {
     margin-right: 15px;
     font-size: 22px;
     font-weight: normal;
-    color: #545454;
+    color: $menuIcon;
   }
 }
 
 li.el-menu-item.is-active {
-  line-height: 40px;
-  height: 40px;
+  // line-height: 3;
+  // height: 40px;
   border-radius: 5px;
-  background: linear-gradient(to right, #786cf0, #968ef2);
-  box-shadow: 0 0 10px #786cf0;
-  color: #ffffff;
+  background: linear-gradient(to right, $primaryColor, rgba($primaryColor, .7));
+  box-shadow: 0 0 10px $primaryColor;
+  color: #FFF;
   span {
-    color: #ffffff;
+    color: #FFF;
   }
 }
 </style>

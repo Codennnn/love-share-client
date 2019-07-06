@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import {
-  Container, Aside, Main, Header, Footer,
+  Container, Aside, Main, Header, Footer, Row, Col,
   Dropdown, DropdownMenu, DropdownItem,
   Button, Tooltip, Popover,
   Menu, MenuItem, Submenu,
@@ -15,6 +15,8 @@ Vue.use(Aside);
 Vue.use(Header);
 Vue.use(Main);
 Vue.use(Footer);
+Vue.use(Row);
+Vue.use(Col);
 
 // 下拉菜单
 Vue.use(Dropdown);

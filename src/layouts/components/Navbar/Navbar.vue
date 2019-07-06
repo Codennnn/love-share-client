@@ -1,5 +1,5 @@
 <template>
-  <div class="nav-bar box-shadow">
+  <div class="nav-bar">
     <div>
       <router-link
         v-for="(item, index) in navIcons"
@@ -105,7 +105,15 @@ export default {
   justify-content: space-between;
   padding: 10px 20px;
   border-radius: 8px;
-  background-color: #ffffff;
+  background-color: #FFF;
+  box-shadow: $baseShadow;
+
+  .nav-icon {
+    cursor: pointer;
+    margin-right: 12px;
+    font-size: 25px;
+    color: $navIcon;
+  }
 }
 
 .nav-right {
@@ -113,12 +121,6 @@ export default {
   align-items: center;
 }
 
-.nav-icon {
-  margin-right: 12px;
-  cursor: pointer;
-  font-size: 25px;
-  color: #686868;
-}
 
 .info {
   margin-left: 15px;
@@ -151,11 +153,12 @@ export default {
   align-items: center;
   padding: 8px 10px;
   color: #686868;
+  transition: all .2s;
   &:hover {
-    color: #ffffff;
+    color: #FFF;
     cursor: pointer;
     border-radius: 5px;
-    background-color: #7367f0;
+    background-color: rgba($primaryColor, .9);
   }
   .inner-item {
     display: flex;
