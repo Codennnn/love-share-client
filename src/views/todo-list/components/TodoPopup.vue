@@ -97,20 +97,6 @@
 export default {
   data() {
     return {
-      defaultTask: {
-        title: '',
-        content: '',
-        tags: [
-          { type: 0, name: '前端', active: false },
-          { type: 1, name: '后端', active: false },
-          { type: 2, name: '其它', active: false },
-          { type: 3, name: 'BUG', active: false },
-        ],
-        important: false,
-        starred: false,
-        done: false,
-        trashed: false,
-      },
       task: {
         title: '',
         content: '',
@@ -126,6 +112,7 @@ export default {
         trashed: false,
       },
 
+      // 标签前面的圆点的颜色
       todoTagColors: {
         0: { color: '#7367f0' },
         1: { color: '#ff9f39' },
