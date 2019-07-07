@@ -97,7 +97,6 @@
 export default {
   data() {
     return {
-      todoItems: [],
       defaultTask: {
         title: '',
         content: '',

@@ -8,7 +8,7 @@
     <el-container>
       <el-main>
         <!-- 待办事项列表 -->
-        <todo-item :todoItems="filterTodoItems" />
+        <todo-item />
       </el-main>
     </el-container>
   </el-container>
@@ -50,14 +50,6 @@ export default {
           return this.todoItems;
       }
     },
-
-    count() {
-      return this.$store.state.todoPopupActive;
-    },
-  },
-
-  mounted() {
-    this.todoItems = JSON.parse(localStorage.getItem('todoList')) || [];
   },
 };
 </script>
