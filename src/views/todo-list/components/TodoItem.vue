@@ -82,11 +82,15 @@ export default {
   },
 
   mounted() {
-    // 接受 TodoBar 中的事件，然后从 store 中获取数据
+    // 接收 TodoBar 中的事件，然后从 store 中获取数据
     Bus.$on('get', (data) => {
       this.todoItems = this.$store.getters.getTodos(data);
       console.log(data, this.$store.getters.getTodos(data));
     });
+  },
+
+  destroyed() {
+    Bus.$off('get'); // 移除 Bus 中监听的事件
   },
 
   computed: {
