@@ -82,6 +82,8 @@ export default {
   },
 
   mounted() {
+    this.todoItems = this.$store.getters.getTodos('all');
+
     // 接收 TodoBar 中的事件，然后从 store 中获取数据
     Bus.$on('get', (data) => {
       this.todoItems = this.$store.getters.getTodos(data);

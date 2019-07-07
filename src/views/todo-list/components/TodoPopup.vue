@@ -140,7 +140,7 @@ export default {
   methods: {
     // 添加任务
     addTask() {
-      if (!this.task.title || !this.task.content) return;
+      if (!this.task.title || !this.task.content) { return; }
 
       this.task.id = this.todoItems.length + 1;
       this.todoItems.push(JSON.parse(JSON.stringify(this.task)));
