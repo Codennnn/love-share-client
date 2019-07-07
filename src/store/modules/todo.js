@@ -44,16 +44,5 @@ export default {
   },
 
   getters: {
-    getTodos: state => (type) => {
-      if (type === 'all') {
-        return state.todos;
-      }
-
-      if (typeof type === 'number') {
-        return state.todos.filter(todo => todo.tags[type].active === true);
-      }
-
-      return state.todos.filter(todo => todo[type] === true);
-    },
   },
 };

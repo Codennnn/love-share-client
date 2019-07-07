@@ -11,7 +11,7 @@
     <div
       class="label-item"
       :class="{ 'label-active': currentActive === 5 }"
-      @click="getTodoItems('all', 5)"
+      @click="setActive('all', 5)"
     >
       <i class="iconfont icon-task-all label-icon"></i>
       <span class="label-text">所有任务</span>
@@ -24,7 +24,7 @@
       :class="{ 'label-active': currentActive === index }"
       v-for="(item, index) in labelItems"
       :key="index"
-      @click="getTodoItems(item.type, index)"
+      @click="setActive(item.type, index)"
     >
       <i
         class="iconfont label-icon"
@@ -41,7 +41,7 @@
       v-for="(item, index) in labelMarks"
       :key="index + 10"
       :class="{ 'label-active': currentActive === index + 10 }"
-      @click="getTodoItems(item.type, index + 10)"
+      @click="setActive(item.type, index + 10)"
     >
       <div
         class="label-dot"
@@ -95,9 +95,12 @@ export default {
       });
     },
 
-    getTodoItems(type, index) {
-      Bus.$emit('get', type); // 将事件传递到 TodoItem.vue 组件中
-      this.currentActive = index;
+    // 设置当前激活的项
+    setActive(type, index) {
+      if (this.currentActive !== index) {
+        Bus.$emit('getActive', type); // 将事件传递到 TodoItem.vue 组件中
+        this.currentActive = index;
+      }
     },
   },
 };

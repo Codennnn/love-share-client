@@ -2,7 +2,7 @@
   <div class="todo-items">
     <div
       class="todo-item"
-      v-for="(todo, index) in todoItems"
+      v-for="(todo, index) in filterTodoItems"
       :key="index"
       @click="showPopup(todo)"
     >
@@ -76,26 +76,42 @@ export default {
       3: { color: '#f56c6c' },
     };
     return {
-      tagColor,
+      currentAcive: '',
       todoItems: [],
+      tagColor,
     };
   },
 
   mounted() {
-    this.todoItems = this.$store.getters.getTodos('all');
+    // 1.获取全部的 todo 项
+    this.todoItems = this.$store.state.todo.todos;
 
-    // 接收 TodoBar 中的事件，然后从 store 中获取数据
-    Bus.$on('get', (data) => {
-      this.todoItems = this.$store.getters.getTodos(data);
-      console.log(data, this.$store.getters.getTodos(data));
+    // 2.接收 TodoBar 中的事件，获知当前激活的菜单项
+    Bus.$on('getActive', (data) => {
+      this.currentAcive = data;
     });
   },
 
   destroyed() {
-    Bus.$off('get'); // 移除 Bus 中监听的事件
+    // 4.移除 Bus 中监听的事件，防止事件多次触发
+    Bus.$off('getActive');
   },
 
   computed: {
+    // 3.返回过滤后的 todo 项
+    filterTodoItems() {
+      const current = this.currentAcive || 'all';
+      console.log(current);
+      if (current === 'all') {
+        return this.todoItems;
+      }
+
+      if (typeof current === 'number') {
+        return this.todoItems.filter(todo => todo.tags[current].active === true);
+      }
+
+      return this.todoItems.filter(todo => todo[current] === true);
+    },
   },
 
   methods: {
