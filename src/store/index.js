@@ -5,11 +5,13 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-
+    todoPopupActive: false,
   },
+
   mutations: {
-
+    active(state, payload) { state.todoPopupActive = payload.popupActive; },
   },
+
   actions: {
 
   },

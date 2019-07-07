@@ -20,14 +20,11 @@ import TodoPopup from './components/TodoPopup.vue';
 
 export default {
   data() {
-    return {
+    return {};
+  },
 
-    };
-  },
   components: { TodoBar, TodoItem, TodoPopup },
-  mounted() {
-    this.todoItems = JSON.parse(localStorage.getItem('todoList')) || [];
-  },
+
   computed: {
     filterTodoItems() {
       switch (this.active) {
@@ -53,10 +50,16 @@ export default {
           return this.todoItems;
       }
     },
+
+    count() {
+      return this.$store.state.todoPopupActive;
+    },
   },
 
+  mounted() {
+    this.todoItems = JSON.parse(localStorage.getItem('todoList')) || [];
+  },
 };
 </script>
 <style lang="scss">
-
 </style>

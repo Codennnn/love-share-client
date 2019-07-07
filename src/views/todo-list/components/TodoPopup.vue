@@ -17,26 +17,25 @@
           :class="{starred: task.starred}"
           @click="task.starred = !task.starred"
         ></i>
-        <!-- 选择任务的标签 -->
-        <el-popover
-          placement="bottom"
-          width="150"
-          trigger="click"
-        >
-          <template v-if="task.tags.length">
-            <div
+        <vs-dropdown>
+          <i
+            class="iconfont icon-tag"
+            :class="{starred: task.starred}"
+            @click="task.starred = !task.starred"
+          ></i>
+          <!-- 选择任务的标签 -->
+          <vs-dropdown-menu>
+            <vs-dropdown-item
               v-for="(tag, index) in task.tags"
               :key="index"
-              class="choose-tag"
             >
-              <vs-checkbox v-model="tag.active">{{tag.name}}</vs-checkbox>
-            </div>
-          </template>
-          <i
-            slot="reference"
-            class="iconfont icon-tag"
-          ></i>
-        </el-popover>
+              <vs-checkbox
+                v-model="tag.active"
+                @click.stop
+              >{{ tag.name }}</vs-checkbox>
+            </vs-dropdown-item>
+          </vs-dropdown-menu>
+        </vs-dropdown>
       </div>
       <div class="task-tag-group">
         <template v-for="(tag,index) in task.tags">
@@ -54,51 +53,139 @@
         </template>
       </div>
     </div>
-    <div style="margin-top:15px;">
-      <el-input
+    <div style="margin-top: 15px;">
+      <vs-input
+        class="inputx"
         placeholder="标题"
         v-model.trim="task.title"
-        clearable
-      ></el-input>
+      />
     </div>
-    <div style="margin-top:15px;">
-      <el-input
-        type="textarea"
-        :autosize="{ minRows: 4, maxRows: 6}"
-        placeholder="任务描述"
-        v-model.trim="task.content"
-      ></el-input>
+    <div style="margin-top: 15px;">
+      <vs-textarea
+        v-model="task.content"
+        label="任务描述"
+        height="300px"
+      />
     </div>
     <div class="add-btn-group">
-      <el-button @click="popupActive=false">取消</el-button>
-      <el-button
-        type="primary"
+      <vs-button
+        color="#848484"
+        type="flat"
+        @click="popupActive = false"
+      >取消</vs-button>
+      <vs-button
+        style="margin-left: .5rem"
+        color="primary"
+        type="filled"
         @click="addTask"
-      >{{task.id ? '完成修改' : '添加任务'}}</el-button>
+      >{{ task.id ? '完成修改' : '添加任务' }}</vs-button>
     </div>
   </vs-popup>
 </template>
 
 <script>
-import Bus from '@/utils/eventBus';
-
 export default {
   data() {
     return {
-      popupActive: true,
+      todoItems: [],
+      defaultTask: {
+        title: '',
+        content: '',
+        tags: [
+          { type: 0, name: '前端', active: false },
+          { type: 1, name: '后端', active: false },
+          { type: 2, name: '其它', active: false },
+          { type: 3, name: 'BUG', active: false },
+        ],
+        important: false,
+        starred: false,
+        done: false,
+        trashed: false,
+      },
+      task: {
+        title: '',
+        content: '',
+        tags: [
+          { type: 0, name: '前端', active: false },
+          { type: 1, name: '后端', active: false },
+          { type: 2, name: '其它', active: false },
+          { type: 3, name: 'BUG', active: false },
+        ],
+        important: false,
+        starred: false,
+        done: false,
+        trashed: false,
+      },
+
+      todoTagColors: {
+        0: { color: '#7367f0' },
+        1: { color: '#ff9f39' },
+        2: { color: '#67c23a' },
+        3: { color: '#f56c6c' },
+      },
     };
   },
 
-  created() {
-    Bus.$on('getTarget', (target) => {
-      this.popupActive = target;
-    });
+  mounted() {
+
   },
+
+  computed: {
+    popupActive: {
+      get() {
+        return this.$store.state.todoPopupActive;
+      },
+      set(status) {
+        // 关闭弹出框
+        this.$store.commit({
+          type: 'active',
+          popupActive: status,
+        });
+      },
+    },
+  },
+
   methods: {
     get() {},
+
+    // 添加任务
+    addTask() {
+      if (!this.task.title || !this.task.content) return;
+
+      this.task.id = this.todoItems.length + 1;
+      this.todoItems.push(JSON.parse(JSON.stringify(this.task)));
+      localStorage.setItem('todoList', JSON.stringify(this.todoItems));
+      this.task = this.defaultTask;
+      this.popupActive = false;
+    },
   },
 };
 </script>
 
 <style lang="scss" scoped>
+.task-option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  .task-tag-group {
+    display: flex;
+    align-items: center;
+    .task-tag {
+      display: flex;
+      align-items: center;
+      margin: 0 5px;
+      padding: 3px 10px;
+      border-radius: 10px;
+      font-size: 14px;
+      background-color: #e6e6e6;
+      .dot {
+        width: 7px;
+        height: 7px;
+        margin-right: 5px;
+        border-radius: 3px;
+        background-color: #858585;
+      }
+    }
+  }
+}
 </style>

@@ -47,6 +47,10 @@ export default {
   height: 100%;
 }
 
+.el-aside {
+  background-color: #fff;
+}
+
 .el-footer {
   display: flex;
   align-items: center;

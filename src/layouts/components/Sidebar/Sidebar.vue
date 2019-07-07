@@ -8,18 +8,35 @@
   >
     <template v-for="(menuItem,index) in sidebarList">
       <!-- 嵌套子菜单 -->
-      <el-submenu v-if="menuItem.subMenu" :key="index" :index="index.toString()">
+      <el-submenu
+        v-if="menuItem.subMenu"
+        :key="index"
+        :index="index.toString()"
+      >
         <template slot="title">
-          <i class="menu-icon iconfont" :class="menuItem.icon"></i>
+          <i
+            class="menu-icon iconfont"
+            :class="menuItem.icon"
+          ></i>
           <span slot="title">{{ menuItem.title }}</span>
         </template>
-        <el-menu-item-group v-for="(subItem, index, key) in menuItem.subMenu" :key="key">
+        <el-menu-item-group
+          v-for="(subItem, index, key) in menuItem.subMenu"
+          :key="key"
+        >
           <el-menu-item :index="subItem.path">{{ subItem.title }}</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
       <!-- 单个菜单项 -->
-      <el-menu-item v-else :index="menuItem.path" :key="index">
-        <i class="menu-icon iconfont" :class="menuItem.icon"></i>
+      <el-menu-item
+        v-else
+        :index="menuItem.path"
+        :key="index"
+      >
+        <i
+          class="menu-icon iconfont"
+          :class="menuItem.icon"
+        ></i>
         <span slot="title">{{ menuItem.title }}</span>
       </el-menu-item>
     </template>
@@ -72,7 +89,7 @@ export default {
 </script>
 
 <style lang="scss">
-$hoverColor: #F0F0F0;
+$hoverColor: #f0f0f0;
 
 /* 重置侧边栏的高度 */
 .el-menu.wrapper {
@@ -129,11 +146,15 @@ li.el-menu-item.is-active {
   // line-height: 3;
   // height: 40px;
   border-radius: 5px;
-  background: linear-gradient(to right, $primaryColor, rgba($primaryColor, .7));
+  background: linear-gradient(
+    to right,
+    $primaryColor,
+    rgba($primaryColor, 0.7)
+  );
   box-shadow: 0 0 10px $primaryColor;
-  color: #FFF;
+  color: #fff;
   span {
-    color: #FFF;
+    color: #fff;
   }
 }
 </style>
