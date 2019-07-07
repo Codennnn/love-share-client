@@ -2,7 +2,7 @@
   <vs-popup
     class="todo-popup"
     :title="task.id ? '编辑任务' : '添加任务'"
-    :active.sync="popupActive"
+    :active.sync="isPopupActive"
   >
     <vs-row>
       <vs-col vs-w="9">
@@ -80,7 +80,7 @@
       <vs-button
         color="#848484"
         type="flat"
-        @click="popupActive = false"
+        @click="isPopupActive = false"
       >取消</vs-button>
       <vs-button
         style="margin-left: .5rem"
@@ -136,15 +136,15 @@ export default {
   },
 
   computed: {
-    popupActive: {
+    isPopupActive: {
       get() {
-        return this.$store.state.todoPopupActive;
+        return this.$store.state.todo.isPopupActive;
       },
       set(status) {
-        // 关闭弹出框
+        // 控制关闭弹出框
         this.$store.commit({
-          type: 'active',
-          popupActive: status,
+          type: 'controlPopup',
+          status,
         });
       },
     },
@@ -159,7 +159,7 @@ export default {
       this.todoItems.push(JSON.parse(JSON.stringify(this.task)));
       localStorage.setItem('todoList', JSON.stringify(this.todoItems));
       this.task = this.defaultTask;
-      this.popupActive = false;
+      this.isPopupActive = false;
     },
   },
 };

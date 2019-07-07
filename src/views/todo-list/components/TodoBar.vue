@@ -89,7 +89,10 @@ export default {
   methods: {
     // 显示弹出框
     activePopup() {
-      this.$store.commit({ type: 'active', popupActive: true });
+      this.$store.commit({
+        type: 'controlPopup',
+        status: true,
+      });
     },
 
     getTodoItems(type, index) {
