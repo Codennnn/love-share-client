@@ -1,73 +1,82 @@
 <template>
   <vs-popup
-    classContent="popup-example"
+    class="todo-popup"
     :title="task.id ? '编辑任务' : '添加任务'"
     :active.sync="popupActive"
-    class="add-task-popup"
   >
-    <div class="task-option">
-      <div class="task-icon-group">
-        <i
-          class="iconfont icon-task-importance"
-          :class="{important: task.important}"
-          @click="task.important = !task.important"
-        ></i>
-        <i
-          class="iconfont icon-task-star"
-          :class="{starred: task.starred}"
-          @click="task.starred = !task.starred"
-        ></i>
-        <vs-dropdown>
+    <vs-row>
+      <vs-col vs-w="9">
+        <div class="todo-tag__group">
+          <template v-for="(tag,index) in task.tags">
+            <span
+              v-if="tag.active"
+              :key="index"
+              class="task-tag"
+            >
+              <div
+                class="dot"
+                :style="{ 'background-color': todoTagColors[tag.type].color }"
+              ></div>
+              <span>{{ tag.name }}</span>
+            </span>
+          </template>
+        </div>
+      </vs-col>
+      <vs-col
+        vs-type="flex"
+        vs-justify="flex-end"
+        vs-w="3"
+      >
+        <div class="todo-icon__group">
           <i
-            class="iconfont icon-tag"
+            class="iconfont icon-task-importance"
+            :class="{ important: task.important }"
+            @click="task.important = !task.important"
+          ></i>
+          <i
+            class="iconfont icon-task-star"
             :class="{starred: task.starred}"
             @click="task.starred = !task.starred"
           ></i>
           <!-- 选择任务的标签 -->
-          <vs-dropdown-menu>
-            <vs-dropdown-item
-              v-for="(tag, index) in task.tags"
-              :key="index"
-            >
-              <vs-checkbox
-                v-model="tag.active"
-                @click.stop
-              >{{ tag.name }}</vs-checkbox>
-            </vs-dropdown-item>
-          </vs-dropdown-menu>
-        </vs-dropdown>
-      </div>
-      <div class="task-tag-group">
-        <template v-for="(tag,index) in task.tags">
-          <span
-            v-if="tag.active"
-            :key="index"
-            class="task-tag"
-          >
-            <div
-              class="dot"
-              :style="{'background-color':todoTagColors[tag.type].color}"
-            ></div>
-            <span>{{tag.name}}</span>
-          </span>
-        </template>
-      </div>
-    </div>
-    <div style="margin-top: 15px;">
-      <vs-input
-        class="inputx"
-        placeholder="标题"
-        v-model.trim="task.title"
-      />
-    </div>
-    <div style="margin-top: 15px;">
-      <vs-textarea
-        v-model="task.content"
-        label="任务描述"
-        height="300px"
-      />
-    </div>
-    <div class="add-btn-group">
+          <vs-dropdown>
+            <i class="iconfont icon-tag"></i>
+            <vs-dropdown-menu>
+              <vs-dropdown-item
+                v-for="(tag, index) in task.tags"
+                :key="index"
+              >
+                <vs-checkbox
+                  v-model="tag.active"
+                  @click.stop
+                >{{ tag.name }}</vs-checkbox>
+              </vs-dropdown-item>
+            </vs-dropdown-menu>
+          </vs-dropdown>
+        </div>
+      </vs-col>
+    </vs-row>
+    <vs-row>
+      <vs-col vs-w="12">
+        <!-- 标题框 -->
+        <vs-input
+          v-model.trim="task.title"
+          class="inputx"
+          style="margin-top: 15px;;width: 100%;"
+          placeholder="标题"
+          size="large"
+        />
+        <!-- 任务描述框 -->
+        <vs-textarea
+          v-model="task.content"
+          style="margin-top: 15px"
+          label="任务描述"
+          height="300px"
+        />
+      </vs-col>
+    </vs-row>
+
+    <div class="todo-button">
       <vs-button
         color="#848484"
         type="flat"
@@ -78,6 +87,7 @@
         color="primary"
         type="filled"
         @click="addTask"
+        :disabled="task.title.length === 0"
       >{{ task.id ? '完成修改' : '添加任务' }}</vs-button>
     </div>
   </vs-popup>
@@ -126,10 +136,6 @@ export default {
     };
   },
 
-  mounted() {
-
-  },
-
   computed: {
     popupActive: {
       get() {
@@ -146,8 +152,6 @@ export default {
   },
 
   methods: {
-    get() {},
-
     // 添加任务
     addTask() {
       if (!this.task.title || !this.task.content) return;
@@ -163,29 +167,51 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.task-option {
+.todo-popup {
+  // 重设弹出框的宽度
+  &::v-deep .vs-popup {
+    width: 450px;
+  }
+}
+
+// 弹出框的标签
+.todo-tag__group {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  .task-tag-group {
+  .task-tag {
     display: flex;
     align-items: center;
-    .task-tag {
-      display: flex;
-      align-items: center;
-      margin: 0 5px;
-      padding: 3px 10px;
-      border-radius: 10px;
-      font-size: 14px;
-      background-color: #e6e6e6;
-      .dot {
-        width: 7px;
-        height: 7px;
-        margin-right: 5px;
-        border-radius: 3px;
-        background-color: #858585;
-      }
+    margin: 0 5px;
+    padding: 3px 10px;
+    border-radius: 10px;
+    font-size: 14px;
+    background-color: #e6e6e6;
+    .dot {
+      width: 7px;
+      height: 7px;
+      margin-right: 5px;
+      border-radius: 3px;
+      background-color: #858585;
     }
   }
+}
+
+// 弹出框的图标
+.todo-icon__group {
+  .iconfont {
+    margin-left: 8px;
+    font-size: 18px;
+    color: #848484;
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}
+
+// 弹出框底部的按钮
+.todo-button {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 25px;
 }
 </style>

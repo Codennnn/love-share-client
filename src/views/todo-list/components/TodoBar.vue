@@ -161,23 +161,6 @@ export default {
 }
 
 .add-task-popup {
-  .vs-popup {
-    width: 450px !important;
-  }
-  .task-icon-group {
-    i {
-      margin-left: 8px;
-      font-size: 18px;
-      color: #848484;
-      &:hover {
-        cursor: pointer;
-      }
-    }
-  }
-  .add-btn-group {
-    display: flex;
-    justify-content: flex-end;
-    margin-top: 25px;
-  }
+
 }
 </style>
