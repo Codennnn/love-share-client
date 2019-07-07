@@ -4,7 +4,7 @@
       <!-- 待办事项操作栏 -->
       <todo-bar />
     </el-aside>
-
+    <todo-popup />
     <el-container>
       <el-main>
         <!-- 待办事项列表 -->
@@ -16,6 +16,7 @@
 <script>
 import TodoBar from './components/TodoBar.vue';
 import TodoItem from './components/TodoItem.vue';
+import TodoPopup from './components/TodoPopup.vue';
 
 export default {
   data() {
@@ -23,7 +24,7 @@ export default {
 
     };
   },
-  components: { TodoBar, TodoItem },
+  components: { TodoBar, TodoItem, TodoPopup },
   mounted() {
     this.todoItems = JSON.parse(localStorage.getItem('todoList')) || [];
   },

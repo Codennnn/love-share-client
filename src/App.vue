@@ -13,4 +13,8 @@ export default { name: 'app' };
   height: 100vh;
   background-color: rgb(245, 245, 245);
 }
+
+#nprogress .bar {
+  background: $primaryColor !important; // 重设跳转进度条的颜色
+}
 </style>

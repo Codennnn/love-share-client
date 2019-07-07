@@ -5,7 +5,7 @@
       style="width: 100%;"
       color="primary"
       type="filled"
-      @click="popupActive = true">添加任务</vs-button>
+      @click="acc">添加任务</vs-button>
 
     <div class="label-item" :class="{ active: active === 5 }" @click="toggle(5)">
       <i class="iconfont icon-task-all label-icon"></i>
@@ -39,6 +39,8 @@
 </template>
 
 <script>
+import Bus from '@/utils/eventBus';
+
 export default {
   data() {
     return {
@@ -69,7 +71,6 @@ export default {
         3: { color: '#f56c6c' },
       },
       todoItems: [],
-      popupActive: false,
       defaultTask: {
         title: '',
         content: '',
@@ -103,6 +104,11 @@ export default {
   },
 
   methods: {
+    acc() {
+      console.log('start');
+      Bus.$emit('getTarget', true);
+    },
+
     // 添加任务
     addTask() {
       if (!this.task.title || !this.task.content) return;
