@@ -16,7 +16,7 @@ export default {
         { type: 3, name: 'BUG', active: false },
       ],
     }, {
-      id: 1,
+      id: 2,
       title: '...',
       content: '123',
       done: true,

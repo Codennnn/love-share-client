@@ -61,16 +61,24 @@ export default {
   data() {
     const labelItems = [
       {
-        icon: 'icon-task-importance', text: '重要事项', type: 'important',
+        icon: 'icon-task-importance',
+        text: '重要事项',
+        type: 'important',
       },
       {
-        icon: 'icon-task-star', text: '星号标记', type: 'star',
+        icon: 'icon-task-star',
+        text: '星号标记',
+        type: 'star',
       },
       {
-        icon: 'icon-task-done', text: '已完成', type: 'done',
+        icon: 'icon-task-done',
+        text: '已完成',
+        type: 'done',
       },
       {
-        icon: 'icon-task-trashed', text: '丢弃的', type: 'trashed',
+        icon: 'icon-task-trashed',
+        text: '丢弃的',
+        type: 'trashed',
       },
     ];
     const labelMarks = [

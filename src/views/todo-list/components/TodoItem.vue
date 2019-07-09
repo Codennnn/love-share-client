@@ -4,7 +4,6 @@
       class="todo-item"
       v-for="(todo, index) in filterTodoItems"
       :key="index"
-      @click="showPopup(todo)"
     >
       <vs-row>
         <!-- todo项头部左侧 -->
@@ -26,7 +25,7 @@
                       class="dot"
                       :style="{ 'background-color': tagColor[tag.type].color }"
                     ></div>
-                    <span>{{ tag.name }}</span>
+                    <span style="color: #555555;">{{ tag.name }}</span>
                   </span>
                 </template>
               </template>
@@ -117,25 +116,24 @@ export default {
   methods: {
     // 设为重要事项
     setImportant(id) {
-      this.todoItems.forEach((el) => {
+      this.todoItems.some((el) => {
         if (el.id === id) {
           el.important = !el.important;
+          return true;
         }
+        return false;
       });
     },
 
     // 设为星号标记
     setStar(id) {
-      this.todoItems.forEach((el) => {
+      this.todoItems.some((el) => {
         if (el.id === id) {
-          el.starred = !el.starred;
+          el.star = !el.star;
+          return true;
         }
+        return false;
       });
-    },
-
-    showPopup(data) {
-      this.popupActive = true;
-      this.task = data;
     },
 
     // 修改任务信息
