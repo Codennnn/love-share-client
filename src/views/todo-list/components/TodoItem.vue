@@ -1,15 +1,13 @@
 <template>
-  <transition
-    name="fade"
-    enter-active-class="animated zoomIn faster"
-    leave-active-class="animated zoomOut faster"
-    mode="out-in"
-  >
-    <div class="todo-items">
+  <div class="todo-items">
+    <transition-group
+      enter-active-class="animated fadeInUp faster"
+      leave-active-class="animated fadeOutDown faster"
+    >
       <div
         class="todo-item"
-        v-for="(todo, index) in filterTodoItems"
-        :key="index"
+        v-for="todo in filterTodoItems"
+        :key="todo.id"
         @click="activePopup(todo)"
       >
         <vs-row>
@@ -67,8 +65,8 @@
           <p>{{ todo.content }}</p>
         </div>
       </div>
-    </div>
-  </transition>
+    </transition-group>
+  </div>
 </template>
 
 <script>
