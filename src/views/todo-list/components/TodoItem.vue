@@ -91,16 +91,19 @@ export default {
       this.currentAcive = data;
     });
 
+    Bus.$on('getAddedTodo', (newTodo) => {
+      const lastItem = this._.last(this.todoItems);
+      newTodo.id = lastItem.id + 1;
+      this.todoItems.push(newTodo);
+      Bus.$emit('closePopup');
+    });
+
     Bus.$on('getEditedTodo', (newTodo) => {
-      console.log('new', newTodo);
       this.todoItems.some((item) => {
         if (item.id === newTodo.id) {
           const indexOfItem = this.todoItems.indexOf(item);
           this.$set(this.todoItems, indexOfItem, newTodo);
-          this.$store.commit({
-            type: 'controlPopup',
-            status: false,
-          });
+          Bus.$emit('closePopup');
           return true;
         }
         return false;
@@ -110,6 +113,9 @@ export default {
 
   destroyed() {
     // 4.移除 Bus 中监听的事件，防止事件多次触发
+    Bus.$off('openPopup');
+    Bus.$off('closePopup');
+    Bus.$off('getTodo');
     Bus.$off('getActive');
     Bus.$off('getEditedTodo');
   },
@@ -134,11 +140,8 @@ export default {
   methods: {
     // 显示弹出框
     activePopup(todo) {
+      Bus.$emit('openPopup');
       Bus.$emit('getTodo', todo);
-      this.$store.commit({
-        type: 'controlPopup',
-        status: true,
-      });
     },
 
     // 设为重要事项

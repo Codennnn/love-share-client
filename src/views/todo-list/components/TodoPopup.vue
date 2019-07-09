@@ -1,6 +1,7 @@
 <template>
   <vs-popup
     class="todo-popup"
+    v-if="task"
     :title="task.id ? '编辑任务' : '添加任务'"
     :active.sync="isPopupActive"
   >
@@ -86,7 +87,7 @@
         style="margin-left: .5rem"
         color="primary"
         type="filled"
-        @click="editTodo"
+        @click="confirm"
         :disabled="task.title.length === 0"
       >{{ task.id ? '完成修改' : '添加任务' }}</vs-button>
     </div>
@@ -99,23 +100,9 @@ import Bus from '@/utils/eventBus';
 export default {
   data() {
     return {
-      task: {
-        title: '',
-        content: '',
-        tags: [
-          { type: 0, name: '前端', active: false },
-          { type: 1, name: '后端', active: false },
-          { type: 2, name: '其它', active: false },
-          { type: 3, name: 'BUG', active: false },
-        ],
-        important: false,
-        star: false,
-        done: false,
-        trashed: false,
-      },
-
-      // 标签前面的圆点的颜色
-      todoTagColors: {
+      isPopupActive: false, // 是否弹框
+      task: null,
+      todoTagColors: { // 标签前面的圆点的颜色
         0: { color: '#7367f0' },
         1: { color: '#ff9f39' },
         2: { color: '#67c23a' },
@@ -126,38 +113,31 @@ export default {
   },
 
   mounted() {
+    Bus.$on('openPopup', () => { this.isPopupActive = true; });
+    Bus.$on('closePopup', () => { this.isPopupActive = false; });
     Bus.$on('getTodo', (todo) => {
-      this.tempTodo = JSON.stringify(todo);
-      this.task = JSON.parse(this.tempTodo);
+      this.refTodo = todo; // 将原 todo 存起来以便后面使用
+      this.task = this._.cloneDeepWith(todo); // 深拷贝 todo 对象
     });
   },
 
-  destroyed() {
-    Bus.$off('getTodo');
-  },
-
-  computed: {
-    isPopupActive: {
-      get() {
-        return this.$store.state.todo.isPopupActive;
-      },
-      set(status) {
-        // 触发关闭弹框
-        this.$store.commit({
-          type: 'controlPopup',
-          status,
-        });
-      },
-    },
-  },
-
   methods: {
+    confirm() {
+      /* eslint-disable */
+      this.task && this.task.id ? this.editTodo() : this.addTodo();
+    },
+
+    addTodo() {
+      Bus.$emit('getAddedTodo', this.task);
+    },
+
     // 编辑修改 todo 项
     editTodo() {
-      if (this.tempTodo !== JSON.stringify(this.task)) {
-        // 判断 JSON 字符串是否相等
-        // 如果否，说明有修改过，触发下面的 Bus.$emit
+      if (!this._.isEqual(this.task, this.refTodo)) {
+        // 判断是否相等，如果否，说明有修改过，触发下面的 Bus.$emit
         Bus.$emit('getEditedTodo', this.task);
+      } else {
+        this.isPopupActive = false;
       }
     },
   },

@@ -87,9 +87,25 @@ export default {
       { bg: '#67c23a', text: '其它', type: 2 },
       { bg: '#F56c6c', text: 'BUG', type: 3 },
     ];
+    const todoTemplete = {
+      id: null,
+      title: '',
+      content: '',
+      tags: [
+        { type: 0, name: '前端', active: false },
+        { type: 1, name: '后端', active: false },
+        { type: 2, name: '其它', active: false },
+        { type: 3, name: 'BUG', active: false },
+      ],
+      important: false,
+      star: false,
+      done: false,
+      trashed: false,
+    };
     return {
       labelItems, // 筛选项
       labelMarks, // 标记项
+      todoTemplete,
       currentActive: 5, // 当前激活的项
     };
   },
@@ -97,10 +113,8 @@ export default {
   methods: {
     // 显示弹出框
     activePopup() {
-      this.$store.commit({
-        type: 'controlPopup',
-        status: true,
-      });
+      Bus.$emit('openPopup');
+      Bus.$emit('getTodo', this.todoTemplete);
     },
 
     // 设置当前激活的项

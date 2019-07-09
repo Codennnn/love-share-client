@@ -1,6 +1,5 @@
 export default {
   state: {
-    isPopupActive: false, // 是否弹框
     todos: [{
       id: 1,
       title: '...',
@@ -38,9 +37,6 @@ export default {
   },
 
   mutations: {
-    controlPopup(state, payload) {
-      state.isPopupActive = payload.status;
-    },
   },
 
   getters: {

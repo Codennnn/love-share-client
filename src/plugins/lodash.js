@@ -1,4 +1,4 @@
 import Vue from 'vue';
 import lodash from 'lodash';
 
-Object.defineProperty(Vue.prototype, '$lodash', { value: lodash });
+Object.defineProperty(Vue.prototype, '_', { value: lodash });
