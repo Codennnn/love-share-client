@@ -4,6 +4,7 @@
       class="todo-item"
       v-for="(todo, index) in filterTodoItems"
       :key="index"
+      @click="activePopup(todo)"
     >
       <vs-row>
         <!-- todo项头部左侧 -->
@@ -89,11 +90,28 @@ export default {
     Bus.$on('getActive', (data) => {
       this.currentAcive = data;
     });
+
+    Bus.$on('getEditedTodo', (newTodo) => {
+      console.log('new', newTodo);
+      this.todoItems.some((item) => {
+        if (item.id === newTodo.id) {
+          const indexOfItem = this.todoItems.indexOf(item);
+          this.$set(this.todoItems, indexOfItem, newTodo);
+          this.$store.commit({
+            type: 'controlPopup',
+            status: false,
+          });
+          return true;
+        }
+        return false;
+      });
+    });
   },
 
   destroyed() {
     // 4.移除 Bus 中监听的事件，防止事件多次触发
     Bus.$off('getActive');
+    Bus.$off('getEditedTodo');
   },
 
   computed: {
@@ -114,6 +132,15 @@ export default {
   },
 
   methods: {
+    // 显示弹出框
+    activePopup(todo) {
+      Bus.$emit('getTodo', todo);
+      this.$store.commit({
+        type: 'controlPopup',
+        status: true,
+      });
+    },
+
     // 设为重要事项
     setImportant(id) {
       this.todoItems.some((el) => {
@@ -134,20 +161,6 @@ export default {
         }
         return false;
       });
-    },
-
-    // 修改任务信息
-    editTask() {
-      // 修改任务信息，通过任务有没有id来判断是新建任务还是修改任务
-      if (this.task.id) {
-        for (let i = 0, len = this.todoItems.length; i < len; i += 1) {
-          if (this.todoItems[i].id === this.task.id) {
-            this.todoItems.splice(i, 1, this.task);
-            this.popupActive = false;
-            return;
-          }
-        }
-      }
     },
   },
 };
@@ -205,11 +218,11 @@ export default {
     color: #858585;
 
     &.important {
-      color: #67c23a !important;
+      color: #67c23a;
     }
 
     &.star {
-      color: #ff9f39 !important;
+      color: #ff9f39;
     }
   }
 

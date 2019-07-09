@@ -35,8 +35,8 @@
           ></i>
           <i
             class="iconfont icon-task-star"
-            :class="{starred: task.starred}"
-            @click="task.starred = !task.starred"
+            :class="{ star: task.star }"
+            @click="task.star = !task.star"
           ></i>
           <!-- 选择任务的标签 -->
           <vs-dropdown>
@@ -86,7 +86,7 @@
         style="margin-left: .5rem"
         color="primary"
         type="filled"
-        @click="addTask"
+        @click="editTodo"
         :disabled="task.title.length === 0"
       >{{ task.id ? '完成修改' : '添加任务' }}</vs-button>
     </div>
@@ -94,6 +94,8 @@
 </template>
 
 <script>
+import Bus from '@/utils/eventBus';
+
 export default {
   data() {
     return {
@@ -107,7 +109,7 @@ export default {
           { type: 3, name: 'BUG', active: false },
         ],
         important: false,
-        starred: false,
+        star: false,
         done: false,
         trashed: false,
       },
@@ -119,7 +121,19 @@ export default {
         2: { color: '#67c23a' },
         3: { color: '#f56c6c' },
       },
+      tempTodo: '',
     };
+  },
+
+  mounted() {
+    Bus.$on('getTodo', (todo) => {
+      this.tempTodo = JSON.stringify(todo);
+      this.task = JSON.parse(this.tempTodo);
+    });
+  },
+
+  destroyed() {
+    Bus.$off('getTodo');
   },
 
   computed: {
@@ -128,7 +142,7 @@ export default {
         return this.$store.state.todo.isPopupActive;
       },
       set(status) {
-        // 控制关闭弹出框
+        // 触发关闭弹框
         this.$store.commit({
           type: 'controlPopup',
           status,
@@ -138,15 +152,13 @@ export default {
   },
 
   methods: {
-    // 添加任务
-    addTask() {
-      if (!this.task.title || !this.task.content) { return; }
-
-      this.task.id = this.todoItems.length + 1;
-      this.todoItems.push(JSON.parse(JSON.stringify(this.task)));
-      localStorage.setItem('todoList', JSON.stringify(this.todoItems));
-      this.task = this.defaultTask;
-      this.isPopupActive = false;
+    // 编辑修改 todo 项
+    editTodo() {
+      if (this.tempTodo !== JSON.stringify(this.task)) {
+        // 判断 JSON 字符串是否相等
+        // 如果否，说明有修改过，触发下面的 Bus.$emit
+        Bus.$emit('getEditedTodo', this.task);
+      }
     },
   },
 };
@@ -160,7 +172,7 @@ export default {
   }
 }
 
-// 弹出框的标签
+// 弹出框的mark标签
 .todo-tag__group {
   display: flex;
   align-items: center;
@@ -188,9 +200,17 @@ export default {
     margin-left: 8px;
     font-size: 18px;
     color: #848484;
+
     &:hover {
       cursor: pointer;
     }
+  }
+  .important {
+    color: #67c23a;
+  }
+
+  .star {
+    color: #ff9f39;
   }
 }
 
