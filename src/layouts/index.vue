@@ -7,13 +7,19 @@
 
     <el-container>
       <!-- 头部 -->
-      <el-header>
+      <el-header height="85px">
         <navbar />
       </el-header>
 
       <!-- 主区域 -->
       <el-main>
-        <router-view />
+        <transition
+          enter-active-class="animated fadeIn faster"
+          leave-active-class="animated fadeOut faster"
+          mode="out-in"
+        >
+          <router-view />
+        </transition>
       </el-main>
 
       <!-- 页脚 -->

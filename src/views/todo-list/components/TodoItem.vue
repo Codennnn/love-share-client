@@ -1,67 +1,74 @@
 <template>
-  <div class="todo-items">
-    <div
-      class="todo-item"
-      v-for="(todo, index) in filterTodoItems"
-      :key="index"
-      @click="activePopup(todo)"
-    >
-      <vs-row>
-        <!-- todo项头部左侧 -->
-        <vs-col vs-w="9">
-          <div class="todo-item__header">
-            <div class="todo-item__title">
-              <vs-checkbox
-                v-model="todo.done"
-                @click.stop
-              >{{ todo.title }}</vs-checkbox>
-              <template v-if="todo.tags.length">
-                <template v-for="(tag, index) in todo.tags">
-                  <span
-                    v-if="tag.active"
-                    class="todo-item__tag"
-                    :key="index"
-                  >
-                    <div
-                      class="dot"
-                      :style="{ 'background-color': tagColor[tag.type].color }"
-                    ></div>
-                    <span style="color: #555555;">{{ tag.name }}</span>
-                  </span>
+  <transition
+    name="fade"
+    enter-active-class="animated zoomIn faster"
+    leave-active-class="animated zoomOut faster"
+    mode="out-in"
+  >
+    <div class="todo-items">
+      <div
+        class="todo-item"
+        v-for="(todo, index) in filterTodoItems"
+        :key="index"
+        @click="activePopup(todo)"
+      >
+        <vs-row>
+          <!-- todo项头部左侧 -->
+          <vs-col vs-w="9">
+            <div class="todo-item__header">
+              <div class="todo-item__title">
+                <vs-checkbox
+                  v-model="todo.done"
+                  @click.stop
+                >{{ todo.title }}</vs-checkbox>
+                <template v-if="todo.tags.length">
+                  <template v-for="(tag, index) in todo.tags">
+                    <span
+                      v-if="tag.active"
+                      class="todo-item__tag"
+                      :key="index"
+                    >
+                      <div
+                        class="dot"
+                        :style="{ 'background-color': tagColor[tag.type].color }"
+                      ></div>
+                      <span style="color: #555555;">{{ tag.name }}</span>
+                    </span>
+                  </template>
                 </template>
-              </template>
+              </div>
             </div>
-          </div>
-        </vs-col>
-        <!-- end -->
-        <!-- todo项头部右侧 -->
-        <vs-col
-          vs-type="flex"
-          vs-justify="flex-end"
-          vs-w="3"
-        >
-          <div>
-            <i
-              class="todo-mark__icon iconfont icon-task-importance"
-              :class="{ important: todo.important }"
-              @click.stop="setImportant(todo.id)"
-            ></i>
-            <i
-              class="todo-mark__icon iconfont icon-task-star"
-              :class="{ star: todo.star }"
-              @click.stop="setStar(todo.id)"
-            ></i>
-            <i class="todo-mark__icon iconfont icon-task-trashed"></i>
-          </div>
-        </vs-col>
-        <!-- end -->
-      </vs-row>
-      <!-- todo项内容区域 -->
-      <div class="todo-item__content">
-        <p>{{ todo.content }}</p>
+          </vs-col>
+          <!-- end -->
+          <!-- todo项头部右侧 -->
+          <vs-col
+            vs-type="flex"
+            vs-justify="flex-end"
+            vs-w="3"
+          >
+            <div>
+              <i
+                class="todo-mark__icon iconfont icon-task-importance"
+                :class="{ important: todo.important }"
+                @click.stop="setImportant(todo.id)"
+              ></i>
+              <i
+                class="todo-mark__icon iconfont icon-task-star"
+                :class="{ star: todo.star }"
+                @click.stop="setStar(todo.id)"
+              ></i>
+              <i class="todo-mark__icon iconfont icon-task-trashed"></i>
+            </div>
+          </vs-col>
+          <!-- end -->
+        </vs-row>
+        <!-- todo项内容区域 -->
+        <div class="todo-item__content">
+          <p>{{ todo.content }}</p>
+        </div>
       </div>
     </div>
-  </div>
+  </transition>
 </template>
 
 <script>

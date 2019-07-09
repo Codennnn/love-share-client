@@ -1,7 +1,10 @@
 <template>
   <div>
-    <el-row :gutter="20">
-      <el-col :xs="24" :lg="12">
+    <vs-row :gutter="20">
+      <vs-col
+        vs-lg="6"
+        vs-sm="12"
+      >
         <div class="vx-card bg-purple">
           <div class="vx-card__body">
             <img
@@ -17,12 +20,12 @@
             <div class="circle">
               <i class="iconfont icon-safety"></i>
             </div>
-            <div>欢迎你，令狐聪</div>
-            <div>上次登录时间为：2019-05-07 19：21</div>
+            <p>欢迎你，令狐聪</p>
+            <p>上次登录时间为：2019-05-07 19：21</p>
           </div>
         </div>
-      </el-col>
-    </el-row>
+      </vs-col>
+    </vs-row>
   </div>
 </template>
 
@@ -33,7 +36,7 @@ export default {
   name: 'Analytics',
   components: {},
   data() {
-    return {};
+    return { show: true };
   },
   methods: {
     drawChart() {
@@ -84,7 +87,7 @@ export default {
   align-items: center;
   justify-content: center;
   padding: 20px 0;
-  color: #F4F4F4;
+  color: #f4f4f4;
 }
 
 .decore-left {
@@ -100,7 +103,11 @@ export default {
 }
 
 .bg-purple {
-  background: linear-gradient(to right, $primaryColor, rgba($primaryColor, .7));
+  background: linear-gradient(
+    to right,
+    $primaryColor,
+    rgba($primaryColor, 0.7)
+  );
 }
 
 .circle {

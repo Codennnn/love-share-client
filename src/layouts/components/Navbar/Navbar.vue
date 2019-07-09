@@ -1,39 +1,63 @@
 <template>
-  <div class="nav-bar">
-    <div>
-      <router-link
-        v-for="(item, index) in navIcons"
-        :key="index"
-        :to="item.route">
-        <el-tooltip :open-delay="200" :content="item.tip" effect="light">
-          <i class="nav-icon iconfont" :class="item.icon"></i>
-        </el-tooltip>
-      </router-link>
-    </div>
-    <div class="nav-right">
+  <div class="nav-wrapper">
+    <div class="nav-bar">
       <div>
-        <i class="nav-icon iconfont icon-screenfull" @click="screenfull"></i>
+        <router-link
+          v-for="(item, index) in navIcons"
+          :key="index"
+          :to="item.route"
+        >
+          <el-tooltip
+            :open-delay="200"
+            :content="item.tip"
+            effect="light"
+          >
+            <i
+              class="nav-icon iconfont"
+              :class="item.icon"
+            ></i>
+          </el-tooltip>
+        </router-link>
       </div>
-      <div class="info">
-        <div style="font-size: 18px;">陈梓聪</div>
-        <small>新媒体工作部</small>
-      </div>
-      <el-popover transition="el-zoom-in-bottom" class="popover">
-        <template v-for="(pop, index) in popItems">
-          <router-link
-            :to="pop.route"
-            :key="index"
-            class="popover-item">
-            <div>
-              <div class="inner-item">
-                <i class="inner-icon" :class="pop.icon"></i>
-                <div class="inner-text">{{ pop.text }}</div>
+      <div class="nav-right">
+        <div>
+          <i
+            class="nav-icon iconfont icon-screenfull"
+            @click="screenfull"
+          ></i>
+        </div>
+        <div class="info">
+          <div style="font-size: 18px;">陈梓聪</div>
+          <small>新媒体工作部</small>
+        </div>
+        <el-popover
+          transition="el-zoom-in-bottom"
+          class="popover"
+        >
+          <template v-for="(pop, index) in popItems">
+            <router-link
+              :to="pop.route"
+              :key="index"
+              class="popover-item"
+            >
+              <div>
+                <div class="inner-item">
+                  <i
+                    class="inner-icon"
+                    :class="pop.icon"
+                  ></i>
+                  <div class="inner-text">{{ pop.text }}</div>
+                </div>
               </div>
-            </div>
-          </router-link>
-        </template>
-        <img slot="reference" src="@/assets/images/avatar.jpg" class="avatar" />
-      </el-popover>
+            </router-link>
+          </template>
+          <img
+            slot="reference"
+            src="@/assets/images/avatar.jpg"
+            class="avatar"
+          />
+        </el-popover>
+      </div>
     </div>
   </div>
 </template>
@@ -99,13 +123,17 @@ export default {
 </script>
 
 <style lang="scss">
+.nav-wrapper {
+  padding-top: 20px;
+}
+
 .nav-bar {
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 10px 20px;
   border-radius: 8px;
-  background-color: #FFF;
+  background-color: #fff;
   box-shadow: $baseShadow;
 
   .nav-icon {
@@ -120,7 +148,6 @@ export default {
   display: flex;
   align-items: center;
 }
-
 
 .info {
   margin-left: 15px;
@@ -153,12 +180,12 @@ export default {
   align-items: center;
   padding: 8px 10px;
   color: #686868;
-  transition: all .2s;
+  transition: all 0.2s;
   &:hover {
-    color: #FFF;
+    color: #fff;
     cursor: pointer;
     border-radius: 5px;
-    background-color: rgba($primaryColor, .9);
+    background-color: rgba($primaryColor, 0.9);
   }
   .inner-item {
     display: flex;

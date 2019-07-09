@@ -8,11 +8,14 @@
     <el-container>
       <el-main>
         <!-- 待办事项列表 -->
+
         <todo-item />
+
       </el-main>
     </el-container>
   </el-container>
 </template>
+
 <script>
 import TodoBar from './components/TodoBar.vue';
 import TodoItem from './components/TodoItem.vue';
@@ -53,5 +56,6 @@ export default {
   },
 };
 </script>
+
 <style lang="scss">
 </style>
