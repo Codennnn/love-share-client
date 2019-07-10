@@ -20,6 +20,7 @@
     "sass-resources-loader": "^2.0.1",
     "screenfull": "^4.2.0",
     "vue": "^2.6.10",
+    "vue-perfect-scrollbar": "^0.1.0",
     "vue-router": "^3.0.3",
     "vuesax": "^3.8.77",
     "vuex": "^3.0.1"

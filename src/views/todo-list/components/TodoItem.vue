@@ -240,13 +240,8 @@ export default {
     color: #7c7c7c;
   }
 
-  .vs-checkbox {
-    margin-right: 18px;
-  }
-
-  .vs-checkbox--icon {
-    width: 16px;
-    height: 16px;
+  .todo-item__title::v-deep .material-icons {
+    font-size: inherit;
   }
 }
 </style>

@@ -8,9 +8,7 @@
     <el-container>
       <el-main>
         <!-- 待办事项列表 -->
-
         <todo-item />
-
       </el-main>
     </el-container>
   </el-container>
@@ -26,7 +24,9 @@ export default {
     return {};
   },
 
-  components: { TodoBar, TodoItem, TodoPopup },
+  components: {
+    TodoBar, TodoItem, TodoPopup,
+  },
 
   computed: {
     filterTodoItems() {
@@ -58,4 +58,10 @@ export default {
 </script>
 
 <style lang="scss">
+.scroll-area {
+  position: relative;
+  margin: auto;
+  width: 400px;
+  height: 300px;
+}
 </style>

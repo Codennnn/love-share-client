@@ -185,6 +185,7 @@ export default {
       cursor: pointer;
     }
   }
+
   .important {
     color: #67c23a;
   }
@@ -192,6 +193,10 @@ export default {
   .star {
     color: #ff9f39;
   }
+}
+
+.vs-dropdown-menu::v-deep .material-icons {
+  font-size: inherit;
 }
 
 // 弹出框底部的按钮
