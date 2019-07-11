@@ -1,9 +1,12 @@
 <template>
-<div class="bg container">
+  <div class="bg container">
     <div class="login-bg">
       <div class="login-form-wrapper">
         <div>
-          <img src="@/assets/images/pages/login/logo.png" style="width:30%">
+          <img
+            src="@/assets/images/pages/login/logo.png"
+            style="width:30%"
+          >
         </div>
         <div class="label">
           <h1>登 录</h1>
@@ -13,7 +16,8 @@
             placeholder="请输入账号"
             prefix-icon="el-icon-user"
             v-model="username"
-            class="input"></el-input>
+            class="input"
+          ></el-input>
         </div>
         <div class="input-wrapper">
           <el-input
@@ -30,7 +34,8 @@
             type="primary"
             class="login-btn"
             :loading="loading"
-            @click="login">登 录</el-button>
+            @click="login"
+          >登 录</el-button>
         </div>
       </div>
     </div>
@@ -67,14 +72,16 @@ export default {
 
 <style lang="scss" scoped>
 .bg {
-  background: url(../../assets/images/pages/login/background.png) no-repeat center center;
+  background: url("../../assets/images/pages/login/background.png") no-repeat
+    center center;
   background-size: cover;
 }
 
 .login-bg {
   width: 1000px;
   height: 562px;
-  background: url(../../assets/images/pages/login/login_bg.png) no-repeat center center;
+  background: url("../../assets/images/pages/login/login_bg.png") no-repeat
+    center center;
   background-size: cover;
   border-radius: 5px;
   box-shadow: 0 0 20px #616161;

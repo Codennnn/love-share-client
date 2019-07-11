@@ -187,16 +187,14 @@ export default {
   }
 
   .todo-item__header {
-    @include flex(space-between, center);
+    @include flex($justify: space-between, $align: center);
 
     .todo-item__title {
-      display: flex;
-      align-items: center;
+      @include flex($justify: space-between, $align: center);
     }
 
     .todo-item__tag {
-      display: flex;
-      align-items: center;
+      @include flex($justify: space-between);
       margin: 0 5px;
       padding: 3px 10px;
       border-radius: 10px;
