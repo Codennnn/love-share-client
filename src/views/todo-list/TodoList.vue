@@ -15,6 +15,8 @@
 </template>
 
 <script>
+import Bus from '@/utils/eventBus';
+
 import TodoBar from './components/TodoBar.vue';
 import TodoItem from './components/TodoItem.vue';
 import TodoPopup from './components/TodoPopup.vue';
@@ -24,35 +26,17 @@ export default {
     return {};
   },
 
-  components: {
-    TodoBar, TodoItem, TodoPopup,
+  destroyed() {
+    // 移除 Bus 中监听的事件，防止事件多次触发
+    Bus.$off('openPopup');
+    Bus.$off('closePopup');
+    Bus.$off('getTodo');
+    Bus.$off('getActive');
+    Bus.$off('getEditedTodo');
   },
 
-  computed: {
-    filterTodoItems() {
-      switch (this.active) {
-        case 0:
-          return this.getItemByMark('important');
-        case 1:
-          return this.getItemByMark('starred');
-        case 2:
-          return this.getItemByMark('done');
-        case 3:
-          return this.getItemByMark('trashed');
-        case 5:
-          return this.todoItems;
-        case 10:
-          return this.getItemByTag(0);
-        case 11:
-          return this.getItemByTag(1);
-        case 12:
-          return this.getItemByTag(2);
-        case 13:
-          return this.getItemByTag(3);
-        default:
-          return this.todoItems;
-      }
-    },
+  components: {
+    TodoBar, TodoItem, TodoPopup,
   },
 };
 </script>

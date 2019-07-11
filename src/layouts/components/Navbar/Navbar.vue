@@ -185,7 +185,7 @@ export default {
     color: #fff;
     cursor: pointer;
     border-radius: 5px;
-    background-color: rgba($primaryColor, 0.9);
+    background-color: rgba($primary, 0.9);
   }
   .inner-item {
     display: flex;

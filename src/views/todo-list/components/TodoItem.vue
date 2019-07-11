@@ -1,13 +1,15 @@
 <template>
   <div class="todo-items">
     <transition-group
+      name="flip-list"
       enter-active-class="animated fadeInUp faster"
       leave-active-class="animated fadeOutDown faster"
+      tag="ul"
     >
-      <div
+      <li
         class="todo-item"
         v-for="todo in filterTodoItems"
-        :key="todo.id"
+        :key="String(todo.id)"
         @click="activePopup(todo)"
       >
         <vs-row>
@@ -16,21 +18,21 @@
             <div class="todo-item__header">
               <div class="todo-item__title">
                 <vs-checkbox
-                  v-model="todo.done"
+                  v-model="todo.isDone"
                   @click.stop
                 >{{ todo.title }}</vs-checkbox>
-                <template v-if="todo.tags.length">
+                <template v-if="todo.tags.length !== 0">
                   <template v-for="(tag, index) in todo.tags">
                     <span
-                      v-if="tag.active"
+                      v-if="tag"
                       class="todo-item__tag"
                       :key="index"
                     >
                       <div
                         class="dot"
-                        :style="{ 'background-color': tagColor[tag.type].color }"
+                        :style="{'background-color': tagColor[tag]}"
                       ></div>
-                      <span style="color: #555555;">{{ tag.name }}</span>
+                      <span style="color: #555555;">{{ tag }}</span>
                     </span>
                   </template>
                 </template>
@@ -47,13 +49,13 @@
             <div>
               <i
                 class="todo-mark__icon iconfont icon-task-importance"
-                :class="{ important: todo.important }"
-                @click.stop="setImportant(todo.id)"
+                :class="{important: todo.isImportant}"
+                @click.stop="toggleIsImportant(todo.id)"
               ></i>
               <i
                 class="todo-mark__icon iconfont icon-task-star"
-                :class="{ star: todo.star }"
-                @click.stop="setStar(todo.id)"
+                :class="{star: todo.isStarred}"
+                @click.stop="toggleIsStarred(todo.id)"
               ></i>
               <i class="todo-mark__icon iconfont icon-task-trashed"></i>
             </div>
@@ -64,7 +66,7 @@
         <div class="todo-item__content">
           <p>{{ todo.content }}</p>
         </div>
-      </div>
+      </li>
     </transition-group>
   </div>
 </template>
@@ -75,25 +77,25 @@ import Bus from '@/utils/eventBus';
 export default {
   data() {
     const tagColor = {
-      0: { color: '#7367f0' },
-      1: { color: '#ff9f39' },
-      2: { color: '#67c23a' },
-      3: { color: '#f56c6c' },
+      前端: '#7367f0',
+      后端: '#ff9f39',
+      其它: '#67c23a',
+      BUG: '#f56c6c',
     };
     return {
-      currentAcive: '',
+      currentAcive: 'all',
       todoItems: [],
       tagColor,
     };
   },
 
   mounted() {
-    // 1.获取全部的 todo 项
+    // 获取全部的 todo 项
     this.todoItems = this.$store.state.todo.todos;
 
-    // 2.接收 TodoBar 中的事件，获知当前激活的菜单项
-    Bus.$on('getActive', (data) => {
-      this.currentAcive = data;
+    // 接收 TodoBar 中的事件，获知当前激活的菜单项
+    Bus.$on('getActive', (current) => {
+      this.currentAcive = current;
     });
 
     Bus.$on('getAddedTodo', (newTodo) => {
@@ -116,17 +118,8 @@ export default {
     });
   },
 
-  destroyed() {
-    // 4.移除 Bus 中监听的事件，防止事件多次触发
-    Bus.$off('openPopup');
-    Bus.$off('closePopup');
-    Bus.$off('getTodo');
-    Bus.$off('getActive');
-    Bus.$off('getEditedTodo');
-  },
-
   computed: {
-    // 3.返回过滤后的 todo 项
+    // 返回过滤后的 todo 项
     filterTodoItems() {
       const current = this.currentAcive || 'all';
       console.log(current);
@@ -134,8 +127,8 @@ export default {
         return this.todoItems;
       }
 
-      if (typeof current === 'number') {
-        return this.todoItems.filter(todo => todo.tags[current].active === true);
+      if (['前端', '后端', '其它', 'BUG'].includes(current)) {
+        return this.todoItems.filter(todo => todo.tags.includes(current));
       }
 
       return this.todoItems.filter(todo => todo[current] === true);
@@ -150,10 +143,10 @@ export default {
     },
 
     // 设为重要事项
-    setImportant(id) {
+    toggleIsImportant(id) {
       this.todoItems.some((el) => {
         if (el.id === id) {
-          el.important = !el.important;
+          el.isImportant = !el.isImportant;
           return true;
         }
         return false;
@@ -161,22 +154,26 @@ export default {
     },
 
     // 设为星号标记
-    setStar(id) {
+    toggleIsStarred(id) {
       this.todoItems.some((el) => {
         if (el.id === id) {
-          el.star = !el.star;
+          el.isStarred = !el.isStarred;
           return true;
         }
         return false;
       });
+    },
+
+    moveToTrash() {
+      this.isTrashed = !this.isTrashed;
     },
   },
 };
 </script>
 
 <style lang="scss" scoped>
-.todo-items {
-  background-color: #f8f8f8;
+.flip-list-move {
+  transition: transform 1s;
 }
 
 .todo-item {
@@ -190,9 +187,7 @@ export default {
   }
 
   .todo-item__header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    @include flex(space-between, center);
 
     .todo-item__title {
       display: flex;
@@ -244,4 +239,13 @@ export default {
     font-size: inherit;
   }
 }
+
+// .list-enter-up-leave-active {
+//   transition: none !important;
+// }
+
+// .list-enter-up-enter {
+//   opacity: 0;
+//   transform: translateY(30px);
+// }
 </style>

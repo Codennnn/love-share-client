@@ -146,12 +146,8 @@ li.el-menu-item.is-active {
   // line-height: 3;
   // height: 40px;
   border-radius: 5px;
-  background: linear-gradient(
-    to right,
-    $primaryColor,
-    rgba($primaryColor, 0.7)
-  );
-  box-shadow: 0 0 10px $primaryColor;
+  background: linear-gradient(to right, $primary, rgba($primary, 0.7));
+  box-shadow: 0 0 10px $primary;
   color: #fff;
   span {
     color: #fff;

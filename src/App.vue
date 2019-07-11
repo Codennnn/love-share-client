@@ -15,6 +15,6 @@ export default { name: 'app' };
 }
 
 #nprogress .bar {
-  background: $primaryColor !important; // 重设跳转进度条的颜色
+  background: $primary !important; // 重设跳转进度条的颜色
 }
 </style>

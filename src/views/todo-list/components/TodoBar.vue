@@ -41,7 +41,7 @@
       v-for="(item, index) in labelMarks"
       :key="index + 10"
       :class="{ 'label-active': currentActive === index + 10 }"
-      @click="setActive(item.type, index + 10)"
+      @click="setActive(item.text, index + 10)"
     >
       <div
         class="label-dot"
@@ -63,22 +63,22 @@ export default {
       {
         icon: 'icon-task-importance',
         text: '重要事项',
-        type: 'important',
+        type: 'isImportant',
       },
       {
         icon: 'icon-task-star',
         text: '星号标记',
-        type: 'star',
+        type: 'isStarred',
       },
       {
         icon: 'icon-task-done',
         text: '已完成',
-        type: 'done',
+        type: 'isDone',
       },
       {
         icon: 'icon-task-trashed',
         text: '丢弃的',
-        type: 'trashed',
+        type: 'isTrashed',
       },
     ];
     const labelMarks = [
@@ -91,16 +91,11 @@ export default {
       id: null,
       title: '',
       content: '',
-      tags: [
-        { type: 0, name: '前端', active: false },
-        { type: 1, name: '后端', active: false },
-        { type: 2, name: '其它', active: false },
-        { type: 3, name: 'BUG', active: false },
-      ],
-      important: false,
-      star: false,
-      done: false,
-      trashed: false,
+      tags: [],
+      isDone: false,
+      isImportant: false,
+      isStarred: false,
+      isTrashed: false,
     };
     return {
       labelItems, // 筛选项
@@ -130,6 +125,7 @@ export default {
 
 <style lang="scss">
 .todo-bar--wrapper {
+  height: 100%;
   padding: 20px 25px;
   background-color: #fff;
 }
@@ -155,7 +151,7 @@ export default {
   }
 
   &.label-active {
-    color: $primaryColor;
+    color: $primary;
   }
 
   .label-icon {

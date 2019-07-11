@@ -8,17 +8,17 @@
     <vs-row>
       <vs-col vs-w="9">
         <div class="todo-tag__group">
-          <template v-for="(tag,index) in task.tags">
+          <template v-for="(tag, index) in task.tags">
             <span
-              v-if="tag.active"
+              v-if="tag"
               :key="index"
               class="task-tag"
             >
               <div
                 class="dot"
-                :style="{ 'background-color': todoTagColors[tag.type].color }"
+                :style="{ 'background-color': tagColor[tag] }"
               ></div>
-              <span>{{ tag.name }}</span>
+              <span>{{ tag }}</span>
             </span>
           </template>
         </div>
@@ -31,26 +31,27 @@
         <div class="todo-icon__group">
           <i
             class="iconfont icon-task-importance"
-            :class="{ important: task.important }"
-            @click="task.important = !task.important"
+            :class="{ important: task.isImportant }"
+            @click="task.isImportant = !task.isImportant"
           ></i>
           <i
             class="iconfont icon-task-star"
-            :class="{ star: task.star }"
-            @click="task.star = !task.star"
+            :class="{ star: task.isStarred }"
+            @click="task.isStarred = !task.isStarred"
           ></i>
           <!-- 选择任务的标签 -->
           <vs-dropdown>
             <i class="iconfont icon-tag"></i>
             <vs-dropdown-menu>
               <vs-dropdown-item
-                v-for="(tag, index) in task.tags"
+                v-for="(tag, index) in tags"
                 :key="index"
               >
                 <vs-checkbox
-                  v-model="tag.active"
+                  :vs-value="tag"
+                  v-model="task.tags"
                   @click.stop
-                >{{ tag.name }}</vs-checkbox>
+                >{{ tag }}</vs-checkbox>
               </vs-dropdown-item>
             </vs-dropdown-menu>
           </vs-dropdown>
@@ -72,7 +73,7 @@
           v-model="task.content"
           style="margin-top: 15px"
           label="任务描述"
-          height="300px"
+          :height="String(150)"
         />
       </vs-col>
     </vs-row>
@@ -87,8 +88,8 @@
         style="margin-left: .5rem"
         color="primary"
         type="filled"
-        @click="confirm"
         :disabled="task.title.length === 0"
+        @click="confirm"
       >{{ task.id ? '完成修改' : '添加任务' }}</vs-button>
     </div>
   </vs-popup>
@@ -99,15 +100,17 @@ import Bus from '@/utils/eventBus';
 
 export default {
   data() {
+    const tagColor = {
+      前端: '#7367f0',
+      后端: '#ff9f39',
+      其它: '#67c23a',
+      BUG: '#f56c6c',
+    };
     return {
       isPopupActive: false, // 是否弹框
       task: null,
-      todoTagColors: { // 标签前面的圆点的颜色
-        0: { color: '#7367f0' },
-        1: { color: '#ff9f39' },
-        2: { color: '#67c23a' },
-        3: { color: '#f56c6c' },
-      },
+      tags: ['前端', '后端', '其它', 'BUG'],
+      tagColor,
       tempTodo: '',
     };
   },

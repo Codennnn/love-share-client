@@ -103,11 +103,7 @@ export default {
 }
 
 .bg-purple {
-  background: linear-gradient(
-    to right,
-    $primaryColor,
-    rgba($primaryColor, 0.7)
-  );
+  background: linear-gradient(to right, $primary, rgba($primary, 0.7));
 }
 
 .circle {
