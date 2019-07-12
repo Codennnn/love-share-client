@@ -59,3 +59,12 @@ a {
 ::-webkit-scrollbar-thumb:hover {
   cursor: pointer;
 }
+
+html,
+body {
+  height: 100vh;
+  width: 100vw;
+  font-family: "Microsoft YaHei", "微软雅黑", "PingFang SC", "Helvetica Neue", Helvetica, "Hiragino Sans GB", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}

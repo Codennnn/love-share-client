@@ -7,7 +7,7 @@ import {
   Table, TableColumn, MenuItemGroup,
 } from 'element-ui'; // 按需引入组件
 import 'element-ui/lib/theme-chalk/index.css';
-import '@/styles/element-override.scss'; // 自定义主题
+import '@/assets/scss/element-override.scss'; // 自定义主题
 
 // 布局容器
 Vue.use(Container);

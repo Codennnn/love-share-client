@@ -1,4 +1,8 @@
+import Vue from 'vue';
 import './element'; // 组件库
-import './vuesax'; // 组件库
-import './lodash'; // JS 工具函数库
-import './animate'; // CSS 动画库
+
+import lodash from 'lodash';
+import animated from 'animate.css';
+
+Vue.use(animated);
+Object.defineProperty(Vue.prototype, '_', { value: lodash });

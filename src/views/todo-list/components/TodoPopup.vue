@@ -5,7 +5,7 @@
     :title="task.id ? '编辑任务' : '添加任务'"
     :active.sync="isPopupActive"
   >
-    <vs-row>
+    <vs-row class="todo-tag">
       <vs-col vs-w="9">
         <div class="todo-tag__group">
           <template v-for="(tag, index) in task.tags">
@@ -155,18 +155,23 @@ export default {
   }
 }
 
+.todo-tag {
+  @include flex($justify: center, $align: center);
+}
+
 // 弹出框的mark标签
 .todo-tag__group {
-  display: flex;
-  align-items: center;
+  @include flex($align: center);
+  height: 30px;
+
   .task-tag {
-    display: flex;
-    align-items: center;
+    @include flex($align: center);
     margin: 0 5px;
     padding: 3px 10px;
     border-radius: 10px;
     font-size: 14px;
     background-color: #e6e6e6;
+
     .dot {
       width: 7px;
       height: 7px;
@@ -190,7 +195,7 @@ export default {
   }
 
   .important {
-    color: #67c23a;
+    color: $success;
   }
 
   .star {

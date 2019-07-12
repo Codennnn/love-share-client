@@ -192,15 +192,15 @@ export default {
     .todo-item__title {
       @include flex($justify: space-between, $align: center);
     }
-
+    // 标签胶囊
     .todo-item__tag {
-      @include flex($justify: space-between);
+      @include flex($justify: space-between, $align: center);
       margin: 0 5px;
       padding: 3px 10px;
       border-radius: 10px;
       font-size: 14px;
       background-color: #e6e6e6;
-
+      // 标签胶囊前面的颜色点
       .dot {
         width: 7px;
         height: 7px;
@@ -237,13 +237,4 @@ export default {
     font-size: inherit;
   }
 }
-
-// .list-enter-up-leave-active {
-//   transition: none !important;
-// }
-
-// .list-enter-up-enter {
-//   opacity: 0;
-//   transform: translateY(30px);
-// }
 </style>
