@@ -96,6 +96,8 @@
 </template>
 
 <script>
+import _isEqual from 'lodash/isEqual';
+import _cloneDeepWith from 'lodash/cloneDeepWith';
 import Bus from '@/utils/eventBus';
 
 export default {
@@ -120,7 +122,7 @@ export default {
     Bus.$on('closePopup', () => { this.isPopupActive = false; });
     Bus.$on('getTodo', (todo) => {
       this.refTodo = todo; // 将原 todo 存起来以便后面使用
-      this.task = this._.cloneDeepWith(todo); // 深拷贝 todo 对象
+      this.task = _cloneDeepWith(todo); // 深拷贝 todo 对象
     });
   },
 
@@ -136,7 +138,7 @@ export default {
 
     // 编辑修改 todo 项
     editTodo() {
-      if (!this._.isEqual(this.task, this.refTodo)) {
+      if (!_isEqual(this.task, this.refTodo)) {
         // 判断是否相等，如果否，说明有修改过，触发下面的 Bus.$emit
         Bus.$emit('getEditedTodo', this.task);
       } else {

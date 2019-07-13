@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Vuesax from 'vuesax';
 
-import 'vuesax/dist/vuesax.css';
+import 'vuesax/dist/vuesax.css'; // Vuesax 样式
 import 'material-icons/iconfont/material-icons.css';
 
 import '@/assets/scss/base.scss'; // 全局样式
