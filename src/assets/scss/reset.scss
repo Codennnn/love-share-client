@@ -6,24 +6,7 @@ h3,
 h4,
 h5,
 h6,
-hr,
-p,
-blockquote,
-dl,
-dt,
-dd,
-ul,
-ol,
-li,
-pre,
-form,
-fieldset,
-legend,
-button,
-input,
-textarea,
-th,
-td {
+hr {
   margin: 0;
   padding: 0;
 }
@@ -67,4 +50,8 @@ body {
   font-family: "Microsoft YaHei", "微软雅黑", "PingFang SC", "Helvetica Neue", Helvetica, "Hiragino Sans GB", Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.material-icons {
+  font-size: inherit;
 }

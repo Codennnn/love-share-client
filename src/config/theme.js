@@ -4,8 +4,9 @@ import Vuesax from 'vuesax';
 import 'vuesax/dist/vuesax.css'; // Vuesax 样式
 import 'material-icons/iconfont/material-icons.css';
 
-import '@/assets/scss/base.scss'; // 全局样式
-import '@/assets/iconfont/iconfont.css'; // 字体图标
+import '@/assets/scss/reset.scss'; // 覆盖默认样式
+import '@/assets/scss/tailwind.scss'; // tailwind 样式
+import '@/assets/iconfont/iconfont.css'; // 阿里云字体图标
 
 Vue.use(Vuesax, {
   theme: {

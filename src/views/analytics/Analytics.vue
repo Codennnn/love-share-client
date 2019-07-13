@@ -1,6 +1,32 @@
 <template>
-  <div>
+  <div id="dashboard-analytics">
     <vs-row :gutter="20">
+      <vs-col
+        vs-lg="6"
+        vs-sm="12"
+      >
+        <div class="vx-card bg-purple">
+          <div class="vx-card__body">
+            <img
+              src="@/assets/images/pages/dashboard/decore_left.png"
+              width="200"
+              class="decore-left"
+              alt="装饰1"
+            >
+            <img
+              src="@/assets/images/pages/dashboard/decore_right.png"
+              width="175"
+              class="decore-right"
+              alt="装饰2"
+            >
+            <div class="circle">
+              <i class="iconfont icon-safety"></i>
+            </div>
+            <p>欢迎你，令狐聪</p>
+            <p>上次登录时间为：2019-05-07 19：21</p>
+          </div>
+        </div>
+      </vs-col>
       <vs-col
         vs-lg="6"
         vs-sm="12"
@@ -38,6 +64,11 @@ export default {
   data() {
     return { show: true };
   },
+
+  mounted() {
+    // this.drawChart();
+  },
+
   methods: {
     drawChart() {
       // 基于准备好的dom，初始化echarts实例
@@ -67,9 +98,6 @@ export default {
       myChart.setOption(option);
     },
   },
-  mounted() {
-    // this.drawChart();
-  },
 };
 </script>
 
@@ -78,6 +106,7 @@ export default {
   text-align: center;
   border-radius: 5px;
   box-shadow: $baseShadow;
+  padding: 0 20px;
 }
 
 .vx-card__body {
