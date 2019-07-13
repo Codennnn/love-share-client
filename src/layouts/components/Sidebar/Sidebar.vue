@@ -6,6 +6,20 @@
     :collapse="isCollapse"
     router
   >
+
+    <el-menu-item @click="isCollapse = !isCollapse">
+      <img
+        src="@/assets/images/logo/logo.png"
+        width="25px"
+        style="margin-left:-2px;"
+      />
+      <span
+        slot="title"
+        style=""
+      >
+        <h2 style="display:inline;margin-left:10px;">意想社团</h2>
+      </span>
+    </el-menu-item>
     <template v-for="(menuItem,index) in sidebarList">
       <!-- 嵌套子菜单 -->
       <el-submenu
@@ -89,11 +103,15 @@ export default {
 </script>
 
 <style lang="scss">
-$hoverColor: #f0f0f0;
+$hoverColor: #f0f0f0; // 导航菜单 hover 时的背景色
 
-/* 重置侧边栏的高度 */
 .el-menu.wrapper {
+  // 重置侧边栏的高度
   height: 100vh;
+  &:not(.el-menu--collapse) {
+    // 必须设置，否则会出现动画卡顿问题
+    width: 240px;
+  }
 }
 
 .el-menu.side-bar-menu {
@@ -129,7 +147,7 @@ $hoverColor: #f0f0f0;
 li.el-menu-item {
   line-height: 40px;
   height: 40px;
-  width: 12vw;
+
   &:hover {
     border-radius: 5px;
     background-color: $hoverColor;
@@ -143,8 +161,6 @@ li.el-menu-item {
 }
 
 li.el-menu-item.is-active {
-  // line-height: 3;
-  // height: 40px;
   border-radius: 5px;
   background: linear-gradient(to right, $primary, rgba($primary, 0.7));
   box-shadow: 0 0 10px $primary;

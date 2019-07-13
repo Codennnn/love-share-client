@@ -1,7 +1,7 @@
 <template>
   <el-container>
     <!-- 侧边栏 -->
-    <el-aside style="width: 14vw;">
+    <el-aside width="initial">
       <sidebar class="sidebar-container" />
     </el-aside>
 
@@ -51,10 +51,6 @@ export default {
 <style lang="scss" scoped>
 .el-container {
   height: 100%;
-}
-
-.el-aside {
-  background-color: #fff;
 }
 
 .el-footer {

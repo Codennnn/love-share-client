@@ -128,9 +128,7 @@ export default {
 }
 
 .nav-bar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  @include flex($justify: space-between, $align: center);
   padding: 10px 20px;
   border-radius: 8px;
   background-color: #fff;
@@ -170,20 +168,19 @@ export default {
 }
 
 .popover {
-  display: flex;
-  align-items: center;
+  @include flex($align: center);
   margin-left: 10px;
 }
 
 .popover-item {
-  display: flex;
-  align-items: center;
+  @include flex($align: center);
   padding: 8px 10px;
   color: #686868;
   transition: all 0.2s;
+
   &:hover {
-    color: #fff;
     cursor: pointer;
+    color: #fff;
     border-radius: 5px;
     background-color: rgba($primary, 0.9);
   }

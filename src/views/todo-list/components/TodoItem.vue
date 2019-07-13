@@ -180,10 +180,10 @@ export default {
   padding: 14px 28px;
 
   &:hover {
+    cursor: pointer;
     box-shadow: 0 3px 10px 0 #ccc;
     transform: translateY(-4px);
     transition: all 0.2s;
-    cursor: pointer;
   }
 
   .todo-item__header {
@@ -213,15 +213,15 @@ export default {
 
   // 标记的图标样式
   .todo-mark__icon {
-    margin-left: 10px;
-    font-size: 18px;
     cursor: pointer;
+    padding: 6px;
+    font-size: 18px;
     color: #858585;
+    transition: all 0.2s;
 
     &.important {
       color: #67c23a;
     }
-
     &.star {
       color: #ff9f39;
     }
