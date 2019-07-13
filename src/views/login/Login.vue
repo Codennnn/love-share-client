@@ -13,16 +13,19 @@
           <h1>登 录</h1>
           <vs-input
             class="w-full py-2"
-            label-placeholder="账号"
-            v-model="username"
-          />
-          <vs-input
-            class="w-full py-2"
-            label-placeholder="密码"
-            v-model="password"
+            v-for="(item, index) in loginInput"
+            :type="item.type"
+            :key="index"
+            :placeholder="item.placeholder"
+            :warning="item.isWarnng"
+            :warning-text="item.warningText"
+            val-icon-warning="warning"
+            v-model.trim="item.value"
           />
           <vs-button
-            class="w-full mt-5"
+            id="loginBtn"
+            class="w-full mt-2 vs-con-loading__container"
+            type="relief"
             @click="login"
           >登录</vs-button>
         </div>
@@ -36,19 +39,36 @@ export default {
   name: 'login',
   data() {
     return {
-      username: '',
-      password: '',
-      loading: false,
-      backgroundLoading: 'primary',
-      colorLoading: '#fff',
+      loginInput: [{
+        placeholder: '请输入账号',
+        value: '',
+        type: 'text',
+        isWarnng: false,
+        warningText: '',
+      }, {
+        placeholder: '请输入密码',
+        value: '',
+        type: 'password',
+        isWarnng: false,
+        warningText: '',
+      }],
     };
   },
   methods: {
     login() {
-      this.loading = true;
-      const data = { username: this.username, password: this.password };
+      const [username, password] = [this.loginInput[0].value, this.loginInput[1].value];
+
+      if (username.length === 0 || password.length === 0) {
+        this.loginInput[0].isWarnng = true;
+        return;
+      }
+
+      console.log('登录信息：', { username, password });
+
       this.$vs.loading({
-        container: this.$refs.vsbtn,
+        background: 'primary',
+        color: '#fff',
+        container: '#loginBtn',
         scale: 0.45,
       });
       // login(data).then((res) => {
