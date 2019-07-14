@@ -21,21 +21,32 @@ service.interceptors.request.use(
   },
 );
 
+const errorHandler = {
+  errorNotify({
+    title = 'Error', color = 'danger', text = '出错啦！', fixed = true, icon = 'clear',
+  } = {}) {
+    vm.$vs.notify({
+      title, color, text, fixed, icon,
+    });
+  },
+  404(status, text = '糟糕，出错啦！') {
+    return this.errorNotify({ title: status, text });
+  },
+  500(status, text = '糟糕，出错啦！') {
+    return this.errorNotify({ title: status, text });
+  },
+};
+
 service.interceptors.response.use(
   (response) => {
     const res = response.data;
     console.log(response);
-
     return res;
   },
   (error) => {
-    vm.$vs.notify({
-      title: '404',
-      color: 'danger',
-      text: '请求出错啦！',
-      time: 4000,
-      icon: 'clear',
-    });
+    console.log(error.response);
+    const { status, statusText } = error.response;
+    errorHandler[status](status, statusText);
     return Promise.reject(error);
   },
 );

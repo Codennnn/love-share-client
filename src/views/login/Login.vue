@@ -57,9 +57,14 @@ export default {
       }],
     };
   },
+
   methods: {
     async login() {
       const [username, password] = [this.loginInput[0].value, this.loginInput[1].value];
+
+      if (!this.validate(username, password)) {
+        return;
+      }
 
       this.$vs.loading({
         background: 'primary',
@@ -68,18 +73,11 @@ export default {
         scale: 0.45,
       });
 
-      if (!this.validate(username, password)) {
-        setTimeout(() => {
-          this.$vs.loading.close('#loginBtn > .con-vs-loading');
-        }, 0);
-        return;
-      }
-
       try {
         const res = await login();
         console.log('响应', res);
       } catch (e) {
-        // console.log('e', e);
+        console.log('====出错了====');
       }
       // console.log('登录信息：', { username, password });
 
