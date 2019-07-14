@@ -1,8 +1,8 @@
 <template>
-  <div class="background
+  <div class="background bg-cover bg-center bg-no-repeat
       flex justify-center items-center
       w-screen h-screen">
-    <div class="login-bg shadow-2xl rounded">
+    <div class="login-bg bg-cover bg-center bg-no-repeat shadow-2xl rounded">
       <div class="login-form-wrapper w-5/12 h-full
       flex flex-col justify-center items-center">
         <img
@@ -20,6 +20,7 @@
             :warning="item.isWarnng"
             :warning-text="item.warningText"
             val-icon-warning="warning"
+            @focus="inputFocus(index)"
             v-model.trim="item.value"
           />
           <vs-button
@@ -40,13 +41,13 @@ export default {
   data() {
     return {
       loginInput: [{
-        placeholder: '请输入账号',
+        placeholder: '您的账号',
         value: '',
         type: 'text',
         isWarnng: false,
         warningText: '',
       }, {
-        placeholder: '请输入密码',
+        placeholder: '您的密码',
         value: '',
         type: 'password',
         isWarnng: false,
@@ -58,19 +59,17 @@ export default {
     login() {
       const [username, password] = [this.loginInput[0].value, this.loginInput[1].value];
 
-      if (username.length === 0 || password.length === 0) {
-        this.loginInput[0].isWarnng = true;
-        return;
-      }
-
-      console.log('登录信息：', { username, password });
-
-      this.$vs.loading({
+      /* eslint-disable */
+      this.validate(username, password) && this.$vs.loading({
         background: 'primary',
         color: '#fff',
         container: '#loginBtn',
         scale: 0.45,
       });
+
+      console.log('登录信息：', { username, password });
+
+
       // login(data).then((res) => {
       //   console.log(res);
       // });
@@ -79,22 +78,43 @@ export default {
         this.$vs.loading.close('#loginBtn > .con-vs-loading');
       }, 1500);
     },
+
+    validate(uname, pwd) {
+      if (uname.length === 0) {
+        this.loginInput[0].isWarnng = true;
+        this.loginInput[0].warningText = '请输入账号';
+        return false;
+      }
+      if (pwd.length === 0) {
+        this.loginInput[1].isWarnng = true;
+        this.loginInput[1].warningText = '请输入密码';
+        return false;
+      }
+      return true;
+    },input(e) {
+      console.log(e);
+      
+    },
+
+    inputFocus(e) {
+      if (e === 0) {
+        this.loginInput[0].isWarnng = false; 
+      } else if (e === 1) {
+        this.loginInput[1].isWarnng = false;
+      }
+    }
   },
 };
 </script>
 
 <style lang="scss" scoped>
 .background {
-  background: url("~@/assets/images/pages/login/background.png") no-repeat
-    center center;
-  background-size: cover;
+  background-image: url("~@/assets/images/pages/login/background.png");
 }
 
 .login-bg {
   min-width: 1000px;
   height: 562px;
-  background: url("~@/assets/images/pages/login/login_bg.png") no-repeat center
-    center;
-  background-size: cover;
+  background-image: url("~@/assets/images/pages/login/login_bg.png");
 }
 </style>

@@ -7,7 +7,7 @@
       tag="ul"
     >
       <li
-        class="todo-item"
+        class="todo-item cursor-pointer"
         v-for="todo in filterTodoItems"
         :key="String(todo.id)"
         @click="activePopup(todo)"
@@ -15,25 +15,27 @@
         <vs-row>
           <!-- todo项头部左侧 -->
           <vs-col vs-w="9">
-            <div class="todo-item__header">
-              <div class="todo-item__title">
+            <div class="todo-item__header flex justify-between items-center">
+              <div class="todo-item__title flex justify-between items-center">
                 <vs-checkbox
                   v-model="todo.isDone"
                   @click.stop
                 >{{ todo.title }}</vs-checkbox>
                 <template v-if="todo.tags.length !== 0">
                   <template v-for="(tag, index) in todo.tags">
-                    <span
-                      v-if="tag"
-                      class="todo-item__tag"
+                    <div
+                      class="todo-item__tag
+                      flex justify-between items-center
+                      rounded-full py-1 px-3 bg-gray-300 mx-2"
                       :key="index"
                     >
-                      <div
-                        class="dot"
+                      <!-- 标签胶囊前面的颜色点 -->
+                      <span
+                        class="dot rounded-full w-2 h-2 mr-2"
                         :style="{'background-color': tagColor[tag]}"
-                      ></div>
-                      <span style="color: #555555;">{{ tag }}</span>
-                    </span>
+                      ></span>
+                      <span class="text-gray-700 text-sm">{{ tag }}</span>
+                    </div>
                   </template>
                 </template>
               </div>
@@ -180,35 +182,9 @@ export default {
   padding: 14px 28px;
 
   &:hover {
-    cursor: pointer;
     box-shadow: 0 3px 10px 0 #ccc;
     transform: translateY(-4px);
     transition: all 0.2s;
-  }
-
-  .todo-item__header {
-    @include flex($justify: space-between, $align: center);
-
-    .todo-item__title {
-      @include flex($justify: space-between, $align: center);
-    }
-    // 标签胶囊
-    .todo-item__tag {
-      @include flex($justify: space-between, $align: center);
-      margin: 0 5px;
-      padding: 3px 10px;
-      border-radius: 10px;
-      font-size: 14px;
-      background-color: #e6e6e6;
-      // 标签胶囊前面的颜色点
-      .dot {
-        width: 7px;
-        height: 7px;
-        margin-right: 5px;
-        border-radius: 3px;
-        background-color: #858585;
-      }
-    }
   }
 
   // 标记的图标样式
@@ -218,7 +194,6 @@ export default {
     font-size: 18px;
     color: #858585;
     transition: all 0.2s;
-
     &.important {
       color: #67c23a;
     }
@@ -231,10 +206,6 @@ export default {
   .todo-item__content {
     margin: 10px 0 0 5px;
     color: #7c7c7c;
-  }
-
-  .todo-item__title::v-deep .material-icons {
-    font-size: inherit;
   }
 }
 </style>

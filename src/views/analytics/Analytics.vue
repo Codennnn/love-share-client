@@ -2,6 +2,7 @@
   <div id="dashboard-analytics">
     <vs-row :gutter="20">
       <vs-col
+        class="lg:pr-3"
         vs-lg="6"
         vs-sm="12"
       >
@@ -28,6 +29,7 @@
         </div>
       </vs-col>
       <vs-col
+        class="lg:pl-3"
         vs-lg="6"
         vs-sm="12"
       >
@@ -106,7 +108,6 @@ export default {
   text-align: center;
   border-radius: 5px;
   box-shadow: $baseShadow;
-  padding: 0 20px;
 }
 
 .vx-card__body {

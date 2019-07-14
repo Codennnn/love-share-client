@@ -5,21 +5,21 @@
     :title="task.id ? '编辑任务' : '添加任务'"
     :active.sync="isPopupActive"
   >
-    <vs-row class="todo-tag">
+    <vs-row class="todo-tag flex items-center justify-center">
       <vs-col vs-w="9">
-        <div class="todo-tag__group">
+        <div class="todo-tag__group flex items-center">
           <template v-for="(tag, index) in task.tags">
-            <span
+            <div
+              class="task-tag flex items-center"
               v-if="tag"
               :key="index"
-              class="task-tag"
             >
-              <div
+              <span
                 class="dot"
                 :style="{ 'background-color': tagColor[tag] }"
-              ></div>
+              ></span>
               <span>{{ tag }}</span>
-            </span>
+            </div>
           </template>
         </div>
       </vs-col>
@@ -30,12 +30,12 @@
       >
         <div class="todo-icon__group">
           <i
-            class="iconfont icon-task-importance"
+            class="iconfont icon-task-importance cursor-pointer"
             :class="{ important: task.isImportant }"
             @click="task.isImportant = !task.isImportant"
           ></i>
           <i
-            class="iconfont icon-task-star"
+            class="iconfont icon-task-star cursor-pointer"
             :class="{ star: task.isStarred }"
             @click="task.isStarred = !task.isStarred"
           ></i>
@@ -63,8 +63,7 @@
         <!-- 标题框 -->
         <vs-input
           v-model.trim="task.title"
-          class="inputx"
-          style="margin-top: 15px;;width: 100%;"
+          class="w-full mt-5"
           placeholder="标题"
           size="large"
         />
@@ -157,17 +156,11 @@ export default {
   }
 }
 
-.todo-tag {
-  @include flex($justify: center, $align: center);
-}
-
 // 弹出框的mark标签
 .todo-tag__group {
-  @include flex($align: center);
   height: 30px;
 
   .task-tag {
-    @include flex($align: center);
     margin: 0 5px;
     padding: 3px 10px;
     border-radius: 10px;
@@ -189,17 +182,12 @@ export default {
   .iconfont {
     margin-left: 8px;
     font-size: 18px;
+    transition: all 0.2s;
     color: #848484;
-
-    &:hover {
-      cursor: pointer;
-    }
   }
-
   .important {
     color: $success;
   }
-
   .star {
     color: #ff9f39;
   }

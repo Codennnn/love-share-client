@@ -125,7 +125,6 @@ export default {
 
 <style lang="scss">
 .todo-bar--wrapper {
-  height: 100%;
   padding: 20px 25px;
   background-color: #fff;
 }

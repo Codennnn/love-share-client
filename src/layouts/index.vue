@@ -1,7 +1,10 @@
 <template>
   <el-container>
     <!-- 侧边栏 -->
-    <el-aside width="initial">
+    <el-aside
+      class="h-screen bg-white"
+      width="initial"
+    >
       <sidebar class="sidebar-container" />
     </el-aside>
 
