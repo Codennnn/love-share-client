@@ -36,6 +36,8 @@
 </template>
 
 <script>
+import { login } from '@/request/api/login';
+
 export default {
   name: 'login',
   data() {
@@ -56,27 +58,33 @@ export default {
     };
   },
   methods: {
-    login() {
+    async login() {
       const [username, password] = [this.loginInput[0].value, this.loginInput[1].value];
 
-      /* eslint-disable */
-      this.validate(username, password) && this.$vs.loading({
+      this.$vs.loading({
         background: 'primary',
         color: '#fff',
         container: '#loginBtn',
         scale: 0.45,
       });
 
-      console.log('登录信息：', { username, password });
+      if (!this.validate(username, password)) {
+        setTimeout(() => {
+          this.$vs.loading.close('#loginBtn > .con-vs-loading');
+        }, 0);
+        return;
+      }
 
+      try {
+        const res = await login();
+        console.log('响应', res);
+      } catch (e) {
+        // console.log('e', e);
+      }
+      // console.log('登录信息：', { username, password });
 
-      // login(data).then((res) => {
-      //   console.log(res);
-      // });
-      setTimeout(() => {
-        // this.$router.replace({ name: 'analytics' });
-        this.$vs.loading.close('#loginBtn > .con-vs-loading');
-      }, 1500);
+      // this.$router.replace({ name: 'analytics' });
+      this.$vs.loading.close('#loginBtn > .con-vs-loading');
     },
 
     validate(uname, pwd) {
@@ -91,18 +99,15 @@ export default {
         return false;
       }
       return true;
-    },input(e) {
-      console.log(e);
-      
     },
 
     inputFocus(e) {
       if (e === 0) {
-        this.loginInput[0].isWarnng = false; 
+        this.loginInput[0].isWarnng = false;
       } else if (e === 1) {
         this.loginInput[1].isWarnng = false;
       }
-    }
+    },
   },
 };
 </script>
