@@ -3,36 +3,43 @@
       flex justify-center items-center
       w-screen h-screen">
     <div class="login-bg bg-cover bg-center bg-no-repeat shadow-2xl rounded">
-      <!-- 表单 start -->
-      <div class="w-5/12 h-full
-      flex flex-col justify-center items-center">
-        <img
-          class="w-3/12 mb-5"
-          src="@/assets/images/pages/login/logo.png"
-        />
-        <div class="w-4/6">
-          <h1>登 录</h1>
-          <vs-input
-            class="w-full py-2"
-            v-for="(item, index) in loginInput"
-            :type="item.type"
-            :key="index"
-            :placeholder="item.placeholder"
-            :warning="item.isWarnng"
-            :warning-text="item.warningText"
-            val-icon-warning="warning"
-            @focus="inputFocus(index)"
-            v-model.trim="item.value"
-          />
-          <vs-button
-            id="loginBtn"
-            class="w-full mt-2 vs-con-loading__container"
-            type="relief"
-            @click="login"
-          >登录</vs-button>
-        </div>
-      </div>
-      <!-- 表单 end -->
+      <vs-tabs class="w-5/12 h-full text-xl">
+        <vs-tab label="登录">
+          <!-- 登录 start -->
+          <div class="h-full text-base">
+            <div class="h-full
+                flex flex-col justify-center items-center">
+              <!-- <img
+                class="w-3/12 mb-5"
+                src="@/assets/images/pages/login/logo.png"
+              /> -->
+              <div class="w-4/6">
+                <vs-input
+                  class="w-full py-2"
+                  v-for="(item, index) in loginInput"
+                  :type="item.type"
+                  :key="index"
+                  :placeholder="item.placeholder"
+                  :warning="item.isWarnng"
+                  :warning-text="item.warningText"
+                  val-icon-warning="warning"
+                  @focus="inputFocus(index)"
+                  v-model.trim="item.value"
+                />
+                <vs-button
+                  id="loginBtn"
+                  class="w-full mt-2 vs-con-loading__container"
+                  type="relief"
+                  @click="login"
+                >登录</vs-button>
+              </div>
+            </div>
+          </div>
+          <!-- 登录 end -->
+        </vs-tab>
+        <vs-tab label="注册">
+        </vs-tab>
+      </vs-tabs>
     </div>
   </div>
 </template>
@@ -81,7 +88,6 @@ export default {
       } catch (e) {
         console.log('====出错了====');
       }
-      // console.log('登录信息：', { username, password });
 
       // this.$router.replace({ name: 'analytics' });
       this.$vs.loading.close('#loginBtn > .con-vs-loading');
@@ -121,5 +127,16 @@ export default {
   min-width: 1000px;
   height: 562px;
   background-image: url("~@/assets/images/pages/login/login_bg.png");
+}
+
+.vs-tabs::v-deep .con-slot-tabs {
+  height: calc(562px - 44px);
+  & .vs-tabs--content {
+    height: 100%;
+  }
+}
+
+#loginBtn:hover {
+  color: #fff !important;
 }
 </style>
