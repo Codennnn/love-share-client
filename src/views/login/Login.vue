@@ -3,7 +3,8 @@
       flex justify-center items-center
       w-screen h-screen">
     <div class="login-bg bg-cover bg-center bg-no-repeat shadow-2xl rounded">
-      <div class="login-form-wrapper w-5/12 h-full
+      <!-- 表单 start -->
+      <div class="w-5/12 h-full
       flex flex-col justify-center items-center">
         <img
           class="w-3/12 mb-5"
@@ -31,6 +32,7 @@
           >登录</vs-button>
         </div>
       </div>
+      <!-- 表单 end -->
     </div>
   </div>
 </template>

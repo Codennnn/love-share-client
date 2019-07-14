@@ -35,6 +35,9 @@ const errorHandler = {
   500(status, text = '糟糕，出错啦！') {
     return this.errorNotify({ title: status, text });
   },
+  default() {
+    return this.errorNotify();
+  },
 };
 
 service.interceptors.response.use(
@@ -46,7 +49,10 @@ service.interceptors.response.use(
   (error) => {
     console.log(error.response);
     const { status, statusText } = error.response;
-    errorHandler[status](status, statusText);
+    /* eslint no-unused-expressions: [2, { allowTernary: true }] */
+    Object.prototype.hasOwnProperty.call(errorHandler, status)
+      ? errorHandler[status](status, statusText)
+      : errorHandler.default();
     return Promise.reject(error);
   },
 );

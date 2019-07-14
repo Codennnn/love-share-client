@@ -2,7 +2,7 @@ import request from '../request';
 
 export function login(query) {
   return request({
-    url: '/login',
+    url: '/hi',
     method: 'post',
     params: query,
   });
