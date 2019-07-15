@@ -11,7 +11,7 @@ export default new Vuex.Store({
   },
 
   state: {
-    token: '',
+    token: 'token',
   },
 
   getters: {

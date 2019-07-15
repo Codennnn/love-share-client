@@ -46,6 +46,7 @@
 
 <script>
 import { loginValidate } from '@/request/api/login';
+import { setToken } from '@/permission/token';
 
 export default {
   data() {
@@ -83,6 +84,7 @@ export default {
 
       try {
         const res = await loginValidate();
+        setToken(username);
         console.log('响应', res);
       } catch (e) {
         console.log('====出错了====');

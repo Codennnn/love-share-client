@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import App from './App.vue';
-import router from './router';
-import store from './store';
+import router from './router/router';
+import store from './store/store';
 
 import '@/plugins'; // 插件，第三方组件等
 import '@/config/theme'; // 网站主题，样式

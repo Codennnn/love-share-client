@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import NProgress from 'nprogress';
-import store from '@/store';
+import store from '@/store/store';
 
 // 引入路由跳转加载进度条插件
 import 'nprogress/nprogress.css';
@@ -52,18 +52,33 @@ export const asyncRouterMap = [
 
 NProgress.configure({ showSpinner: false }); // NProgress 配置
 
-router.beforeEach((to, from, next) => {
+const whiteList = ['/login'];
+
+router.beforeEach(async (to, from, next) => {
   NProgress.start(); // 进度条开始
 
+  // 设置网页标题
+  const { title } = to.meta;
+  document.title = title ? `${title} - 意想社团` : '意想社团后台管理系统';
+
+  console.log(to.path);
+
   if (store.getters.token) {
+    // 如果已经有了token再访问登录页的话，将会被重定向到首页
     if (to.path === '/login') {
       next({ path: '/' });
+      NProgress.done();
+    } else {
+      const hasRoles = store.getters.roles && store.getters.roles.length > 0;
+      if (hasRoles) {
+        next();
+      }
     }
+  } else if (whiteList.indexOf(to.path) !== 1) {
+    next();
+  } else {
+    next('/login');
   }
-
-  const { title } = to.meta;
-
-  document.title = title ? `${title} - 意想社团` : '意想社团后台管理系统'; // 设置网页标题
 
   next();
 });
