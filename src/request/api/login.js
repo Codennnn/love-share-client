@@ -1,6 +1,6 @@
 import request from '../request';
 
-export function login(query) {
+export function loginValidate(query) {
   return request({
     url: '/login',
     method: 'post',

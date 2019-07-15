@@ -11,10 +11,13 @@ export default new Vuex.Store({
   },
 
   state: {
+    token: '',
   },
 
   getters: {
-
+    token(state) {
+      return state.token;
+    },
   },
 
   mutations: {

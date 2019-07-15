@@ -30,7 +30,7 @@
                   id="loginBtn"
                   class="w-full mt-2 vs-con-loading__container"
                   type="relief"
-                  @click="login"
+                  @click="toLogin"
                 >登录</vs-button>
               </div>
             </div>
@@ -45,10 +45,9 @@
 </template>
 
 <script>
-import { login } from '@/request/api/login';
+import { loginValidate } from '@/request/api/login';
 
 export default {
-  name: 'login',
   data() {
     return {
       loginInput: [{
@@ -68,7 +67,7 @@ export default {
   },
 
   methods: {
-    async login() {
+    async toLogin() {
       const [username, password] = [this.loginInput[0].value, this.loginInput[1].value];
 
       if (!this.validate(username, password)) {
@@ -83,7 +82,7 @@ export default {
       });
 
       try {
-        const res = await login();
+        const res = await loginValidate();
         console.log('响应', res);
       } catch (e) {
         console.log('====出错了====');
