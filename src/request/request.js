@@ -23,9 +23,11 @@ service.interceptors.request.use(
 
 const errorHandler = {
   errorNotify({
-    message = '出错啦！', type = 'error', duration = 0,
+    message = '出错啦！', type = 'error', duration = 0, showClose = true,
   } = {}) {
-    Message({ message, type, duration });
+    Message({
+      message, type, duration, showClose,
+    });
   },
   404(status, text = '糟糕，出错啦！') {
     return this.errorNotify({ title: status, text });

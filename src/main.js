@@ -10,10 +10,8 @@ import '@/request/mock/mock'; // mock模拟请求数据
 
 Vue.config.productionTip = false;
 
-const vm = new Vue({
+new Vue({
   router,
   store,
   render: h => h(App),
 }).$mount('#app');
-
-export default vm;

@@ -1,5 +1,5 @@
 import { setToken, getToken, removeToken } from '@/permission/token';
-import { loginValidate } from '@/request/api/login';
+import { login, logout, getUserInfo } from '@/request/api/login';
 
 const state = {
   token: getToken(),
@@ -18,9 +18,20 @@ const mutations = {
 const actions = {
   async login({ commit }, userInfo) {
     const { username, password } = userInfo;
-    const res = await loginValidate(username, password);
+    const res = await login(username, password);
     commit('SET_TOKEN', res.token);
     setToken(res.token);
+  },
+
+  async getUserInfo() {
+    await getUserInfo();
+  },
+
+  async logout({ commit, state }) {
+    await logout(state.token);
+    commit('SET_TOKEN', '');
+    commit('SET_ROLES', []);
+    removeToken();
   },
 };
 

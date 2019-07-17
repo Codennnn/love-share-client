@@ -1,6 +1,6 @@
 import request from '../request';
 
-export function loginValidate(query) {
+export function login(query) {
   return request({
     url: '/login',
     method: 'post',
@@ -8,4 +8,6 @@ export function loginValidate(query) {
   });
 }
 
-export function lo() { }
+export function logout() { }
+
+export function getUserInfo() { }

@@ -45,7 +45,7 @@
 </template>
 
 <script>
-import { loginValidate } from '@/request/api/login';
+import { login } from '@/request/api/login';
 import { setToken } from '@/permission/token';
 
 export default {
@@ -83,7 +83,7 @@ export default {
       });
 
       try {
-        const res = await loginValidate();
+        const res = await login();
         setToken(username);
         console.log('响应', res);
       } catch (e) {
