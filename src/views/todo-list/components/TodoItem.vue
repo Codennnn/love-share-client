@@ -74,6 +74,7 @@
 </template>
 
 <script>
+import _last from 'lodash/last';
 import Bus from '@/utils/eventBus';
 
 export default {
@@ -101,8 +102,7 @@ export default {
     });
 
     Bus.$on('getAddedTodo', (newTodo) => {
-      const lastItem = this._.last(this.todoItems);
-      newTodo.id = lastItem.id + 1;
+      newTodo.id = _last(this.todoItems).id + 1;
       this.todoItems.push(newTodo);
       Bus.$emit('closePopup');
     });

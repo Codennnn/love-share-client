@@ -1,5 +1,5 @@
 import Axios from 'axios';
-import vm from '@/main';
+import { Message } from 'element-ui';
 
 const service = Axios.create({
   // baseURL: 'https://api',
@@ -23,11 +23,9 @@ service.interceptors.request.use(
 
 const errorHandler = {
   errorNotify({
-    title = 'Error', color = 'danger', text = '出错啦！', fixed = true, icon = 'clear',
+    message = '出错啦！', type = 'error', duration = 0,
   } = {}) {
-    vm.$vs.notify({
-      title, color, text, fixed, icon,
-    });
+    Message({ message, type, duration });
   },
   404(status, text = '糟糕，出错啦！') {
     return this.errorNotify({ title: status, text });
