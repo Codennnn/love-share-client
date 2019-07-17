@@ -70,7 +70,6 @@ router.beforeEach(async (to, from, next) => {
     // 如果已经有了token再访问登录页的话，将会被重定向到首页
     if (to.path === '/login') {
       next({ path: '/' });
-      NProgress.done();
     } else {
       const hasRoles = store.getters.roles && store.getters.roles.length > 0;
       if (hasRoles) {
@@ -89,5 +88,10 @@ router.beforeEach(async (to, from, next) => {
 router.afterEach(() => {
   NProgress.done();
 });
+
+export function resetRouter() {
+  const newRouter = router;
+  router.matcher = newRouter.matcher; // 重置路由
+}
 
 export default router;

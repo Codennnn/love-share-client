@@ -17,8 +17,7 @@ const mutations = {
 
 const actions = {
   async login({ commit }, userInfo) {
-    const { username, password } = userInfo;
-    const res = await login(username, password);
+    const res = await login(userInfo);
     commit('SET_TOKEN', res.token);
     setToken(res.token);
   },

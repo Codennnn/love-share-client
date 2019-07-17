@@ -45,9 +45,6 @@
 </template>
 
 <script>
-import { login } from '@/request/api/login';
-import { setToken } from '@/permission/token';
-
 export default {
   data() {
     return {
@@ -83,8 +80,7 @@ export default {
       });
 
       try {
-        const res = await login();
-        setToken(username);
+        const res = await this.$store.dispatch('user/login', { username, password });
         console.log('响应', res);
       } catch (e) {
         console.log('====出错了====');
@@ -108,12 +104,8 @@ export default {
       return true;
     },
 
-    inputFocus(e) {
-      if (e === 0) {
-        this.loginInput[0].isWarnng = false;
-      } else if (e === 1) {
-        this.loginInput[1].isWarnng = false;
-      }
+    inputFocus(i) {
+      this.loginInput[i].isWarnng = false;
     },
   },
 };

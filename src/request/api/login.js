@@ -1,6 +1,8 @@
 import request from '../request';
 
 export function login(query) {
+  console.log('query', query);
+
   return request({
     url: '/login',
     method: 'post',
