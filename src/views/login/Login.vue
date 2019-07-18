@@ -80,13 +80,12 @@ export default {
       });
 
       try {
-        const res = await this.$store.dispatch('user/login', { username, password });
-        console.log('响应', res);
+        this.$store.dispatch('user/login', { username, password });
+        this.$router.replace('/');
       } catch (e) {
         console.log('====出错了====');
       }
 
-      // this.$router.replace({ name: 'analytics' });
       this.$vs.loading.close('#loginBtn > .con-vs-loading');
     },
 

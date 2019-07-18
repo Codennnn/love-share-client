@@ -18,19 +18,24 @@ const mutations = {
 const actions = {
   async login({ commit }, userInfo) {
     const res = await login(userInfo);
-    commit('SET_TOKEN', res.token);
-    setToken(res.token);
+    const { token } = res.data;
+    commit('SET_TOKEN', token);
+    setToken(token); // 将token缓存到本地
   },
 
-  async getUserInfo() {
-    await getUserInfo();
+  async getUserInfo({ commit, state }) {
+    const res = await getUserInfo(state.token);
+    const { roles } = res.data;
+    commit('SET_TOKEN', '');
+    commit('SET_ROLES', roles);
+    return res.data;
   },
 
   async logout({ commit, state }) {
     await logout(state.token);
     commit('SET_TOKEN', '');
     commit('SET_ROLES', []);
-    removeToken();
+    removeToken(); // 移除本地token缓存
   },
 };
 

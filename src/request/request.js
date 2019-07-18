@@ -42,8 +42,8 @@ const errorHandler = {
 
 service.interceptors.response.use(
   (response) => {
-    const res = response.data;
-    console.log(response);
+    const res = response;
+    console.log(res);
     return res;
   },
   (error) => {
