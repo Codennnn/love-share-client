@@ -64,7 +64,9 @@ export default {
   name: 'Analytics',
   components: {},
   data() {
-    return { show: true };
+    return {
+      show: true,
+    };
   },
 
   mounted() {

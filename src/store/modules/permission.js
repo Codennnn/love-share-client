@@ -1,7 +1,7 @@
 import { constantRoutes, asyncRoutes } from '@/router/router';
 
 function hasPermission(roles, route) {
-  if (route.meta && route.meta.roles) {
+  if (route.meta ?.roles) {
     return roles.some(role => route.meta.roles.includes(role));
   }
   return true;

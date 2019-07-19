@@ -12,7 +12,6 @@ const whiteList = ['/login'];
 
 router.beforeEach(async (to, from, next) => {
   NProgress.start(); // 进度条开始
-  console.log(to.path);
 
   // 设置网页标题
   const { title } = to.meta;

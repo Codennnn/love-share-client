@@ -8,6 +8,7 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@babel/plugin-proposal-optional-chaining": "^7.2.0",
     "animate.css": "^3.7.2",
     "autoprefixer": "^9.6.1",
     "axios": "^0.19.0",

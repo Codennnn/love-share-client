@@ -11,5 +11,6 @@ module.exports = {
         styleLibraryName: 'theme-chalk',
       },
     ],
+    '@babel/plugin-proposal-optional-chaining',
   ],
 };
