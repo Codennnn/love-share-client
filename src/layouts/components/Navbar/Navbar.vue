@@ -13,7 +13,7 @@
             effect="light"
           >
             <i
-              class="nav-icon iconfont mr-5"
+              class="nav-icon iconfont mr-3"
               :class="item.icon"
             ></i>
           </el-tooltip>
@@ -118,6 +118,7 @@ export default {
       cursor: pointer;
     }
     font-size: 25px;
+    font-weight: 500;
     color: $navIcon;
   }
 }

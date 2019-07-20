@@ -24,5 +24,5 @@ module.exports = {
     });
   },
 
-  lintOnSave: undefined
+  lintOnSave: undefined,
 };

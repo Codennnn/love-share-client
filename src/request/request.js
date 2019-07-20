@@ -30,10 +30,10 @@ const errorHandler = {
     });
   },
   404(status, text = '糟糕，出错啦！') {
-    this.errorNotify({ message: `${status},${text}` });
+    this.errorNotify({ message: `${status}：${text}` });
   },
   500(status, text = '糟糕，出错啦！') {
-    this.errorNotify({ message: `${status},${text}` });
+    this.errorNotify({ message: `${status}：${text}` });
   },
   default() {
     this.errorNotify();
