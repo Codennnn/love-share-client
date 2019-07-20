@@ -14,7 +14,7 @@ router.beforeEach(async (to, from, next) => {
   NProgress.start(); // 进度条开始
 
   // 设置网页标题
-  const { title } = to.meta;
+  const title = to.meta ?.title;
   document.title = title ? `${title} - 意想社团` : '意想社团后台管理系统';
 
   const hasToken = !!getToken();
@@ -24,17 +24,14 @@ router.beforeEach(async (to, from, next) => {
       // 如果已经有了token再访问登录页的话，将会被重定向到首页
       next({ path: '/' });
     } else {
-      const { roles } = store.state.user;
-      const hasRoles = roles && roles.length > 0;
+      const hasRoles = !!store.state.user.roles ?.length > 0;
       if (hasRoles) {
         next();
       } else {
-        await store.dispatch('user/getUserInfo');
-        store.dispatch('permission/generateRoutes', store.state.user.roles)
-          .then((accessedRoutes) => {
-            // 动态添加路由
-            router.addRoutes(accessedRoutes);
-          });
+        const { roles } = await store.dispatch('user/getUserInfo');
+        const accessedRoutes = await store.dispatch('permission/generateRoutes', roles);
+        // 动态添加路由
+        router.addRoutes(accessedRoutes);
         next({ ...to, replace: true });
       }
     }
