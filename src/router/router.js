@@ -2,8 +2,10 @@ import Vue from 'vue';
 import Router from 'vue-router';
 
 import Layout from '@/layouts/index.vue'; // 主框架
-import Login from '@/views/login/Login.vue';
 import Analytics from '@/views/analytics/Analytics.vue'; // 数据分析
+
+const Login = () => import('@/views/login/Login.vue');
+const TodoList = () => import('@/views/todo-list/TodoList.vue');
 
 Vue.use(Router);
 
@@ -11,6 +13,9 @@ export const constantRoutes = [
   {
     path: '/login',
     component: Login,
+    meta: {
+      title: '登录',
+    },
   },
   {
     path: '/',
@@ -26,7 +31,7 @@ export const constantRoutes = [
       },
       {
         path: '/todo-list',
-        component: () => import('@/views/todo-list/TodoList.vue'),
+        component: TodoList,
         meta: { title: '待办事项' },
       },
     ],

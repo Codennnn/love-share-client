@@ -1,6 +1,6 @@
 <template>
   <div class="nav-wrapper">
-    <div class="nav-bar">
+    <div class="nav-bar flex justify-between items-center bg-white rounded">
       <div>
         <router-link
           v-for="(item, index) in navIcons"
@@ -8,12 +8,12 @@
           :to="item.route"
         >
           <el-tooltip
-            :open-delay="200"
+            :open-delay="100"
             :content="item.tip"
             effect="light"
           >
             <i
-              class="nav-icon iconfont"
+              class="nav-icon iconfont mr-5"
               :class="item.icon"
             ></i>
           </el-tooltip>
@@ -27,34 +27,33 @@
           ></i>
         </div>
         <div class="info">
-          <div style="font-size: 18px;">陈梓聪</div>
+          <div class="text-right text-lg">陈梓聪</div>
           <small>新媒体工作部</small>
         </div>
         <el-popover
+          class="popover flex items-center p-0 ml-5"
           transition="el-zoom-in-bottom"
-          class="popover"
         >
-          <template v-for="(pop, index) in popItems">
+          <ul>
             <router-link
-              :to="pop.route"
+              class="popover-item flex items-center"
+              tag="li"
+              v-for="(pop, index) in popItems"
+              :to="pop.route || ''"
               :key="index"
-              class="popover-item"
+              @click.native="!pop.route && logout()"
             >
-              <div>
-                <div class="inner-item">
-                  <i
-                    class="inner-icon"
-                    :class="pop.icon"
-                  ></i>
-                  <div class="inner-text">{{ pop.text }}</div>
-                </div>
-              </div>
+              <i
+                class="inner-icon text-base font-medium"
+                :class="pop.icon"
+              ></i>
+              <div class="inner-text ml-3">{{ pop.text }}</div>
             </router-link>
-          </template>
+          </ul>
           <img
+            class="avatar cursor-pointer"
             slot="reference"
             src="@/assets/images/avatar.jpg"
-            class="avatar"
           />
         </el-popover>
       </div>
@@ -69,11 +68,10 @@ export default {
   name: 'NavBar',
   data() {
     return {
-      activeIndex: '1',
       popItems: [
-        { icon: 'el-icon-user', text: '我的信息', route: '' },
+        { icon: 'el-icon-user', text: '我的信息', route: '/' },
         { icon: 'el-icon-trophy', text: '我的社团', route: '/my-club' },
-        { icon: 'el-icon-switch-button', text: '退出登录', route: '/login' },
+        { icon: 'el-icon-switch-button', text: '退出登录' },
       ],
       navIcons: [
         { tip: '社团', icon: 'icon-medal', route: '/club-list' },
@@ -82,41 +80,26 @@ export default {
       ],
     };
   },
-  mounted() {
-    window.onresize = () => {
-      // 全屏下监控是否按键了ESC
-      if (!this.checkFull()) {
-        // 全屏下按键esc后要执行的动作
-        this.isFullscreen = false;
-      }
-    };
-  },
+
   methods: {
+    // 退出登录
+    async logout() {
+      await this.$store.dispatch('user/logout');
+      this.$router.replace('/login');
+    },
+
     // 网页全屏
     screenfull() {
       if (!screenfull.enabled) {
-        this.$message({
-          message: '您的浏览器不支持全屏显示',
-          type: 'warning',
+        this.$vs.notify({
+          time: 3000,
+          title: '不支持全屏',
+          text: '检测到您的浏览器不支持全屏，请开启全屏显示模式',
+          color: 'warning',
         });
-        return false;
+        return;
       }
       screenfull.toggle();
-      this.isFullscreen = true;
-      return true;
-    },
-
-    // 是否全屏并按键ESC键的方法
-    checkFull() {
-      let isFull = document.fullscreenEnabled
-                  || window.fullScreen
-                  || document.webkitIsFullScreen
-                  || document.msFullscreenEnabled;
-      // to fix : false || undefined == undefined
-      if (isFull === undefined) {
-        isFull = false;
-      }
-      return isFull;
     },
   },
 };
@@ -128,15 +111,12 @@ export default {
 }
 
 .nav-bar {
-  @include flex($justify: space-between, $align: center);
   padding: 10px 20px;
-  border-radius: 8px;
-  background-color: #fff;
   box-shadow: $baseShadow;
-
   .nav-icon {
-    cursor: pointer;
-    margin-right: 12px;
+    &:hover {
+      cursor: pointer;
+    }
     font-size: 25px;
     color: $navIcon;
   }
@@ -163,17 +143,7 @@ export default {
   overflow: hidden;
 }
 
-.avatar:hover {
-  cursor: pointer;
-}
-
-.popover {
-  @include flex($align: center);
-  margin-left: 10px;
-}
-
 .popover-item {
-  @include flex($align: center);
   padding: 8px 10px;
   color: #686868;
   transition: all 0.2s;
@@ -184,20 +154,5 @@ export default {
     border-radius: 5px;
     background-color: rgba($primary, 0.9);
   }
-  .inner-item {
-    display: flex;
-    align-items: center;
-  }
-  .inner-icon {
-    font-size: 16px;
-    font-weight: 500;
-  }
-  .inner-text {
-    margin-left: 6px;
-  }
-}
-
-.el-popover {
-  padding: 0;
 }
 </style>

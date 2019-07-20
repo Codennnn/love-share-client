@@ -23,27 +23,27 @@ service.interceptors.request.use(
 
 const errorHandler = {
   errorNotify({
-    message = '出错啦！', type = 'error', duration = 0, showClose = true,
+    message = '出错啦！', duration = 0, showClose = true,
   } = {}) {
-    Message({
-      message, type, duration, showClose,
+    Message.error({
+      message, duration, showClose,
     });
   },
   404(status, text = '糟糕，出错啦！') {
-    return this.errorNotify({ title: status, text });
+    this.errorNotify({ message: `${status},${text}` });
   },
   500(status, text = '糟糕，出错啦！') {
-    return this.errorNotify({ title: status, text });
+    this.errorNotify({ message: `${status},${text}` });
   },
   default() {
-    return this.errorNotify();
+    this.errorNotify();
   },
 };
 
 service.interceptors.response.use(
   (response) => {
     const res = response;
-    console.log(res);
+    console.log('>>>', res, '<<<');
     return res;
   },
   (error) => {

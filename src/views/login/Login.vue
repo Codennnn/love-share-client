@@ -30,7 +30,7 @@
                   id="loginBtn"
                   class="w-full mt-2 vs-con-loading__container"
                   type="relief"
-                  @click="toLogin"
+                  @click="login"
                 >登录</vs-button>
               </div>
             </div>
@@ -65,7 +65,7 @@ export default {
   },
 
   methods: {
-    async toLogin() {
+    async login() {
       const [username, password] = [this.loginInput[0].value, this.loginInput[1].value];
 
       if (!this.validate(username, password)) {
@@ -79,14 +79,10 @@ export default {
         scale: 0.45,
       });
 
-      try {
-        this.$store.dispatch('user/login', { username, password });
-        this.$router.replace('/');
-      } catch (e) {
-        console.log('====出错了====');
-      }
-
+      await this.$store.dispatch('user/login', { username, password });
+      // .catch(() => { console.log('====出错了===='); })
       this.$vs.loading.close('#loginBtn > .con-vs-loading');
+      this.$router.replace('/');
     },
 
     validate(uname, pwd) {

@@ -1,5 +1,6 @@
 import { setToken, getToken, removeToken } from '@/permission/token';
 import { login, logout, getUserInfo } from '@/request/api/login';
+import { resetRouter } from '@/router/router';
 
 const state = {
   token: getToken(),
@@ -34,6 +35,7 @@ const actions = {
     commit('SET_TOKEN', '');
     commit('SET_ROLES', []);
     removeToken(); // 移除本地token缓存
+    resetRouter(); // 重置路由，不然会出现路由重复的情况
   },
 };
 
