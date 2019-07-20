@@ -23,4 +23,6 @@ module.exports = {
         .end();
     });
   },
+
+  lintOnSave: undefined
 };
