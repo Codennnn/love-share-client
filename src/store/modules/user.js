@@ -18,15 +18,13 @@ const mutations = {
 const actions = {
   async login({ commit }, userInfo) {
     const { data } = await login(userInfo);
-    const { token } = data;
-    commit('SET_TOKEN', token);
-    setToken(token); // 将token缓存到本地
+    commit('SET_TOKEN', data.token);
+    setToken(data.token); // 将token缓存到本地
   },
 
   async getUserInfo({ commit, state }) {
     const { data } = await getUserInfo(state.token);
     const { roles } = data;
-    commit('SET_TOKEN', '');
     commit('SET_ROLES', roles);
     return data;
   },
