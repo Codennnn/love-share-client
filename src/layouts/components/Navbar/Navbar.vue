@@ -21,10 +21,27 @@
       </div>
       <div class="nav-right">
         <div>
+          <vs-dropdown>
+            <i
+              class="nav-icon iconfont"
+              :class="`icon-${this.$i18n.locale}`"
+            ></i>
+            <vs-dropdown-menu>
+              <vs-dropdown-item
+                v-for="(item, index) in languages"
+                :key="index"
+                @click="switchLanguage(item.key)"
+              >
+                {{ item.text }}
+              </vs-dropdown-item>
+            </vs-dropdown-menu>
+          </vs-dropdown>
           <i
-            class="nav-icon iconfont icon-screenfull"
+            class="nav-icon iconfont ml-3"
+            :class="[isFullScreen ? 'icon-screenfull' : 'icon-screenunfull' ]"
             @click="screenfull"
           ></i>
+
         </div>
         <div class="info">
           <div class="text-right text-lg">陈梓聪</div>
@@ -78,6 +95,11 @@ export default {
         { tip: '动态', icon: 'icon-dynamic', route: '/dynamic-list' },
         { tip: '活动', icon: 'icon-activity', route: '/activity-list' },
       ],
+      languages: [
+        { text: '简体中文', key: 'cn' },
+        { text: 'English', key: 'en' },
+      ],
+      isFullScreen: true,
     };
   },
 
@@ -86,6 +108,10 @@ export default {
     async logout() {
       await this.$store.dispatch('user/logout');
       this.$router.replace('/login');
+    },
+    // 切换语言
+    switchLanguage(key) {
+      this.$i18n.locale = key;
     },
 
     // 网页全屏
@@ -100,6 +126,9 @@ export default {
         return;
       }
       screenfull.toggle();
+      this.isFullScreen = document.isFullScreen
+                        || document.mozIsFullScreen
+                        || document.webkitIsFullScreen;
     },
   },
 };

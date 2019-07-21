@@ -7,12 +7,7 @@
         <vs-tab label="登录">
           <!-- 登录 start -->
           <div class="h-full text-base">
-            <div class="h-full
-                flex flex-col justify-center items-center">
-              <!-- <img
-                class="w-3/12 mb-5"
-                src="@/assets/images/pages/login/logo.png"
-              /> -->
+            <div class="h-full flex flex-col justify-center items-center">
               <div class="w-4/6">
                 <vs-input
                   class="w-full py-2"
@@ -66,9 +61,8 @@ export default {
 
   methods: {
     async login() {
-      const [username, password] = [this.loginInput[0].value, this.loginInput[1].value];
-
-      if (!this.validate(username, password)) {
+      if (!this.validate()) {
+        // 非空验证不通过，退出程序
         return;
       }
 
@@ -79,22 +73,21 @@ export default {
         scale: 0.45,
       });
 
+      const [username, password] = [this.loginInput[0].value, this.loginInput[1].value];
+
       await this.$store.dispatch('user/login', { username, password });
       // .catch(() => { console.log('====出错了===='); })
       this.$vs.loading.close('#loginBtn > .con-vs-loading');
       this.$router.replace('/');
     },
 
-    validate(uname, pwd) {
-      if (uname.length === 0) {
-        this.loginInput[0].isWarnng = true;
-        this.loginInput[0].warningText = '请输入账号';
-        return false;
-      }
-      if (pwd.length === 0) {
-        this.loginInput[1].isWarnng = true;
-        this.loginInput[1].warningText = '请输入密码';
-        return false;
+    validate() {
+      for (let i = 0; i < 2; i += 1) {
+        if (this.loginInput[i].value.length === 0) {
+          this.loginInput[i].isWarnng = true;
+          this.loginInput[i].warningText = (i === 0 ? '请输入账号' : '请输入密码');
+          return false;
+        }
       }
       return true;
     },

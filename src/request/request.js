@@ -1,5 +1,4 @@
 import Axios from 'axios';
-import { Message } from 'element-ui';
 
 const service = Axios.create({
   // baseURL: 'https://api',
@@ -22,18 +21,19 @@ service.interceptors.request.use(
 );
 
 const errorHandler = {
-  errorNotify({
-    message = '出错啦！', duration = 0, showClose = true,
+  async errorNotify({
+    title = '哎呀！', text = '请求出错啦！', color = 'danger', fixed = true, icon = 'clear',
   } = {}) {
-    Message.error({
-      message, duration, showClose,
+    const { default: vm } = await import('@/main.js');
+    vm.$vs.notify({
+      title, text, color, fixed, icon,
     });
   },
-  404(status, text = '糟糕，出错啦！') {
-    this.errorNotify({ message: `${status}：${text}` });
+  404(status, statusText) {
+    this.errorNotify({ title: `${status}`, text: `找不到资源 - ${statusText}` });
   },
-  500(status, text = '糟糕，出错啦！') {
-    this.errorNotify({ message: `${status}：${text}` });
+  500(status, statusText) {
+    this.errorNotify({ title: `${status}`, text: `服务器出问题了 - ${statusText}` });
   },
   default() {
     this.errorNotify();
