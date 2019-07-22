@@ -38,7 +38,7 @@
           </vs-dropdown>
           <i
             class="nav-icon iconfont ml-3"
-            :class="[isFullScreen ? 'icon-screenfull' : 'icon-screenunfull' ]"
+            :class="[isFullScreen ? 'icon-screenunfull' : 'icon-screenfull' ]"
             @click="screenfull"
           ></i>
 
@@ -99,8 +99,20 @@ export default {
         { text: '简体中文', key: 'cn' },
         { text: 'English', key: 'en' },
       ],
-      isFullScreen: true,
+      isFullScreen: false,
     };
+  },
+
+  mounted() {
+    if (screenfull.enabled) {
+      screenfull.on('change', this.screenChange);
+    }
+  },
+
+  beforeDestroy() {
+    if (screenfull.enabled) {
+      screenfull.off('change', this.screenChange);
+    }
   },
 
   methods: {
@@ -126,9 +138,9 @@ export default {
         return;
       }
       screenfull.toggle();
-      this.isFullScreen = document.isFullScreen
-                        || document.mozIsFullScreen
-                        || document.webkitIsFullScreen;
+    },
+    screenChange() {
+      this.isFullScreen = screenfull.isFullscreen;
     },
   },
 };
