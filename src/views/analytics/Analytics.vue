@@ -1,58 +1,46 @@
 <template>
   <div id="dashboard-analytics">
-    <vs-row :gutter="20">
-      <vs-col
-        class="lg:pr-3"
-        vs-lg="6"
-        vs-sm="12"
-      >
-        <div class="vx-card bg-purple rounded-lg shadow-xl">
-          <div class="vx-card__body relative flex flex-col justify-center items-center">
+    <div class="flex flex-wrap w-full">
+      <div class="lg:w-6/12 lg:pr-3 sm:w-full min-h-full">
+        <div class="h-full text-white bg-purple rounded-lg shadow-xl">
+          <div class="h-full relative flex flex-col justify-center items-center">
             <img
               class="decore-left absolute top-0 left-0"
               src="@/assets/images/pages/dashboard/decore_left.png"
               width="200"
               alt="装饰1"
-            >
+            />
             <img
               class="decore-right absolute top-0 right-0"
               src="@/assets/images/pages/dashboard/decore_right.png"
               width="175"
               alt="装饰2"
-            >
-            <div class="circle">
+            />
+            <div class="circle flex justify-center items-center">
               <i class="iconfont icon-safety"></i>
             </div>
-            <p>欢迎你，令狐聪</p>
+            <p class="my-4 text-2xl font-medium">欢迎你，令狐聪</p>
             <p>上次登录时间为：2019-05-07 19：21</p>
           </div>
         </div>
-      </vs-col>
-      <vs-col
-        class="lg:pl-3 lg:pr-3"
-        vs-lg="3"
-        vs-sm="12"
-      >
+      </div>
+      <div class="lg:w-3/12 lg:pl-3 lg:pr-3">
         <div class="bg-white rounded-lg shadow-xl h-full">
           <chart
             :chartData="chartData.subscribersGained"
             type='area'
           ></chart>
         </div>
-      </vs-col>
-      <vs-col
-        class="lg:pl-3"
-        vs-lg="3"
-        vs-sm="12"
-      >
+      </div>
+      <div class="lg:w-3/12 lg:pl-3">
         <div class="bg-white rounded-lg shadow-xl h-full">
           <chart
             :chartData="chartData.subscribersGained"
             type='area'
           ></chart>
         </div>
-      </vs-col>
-    </vs-row>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -117,12 +105,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.vx-card {
-  text-align: center;
-}
-
 .vx-card__body {
-  padding: 20px 0;
   color: #f4f4f4;
 }
 
@@ -133,7 +116,6 @@ export default {
 .circle {
   width: 70px;
   height: 70px;
-  object-position: 50% 50%;
   border-radius: 50%;
   background: rgba(120, 108, 240, 0.8);
 

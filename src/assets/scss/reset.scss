@@ -1,25 +1,3 @@
-/* 清除内外边距 */
-body,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-hr {
-  margin: 0;
-  padding: 0;
-}
-
-ul,
-ol {
-  list-style-type: none;
-}
-
-a {
-  text-decoration: none;
-}
-
 /*
  * 修改浏览器默认的滚动条样式
  */
