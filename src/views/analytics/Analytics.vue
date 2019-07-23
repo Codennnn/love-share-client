@@ -6,18 +6,18 @@
         vs-lg="6"
         vs-sm="12"
       >
-        <div class="vx-card bg-purple">
-          <div class="vx-card__body">
+        <div class="vx-card bg-purple rounded-lg shadow-xl">
+          <div class="vx-card__body relative flex flex-col justify-center items-center">
             <img
+              class="decore-left absolute top-0 left-0"
               src="@/assets/images/pages/dashboard/decore_left.png"
               width="200"
-              class="decore-left"
               alt="装饰1"
             >
             <img
+              class="decore-right absolute top-0 right-0"
               src="@/assets/images/pages/dashboard/decore_right.png"
               width="175"
-              class="decore-right"
               alt="装饰2"
             >
             <div class="circle">
@@ -29,28 +29,27 @@
         </div>
       </vs-col>
       <vs-col
-        class="lg:pl-3"
-        vs-lg="6"
+        class="lg:pl-3 lg:pr-3"
+        vs-lg="3"
         vs-sm="12"
       >
-        <div class="vx-card bg-purple">
-          <div class="vx-card__body">
-            <img
-              src="@/assets/images/pages/dashboard/decore_left.png"
-              width="200"
-              class="decore-left"
-            >
-            <img
-              src="@/assets/images/pages/dashboard/decore_right.png"
-              width="175"
-              class="decore-right"
-            >
-            <div class="circle">
-              <i class="iconfont icon-safety"></i>
-            </div>
-            <p>欢迎你，令狐聪</p>
-            <p>上次登录时间为：2019-05-07 19：21</p>
-          </div>
+        <div class="bg-white rounded-lg shadow-xl h-full">
+          <chart
+            :chartData="chartData.subscribersGained"
+            type='area'
+          ></chart>
+        </div>
+      </vs-col>
+      <vs-col
+        class="lg:pl-3"
+        vs-lg="3"
+        vs-sm="12"
+      >
+        <div class="bg-white rounded-lg shadow-xl h-full">
+          <chart
+            :chartData="chartData.subscribersGained"
+            type='area'
+          ></chart>
         </div>
       </vs-col>
     </vs-row>
@@ -58,13 +57,24 @@
 </template>
 
 <script>
-import echarts from 'echarts';
+import chart from './components/chart.vue';
+import data from './components/data';
+// 引入 ECharts 主模块
+const echarts = require('echarts/lib/echarts');
+// 引入柱状图
+require('echarts/lib/chart/line');
+// 引入提示框和标题组件
+require('echarts/lib/component/tooltip');
+require('echarts/lib/component/title');
 
 export default {
   name: 'Analytics',
-  components: {},
+  components: {
+    chart,
+  },
   data() {
     return {
+      chartData: data,
       show: true,
     };
   },
@@ -93,7 +103,8 @@ export default {
         series: [
           {
             name: '销量',
-            type: 'bar',
+            type: 'line',
+            smooth: true,
             data: [5, 20, 36, 10, 10, 20],
           },
         ],
@@ -108,30 +119,11 @@ export default {
 <style lang="scss" scoped>
 .vx-card {
   text-align: center;
-  border-radius: 5px;
-  box-shadow: $baseShadow;
 }
 
 .vx-card__body {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
   padding: 20px 0;
   color: #f4f4f4;
-}
-
-.decore-left {
-  position: absolute;
-  left: 0;
-  top: 0;
-}
-
-.decore-right {
-  position: absolute;
-  right: 0;
-  top: 0;
 }
 
 .bg-purple {
@@ -139,12 +131,9 @@ export default {
 }
 
 .circle {
-  display: flex;
-  align-items: center;
-  justify-content: center;
   width: 70px;
   height: 70px;
-  margin: 0 auto;
+  object-position: 50% 50%;
   border-radius: 50%;
   background: rgba(120, 108, 240, 0.8);
 
