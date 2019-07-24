@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import {
-  Aside, Container, Dropdown, DropdownMenu, DropdownItem,
+  Aside, Badge, Container, Dropdown, DropdownMenu, DropdownItem,
   Main, Header, Footer, Menu, MenuItem,
   Popover, Submenu,
   Tooltip, Table, TableColumn, MenuItemGroup,
@@ -33,3 +33,4 @@ Vue.use(TableColumn);
 // 弹出小组件
 Vue.use(Tooltip);
 Vue.use(Popover);
+Vue.use(Badge);

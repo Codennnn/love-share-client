@@ -8,14 +8,17 @@
       <sidebar class="sidebar-container" />
     </el-aside>
 
-    <el-container>
+    <el-container class="pt-4">
       <!-- 头部 -->
-      <el-header height="85px">
+      <el-header
+        class="relative z-50"
+        height="72px"
+      >
         <navbar />
       </el-header>
 
       <!-- 主区域 -->
-      <el-main>
+      <el-main class="py-3">
         <transition
           enter-active-class="animated fadeIn faster"
           leave-active-class="animated fadeOut faster"

@@ -1,6 +1,6 @@
 <template>
   <div class="nav-wrapper">
-    <div class="nav-bar flex justify-between items-center bg-white rounded">
+    <div class="nav-bar flex justify-between items-center bg-white rounded-lg">
       <div>
         <router-link
           v-for="(item, index) in navIcons"
@@ -36,6 +36,13 @@
               </vs-dropdown-item>
             </vs-dropdown-menu>
           </vs-dropdown>
+          <el-badge>
+            <i
+              class="nav-icon iconfont"
+              :class="'icon-notice'"
+            ></i>
+          </el-badge>
+
           <i
             class="nav-icon iconfont ml-3"
             :class="[isFullScreen ? 'icon-screenunfull' : 'icon-screenfull' ]"
@@ -147,10 +154,6 @@ export default {
 </script>
 
 <style lang="scss">
-.nav-wrapper {
-  padding-top: 20px;
-}
-
 .nav-bar {
   padding: 10px 20px;
   box-shadow: $baseShadow;

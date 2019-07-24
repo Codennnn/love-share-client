@@ -1,11 +1,17 @@
 <template>
   <div class="flex flex-col justify-between h-full">
     <div class="p-6 pb-0">
-      <div class="flex items-center justify-center w-12 h-12 bg-purple-300 rounded-full">
-        <i class="iconfont icon-group icon"></i>
+      <div
+        class="flex items-center justify-center w-12 h-12 rounded-full"
+        :style="{ background: `rgba(var(--vs-${color}), .15)` }"
+      >
+        <i
+          class="iconfont icon"
+          :class="[icon, `text-${color}`]"
+        ></i>
       </div>
       <div>
-        <h2 class="my-2 font-bold">82.5K</h2>
+        <div class="mt-3 text-2xl font-bold">82.5K</div>
         <span class="text-gray-500">xxxewf</span>
       </div>
     </div>
@@ -27,6 +33,8 @@ import VueApexCharts from 'vue-apexcharts';
 
 export default {
   props: {
+    icon: String,
+    color: String,
     chartData: {
       type: Object,
       required: true,

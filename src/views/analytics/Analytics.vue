@@ -1,7 +1,8 @@
 <template>
   <div id="dashboard-analytics">
     <div class="flex flex-wrap w-full">
-      <div class="lg:w-6/12 lg:pr-3 sm:w-full min-h-full">
+      <!-- 卡片 1 -->
+      <div class="lg:w-6/12 lg:pr-3 sm:w-full my-3 min-h-full">
         <div class="h-full text-white bg-purple rounded-lg shadow-xl">
           <div class="h-full relative flex flex-col justify-center items-center">
             <img
@@ -16,7 +17,7 @@
               width="175"
               alt="装饰2"
             />
-            <div class="circle flex justify-center items-center">
+            <div class="circle flex justify-center items-center rounded-full">
               <i class="iconfont icon-safety"></i>
             </div>
             <p class="my-4 text-2xl font-medium">欢迎你，令狐聪</p>
@@ -24,20 +25,41 @@
           </div>
         </div>
       </div>
-      <div class="lg:w-3/12 lg:pl-3 lg:pr-3">
+      <!-- 卡片 2 -->
+      <div class="lg:w-3/12 lg:pl-3 lg:pr-3  my-3">
         <div class="bg-white rounded-lg shadow-xl h-full">
-          <chart
-            :chartData="chartData.subscribersGained"
-            type='area'
-          ></chart>
+          <area-chart
+            icon="icon-group"
+            color="primary"
+            :chartData="subscribersGained"
+            type="area"
+          ></area-chart>
         </div>
       </div>
-      <div class="lg:w-3/12 lg:pl-3">
+      <!-- 卡片 3 -->
+      <div class="lg:w-3/12 lg:pl-3 my-3">
         <div class="bg-white rounded-lg shadow-xl h-full">
-          <chart
-            :chartData="chartData.subscribersGained"
-            type='area'
-          ></chart>
+          <area-chart
+            icon="icon-invite"
+            color="warning"
+            :chartData="ordersRecevied"
+            type="area"
+          ></area-chart>
+        </div>
+      </div>
+    </div>
+    <div class="flex flex-wrap w-full">
+      <!-- 卡片 4 -->
+      <div class="lg:w-6/12 lg:pl-3 lg:pr-3 my-3">
+        <div class="bg-white rounded-lg shadow-xl h-full">
+          <div class="w-full lg:w-1/2 xl:w-1/2 flex flex-col lg:mb-0 mb-base">
+            <vue-apex-charts
+              type="bar"
+              height=200
+              :options="salesBar.chartOptions"
+              :series="salesBar.series"
+            />
+          </div>
         </div>
       </div>
     </div>
@@ -45,82 +67,56 @@
 </template>
 
 <script>
-import chart from './components/chart.vue';
-import data from './components/data';
-// 引入 ECharts 主模块
-const echarts = require('echarts/lib/echarts');
-// 引入柱状图
-require('echarts/lib/chart/line');
-// 引入提示框和标题组件
-require('echarts/lib/component/tooltip');
-require('echarts/lib/component/title');
+import VueApexCharts from 'vue-apexcharts';
+import AreaChart from './components/AreaChart.vue';
+import { subscribersGained, ordersRecevied, salesBar } from './components/chart-data';
 
 export default {
   name: 'Analytics',
   components: {
-    chart,
+    VueApexCharts,
+    AreaChart,
   },
   data() {
     return {
-      chartData: data,
+      subscribersGained,
+      ordersRecevied,
+      salesBar,
       show: true,
     };
   },
 
   mounted() {
-    // this.drawChart();
   },
 
   methods: {
-    drawChart() {
-      // 基于准备好的dom，初始化echarts实例
-      const myChart = echarts.init(document.getElementById('main'));
-      // 指定图表的配置项和数据
-      const option = {
-        title: {
-          text: 'ECharts 入门示例',
-        },
-        tooltip: {},
-        legend: {
-          data: ['销量'],
-        },
-        xAxis: {
-          data: ['衬衫', '羊毛衫', '雪纺衫', '裤子', '高跟鞋', '袜子'],
-        },
-        yAxis: {},
-        series: [
-          {
-            name: '销量',
-            type: 'line',
-            smooth: true,
-            data: [5, 20, 36, 10, 10, 20],
-          },
-        ],
-      };
-      // 使用刚指定的配置项和数据显示图表。
-      myChart.setOption(option);
-    },
   },
 };
 </script>
 
 <style lang="scss" scoped>
-.vx-card__body {
-  color: #f4f4f4;
-}
-
 .bg-purple {
-  background: linear-gradient(to right, $primary, rgba($primary, 0.7));
+  background: linear-gradient(
+    to right,
+    rgba(var(--vs-primary), 1),
+    rgba(var(--vs-primary), 0.7)
+  );
 }
 
 .circle {
   width: 70px;
   height: 70px;
-  border-radius: 50%;
   background: rgba(120, 108, 240, 0.8);
 
   .iconfont {
     font-size: 30px;
+  }
+}
+
+@media (max-width: 576px) {
+  .decore-left,
+  .decore-right {
+    width: 140px;
   }
 }
 </style>
