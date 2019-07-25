@@ -20,7 +20,8 @@
         </router-link>
       </div>
       <div class="nav-right">
-        <div>
+        <div class="flex items-center">
+          <!-- 切换语言图标 -->
           <vs-dropdown>
             <i
               class="nav-icon iconfont"
@@ -36,19 +37,19 @@
               </vs-dropdown-item>
             </vs-dropdown-menu>
           </vs-dropdown>
+          <!-- 通知图标 -->
           <el-badge>
             <i
               class="nav-icon iconfont"
               :class="'icon-notice'"
             ></i>
           </el-badge>
-
+          <!-- 全屏图标 -->
           <i
             class="nav-icon iconfont ml-3"
             :class="[isFullScreen ? 'icon-screenunfull' : 'icon-screenfull' ]"
             @click="screenfull"
           ></i>
-
         </div>
         <div class="info">
           <div class="text-right text-lg">陈梓聪</div>
@@ -155,6 +156,7 @@ export default {
 
 <style lang="scss">
 .nav-bar {
+  height: 70px;
   padding: 10px 20px;
   box-shadow: $baseShadow;
   .nav-icon {

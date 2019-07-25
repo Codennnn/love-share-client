@@ -12,7 +12,7 @@
       <!-- 头部 -->
       <el-header
         class="relative z-50"
-        height="72px"
+        height="70px"
       >
         <navbar />
       </el-header>

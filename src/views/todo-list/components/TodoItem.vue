@@ -1,5 +1,11 @@
 <template>
   <div class="todo-items">
+    <vs-input
+      class="w-full"
+      icon="search"
+      placeholder="Search"
+      v-model="search"
+    />
     <transition-group
       name="flip-list"
       enter-active-class="animated fadeInUp faster"
@@ -86,6 +92,7 @@ export default {
       BUG: '#f56c6c',
     };
     return {
+      search: '',
       currentAcive: 'all',
       todoItems: [],
       tagColor,

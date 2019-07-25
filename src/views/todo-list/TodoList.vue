@@ -1,21 +1,19 @@
 <template>
-  <el-container>
-    <el-aside width="250px">
-      <!-- 待办事项操作栏 -->
+  <div class="flex">
+    <!-- 待办事项操作栏 -->
+    <div class="todo-bar">
       <todo-bar />
-    </el-aside>
+    </div>
+    <!-- 待办事项列表 -->
+    <div class="todo-item">
+      <todo-item />
+    </div>
     <todo-popup />
-    <el-container>
-      <el-main>
-        <!-- 待办事项列表 -->
-        <todo-item />
-      </el-main>
-    </el-container>
-  </el-container>
+  </div>
 </template>
 
 <script>
-import Bus from '@/utils/eventBus';
+import Bus from '@/utils/eventBus'; // 事件总线
 
 import TodoBar from './components/TodoBar.vue';
 import TodoItem from './components/TodoItem.vue';
@@ -47,5 +45,13 @@ export default {
   margin: auto;
   width: 400px;
   height: 300px;
+}
+
+.todo-bar {
+  width: 20%;
+}
+
+.todo-item {
+  width: 80%;
 }
 </style>
