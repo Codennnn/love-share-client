@@ -1,14 +1,16 @@
 <template>
-  <div class="flex">
-    <!-- 待办事项操作栏 -->
-    <div class="todo-bar">
-      <todo-bar />
+  <div>
+    <div class="flex">
+      <!-- 待办事项操作栏 -->
+      <div class="todo-bar">
+        <todo-bar />
+      </div>
+      <!-- 待办事项列表 -->
+      <div class="todo-item">
+        <todo-item />
+      </div>
+      <todo-popup />
     </div>
-    <!-- 待办事项列表 -->
-    <div class="todo-item">
-      <todo-item />
-    </div>
-    <todo-popup />
   </div>
 </template>
 
@@ -39,19 +41,12 @@ export default {
 };
 </script>
 
-<style lang="scss">
-.scroll-area {
-  position: relative;
-  margin: auto;
-  width: 400px;
-  height: 300px;
-}
-
+<style lang="scss" scoped>
 .todo-bar {
-  width: 20%;
+  width: 25%;
 }
 
 .todo-item {
-  width: 80%;
+  width: 75%;
 }
 </style>

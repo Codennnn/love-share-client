@@ -60,7 +60,7 @@
     </vs-row>
     <vs-row>
       <vs-col vs-w="12">
-        <!-- 标题框 -->
+        <!-- 输入标题框 -->
         <vs-input
           v-model.trim="task.title"
           class="w-full mt-5"
@@ -159,14 +159,12 @@ export default {
 // 弹出框的mark标签
 .todo-tag__group {
   height: 30px;
-
   .task-tag {
     margin: 0 5px;
     padding: 3px 10px;
     border-radius: 10px;
     font-size: 14px;
     background-color: #e6e6e6;
-
     .dot {
       width: 7px;
       height: 7px;
