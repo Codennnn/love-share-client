@@ -1,86 +1,91 @@
 <template>
-  <div class="nav-wrapper">
-    <div class="nav-bar flex justify-between items-center bg-white rounded-lg">
-      <div>
-        <router-link
-          v-for="(item, index) in navIcons"
-          :key="index"
-          :to="item.route"
-        >
-          <el-tooltip
-            :open-delay="100"
-            :content="item.tip"
-            effect="light"
+  <div class="relative">
+    <div
+      class="nav-wrapper"
+      :class="{ collapse: isCollapse }"
+    >
+      <div class="nav-bar flex justify-between items-center bg-white rounded-lg">
+        <div>
+          <router-link
+            v-for="(item, index) in navIcons"
+            :key="index"
+            :to="item.route"
           >
-            <i
-              class="nav-icon iconfont mr-3"
-              :class="item.icon"
-            ></i>
-          </el-tooltip>
-        </router-link>
-      </div>
-      <div class="nav-right">
-        <div class="flex items-center">
-          <!-- 切换语言图标 -->
-          <vs-dropdown>
-            <i
-              class="nav-icon iconfont"
-              :class="`icon-${this.$i18n.locale}`"
-            ></i>
-            <vs-dropdown-menu>
-              <vs-dropdown-item
-                v-for="(item, index) in languages"
-                :key="index"
-                @click="switchLanguage(item.key)"
-              >
-                {{ item.text }}
-              </vs-dropdown-item>
-            </vs-dropdown-menu>
-          </vs-dropdown>
-          <!-- 通知图标 -->
-          <el-badge>
-            <i
-              class="nav-icon iconfont"
-              :class="'icon-notice'"
-            ></i>
-          </el-badge>
-          <!-- 全屏图标 -->
-          <i
-            class="nav-icon iconfont ml-3"
-            :class="[isFullScreen ? 'icon-screenunfull' : 'icon-screenfull' ]"
-            @click="screenfull"
-          ></i>
-        </div>
-        <div class="info">
-          <div class="text-right text-lg">陈梓聪</div>
-          <small>新媒体工作部</small>
-        </div>
-        <el-popover
-          class="popover flex items-center p-0 ml-5"
-          transition="el-zoom-in-bottom"
-        >
-          <ul>
-            <router-link
-              class="popover-item flex items-center"
-              tag="li"
-              v-for="(pop, index) in popItems"
-              :to="pop.route || ''"
-              :key="index"
-              @click.native="!pop.route && logout()"
+            <el-tooltip
+              :open-delay="100"
+              :content="item.tip"
+              effect="light"
             >
               <i
-                class="inner-icon text-base font-medium"
-                :class="pop.icon"
+                class="nav-icon iconfont mr-3"
+                :class="item.icon"
               ></i>
-              <div class="inner-text ml-3">{{ pop.text }}</div>
-            </router-link>
-          </ul>
-          <img
-            class="avatar cursor-pointer"
-            slot="reference"
-            src="@/assets/images/avatar.jpg"
-          />
-        </el-popover>
+            </el-tooltip>
+          </router-link>
+        </div>
+        <div class="nav-right">
+          <div class="flex items-center">
+            <!-- 切换语言图标 -->
+            <vs-dropdown>
+              <i
+                class="nav-icon iconfont"
+                :class="`icon-${this.$i18n.locale}`"
+              ></i>
+              <vs-dropdown-menu>
+                <vs-dropdown-item
+                  v-for="(item, index) in languages"
+                  :key="index"
+                  @click="switchLanguage(item.key)"
+                >
+                  {{ item.text }}
+                </vs-dropdown-item>
+              </vs-dropdown-menu>
+            </vs-dropdown>
+            <!-- 通知图标 -->
+            <el-badge>
+              <i
+                class="nav-icon iconfont"
+                :class="'icon-notice'"
+              ></i>
+            </el-badge>
+            <!-- 全屏图标 -->
+            <i
+              class="nav-icon iconfont ml-3"
+              :class="[isFullScreen ? 'icon-screenunfull' : 'icon-screenfull' ]"
+              @click="screenfull"
+            ></i>
+          </div>
+          <div class="info">
+            <div class="text-right text-lg">陈梓聪</div>
+            <small>新媒体工作部</small>
+          </div>
+          <el-popover
+            class="popover flex items-center p-0 ml-5"
+            transition="el-zoom-in-bottom"
+          >
+            <ul>
+              <router-link
+                class="popover-item flex items-center"
+                tag="li"
+                v-for="(pop, index) in popItems"
+                :to="pop.route || ''"
+                :key="index"
+                @click.native="!pop.route && logout()"
+              >
+                <i
+                  class="inner-icon text-base font-medium"
+                  :class="pop.icon"
+                ></i>
+                <div class="inner-text ml-3">{{ pop.text }}</div>
+              </router-link>
+            </ul>
+            <img
+              class="avatar cursor-pointer"
+              slot="reference"
+              src="@/assets/images/avatar.jpg"
+            />
+          </el-popover>
+        </div>
       </div>
     </div>
   </div>
@@ -88,6 +93,7 @@
 
 <script>
 import screenfull from 'screenfull';
+import Bus from '@/utils/eventBus';
 
 export default {
   name: 'NavBar',
@@ -108,6 +114,7 @@ export default {
         { text: 'English', key: 'en' },
       ],
       isFullScreen: false,
+      isCollapse: null,
     };
   },
 
@@ -115,6 +122,10 @@ export default {
     if (screenfull.enabled) {
       screenfull.on('change', this.screenChange);
     }
+
+    Bus.$on('sideBarStatus', (isCollapse) => {
+      this.isCollapse = isCollapse;
+    });
   },
 
   beforeDestroy() {
@@ -155,10 +166,23 @@ export default {
 </script>
 
 <style lang="scss">
+.nav-wrapper {
+  position: fixed;
+  z-index: 500;
+  width: calc(100% - #{$side-bar-width});
+  padding: 1.4rem;
+  padding-top: 1.2rem;
+  transition: width 0.5s;
+}
+
+.collapse {
+  width: calc(100% - #{$side-bar-width} + 178px);
+}
+
 .nav-bar {
-  height: 70px;
-  padding: 10px 20px;
-  box-shadow: $baseShadow;
+  padding: 0.6rem 1rem;
+  box-shadow: 0 2px 15px 0 rgba(100, 100, 100, 0.1);
+
   .nav-icon {
     &:hover {
       cursor: pointer;

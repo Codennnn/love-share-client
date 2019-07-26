@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 
-import Layout from '@/layouts/index.vue'; // 主框架
+import Layout from '@/layouts/Main.vue'; // 主框架
 import Analytics from '@/views/analytics/Analytics.vue'; // 数据分析
 
 const Login = () => import('@/views/login/Login.vue');

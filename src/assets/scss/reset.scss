@@ -3,7 +3,6 @@
  */
 ::selection {
   background: rgba(120, 108, 240, 0.2);
-  /* color: #2c3e50; */
 }
 
 ::-webkit-scrollbar {
@@ -17,14 +16,23 @@
   border: 2px solid #ffffff;
 }
 
+::-webkit-scrollbar-track-piece {
+  background-color: rgb(245, 245, 245);
+}
+
 ::-webkit-scrollbar-thumb:hover {
   cursor: pointer;
 }
 
-html,
+html {
+  height: 100%;
+  width: 100%;
+}
+
 body {
-  height: 100vh;
-  width: 100vw;
+  overflow-x: hidden;
+  max-width: 100%;
+  height: 100%;
   font-family: "Microsoft YaHei", "微软雅黑", "PingFang SC", "Helvetica Neue", Helvetica, "Hiragino Sans GB", Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

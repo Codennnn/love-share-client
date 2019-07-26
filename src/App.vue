@@ -10,7 +10,7 @@ export default { name: 'app' };
 
 <style lang="scss">
 #app {
-  height: 100vh;
+  height: 100%;
   background-color: rgb(245, 245, 245);
 }
 

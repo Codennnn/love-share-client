@@ -1,70 +1,74 @@
 <template>
-  <el-menu
-    class="wrapper"
-    :default-active="this.$route.path"
-    :class="{ 'side-bar-menu': !isCollapse }"
-    :collapse="isCollapse"
-    router
-  >
-    <el-menu-item
-      class="flex items-center h-12"
-      v-if="isCollapse"
-      @click="isCollapse = !isCollapse"
+  <div class="menu-main">
+    <el-menu
+      class="wrapper"
+      :default-active="this.$route.path"
+      :class="{ 'side-bar-menu': !isCollapse }"
+      :collapse="isCollapse"
+      router
     >
-      <img
-        class="w-6 h-6 -ml-0"
-        src="@/assets/images/logo/logo.png"
-      />
-    </el-menu-item>
-    <div
-      class="flex items-center px-5 h-12 cursor-pointer"
-      v-if="!isCollapse"
-      @click="isCollapse = !isCollapse"
-    >
-      <img
-        class="w-6 h-6 -ml-1"
-        src="@/assets/images/logo/logo.png"
-      />
-      <span class="ml-3 text-lg font-semibold text-purple-600">意想社团</span>
-    </div>
-    <template v-for="(menuItem,index) in sidebarList">
-      <!-- 嵌套子菜单 -->
-      <el-submenu
-        v-if="menuItem.subMenu"
-        :key="index"
-        :index="index.toString()"
+      <el-menu-item
+        class="flex items-center h-12"
+        v-if="isCollapse"
+        @click="switchCollapse"
       >
-        <template slot="title">
+        <img
+          class="w-6 h-6 -ml-0"
+          src="@/assets/images/logo/logo.png"
+        />
+      </el-menu-item>
+      <div
+        class="flex items-center px-5 h-12 cursor-pointer"
+        v-if="!isCollapse"
+        @click="switchCollapse"
+      >
+        <img
+          class="w-6 h-6 -ml-1"
+          src="@/assets/images/logo/logo.png"
+        />
+        <span class="ml-3 text-lg font-semibold text-purple-600">意想社团</span>
+      </div>
+      <template v-for="(menuItem,index) in sidebarList">
+        <!-- 嵌套子菜单 -->
+        <el-submenu
+          v-if="menuItem.subMenu"
+          :key="index"
+          :index="index.toString()"
+        >
+          <template slot="title">
+            <i
+              class="menu-icon iconfont"
+              :class="menuItem.icon"
+            ></i>
+            <span slot="title">{{ menuItem.title }}</span>
+          </template>
+          <el-menu-item-group
+            v-for="(subItem, index, key) in menuItem.subMenu"
+            :key="key"
+          >
+            <el-menu-item :index="subItem.path">{{ subItem.title }}</el-menu-item>
+          </el-menu-item-group>
+        </el-submenu>
+        <!-- 单个菜单项 -->
+        <el-menu-item
+          v-else
+          :index="menuItem.path"
+          :key="index"
+        >
           <i
             class="menu-icon iconfont"
             :class="menuItem.icon"
           ></i>
           <span slot="title">{{ menuItem.title }}</span>
-        </template>
-        <el-menu-item-group
-          v-for="(subItem, index, key) in menuItem.subMenu"
-          :key="key"
-        >
-          <el-menu-item :index="subItem.path">{{ subItem.title }}</el-menu-item>
-        </el-menu-item-group>
-      </el-submenu>
-      <!-- 单个菜单项 -->
-      <el-menu-item
-        v-else
-        :index="menuItem.path"
-        :key="index"
-      >
-        <i
-          class="menu-icon iconfont"
-          :class="menuItem.icon"
-        ></i>
-        <span slot="title">{{ menuItem.title }}</span>
-      </el-menu-item>
-    </template>
-  </el-menu>
+        </el-menu-item>
+      </template>
+    </el-menu>
+  </div>
 </template>
 
 <script>
+import Bus from '@/utils/eventBus';
+
 export default {
   data() {
     return {
@@ -105,17 +109,29 @@ export default {
     };
   },
 
-  components: { },
+  methods: {
+    switchCollapse() {
+      this.isCollapse = !this.isCollapse;
+      Bus.$emit('sideBarStatus', this.isCollapse);
+    },
+  },
 };
 </script>
 
 <style lang="scss">
 $hoverColor: #f0f0f0; // 导航菜单 hover 时的背景色
 
+.menu-main {
+  .el-menu {
+    max-width: $side-bar-width;
+    min-height: 100%;
+  }
+}
+
 .el-menu.wrapper {
   &:not(.el-menu--collapse) {
     // 必须设置，否则会出现动画卡顿问题
-    width: 240px;
+    width: $side-bar-width;
   }
 }
 
