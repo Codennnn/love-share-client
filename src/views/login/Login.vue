@@ -77,10 +77,11 @@ export default {
 
       await this.$store.dispatch('user/login', { username, password });
       // .catch(() => { console.log('====出错了===='); })
-      this.$vs.loading.close('#loginBtn > .con-vs-loading');
       this.$router.replace('/');
+      this.$vs.loading.close('#loginBtn > .con-vs-loading');
     },
 
+    // 输入框非空验证
     validate() {
       for (let i = 0; i < 2; i += 1) {
         if (this.loginInput[i].value.length === 0) {
@@ -92,6 +93,7 @@ export default {
       return true;
     },
 
+    // 输入框聚焦时隐藏警示
     inputFocus(i) {
       this.loginInput[i].isWarnng = false;
     },

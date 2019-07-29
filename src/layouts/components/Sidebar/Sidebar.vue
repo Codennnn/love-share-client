@@ -1,11 +1,11 @@
 <template>
   <div class="menu-main">
     <el-menu
+      router
       class="wrapper"
       :default-active="this.$route.path"
       :class="{ 'side-bar-menu': !isCollapse }"
       :collapse="isCollapse"
-      router
     >
       <el-menu-item
         class="flex items-center h-12"
@@ -67,6 +67,7 @@
 </template>
 
 <script>
+import _debounce from 'lodash/debounce'; // 引入防抖函数
 import Bus from '@/utils/eventBus';
 
 export default {
@@ -109,6 +110,18 @@ export default {
     };
   },
 
+  mounted() {
+    window.onresize = _debounce(() => {
+      if (document.body.clientWidth <= 1100) {
+        this.isCollapse = true;
+        Bus.$emit('sideBarStatus', this.isCollapse);
+      } else {
+        this.isCollapse = false;
+        Bus.$emit('sideBarStatus', this.isCollapse);
+      }
+    }, 400);
+  },
+
   methods: {
     switchCollapse() {
       this.isCollapse = !this.isCollapse;
@@ -122,21 +135,17 @@ export default {
 $hoverColor: #f0f0f0; // 导航菜单 hover 时的背景色
 
 .menu-main {
-  .el-menu {
+  .el-menu.wrapper {
     max-width: $side-bar-width;
-    min-height: 100%;
+    min-height: 100vh;
+    &:not(.el-menu--collapse) {
+      // 必须设置，否则会出现动画卡顿问题
+      width: $side-bar-width;
+    }
+    &.side-bar-menu {
+      padding: 0 18px;
+    }
   }
-}
-
-.el-menu.wrapper {
-  &:not(.el-menu--collapse) {
-    // 必须设置，否则会出现动画卡顿问题
-    width: $side-bar-width;
-  }
-}
-
-.el-menu.side-bar-menu {
-  padding: 0 18px;
 }
 
 .el-submenu {

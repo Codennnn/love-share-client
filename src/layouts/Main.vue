@@ -33,6 +33,7 @@ import Navbar from './components/Navbar/Navbar.vue';
 import Footer from './components/Footer/Footer.vue';
 
 export default {
+  name: 'main-layout',
   components: {
     Sidebar,
     Navbar,
@@ -52,15 +53,14 @@ export default {
   min-height: 100vh;
   width: 100%;
   transition: margin-left 0.5s;
-
   .content-wrapper {
     min-height: 100vh;
-    width: 100%;
   }
 }
 
 .router-view {
   position: relative;
+  min-height: 100vh;
   .router-content {
     padding-top: 5.5rem;
   }
