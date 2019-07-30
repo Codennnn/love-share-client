@@ -131,20 +131,18 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 $hoverColor: #f0f0f0; // 导航菜单 hover 时的背景色
 
-.menu-main {
-  .el-menu.wrapper {
-    max-width: $side-bar-width;
-    min-height: 100vh;
-    &:not(.el-menu--collapse) {
-      // 必须设置，否则会出现动画卡顿问题
-      width: $side-bar-width;
-    }
-    &.side-bar-menu {
-      padding: 0 18px;
-    }
+.el-menu.wrapper {
+  max-width: $side-bar-width;
+  min-height: 100vh;
+  &:not(.el-menu--collapse) {
+    // 必须设置，否则会出现动画卡顿问题
+    width: $side-bar-width;
+  }
+  &.side-bar-menu {
+    padding: 0 18px;
   }
 }
 
@@ -155,17 +153,17 @@ $hoverColor: #f0f0f0; // 导航菜单 hover 时的背景色
       border-radius: 5px;
       background-color: $hoverColor;
     }
-  }
-  .el-submenu__title .menu-icon {
-    margin-right: 10px;
-    font-size: 22px;
-    font-weight: normal;
-    color: $menuIcon;
+    .menu-icon {
+      margin-right: 10px;
+      font-size: 22px;
+      font-weight: normal;
+      color: $menuIcon;
+    }
   }
   .el-menu-item-group {
-    ul .el-menu-item {
-      line-height: 40px;
+    .el-menu-item {
       height: 40px;
+      line-height: 40px;
       &:hover {
         border-radius: 5px;
         background-color: $hoverColor;
@@ -174,10 +172,9 @@ $hoverColor: #f0f0f0; // 导航菜单 hover 时的背景色
   }
 }
 
-li.el-menu-item {
+.el-menu-item {
   line-height: 40px;
   height: 40px;
-
   &:hover {
     border-radius: 5px;
     background-color: $hoverColor;
@@ -190,13 +187,13 @@ li.el-menu-item {
   }
 }
 
-li.el-menu-item.is-active {
-  border-radius: 5px;
-  background: linear-gradient(to right, $primary, rgba($primary, 0.7));
-  box-shadow: 0 0 10px $primary;
+.el-menu-item.is-active {
   color: #fff;
-  span {
-    color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 0 10px $primary;
+  background: linear-gradient(to right, $primary, rgba($primary, 0.7));
+  .menu-icon {
+    color: inherit;
   }
 }
 </style>

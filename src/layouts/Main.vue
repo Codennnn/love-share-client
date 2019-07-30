@@ -62,7 +62,7 @@ export default {
   position: relative;
   min-height: 100vh;
   .router-content {
-    padding-top: 5.5rem;
+    padding-top: 4.5rem;
   }
 }
 </style>

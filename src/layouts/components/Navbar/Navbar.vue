@@ -42,7 +42,7 @@
               </vs-dropdown-menu>
             </vs-dropdown>
             <!-- 通知图标 -->
-            <el-badge>
+            <el-badge class="ml-3">
               <i
                 class="nav-icon iconfont"
                 :class="'icon-notice'"
@@ -55,36 +55,44 @@
               @click="screenfull"
             ></i>
           </div>
+
+          <!-- 用户名称 -->
           <div class="info">
             <div class="text-right text-lg">陈梓聪</div>
             <small>新媒体工作部</small>
           </div>
-          <el-popover
-            class="popover flex items-center p-0 ml-5"
-            transition="el-zoom-in-bottom"
+
+          <!-- 头像 -->
+          <vs-dropdown
+            class="ml-4"
+            vs-trigger-click
+            vs-custom-content
           >
-            <ul>
-              <router-link
-                class="popover-item flex items-center"
-                tag="li"
-                v-for="(pop, index) in popItems"
-                :to="pop.route || ''"
-                :key="index"
-                @click.native="!pop.route && logout()"
-              >
-                <i
-                  class="inner-icon text-base font-medium"
-                  :class="pop.icon"
-                ></i>
-                <div class="inner-text ml-3">{{ pop.text }}</div>
-              </router-link>
-            </ul>
             <img
-              class="avatar cursor-pointer"
-              slot="reference"
+              class="avatar cursor-pointer rounded-full w-10 h-10 overflow-hidden"
               src="@/assets/images/avatar.jpg"
             />
-          </el-popover>
+            <vs-dropdown-menu>
+              <vs-dropdown-item
+                class="w-32"
+                v-for="(pop, index) in popItems"
+                :key="index"
+              >
+                <router-link
+                  tag="div"
+                  class="flex items-center"
+                  :to="pop.route || ''"
+                  @click.native="!pop.route && logout()"
+                >
+                  <i
+                    class="inner-icon text-base font-medium"
+                    :class="pop.icon"
+                  ></i>
+                  <span class="inner-text ml-3">{{ pop.text }}</span>
+                </router-link>
+              </vs-dropdown-item>
+            </vs-dropdown-menu>
+          </vs-dropdown>
         </div>
       </div>
     </div>
@@ -180,14 +188,15 @@ export default {
 }
 
 .nav-bar {
+  height: 65px;
   padding: 0.6rem 1rem;
   box-shadow: 0 2px 15px 0 rgba(100, 100, 100, 0.1);
-
+  box-sizing: border-box;
   .nav-icon {
     &:hover {
       cursor: pointer;
     }
-    font-size: 25px;
+    font-size: 22px;
     font-weight: 500;
     color: $navIcon;
   }
@@ -207,23 +216,6 @@ export default {
 }
 
 .avatar {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
   box-shadow: 0 0 8px #686868;
-  overflow: hidden;
-}
-
-.popover-item {
-  padding: 8px 10px;
-  color: #686868;
-  transition: all 0.2s;
-
-  &:hover {
-    cursor: pointer;
-    color: #fff;
-    border-radius: 5px;
-    background-color: rgba($primary, 0.9);
-  }
 }
 </style>
