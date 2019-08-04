@@ -1,4 +1,8 @@
 module.exports = {
+  publicPath: process.env.NODE_ENV === 'production'
+    ? '/blog/'
+    : '/',
+
   devServer: {
     host: '0.0.0.0',
     proxy: 'https://www.vegetable2t.top:8443/api/v1',
