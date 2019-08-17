@@ -10,14 +10,31 @@
   <link rel="icon"
         href="<%= BASE_URL %>favicon.ico">
   <title>意想社团</title>
+  <style>
+    .loading {
+      min-height: 100vh;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      background: rgb(209, 196, 255);
+    }
+  </style>
 </head>
 
 <body>
   <noscript>
     <strong>很抱歉，您的浏览器没有启动JavaScript，请启动后继续使用。</strong>
   </noscript>
-  <div id="app"></div>
-  <!-- built files will be auto injected -->
+  <!-- Vue示例挂载后，此处会被置换 -->
+  <div id="app"
+       style="padding: 0;margin: 0;">
+    <div class="loading">
+      <img src="./loading.gif" />
+      <h2>正在前往目的地</h2>
+    </div>
+  </div>
 </body>
 
 </html>

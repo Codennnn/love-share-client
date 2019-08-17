@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import {
-  Aside, Badge, Container, Dropdown, DropdownMenu, DropdownItem,
-  Main, Header, Footer, Menu, MenuItem,
+  Badge, Container, Dropdown, DropdownMenu, DropdownItem,
+  Menu, MenuItem,
   Popover, Submenu,
   Tooltip, Table, TableColumn, MenuItemGroup,
 } from 'element-ui'; // 按需引入组件
@@ -10,10 +10,6 @@ import '@/assets/scss/element-override.scss'; // 自定义主题
 
 // 布局容器
 Vue.use(Container);
-Vue.use(Aside);
-Vue.use(Header);
-Vue.use(Main);
-Vue.use(Footer);
 
 // 下拉菜单
 Vue.use(Dropdown);

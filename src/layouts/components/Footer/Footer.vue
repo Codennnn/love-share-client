@@ -1,5 +1,5 @@
 <template>
-  <div class="footer-main">
+  <div class="footer-main p-5 text-center">
     <p>COPYRIGHT @ 2019 Jack</p>
   </div>
 </template>
@@ -12,7 +12,7 @@ export default {
 
 <style lang="scss" scoped>
 .footer-main {
-  width: 90%;
+  width: 100%;
 }
 
 p {
