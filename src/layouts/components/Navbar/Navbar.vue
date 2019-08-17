@@ -2,7 +2,7 @@
   <div class="relative">
     <div
       class="nav-wrapper"
-      :class="{ collapse: isCollapse }"
+      :class="{ collapse: sidebarCollapse }"
     >
       <div class="nav-bar flex justify-between items-center bg-white rounded-lg">
         <div>
@@ -65,7 +65,6 @@
           <!-- 头像 -->
           <vs-dropdown
             class="ml-4"
-            vs-trigger-click
             vs-custom-content
           >
             <img
@@ -101,7 +100,6 @@
 
 <script>
 import screenfull from 'screenfull';
-import Bus from '@/utils/eventBus';
 
 export default {
   name: 'NavBar',
@@ -122,7 +120,6 @@ export default {
         { text: 'English', key: 'en' },
       ],
       isFullScreen: false,
-      isCollapse: null,
     };
   },
 
@@ -130,10 +127,6 @@ export default {
     if (screenfull.enabled) {
       screenfull.on('change', this.screenChange);
     }
-
-    Bus.$on('sideBarStatus', (isCollapse) => {
-      this.isCollapse = isCollapse;
-    });
   },
 
   beforeDestroy() {
@@ -142,12 +135,19 @@ export default {
     }
   },
 
+  computed: {
+    sidebarCollapse() {
+      return this.$store.state.sidebarCollapse;
+    },
+  },
+
   methods: {
     // 退出登录
     async logout() {
       await this.$store.dispatch('user/logout');
       this.$router.replace('/login');
     },
+
     // 切换语言
     switchLanguage(key) {
       this.$i18n.locale = key;

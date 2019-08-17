@@ -59,14 +59,18 @@
       </vs-col>
     </vs-row>
     <vs-row>
-      <vs-col vs-w="12">
-        <!-- 输入标题框 -->
-        <vs-input
-          v-model.trim="task.title"
-          class="w-full mt-5"
-          placeholder="标题"
-          size="large"
-        />
+      <vs-col
+        class="pt-3"
+        vs-w="12"
+      >
+        <div class="w-full">
+          <!-- 输入标题框 -->
+          <vs-input
+            label-placeholder="标题"
+            v-model.trim="task.title"
+            class="w-full"
+          />
+        </div>
         <!-- 任务描述框 -->
         <vs-textarea
           v-model="task.content"
@@ -77,7 +81,7 @@
       </vs-col>
     </vs-row>
 
-    <div class="todo-button">
+    <div class="todo-button mt-2">
       <vs-button
         color="#848484"
         type="flat"
@@ -199,6 +203,5 @@ export default {
 .todo-button {
   display: flex;
   justify-content: flex-end;
-  margin-top: 25px;
 }
 </style>

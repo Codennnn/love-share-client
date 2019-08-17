@@ -4,7 +4,7 @@ function hasPermission(roles, route) {
   if (route.meta ?.roles) {
     return roles.some(role => route.meta.roles.includes(role));
   }
-  return true;
+  return false;
 }
 
 export function filterAsyncRoutes(routes, roles) {

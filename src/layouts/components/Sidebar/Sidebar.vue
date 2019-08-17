@@ -4,12 +4,12 @@
       router
       class="wrapper"
       :default-active="this.$route.path"
-      :class="{ 'side-bar-menu': !isCollapse }"
-      :collapse="isCollapse"
+      :class="{ 'side-bar-menu': !sidebarCollapse }"
+      :collapse="sidebarCollapse"
     >
       <el-menu-item
-        class="flex items-center h-12"
-        v-if="isCollapse"
+        class="absolute top-0 z-50 flex items-center h-12"
+        v-if="sidebarCollapse"
         @click="switchCollapse"
       >
         <img
@@ -18,8 +18,8 @@
         />
       </el-menu-item>
       <div
-        class="flex items-center px-5 h-12 cursor-pointer"
-        v-if="!isCollapse"
+        class="sticky top-0 left-0 z-50 flex items-center px-5 h-12 cursor-pointer logo"
+        v-if="!sidebarCollapse"
         @click="switchCollapse"
       >
         <img
@@ -28,6 +28,8 @@
         />
         <span class="ml-3 text-lg font-semibold text-purple-600">意想社团</span>
       </div>
+
+      <!-- 菜单主内容 -->
       <template v-for="(menuItem,index) in sidebarList">
         <!-- 嵌套子菜单 -->
         <el-submenu
@@ -68,12 +70,10 @@
 
 <script>
 import _debounce from 'lodash/debounce'; // 引入防抖函数
-import Bus from '@/utils/eventBus';
 
 export default {
   data() {
     return {
-      isCollapse: false,
       sidebarList: [
         {
           title: '仪表版',
@@ -112,20 +112,26 @@ export default {
 
   mounted() {
     window.onresize = _debounce(() => {
-      if (document.body.clientWidth <= 1100) {
-        this.isCollapse = true;
-        Bus.$emit('sideBarStatus', this.isCollapse);
+      if (document.body.clientWidth <= 1300) {
+        this.$store.commit('SWITCH_SIDEBAR_COLLAPSE', true);
       } else {
-        this.isCollapse = false;
-        Bus.$emit('sideBarStatus', this.isCollapse);
+        this.$store.commit('SWITCH_SIDEBAR_COLLAPSE', false);
       }
     }, 400);
   },
 
+  computed: {
+    sidebarCollapse() {
+      return this.$store.state.sidebarCollapse;
+    },
+  },
+
   methods: {
     switchCollapse() {
-      this.isCollapse = !this.isCollapse;
-      Bus.$emit('sideBarStatus', this.isCollapse);
+      this.$store.commit(
+        'SWITCH_SIDEBAR_COLLAPSE',
+        !this.sidebarCollapse,
+      );
     },
   },
 };
@@ -134,9 +140,24 @@ export default {
 <style lang="scss" scoped>
 $hoverColor: #f0f0f0; // 导航菜单 hover 时的背景色
 
+.menu-main {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 999;
+  height: 100%;
+  background: #fff;
+  overflow-y: scroll;
+}
+
+.logo {
+  background: #fff;
+  box-shadow: 0 15px 20px #fff;
+}
+
 .el-menu.wrapper {
   max-width: $side-bar-width;
-  min-height: 100vh;
+  padding: 50px 0;
   &:not(.el-menu--collapse) {
     // 必须设置，否则会出现动画卡顿问题
     width: $side-bar-width;
@@ -190,8 +211,12 @@ $hoverColor: #f0f0f0; // 导航菜单 hover 时的背景色
 .el-menu-item.is-active {
   color: #fff;
   border-radius: 5px;
-  box-shadow: 0 0 10px $primary;
-  background: linear-gradient(to right, $primary, rgba($primary, 0.7));
+  box-shadow: 0 0 10px rgba(var(--vs-primary), 1);
+  background: linear-gradient(
+    to right,
+    rgba(var(--vs-primary), 1),
+    rgba(var(--vs-primary), 0.7)
+  );
   .menu-icon {
     color: inherit;
   }

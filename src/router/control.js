@@ -24,7 +24,7 @@ router.beforeEach(async (to, from, next) => {
       // 如果已经有了token再访问登录页的话，将会被重定向到首页
       next({ path: '/' });
     } else {
-      const hasRoles = !!store.state.user.roles ?.length > 0;
+      const hasRoles = !!(store.state.user.roles ?.length > 0);
       if (hasRoles) {
         next();
       } else {
