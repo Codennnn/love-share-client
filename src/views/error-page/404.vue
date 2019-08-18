@@ -1,30 +1,23 @@
 <template>
   <div class="bg">
     <div class="btn-group">
-      <el-button
-        type="primary"
-        class="back-btn"
-        @click="backHome"
-      >带我回家</el-button>
-      <el-button
-        plain
-        @click="refresh"
-      >刷新页面</el-button>
+      <vs-button
+        class="mr-5"
+        color="primary"
+        type="border"
+        @click="goBack"
+      >返回上一页</vs-button>
+      <vs-button to="Analytics">带我回家</vs-button>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  data() {
-    return {};
-  },
+  name: '404',
   methods: {
-    backHome() {
-      this.$router.replace('analytics');
-    },
-    refresh() {
-      this.$router.go(0);
+    goBack() {
+      this.$router.go(-1);
     },
   },
 };
@@ -34,7 +27,7 @@ export default {
 .bg {
   position: relative;
   width: 100%;
-  height: 100%;
+  height: 100vh;
   background: url("../../assets/images/pages/404/not_found.png") no-repeat
     center center;
   background-size: cover;
@@ -43,6 +36,6 @@ export default {
 .btn-group {
   position: absolute;
   bottom: 100px;
-  right: 150px;
+  right: 140px;
 }
 </style>
