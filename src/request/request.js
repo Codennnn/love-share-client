@@ -1,8 +1,9 @@
 import Axios from 'axios';
 import { Notification } from 'element-ui';
+import { getToken } from '@/permission/token';
 
 const service = Axios.create({
-  // baseURL: 'https://api',
+  // baseURL: 'http://localhost:7001/api',
   timeout: 10000,
   responseType: 'json',
   withCredentials: true,
@@ -12,11 +13,19 @@ service.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencod
 
 service.interceptors.request.use(
   (config) => {
-    console.log('request start');
+    console.log('>>>>>>>>>>>>');
+    console.log(config);
+
+    // 每次请求都带上token
+    const token = getToken();
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+
     return config;
   },
   (error) => {
-    console.log('request error', error);
+    console.log('######', error, '######');
     Promise.reject(error);
   },
 );
@@ -46,12 +55,14 @@ const errorHandler = {
 service.interceptors.response.use(
   (response) => {
     const res = response;
-    console.log('>>>', res, '<<<');
+    console.log(res);
+    console.log('<<<<<<<<<<<<');
     return res;
   },
   (error) => {
-    console.log(error.response);
-    const { status, statusText } = error.response;
+    console.log(error, error.response);
+    console.log('<<<<<<<<<<<<');
+    const { status = 'default', statusText } = error.response;
     /* eslint no-unused-expressions: [2, { allowTernary: true }] */
     Object.prototype.hasOwnProperty.call(errorHandler, status)
       ? errorHandler[status](status, statusText)

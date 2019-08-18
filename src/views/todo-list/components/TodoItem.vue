@@ -1,110 +1,128 @@
 <template>
   <div class="todo-items">
-    <vs-input
-      class="w-full search-input"
-      icon="search"
-      size="large"
-      icon-no-border
-      placeholder="搜索..."
-      v-model="search"
-    />
-    <transition-group
-      tag="ul"
-      name="flip-list"
-      enter-active-class="animated fadeInUp faster"
-      leave-active-class="animated fadeOutDown faster"
+    <VuePerfectScrollbar
+      class="scroll-area"
+      :settings="settings"
     >
-      <li
-        class="todo-item w-full cursor-pointer"
-        v-for="todo in filterTodoItems"
-        :key="String(todo.id)"
-        @click="activePopup(todo)"
+      <!-- 搜索框 -->
+      <vs-input
+        class="sticky top-0 z-40 w-full search-input"
+        icon="search"
+        size="large"
+        icon-no-border
+        placeholder="搜索..."
+        v-model="search"
+      />
+
+      <!-- Todo项 -->
+      <transition-group
+        tag="ul"
+        name="flip-list"
+        enter-active-class="animated fadeInUp faster"
+        leave-active-class="animated fadeOutDown faster"
       >
-        <vs-row>
-          <!-- todo项头部左侧 -->
-          <vs-col vs-w="10">
-            <div class="todo-item__header flex justify-between items-center">
-              <div class="flex justify-between items-center">
-                <vs-checkbox
-                  v-model="todo.isDone"
-                  @click.stop
-                ></vs-checkbox>
-                <div class="todo-item__title mr-2">{{ todo.title }}</div>
-                <template v-if="todo.tags.length !== 0">
-                  <template v-for="(tag, index) in todo.tags">
-                    <div
-                      class="todo-item__tag
+        <li
+          class="todo-item w-full cursor-pointer"
+          v-for="todo in filterTodoItems"
+          :key="String(todo.id)"
+          @click="activePopup(todo)"
+        >
+          <vs-row>
+            <!-- todo项头部左侧 -->
+            <vs-col vs-w="10">
+              <div class="todo-item__header flex justify-between items-center">
+                <div class="flex justify-between items-center">
+                  <vs-checkbox
+                    v-model="todo.isDone"
+                    @click.stop
+                  ></vs-checkbox>
+                  <div class="todo-item__title mr-2">{{ todo.title }}</div>
+                  <template v-if="todo.tags.length !== 0">
+                    <template v-for="(tag, index) in todo.tags">
+                      <div
+                        class="todo-item__tag
                       flex justify-between items-center
                       rounded-full py-1 px-3 bg-gray-300 mr-1"
-                      :key="index"
-                    >
-                      <!-- 标签胶囊前面的颜色点 -->
-                      <span
-                        class="dot rounded-full w-2 h-2 mr-2"
-                        :style="{'background-color': tagColor[tag]}"
-                      ></span>
-                      <span class="text-gray-700 text-xs">{{ tag }}</span>
-                    </div>
+                        :key="index"
+                      >
+                        <!-- 标签胶囊前面的颜色点 -->
+                        <span
+                          class="dot rounded-full w-2 h-2 mr-2"
+                          :style="{'background-color': tagColor[tag]}"
+                        ></span>
+                        <span class="text-gray-700 text-xs">{{ tag }}</span>
+                      </div>
+                    </template>
                   </template>
-                </template>
+                </div>
               </div>
-            </div>
-          </vs-col>
-          <!-- end -->
-          <!-- todo项头部右侧 -->
-          <vs-col
-            vs-type="flex"
-            vs-justify="flex-end"
-            vs-w="2"
-          >
-            <div>
-              <i
-                class="todo-mark__icon iconfont icon-task-importance"
-                :class="{important: todo.isImportant}"
-                @click.stop="toggleIsImportant(todo.id)"
-              ></i>
-              <i
-                class="todo-mark__icon iconfont icon-task-star"
-                :class="{star: todo.isStarred}"
-                @click.stop="toggleIsStarred(todo.id)"
-              ></i>
-              <i class="todo-mark__icon iconfont icon-task-trashed"></i>
-            </div>
-          </vs-col>
-          <!-- end -->
-        </vs-row>
-        <!-- todo项内容区域 -->
-        <div class="todo-item__content">
-          <p>{{ todo.content }}</p>
-        </div>
-      </li>
-    </transition-group>
+            </vs-col>
+            <!-- end -->
+            <!-- todo项头部右侧 -->
+            <vs-col
+              vs-type="flex"
+              vs-justify="flex-end"
+              vs-w="2"
+            >
+              <div>
+                <i
+                  class="todo-mark__icon iconfont icon-task-importance"
+                  :class="{important: todo.isImportant}"
+                  @click.stop="toggleIsImportant(todo.id)"
+                ></i>
+                <i
+                  class="todo-mark__icon iconfont icon-task-star"
+                  :class="{star: todo.isStarred}"
+                  @click.stop="toggleIsStarred(todo.id)"
+                ></i>
+                <i class="todo-mark__icon iconfont icon-task-trashed"></i>
+              </div>
+            </vs-col>
+            <!-- end -->
+          </vs-row>
+          <!-- todo项内容区域 -->
+          <div class="todo-item__content">
+            <p>{{ todo.content }}</p>
+          </div>
+        </li>
+      </transition-group>
+    </VuePerfectScrollbar>
   </div>
 </template>
 
 <script>
+import VuePerfectScrollbar from 'vue-perfect-scrollbar';
+
 import _last from 'lodash/last';
 import Bus from '@/utils/eventBus';
 
+const tagColor = {
+  前端: '#7367f0',
+  后端: '#ff9f39',
+  其它: '#67c23a',
+  BUG: '#f56c6c',
+};
+
 export default {
   data() {
-    const tagColor = {
-      前端: '#7367f0',
-      后端: '#ff9f39',
-      其它: '#67c23a',
-      BUG: '#f56c6c',
-    };
     return {
       search: '',
       currentAcive: 'all',
       todoItems: [],
+      settings: {
+        maxScrollbarLength: 60,
+        wheelSpeed: 0.60,
+      },
       tagColor,
     };
   },
 
+  components: { VuePerfectScrollbar },
+
   mounted() {
     // 获取全部的 todo 项
     this.todoItems = this.$store.state.todo.todos;
+    console.log(this.todoItems);
 
     // 接收 TodoBar 中的事件，获知当前激活的菜单项
     Bus.$on('getActive', (current) => {
@@ -184,6 +202,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.scroll-area {
+  position: relative;
+  height: 673px;
+}
+
 .search-input {
   // 重设输入框样式
   &::v-deep {

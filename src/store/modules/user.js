@@ -1,5 +1,5 @@
 import { setToken, getToken, removeToken } from '@/permission/token';
-import { login, logout, getUserInfo } from '@/request/api/login';
+import { login, logout, getUserInfo } from '@/request/api/user';
 import { resetRouter } from '@/router/router';
 
 const state = {
@@ -17,10 +17,10 @@ const mutations = {
 };
 
 const actions = {
-  async login({ commit }, userInfo) {
-    const { data } = await login(userInfo);
-    commit('SET_TOKEN', data.token);
-    setToken(data.token); // 将token缓存到本地
+  async login({ commit }, loginInfo) {
+    const { data } = await login(loginInfo);
+    commit('SET_TOKEN', data.token); // 将token存储到vuex
+    setToken(data.token); // 将token缓存到cookie
   },
 
   async getUserInfo({ commit, state }) {

@@ -1,68 +1,64 @@
 <template>
   <div class="menu-main">
+    <!-- 顶部LOGO -->
+    <div
+      class="logo sticky top-0 left-0 z-50 w-full flex items-center h-16 cursor-pointer"
+      :class="{ 'logo-collapse': !sidebarCollapse }"
+      @click="switchCollapse"
+    >
+      <img
+        class="w-6 h-6"
+        src="@/assets/images/logo/logo.png"
+      />
+      <span
+        class="ml-3 text-lg font-semibold text-purple-600"
+        :style="{ 'display': sidebarCollapse ? 'none' : 'block' }"
+      >意想社团</span>
+    </div>
+
     <el-menu
       router
       class="wrapper"
-      :default-active="this.$route.path"
+      :default-active="$route.path"
       :class="{ 'side-bar-menu': !sidebarCollapse }"
       :collapse="sidebarCollapse"
     >
-      <el-menu-item
-        class="absolute top-0 z-50 flex items-center h-12"
-        v-if="sidebarCollapse"
-        @click="switchCollapse"
-      >
-        <img
-          class="w-6 h-6 -ml-0"
-          src="@/assets/images/logo/logo.png"
-        />
-      </el-menu-item>
-      <div
-        class="sticky top-0 left-0 z-50 flex items-center px-5 h-12 cursor-pointer logo"
-        v-if="!sidebarCollapse"
-        @click="switchCollapse"
-      >
-        <img
-          class="w-6 h-6 -ml-1"
-          src="@/assets/images/logo/logo.png"
-        />
-        <span class="ml-3 text-lg font-semibold text-purple-600">意想社团</span>
-      </div>
-
       <!-- 菜单主内容 -->
       <template v-for="(menuItem,index) in sidebarList">
-        <!-- 嵌套子菜单 -->
-        <el-submenu
-          v-if="menuItem.subMenu"
-          :key="index"
-          :index="index.toString()"
-        >
-          <template slot="title">
+        <template v-if="!menuItem.hidden">
+          <!-- 嵌套子菜单 -->
+          <el-submenu
+            v-if="menuItem.children && !menuItem.single"
+            :key="index"
+            :index="index.toString()"
+          >
+            <template slot="title">
+              <i
+                class="menu-icon iconfont"
+                :class="menuItem.meta.icon"
+              ></i>
+              <span slot="title">{{ menuItem.meta.title }}</span>
+            </template>
+            <el-menu-item-group
+              v-for="(subItem, index, key) in menuItem.children"
+              :key="key"
+            >
+              <el-menu-item :index="subItem.path">{{ subItem.meta.title }}</el-menu-item>
+            </el-menu-item-group>
+          </el-submenu>
+          <!-- 单个菜单项 -->
+          <el-menu-item
+            v-else-if="menuItem.children && menuItem.single"
+            :key="index"
+            :index="menuItem.children[0].path"
+          >
             <i
               class="menu-icon iconfont"
-              :class="menuItem.icon"
+              :class="menuItem.children[0].meta.icon"
             ></i>
-            <span slot="title">{{ menuItem.title }}</span>
-          </template>
-          <el-menu-item-group
-            v-for="(subItem, index, key) in menuItem.subMenu"
-            :key="key"
-          >
-            <el-menu-item :index="subItem.path">{{ subItem.title }}</el-menu-item>
-          </el-menu-item-group>
-        </el-submenu>
-        <!-- 单个菜单项 -->
-        <el-menu-item
-          v-else
-          :index="menuItem.path"
-          :key="index"
-        >
-          <i
-            class="menu-icon iconfont"
-            :class="menuItem.icon"
-          ></i>
-          <span slot="title">{{ menuItem.title }}</span>
-        </el-menu-item>
+            <span slot="title">{{ menuItem.children[0].meta.title }}</span>
+          </el-menu-item>
+        </template>
       </template>
     </el-menu>
   </div>
@@ -74,39 +70,6 @@ import _debounce from 'lodash/debounce'; // 引入防抖函数
 export default {
   data() {
     return {
-      sidebarList: [
-        {
-          title: '仪表版',
-          icon: 'icon-home',
-          subMenu: [{ title: '数据展示', path: '/analytics' }, { title: '数据分析', path: '' }],
-        },
-        {
-          title: '用户管理',
-          icon: 'icon-group',
-          subMenu: [{ title: '用户列表', path: '/user-list' }, { title: '角色管理', path: '' }],
-        },
-        {
-          title: '社团管理',
-          icon: 'icon-medal',
-          subMenu: [
-            { title: '社团列表', path: '' },
-            { title: '申请列表', path: '' },
-            { title: '社团审核', path: '' },
-            { title: '创建社团', path: '' },
-          ],
-        },
-        {
-          title: '动态管理',
-          icon: 'icon-dynamic',
-          subMenu: [{ title: '动态列表', path: '' }, { title: '动态编辑', path: '' }],
-        },
-        {
-          title: '活动管理',
-          icon: 'icon-activity',
-          subMenu: [{ title: '活动列表', path: '' }, { title: '活动审核', path: '' }],
-        },
-        { title: '待办事项', icon: 'icon-todo', path: '/todo-list' },
-      ],
     };
   },
 
@@ -123,6 +86,9 @@ export default {
   computed: {
     sidebarCollapse() {
       return this.$store.state.sidebarCollapse;
+    },
+    sidebarList() {
+      return this.$store.state.permission.routes;
     },
   },
 
@@ -151,13 +117,17 @@ $hoverColor: #f0f0f0; // 导航菜单 hover 时的背景色
 }
 
 .logo {
+  padding: 0 18px;
   background: #fff;
   box-shadow: 0 15px 20px #fff;
+  &.logo-collapse {
+    padding: 0 38px;
+  }
 }
 
 .el-menu.wrapper {
   max-width: $side-bar-width;
-  padding: 50px 0;
+  // padding: 50px 0;
   &:not(.el-menu--collapse) {
     // 必须设置，否则会出现动画卡顿问题
     width: $side-bar-width;

@@ -5,14 +5,17 @@ module.exports = {
 
   devServer: {
     host: '0.0.0.0',
-    proxy: 'https://www.vegetable2t.top:8443/api/v1',
-    // proxy: {
-    //   "/api/v1": {
-    //     target: "https://www.vegetable2t.top:8443/api/v1",
-    //     ws: true,
-    //     changeOrigin: true
-    //   }
-    // }
+    // proxy: 'http://localhost:7001/api',
+    proxy: {
+      '/api': {
+        target: 'http://localhost:7001',
+        changeOrigin: true,
+        ws: true,
+        pathRewrite: {
+          '^/api': '',
+        },
+      },
+    },
   },
 
   chainWebpack: (config) => {

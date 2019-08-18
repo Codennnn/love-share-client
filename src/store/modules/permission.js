@@ -1,12 +1,15 @@
 import { constantRoutes, asyncRoutes } from '@/router/router';
 
+// 检测是否能对应上相应路由的角色权限
 function hasPermission(roles, route) {
   if (route.meta ?.roles) {
     return roles.some(role => route.meta.roles.includes(role));
   }
-  return false;
+  // 默认是具有admin权限的，所以返回true
+  return true;
 }
 
+// 过滤没有角色权限的路由
 export function filterAsyncRoutes(routes, roles) {
   const res = [];
 
@@ -25,12 +28,16 @@ export function filterAsyncRoutes(routes, roles) {
 
 const state = {
   routes: [],
-  addRoutes: [],
+};
+
+const getters = {
+  sidebar(state) {
+    return state.routes;
+  },
 };
 
 const mutations = {
   SET_ROUTES: (state, routes) => {
-    state.addRoutes = routes;
     state.routes = constantRoutes.concat(routes);
   },
 };
@@ -51,6 +58,7 @@ const actions = {
 export default {
   namespaced: true,
   state,
+  getters,
   mutations,
   actions,
 };

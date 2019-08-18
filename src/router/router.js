@@ -12,38 +12,68 @@ Vue.use(Router);
 export const constantRoutes = [
   {
     path: '/login',
+    name: 'Login',
+    hidden: true,
     component: Login,
-    meta: {
-      title: '登录',
-    },
+    meta: { title: '登录' },
   },
   {
-    path: '/',
-    redirect: '/analytics',
-    name: 'index',
-    component: Layout,
-    children: [
-      {
-        path: 'analytics',
-        name: 'analytics',
-        component: Analytics,
-        meta: { title: '数据分析' },
-      },
-      {
-        path: '/todo-list',
-        component: TodoList,
-        meta: { title: '待办事项' },
-      },
-    ],
+    path: '/404',
+    name: '404',
+    hidden: true,
+    component: () => import('@/views/error-page/404.vue'),
+    meta: { title: '404 not found' },
   },
 ];
 
 export const asyncRoutes = [
   {
-    path: '*',
-    component: () => import('@/views/error-page/404.vue'),
-    meta: { title: '404 not found' },
+    path: '/',
+    redirect: '/analytics',
+    component: Layout,
+    children: [
+      {
+        path: '/analytics',
+        name: 'Analytics',
+        component: Analytics,
+        meta: { title: '数据分析' },
+      },
+    ],
+    meta: {
+      title: '数据分析', icon: 'icon-home',
+    },
   },
+  {
+    path: '',
+    children: [
+      {
+        path: '',
+        name: '',
+        component: Analytics,
+        meta: { title: '数据分析' },
+      },
+    ],
+    meta: {
+      title: '数据分析',
+      icon: 'icon-home',
+    },
+  },
+  {
+    path: '/TodoList',
+    redirect: '/todolist',
+    single: true,
+    component: Layout,
+    children: [
+      {
+        path: '/todo-list',
+        name: 'TodoList',
+        component: TodoList,
+        meta: { title: '待办事项', icon: 'icon-todo' },
+      },
+    ],
+  },
+
+  { path: '*', redirect: '/404', hidden: true },
 ];
 
 const router = new Router({

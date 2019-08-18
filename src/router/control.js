@@ -30,6 +30,7 @@ router.beforeEach(async (to, from, next) => {
       } else {
         const { roles } = await store.dispatch('user/getUserInfo');
         const accessedRoutes = await store.dispatch('permission/generateRoutes', roles);
+        // console.log('<动态路由>', accessedRoutes);
         // 动态添加路由
         router.addRoutes(accessedRoutes);
         next({ ...to, replace: true });

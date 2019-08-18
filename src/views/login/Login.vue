@@ -66,6 +66,7 @@ export default {
         return;
       }
 
+      // 显示登录按钮的加载动画
       this.$vs.loading({
         background: 'primary',
         color: '#fff',
@@ -76,8 +77,9 @@ export default {
       const [username, password] = [this.loginInput[0].value, this.loginInput[1].value];
 
       await this.$store.dispatch('user/login', { username, password });
-      // .catch(() => { console.log('====出错了===='); })
       this.$router.replace('/');
+
+      // 关闭按钮的加载动画
       this.$vs.loading.close('#loginBtn > .con-vs-loading');
     },
 
