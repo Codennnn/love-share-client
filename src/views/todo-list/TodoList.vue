@@ -37,7 +37,9 @@ export default {
   },
 
   components: {
-    TodoBar, TodoItem, TodoPopup,
+    TodoBar,
+    TodoItem,
+    TodoPopup,
   },
 };
 </script>
