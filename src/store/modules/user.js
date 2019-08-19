@@ -19,20 +19,28 @@ const mutations = {
 const actions = {
   async login({ commit }, loginInfo) {
     try {
-      const { data } = await login(loginInfo);
-      commit('SET_TOKEN', data.token); // 将token存储到vuex
-      setToken(data.token); // 将token缓存到cookie
-      return Promise.resolve();
+      const { code, data } = await login(loginInfo);
+      if (code === 2000) {
+        commit('SET_TOKEN', data.token); // 将token存储到vuex
+        setToken(data.token); // 将token缓存到cookie
+        return code;
+      }
+      return code;
     } catch (err) {
       return Promise.reject(err);
     }
   },
 
-  async getUserInfo({ commit, state }) {
-    const { data } = await getUserInfo(state.token);
-    const { roles } = data;
-    commit('SET_ROLES', roles);
-    return data;
+  async getUserInfo({ commit }) {
+    try {
+      const { data } = await getUserInfo();
+      const { roles } = data;
+      commit('SET_ROLES', roles);
+      return data;
+    } catch (err) {
+      removeToken();
+      return Promise.reject(err);
+    }
   },
 
   async logout({ commit, state }) {

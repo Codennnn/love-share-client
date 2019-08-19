@@ -9,6 +9,15 @@
       :class="{ 'content-area-full': sidebarCollapse }"
     >
       <div class="content-wrapper">
+        <BackToTop
+          bottom="5%"
+          visibleoffset="500"
+        >
+          <vs-button
+            icon="arrow_upward"
+            class="shadow-lg"
+          />
+        </BackToTop>
         <!-- 头部 -->
         <navbar />
         <div class="router-view p-6">
@@ -31,6 +40,7 @@
 </template>
 
 <script>
+import BackToTop from 'vue-backtotop';
 import Sidebar from './components/Sidebar/Sidebar.vue';
 import Navbar from './components/Navbar/Navbar.vue';
 import Footer from './components/Footer/Footer.vue';
@@ -41,6 +51,7 @@ export default {
     Sidebar,
     Navbar,
     Footer,
+    BackToTop,
   },
 
   computed: {
@@ -55,16 +66,11 @@ export default {
 .layout-main {
   position: relative;
   height: 100%;
-  // display: flex;
   background-color: rgb(245, 245, 245);
 }
 
 #content-area {
-  // position: absolute;
-  // top: 0;
-  // right: 0;
   min-height: 100%;
-  // width: 100%;
   margin-left: $side-bar-width;
   transition: margin-left 0.5s;
   &.content-area-full {

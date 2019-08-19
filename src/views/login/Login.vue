@@ -86,14 +86,26 @@ export default {
 
       const [username, password] = [this.loginInput[0].value, this.loginInput[1].value];
 
-      await this.$store.dispatch('user/login', { username, password })
-        .then(() => {
-          // this.$router.replace('/');
+      await this.$store.dispatch('user/login', { user_name: username, password })
+        .then((code) => {
+          if (code === 2000) {
+            this.$router.replace('/');
+          } else if (code === 3000 || code === 4004) {
+            this.$vs.notify({
+              title: '登录校验失败',
+              text: '账号或密码有误，请重新输入',
+              color: 'danger',
+              position: 'bottom-left',
+            });
+          }
         })
-        .catch((err) => { console.log(err); });
+        .catch((err) => {
+          console.log(err);
+        });
 
       // 关闭按钮的加载动画
       this.$vs.loading.close('#loginBtn > .con-vs-loading');
+      this.loginBtnDisable = false;
     },
 
     // 输入框非空验证

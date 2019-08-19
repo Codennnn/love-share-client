@@ -3,7 +3,7 @@ import { Notification } from 'element-ui';
 import { getToken } from '@/permission/token';
 
 const service = Axios.create({
-  // baseURL: 'http://localhost:7001/api',
+  baseURL: '/api',
   timeout: 10000,
   responseType: 'json',
   withCredentials: true,
@@ -14,7 +14,6 @@ service.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencod
 service.interceptors.request.use(
   (config) => {
     console.log('>>>>>>>>>>>>');
-    console.log(config);
 
     // 每次请求都带上token
     const token = getToken();
@@ -22,6 +21,7 @@ service.interceptors.request.use(
       config.headers.Authorization = `Bearer ${token}`;
     }
 
+    console.log(config);
     return config;
   },
   (error) => {
@@ -37,9 +37,11 @@ const errorHandler = {
     Notification.error({
       title,
       message,
-      type: 'error',
       duration: 0,
     });
+  },
+  401(status, statusText) {
+    this.errorNotify({ title: `${status}`, message: `抱歉，您没有权限访问 - ${statusText}` });
   },
   404(status, statusText) {
     this.errorNotify({ title: `${status}`, message: `找不到资源 - ${statusText}` });
@@ -57,7 +59,7 @@ service.interceptors.response.use(
     const res = response;
     console.log(res);
     console.log('<<<<<<<<<<<<');
-    return res;
+    return res.data;
   },
   (error) => {
     console.log(error, error.response);

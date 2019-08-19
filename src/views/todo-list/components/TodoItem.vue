@@ -110,7 +110,7 @@ export default {
       currentAcive: 'all',
       todoItems: [],
       settings: {
-        maxScrollbarLength: 60,
+        maxScrollbarLength: 160,
         wheelSpeed: 0.60,
       },
       tagColor,

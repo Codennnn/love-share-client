@@ -1,10 +1,10 @@
 import request from '../request';
 
-export function login(query) {
+export function login(data) {
   return request({
     url: '/users/login',
     method: 'post',
-    params: query,
+    data,
   });
 }
 
@@ -18,10 +18,9 @@ export function register(query) {
 
 export function logout() { }
 
-export function getUserInfo(query) {
+export function getUserInfo() {
   return request({
     url: '/users/user_info',
     method: 'get',
-    params: query,
   });
 }
