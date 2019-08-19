@@ -8,6 +8,14 @@ export function login(query) {
   });
 }
 
+export function register(query) {
+  return request({
+    url: '/users/register',
+    method: 'post',
+    params: query,
+  });
+}
+
 export function logout() { }
 
 export function getUserInfo(query) {

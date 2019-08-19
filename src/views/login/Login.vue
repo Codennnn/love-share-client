@@ -114,10 +114,12 @@ export default {
   background-image: url("~@/assets/images/pages/login/login_bg.png");
 }
 
-.vs-tabs::v-deep .con-slot-tabs {
-  height: calc(562px - 44px);
-  & .vs-tabs--content {
-    height: 100%;
+.vs-tabs::v-deep {
+  .con-slot-tabs {
+    height: calc(562px - 44px);
+    & .vs-tabs--content {
+      height: 100%;
+    }
   }
 }
 
