@@ -18,9 +18,14 @@ const mutations = {
 
 const actions = {
   async login({ commit }, loginInfo) {
-    const { data } = await login(loginInfo);
-    commit('SET_TOKEN', data.token); // 将token存储到vuex
-    setToken(data.token); // 将token缓存到cookie
+    try {
+      const { data } = await login(loginInfo);
+      commit('SET_TOKEN', data.token); // 将token存储到vuex
+      setToken(data.token); // 将token缓存到cookie
+      return Promise.resolve();
+    } catch (err) {
+      return Promise.reject(err);
+    }
   },
 
   async getUserInfo({ commit, state }) {

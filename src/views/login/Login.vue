@@ -25,6 +25,7 @@
                   id="loginBtn"
                   class="w-full mt-2 vs-con-loading__container"
                   type="relief"
+                  :disabled="loginBtnDisable"
                   @click="login"
                 >登录</vs-button>
               </div>
@@ -32,7 +33,9 @@
           </div>
           <!-- 登录 end -->
         </vs-tab>
+
         <vs-tab label="注册">
+          <p>请联系管理员添加账号</p>
         </vs-tab>
       </vs-tabs>
     </div>
@@ -40,22 +43,28 @@
 </template>
 
 <script>
+const loginInput = [
+  {
+    placeholder: '您的账号',
+    value: '',
+    type: 'text',
+    isWarnng: false,
+    warningText: '',
+  },
+  {
+    placeholder: '您的密码',
+    value: '',
+    type: 'password',
+    isWarnng: false,
+    warningText: '',
+  },
+];
+
 export default {
   data() {
     return {
-      loginInput: [{
-        placeholder: '您的账号',
-        value: '',
-        type: 'text',
-        isWarnng: false,
-        warningText: '',
-      }, {
-        placeholder: '您的密码',
-        value: '',
-        type: 'password',
-        isWarnng: false,
-        warningText: '',
-      }],
+      loginInput,
+      loginBtnDisable: false,
     };
   },
 
@@ -73,11 +82,15 @@ export default {
         container: '#loginBtn',
         scale: 0.45,
       });
+      this.loginBtnDisable = true;
 
       const [username, password] = [this.loginInput[0].value, this.loginInput[1].value];
 
-      await this.$store.dispatch('user/login', { username, password });
-      this.$router.replace('/');
+      await this.$store.dispatch('user/login', { username, password })
+        .then(() => {
+          // this.$router.replace('/');
+        })
+        .catch((err) => { console.log(err); });
 
       // 关闭按钮的加载动画
       this.$vs.loading.close('#loginBtn > .con-vs-loading');
@@ -114,9 +127,10 @@ export default {
   background-image: url("~@/assets/images/pages/login/login_bg.png");
 }
 
+// 重置tab选项卡的高度
 .vs-tabs::v-deep {
   .con-slot-tabs {
-    height: calc(562px - 44px);
+    height: calc(562px - 50px);
     & .vs-tabs--content {
       height: 100%;
     }
