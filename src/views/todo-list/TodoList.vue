@@ -3,13 +3,13 @@
     <div class="flex">
       <!-- 待办事项操作栏 -->
       <div class="todo-bar">
-        <todo-bar />
+        <TodoBar />
       </div>
       <!-- 待办事项列表 -->
       <div class="todo-item">
-        <todo-item />
+        <TodoItem />
       </div>
-      <todo-popup />
+      <TodoPopup />
     </div>
   </div>
 </template>
