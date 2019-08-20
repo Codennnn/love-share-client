@@ -3,7 +3,7 @@
     <!-- 顶部LOGO -->
     <div
       class="logo sticky top-0 left-0 z-50 w-full flex items-center h-16 cursor-pointer"
-      :class="{ 'logo-collapse': !sidebarCollapse }"
+      :class="{ 'logo-collapse': sidebarCollapse }"
       @click="switchCollapse"
     >
       <img
@@ -12,7 +12,7 @@
       />
       <span
         class="ml-3 text-lg font-semibold text-purple-600"
-        :style="{ 'display': sidebarCollapse ? 'none' : 'block' }"
+        v-show="!sidebarCollapse"
       >意想社团</span>
     </div>
 
@@ -117,17 +117,21 @@ $hoverColor: #f0f0f0; // 导航菜单 hover 时的背景色
 }
 
 .logo {
-  padding: 0 18px;
+  width: $side-bar-width;
+  padding: 0 36px;
   background: #fff;
   box-shadow: 0 15px 20px #fff;
+  overflow: hidden;
+  transition: all 0.5s;
   &.logo-collapse {
-    padding: 0 38px;
+    width: 64px;
+    padding: 0 18px;
   }
 }
 
 .el-menu.wrapper {
   max-width: $side-bar-width;
-  // padding: 50px 0;
+  border-right: none;
   &:not(.el-menu--collapse) {
     // 必须设置，否则会出现动画卡顿问题
     width: $side-bar-width;

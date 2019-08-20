@@ -13,21 +13,10 @@ module.exports = {
   rules: {
     'no-console': 'off',
     'no-debugger': 'off',
-    'no-param-reassign': [
-      'error',
-      {
-        props: false
-      }
-    ],
-    'no-shadow': [
-      'error',
-      {
-        allow: [
-          'state'
-        ]
-      }
-    ],
-    'vue/no-unused-vars': 'warning'
+    'no-param-reassign': ['error', { props: false }],
+    'no-shadow': ['error', { allow: ['state'] }],
+    'vue/no-unused-vars': 'warning',
+    // 'camelcase': 2,
   },
 
   parserOptions: {

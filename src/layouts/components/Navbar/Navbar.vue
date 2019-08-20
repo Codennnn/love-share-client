@@ -58,7 +58,7 @@
 
           <!-- 用户名称 -->
           <div class="info">
-            <div class="text-right text-lg">陈梓聪</div>
+            <div class="text-right text-lg">{{ nickName }}</div>
             <small>新媒体工作部</small>
           </div>
 
@@ -100,26 +100,30 @@
 
 <script>
 import screenfull from 'screenfull';
+import { mapState } from 'vuex';
+
+const popItems = [
+  { icon: 'el-icon-user', text: '我的信息', route: '/' },
+  { icon: 'el-icon-trophy', text: '我的社团', route: '/my-club' },
+  { icon: 'el-icon-switch-button', text: '退出登录' },
+];
+const navIcons = [
+  { tip: '社团', icon: 'icon-medal', route: '/club-list' },
+  { tip: '动态', icon: 'icon-dynamic', route: '/dynamic-list' },
+  { tip: '活动', icon: 'icon-activity', route: '/activity-list' },
+];
 
 export default {
   name: 'NavBar',
   data() {
     return {
-      popItems: [
-        { icon: 'el-icon-user', text: '我的信息', route: '/' },
-        { icon: 'el-icon-trophy', text: '我的社团', route: '/my-club' },
-        { icon: 'el-icon-switch-button', text: '退出登录' },
-      ],
-      navIcons: [
-        { tip: '社团', icon: 'icon-medal', route: '/club-list' },
-        { tip: '动态', icon: 'icon-dynamic', route: '/dynamic-list' },
-        { tip: '活动', icon: 'icon-activity', route: '/activity-list' },
-      ],
+      popItems,
+      navIcons,
       languages: [
         { text: '简体中文', key: 'cn' },
         { text: 'English', key: 'en' },
       ],
-      isFullScreen: false,
+      isFullScreen: false, // 是否全屏
     };
   },
 
@@ -136,9 +140,10 @@ export default {
   },
 
   computed: {
-    sidebarCollapse() {
-      return this.$store.state.sidebarCollapse;
-    },
+    ...mapState([
+      'sidebarCollapse',
+    ]),
+    ...mapState('user', ['nickName']),
   },
 
   methods: {
@@ -169,6 +174,7 @@ export default {
     screenChange() {
       this.isFullScreen = screenfull.isFullscreen;
     },
+
   },
 };
 </script>

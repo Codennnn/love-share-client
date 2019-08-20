@@ -46,12 +46,13 @@ export const asyncRoutes = [
   {
     path: '',
     children: [
-      {
-        path: '',
-        name: '',
-        component: Analytics,
-        meta: { title: '数据分析' },
-      },
+      // {
+      //   path: '/order-detail',
+      //   name: 'OrderDetail',
+      //   hidden: true,
+      //   component: () => import('@/views/order/OrderDetail.vue'),
+      //   meta: { title: '订单详情' },
+      // },
     ],
     meta: {
       title: '数据分析',
@@ -73,17 +74,33 @@ export const asyncRoutes = [
     ],
   },
 
+  {
+    path: '',
+    hidden: true,
+    component: Layout,
+    children: [
+      {
+        path: '/order-detail',
+        name: 'OrderDetail',
+        component: () => import('@/views/order/OrderDetail.vue'),
+        meta: { title: '订单详情' },
+      },
+    ],
+  },
+
   { path: '*', redirect: '/404', hidden: true },
 ];
 
-const router = new Router({
+const createRouter = () => new Router({
   mode: 'history',
   base: process.env.BASE_URL,
   routes: constantRoutes,
 });
 
+const router = createRouter();
+
 export function resetRouter() {
-  const newRouter = router;
+  const newRouter = createRouter();
   router.matcher = newRouter.matcher; // 重置路由
 }
 

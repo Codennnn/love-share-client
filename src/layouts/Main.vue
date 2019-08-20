@@ -9,6 +9,7 @@
       :class="{ 'content-area-full': sidebarCollapse }"
     >
       <div class="content-wrapper">
+        <!-- 回到顶部按钮 -->
         <BackToTop
           bottom="5%"
           visibleoffset="500"
@@ -18,6 +19,7 @@
             class="shadow-lg"
           />
         </BackToTop>
+
         <!-- 头部 -->
         <navbar />
         <div class="router-view p-6">

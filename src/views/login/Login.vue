@@ -21,6 +21,14 @@
                   @focus="inputFocus(index)"
                   v-model.trim="item.value"
                 />
+                <vs-alert
+                  closable
+                  close-icon="close"
+                  color='danger'
+                  :active.sync="showAlert"
+                >
+                  账号或密码有误，请重新输入
+                </vs-alert>
                 <vs-button
                   id="loginBtn"
                   class="w-full mt-2 vs-con-loading__container"
@@ -65,6 +73,7 @@ export default {
     return {
       loginInput,
       loginBtnDisable: false,
+      showAlert: false,
     };
   },
 
@@ -91,12 +100,7 @@ export default {
           if (code === 2000) {
             this.$router.replace('/');
           } else if (code === 3000 || code === 4004) {
-            this.$vs.notify({
-              title: '登录校验失败',
-              text: '账号或密码有误，请重新输入',
-              color: 'danger',
-              position: 'bottom-left',
-            });
+            this.showAlert = true;
           }
         })
         .catch((err) => {
