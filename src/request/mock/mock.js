@@ -1,12 +1,18 @@
 import Mock from 'mockjs';
 
 Mock.mock(/\/login/, 'post', {
-  name: '123456',
-  token: 'login',
+  code: 2000,
+  data: {
+    nick_name: '123456',
+    token: 'login',
+  },
 });
 
 Mock.mock(/\/user_info/, 'get', {
-  roles: ['admin'],
+  code: 2000,
+  data: {
+    roles: ['admin'],
+  },
 });
 
 Mock.mock(/\/users[\s\S]*?/, 'get', () => ({
