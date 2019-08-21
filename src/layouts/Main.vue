@@ -2,7 +2,7 @@
   <div class="layout-main">
 
     <!-- 侧边栏 -->
-    <sidebar />
+    <Sidebar />
 
     <div
       id="content-area"
@@ -21,7 +21,8 @@
         </BackToTop>
 
         <!-- 头部 -->
-        <navbar />
+        <Navbar />
+
         <div class="router-view p-6">
           <div class="router-content">
             <!-- 主区域 -->
@@ -33,6 +34,7 @@
               <router-view />
             </transition>
           </div>
+
           <!-- 页脚 -->
           <Footer />
         </div>
