@@ -83,7 +83,13 @@ export const asyncRoutes = [
         path: '/order-detail',
         name: 'OrderDetail',
         component: () => import('@/views/order/OrderDetail.vue'),
-        meta: { title: '订单详情' },
+        meta: {
+          title: '订单详情',
+          breadcrumb: [
+            { title: '查询订单', url: '/' },
+            { title: '订单详情', active: true },
+          ],
+        },
       },
     ],
   },

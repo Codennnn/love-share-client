@@ -25,6 +25,21 @@
 
         <div class="router-view p-6">
           <div class="router-content">
+            <!-- 面包屑导航 -->
+            <div
+              class="flex items-center mt-1 mb-5"
+              v-if="$route.meta.breadcrumb"
+            >
+              <i
+                class="iconfont icon-back"
+                @click="$router.go(-1)"
+              ></i>
+              <vs-breadcrumb
+                separator="chevron_right"
+                :items="$route.meta.breadcrumb"
+              ></vs-breadcrumb>
+            </div>
+
             <!-- 主区域 -->
             <transition
               enter-active-class="animated fadeIn faster"
@@ -90,6 +105,15 @@ export default {
   min-height: 100vh;
   .router-content {
     padding-top: 4.5rem;
+    .icon-back {
+      cursor: pointer;
+      font-size: 30px;
+      color: rgb(133, 133, 133);
+      transition: all 0.3s;
+      &:hover {
+        color: #333;
+      }
+    }
   }
 }
 </style>
