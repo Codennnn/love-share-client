@@ -46,17 +46,16 @@ export const asyncRoutes = [
   {
     path: '',
     children: [
-      // {
-      //   path: '/order-detail',
-      //   name: 'OrderDetail',
-      //   hidden: true,
-      //   component: () => import('@/views/order/OrderDetail.vue'),
-      //   meta: { title: '订单详情' },
-      // },
+      {
+        path: '/order',
+        name: 'Order',
+        component: () => import('@/views/order/OrderDetail.vue'),
+        meta: { title: '订单详情' },
+      },
     ],
     meta: {
-      title: '数据分析',
-      icon: 'icon-home',
+      title: '订单管理',
+      icon: 'icon-dynamic',
     },
   },
   {

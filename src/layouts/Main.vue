@@ -26,19 +26,25 @@
         <div class="router-view p-6">
           <div class="router-content">
             <!-- 面包屑导航 -->
-            <div
-              class="flex items-center mt-1 ml-1 mb-3"
-              v-if="$route.meta.breadcrumb"
+            <transition
+              enter-active-class="animated zoomIn"
+              leave-active-class="animated zoomOut"
+              mode="out-in"
             >
-              <i
-                class="iconfont icon-back"
-                @click="$router.go(-1)"
-              ></i>
-              <vs-breadcrumb
-                separator="chevron_right"
-                :items="$route.meta.breadcrumb"
-              ></vs-breadcrumb>
-            </div>
+              <div
+                class="flex items-center mt-1 ml-1 mb-3"
+                v-if="$route.meta.breadcrumb"
+              >
+                <i
+                  class="iconfont icon-back"
+                  @click="$router.go(-1)"
+                ></i>
+                <vs-breadcrumb
+                  separator="chevron_right"
+                  :items="$route.meta.breadcrumb"
+                ></vs-breadcrumb>
+              </div>
+            </transition>
 
             <!-- 主区域 -->
             <transition
@@ -90,6 +96,7 @@ export default {
 
 #content-area {
   min-height: 100%;
+  min-width: 900px;
   margin-left: $side-bar-width;
   transition: margin-left 0.5s;
   &.content-area-full {

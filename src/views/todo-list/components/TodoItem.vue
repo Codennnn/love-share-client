@@ -24,7 +24,7 @@
         <li
           class="todo-item w-full cursor-pointer"
           v-for="todo in filterTodoItems"
-          :key="String(todo.id)"
+          :key="todo.id"
           @click="activePopup(todo)"
         >
           <vs-row>
@@ -110,7 +110,7 @@ export default {
       currentAcive: 'all',
       todoItems: [],
       settings: {
-        maxScrollbarLength: 160,
+        maxScrollbarLength: 200,
         wheelSpeed: 0.60,
       },
       tagColor,
@@ -130,6 +130,7 @@ export default {
     });
 
     Bus.$on('getAddedTodo', (newTodo) => {
+      console.log(_last(this.todoItems).id);
       newTodo.id = _last(this.todoItems).id + 1;
       this.todoItems.push(newTodo);
       Bus.$emit('closePopup');

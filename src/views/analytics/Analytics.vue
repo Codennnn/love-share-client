@@ -26,7 +26,7 @@
         </div>
       </div>
       <!-- 卡片 2：关注者统计卡片 -->
-      <div class="lg:w-3/12 lg:pl-3 lg:pr-3  my-3">
+      <div class="lg:w-3/12 lg:pl-3 lg:pr-3 sm:w-1/2 sm:pr-3 my-3">
         <div class="bg-white rounded-lg shadow-xl h-full">
           <area-chart
             icon="icon-group"
@@ -37,7 +37,7 @@
         </div>
       </div>
       <!-- 卡片 3：用户统计卡片 -->
-      <div class="lg:w-3/12 lg:pl-3 my-3">
+      <div class="lg:w-3/12 lg:pl-3 sm:w-1/2 sm:pl-3 my-3">
         <div class="bg-white rounded-lg shadow-xl h-full">
           <area-chart
             icon="icon-invite"
@@ -50,7 +50,7 @@
     </div>
     <div class="flex flex-wrap w-full">
       <!-- 卡片 4 -->
-      <div class="lg:w-6/12 lg:pr-3 my-3">
+      <div class="lg:w-6/12 lg:pr-3 sm:w-full my-3">
         <div class="p-6 bg-white rounded-lg shadow-xl h-full">
           <div class="flex">
             <div class="w-full lg:w-1/2 xl:w-1/2 flex flex-col justify-between pr-4">

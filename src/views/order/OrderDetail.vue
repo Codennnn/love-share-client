@@ -2,7 +2,7 @@
   <div class="main">
     <div class="card">
       <div class="card-header">
-        <p class="mr-3">订单号： 123456789987654321</p>
+        <p class="mr-3">订单号：{{ `123456789987654321` }}</p>
         <el-tooltip
           content="复制订单号"
           effect="light"
@@ -17,27 +17,42 @@
       </div>
       <vs-divider />
       <div>
-        <div class="flex order-info">
-          <div class="w-1/3 order-info__col">
+        <!-- 订单信息 -->
+        <div class="order-info">
+          <div class="order-info__col">
             <div class="order-info__item">
               <div class="label">收货地址</div>
               <div class="value">广州市海珠区飞天小区</div>
             </div>
             <div class="order-info__item">
-              <div class="label">创建时间</div>
-              <div class="value">2019-08-17 14:25</div>
-            </div>
-          </div>
-          <div class="w-1/3 order-info__col">
-            <div class="order-info__item">
               <div class="label">订单状态</div>
               <div class="value">清洗中</div>
             </div>
           </div>
-          <div class="w-1/3 order-info__col">1</div>
+          <div class="order-info__col">
+            <div class="order-info__item">
+              <div class="label">创建时间</div>
+              <div class="value">2019-08-17 14:25</div>
+            </div>
+            <div class="order-info__item">
+              <div class="label">付款时间</div>
+              <div class="value">2019-08-17 14:50</div>
+            </div>
+            <div class="order-info__item">
+              <div class="label">支付方式</div>
+              <div class="value">微信支付</div>
+            </div>
+          </div>
+          <div class="order-info__col">
+            <div class="order-info__item">
+              <div class="label">备注信息</div>
+              <div class="value">务必清洗干净！!</div>
+            </div>
+          </div>
         </div>
+        <!-- 衣物表格 -->
         <div class="py-6">
-          <vs-table :data="users">
+          <vs-table :data="infos">
             <template slot="header">
               <h3 class="p-2">
                 衣物信息
@@ -45,9 +60,10 @@
             </template>
             <template slot="thead">
               <vs-th>品种</vs-th>
-              <vs-th> 价格</vs-th>
-              <vs-th>件数</vs-th>
               <vs-th>状态</vs-th>
+              <vs-th>价格</vs-th>
+              <vs-th>件数</vs-th>
+              <vs-th>金额</vs-th>
             </template>
 
             <template slot-scope="{data}">
@@ -55,28 +71,18 @@
                 v-for="(tr, i) in data"
                 :key="i"
               >
-                <vs-td :data="data[i].email">
-                  {{data[i].email}}
-                </vs-td>
-
-                <vs-td :data="data[i].price">
-                  {{data[i].price}}
-                </vs-td>
-
-                <vs-td :data="data[i].id">
-                  {{data[i].id}}
-                </vs-td>
-
-                <vs-td :data="data[i].id">
-                  {{data[i].website}}
-                </vs-td>
+                <vs-td :data="tr.name">{{ tr.name }}</vs-td>
+                <vs-td :data="tr.status">{{ tr.status }}</vs-td>
+                <vs-td :data="tr.price">￥{{ tr.price }}</vs-td>
+                <vs-td :data="tr.num">{{ tr.num }}</vs-td>
+                <vs-td :data="tr.num">￥{{ (tr.price * tr.num).toFixed(2) }}</vs-td>
               </vs-tr>
             </template>
           </vs-table>
         </div>
         <div class="flex flex-col items-end">
           <div>已付款</div>
-          <div class="price">￥29.50</div>
+          <div class="price">￥{{ `107.60` }}</div>
         </div>
       </div>
     </div>
@@ -86,29 +92,7 @@
         <p>操作流水线</p>
       </div>
       <vs-divider />
-      <el-steps
-        :active="1"
-        align-center
-      >
-        <el-step title="创建订单">
-          <div slot="description">这是一段很长很长很长的描述性文字3</div>
-        </el-step>
-        <el-step
-          title="已送至工厂"
-          description="这是一段很长很长很长的描述性文字"
-        ></el-step>
-        <el-step
-          title="清洗中"
-          description="这是一段很长很长很长的描述性文字"
-        ></el-step>
-        <el-step title="正在派送">
-          <div slot="description">这是一段很长很长很长的描述性文字3</div>
-        </el-step>
-        <el-step
-          title="已送达"
-          description="这是一段很长很长很长的描述性文字"
-        ></el-step>
-      </el-steps>
+      <OrderStep />
     </div>
 
     <div class="card">
@@ -116,43 +100,62 @@
         <p>用户信息</p>
       </div>
       <vs-divider />
+      <div class="user-info">
+        <div class="user-info__col">
+          <div class="user-info__item">
+            <div class="label">用户姓名</div>
+            <div class="value">广州市海珠区飞天小区</div>
+          </div>
+          <div class="user-info__item">
+            <div class="label">住址</div>
+            <div class="value">广东省广州市从化区山顶洞438号</div>
+          </div>
+        </div>
+        <div class="user-info__col">
+          <div class="user-info__item">
+            <div class="label">会员卡号</div>
+            <div class="value">123456654321</div>
+          </div>
+        </div>
+        <div class="user-info__col">
+          <div class="user-info__item">
+            <div class="label">联系方式</div>
+            <div class="value">13724540846</div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import OrderStep from './components/OrderStep.vue';
+
+const infos = [
+  {
+    num: 1,
+    price: '35.80',
+    name: '毛衣',
+    status: '清洗中',
+  },
+  {
+    num: 2,
+    price: '35.90',
+    name: '短T恤衫',
+    status: '清洗完毕',
+  },
+];
+
 export default {
+  name: 'OrderDetail',
   data() {
     return {
       text: '123',
-      users: [
-        {
-          id: 1,
-          price: '￥35.50',
-          name: '毛衣',
-          username: 'Bret',
-          email: 'Sincere@april.biz',
-          website: 'hildegard.org',
-        },
-        {
-          id: 2,
-          price: '￥35.50',
-          name: 'Ervin Howell',
-          username: 'Antonette',
-          email: 'Shanna@melissa.tv',
-          website: 'anastasia.net',
-        },
-        {
-          id: 3,
-          price: '￥35.50',
-          name: 'Clementine Bauch',
-          username: 'Samantha',
-          email: 'Nathan@yesenia.net',
-          website: 'ramiro.info',
-        },
-      ],
+      infos,
     };
   },
+
+  components: { OrderStep },
 
   methods: {
     onCopy(e) {
@@ -177,15 +180,27 @@ export default {
   }
 }
 
-.order-info__item {
+.order-info,
+.user-info {
   display: flex;
-  align-items: center;
-  margin-bottom: 10px;
-}
-
-.label {
-  width: 28%;
-  color: #a0a0a0;
+  .order-info__col,
+  .user-info__col {
+    width: 33.33%;
+  }
+  .order-info__item,
+  .user-info__item {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 10px;
+  }
+  .label {
+    width: 28%;
+    color: #a0a0a0;
+    font-size: 15px;
+  }
+  .value {
+    width: 66%;
+  }
 }
 
 .price {
