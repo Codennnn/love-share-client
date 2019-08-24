@@ -4,7 +4,7 @@
       class="nav-wrapper"
       :class="{ collapse: sidebarCollapse }"
     >
-      <div class="nav-bar flex justify-between items-center bg-white rounded-lg">
+      <div class="nav-bar rounded-lg">
         <div>
           <router-link
             v-for="(item, index) in navIcons"
@@ -59,7 +59,7 @@
           <!-- 用户名称 -->
           <div class="info">
             <div class="text-right text-lg">{{ nickName }}</div>
-            <small>新媒体工作部</small>
+            <small style="color: #919191;">新媒体工作部</small>
           </div>
 
           <!-- 头像 -->
@@ -187,16 +187,20 @@ export default {
   padding: 1.4rem;
   padding-top: 1.2rem;
   transition: width 0.5s;
-}
-
-.collapse {
-  width: calc(100% - #{$side-bar-width} + 178px);
+  &.collapse {
+    width: calc(100% - #{$side-bar-width} + 178px);
+  }
 }
 
 .nav-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   height: 65px;
+  min-width: 900px;
   padding: 0.6rem 1rem;
-  box-shadow: 0 2px 15px 0 rgba(100, 100, 100, 0.1);
+  background: #fff;
+  box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.05);
   box-sizing: border-box;
   .nav-icon {
     &:hover {
@@ -216,12 +220,9 @@ export default {
 .info {
   margin-left: 15px;
   text-align: right;
-  small {
-    color: #919191;
-  }
 }
 
 .avatar {
-  box-shadow: 0 0 8px #686868;
+  box-shadow: 0 0 8px #777777;
 }
 </style>

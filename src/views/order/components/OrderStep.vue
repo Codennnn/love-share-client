@@ -1,6 +1,6 @@
 <template>
   <el-steps
-    :active="4"
+    :active="currentStep"
     align-center
   >
     <el-step title="创建订单">
@@ -107,6 +107,16 @@
     </el-step>
   </el-steps>
 </template>
+
+<script>
+export default {
+  data() {
+    return {
+      currentStep: 4,
+    };
+  },
+};
+</script>
 
 <style lang="scss" scoped>
 .block {

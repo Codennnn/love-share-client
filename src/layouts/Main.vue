@@ -27,8 +27,8 @@
           <div class="router-content">
             <!-- 面包屑导航 -->
             <transition
-              enter-active-class="animated zoomIn"
-              leave-active-class="animated zoomOut"
+              enter-active-class="animated zoomIn faster"
+              leave-active-class="animated zoomOut faster"
               mode="out-in"
             >
               <div

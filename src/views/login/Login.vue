@@ -95,7 +95,8 @@ export default {
 
       const [username, password] = [this.loginInput[0].value, this.loginInput[1].value];
 
-      await this.$store.dispatch('user/login', { user_name: username, password })
+      await this.$store
+        .dispatch('user/login', { user_name: username, password })
         .then((code) => {
           if (code === 2000) {
             this.$router.replace('/');

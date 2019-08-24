@@ -59,8 +59,22 @@ export const asyncRoutes = [
     },
   },
   {
-    path: '/TodoList',
-    redirect: '/todolist',
+    path: '',
+    component: Layout,
+    children: [
+      {
+        path: '/apparel',
+        name: 'Apparel',
+        component: () => import('@/views/apparel/Apparel.vue'),
+        meta: { title: '服饰' },
+      },
+    ],
+    meta: {
+      title: '服饰管理', icon: 'icon-apparel',
+    },
+  },
+  {
+    path: '',
     single: true,
     component: Layout,
     children: [
@@ -73,6 +87,7 @@ export const asyncRoutes = [
     ],
   },
 
+  // 不显示在侧边栏的路由
   {
     path: '',
     hidden: true,
