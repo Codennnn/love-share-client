@@ -6,7 +6,7 @@
 
     <div
       id="content-area"
-      :class="{ 'content-area-full': sidebarCollapse }"
+      :class="{'content-area-full': sidebarCollapse}"
     >
       <div class="content-wrapper">
         <!-- 回到顶部按钮 -->
@@ -27,7 +27,7 @@
           <div class="router-content">
             <!-- 面包屑导航 -->
             <div
-              class="flex items-center mt-1 mb-5"
+              class="flex items-center mt-1 ml-1 mb-3"
               v-if="$route.meta.breadcrumb"
             >
               <i

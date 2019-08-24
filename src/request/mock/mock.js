@@ -3,7 +3,6 @@ import Mock from 'mockjs';
 Mock.mock(/\/login/, 'post', {
   code: 2000,
   data: {
-    nick_name: '123456',
     token: 'login',
   },
 });
@@ -11,6 +10,7 @@ Mock.mock(/\/login/, 'post', {
 Mock.mock(/\/user_info/, 'get', {
   code: 2000,
   data: {
+    nick_name: '123456',
     roles: ['admin'],
   },
 });

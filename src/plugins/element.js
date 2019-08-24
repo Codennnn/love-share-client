@@ -2,7 +2,7 @@ import Vue from 'vue';
 import {
   Badge, Container, Dropdown, DropdownMenu, DropdownItem,
   Menu, MenuItem,
-  Popover, Submenu,
+  Popover, Submenu, Steps, Step,
   Tooltip, Table, TableColumn, MenuItemGroup,
 } from 'element-ui'; // 按需引入组件
 import 'element-ui/lib/theme-chalk/index.css';
@@ -30,3 +30,5 @@ Vue.use(TableColumn);
 Vue.use(Tooltip);
 Vue.use(Popover);
 Vue.use(Badge);
+Vue.use(Steps);
+Vue.use(Step);
