@@ -45,12 +45,13 @@ export const asyncRoutes = [
   },
   {
     path: '',
+    component: Layout,
     children: [
       {
         path: '/order',
         name: 'Order',
-        component: () => import('@/views/order/OrderDetail.vue'),
-        meta: { title: '订单详情' },
+        component: () => import('@/views/order/Order.vue'),
+        meta: { title: '查询订单' },
       },
     ],
     meta: {
