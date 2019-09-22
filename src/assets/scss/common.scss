@@ -1,8 +1,0 @@
-// flex 通用布局
-@mixin flex($dir:row, $justify:flex-start, $align:stretch) {
-  display: flex;
-  direction: $dir;
-  justify-content: $justify;
-  align-items: $align;
-  @content;
-}

@@ -55,7 +55,7 @@
 </template>
 
 <script>
-import Bus from '@/utils/eventBus';
+import Bus from '@/utils/eventBus'
 
 export default {
   data() {
@@ -80,13 +80,13 @@ export default {
         text: '丢弃的',
         type: 'isTrashed',
       },
-    ];
+    ]
     const labelMarks = [
       { bg: '#7367f0', text: '前端', type: 0 },
       { bg: '#ff9f39', text: '后端', type: 1 },
       { bg: '#67c23a', text: '其它', type: 2 },
       { bg: '#F56c6c', text: 'BUG', type: 3 },
-    ];
+    ]
     const todoTemplete = {
       id: null,
       title: '',
@@ -96,31 +96,31 @@ export default {
       isImportant: false,
       isStarred: false,
       isTrashed: false,
-    };
+    }
     return {
       labelItems, // 筛选项
       labelMarks, // 标记项
       todoTemplete,
       currentActive: 5, // 当前激活的项
-    };
+    }
   },
 
   methods: {
     // 显示弹出框
     activePopup() {
-      Bus.$emit('openPopup');
-      Bus.$emit('getTodo', this.todoTemplete);
+      Bus.$emit('openPopup')
+      Bus.$emit('getTodo', this.todoTemplete)
     },
 
     // 设置当前激活的项
     setActive(type, index) {
       if (this.currentActive !== index) {
-        Bus.$emit('getActive', type); // 将事件传递到 TodoItem.vue 组件中
-        this.currentActive = index;
+        Bus.$emit('getActive', type) // 将事件传递到 TodoItem.vue 组件中
+        this.currentActive = index
       }
     },
   },
-};
+}
 </script>
 
 <style lang="scss">

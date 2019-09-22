@@ -1,15 +1,15 @@
-import Vue from 'vue';
-import Vuex from 'vuex';
+import Vue from 'vue'
+import Vuex from 'vuex'
 
-import state from './state';
-import mutations from './mutations';
-import actions from './actions';
+import state from './state'
+import mutations from './mutations'
+import actions from './actions'
 
-import user from './modules/user';
-import todo from './modules/todo';
-import permission from './modules/permission';
+import user from './modules/user'
+import todo from './modules/todo'
+import permission from './modules/permission'
 
-Vue.use(Vuex);
+Vue.use(Vuex)
 
 export default new Vuex.Store({
   modules: {
@@ -24,7 +24,7 @@ export default new Vuex.Store({
 
   getters: {
     token(state) {
-      return state.token;
+      return state.token
     },
   },
-});
+})

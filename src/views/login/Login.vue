@@ -66,7 +66,7 @@ const loginInput = [
     isWarnng: false,
     warningText: '',
   },
-];
+]
 
 export default {
   data() {
@@ -74,14 +74,14 @@ export default {
       loginInput,
       loginBtnDisable: false,
       showAlert: false,
-    };
+    }
   },
 
   methods: {
     async login() {
       if (!this.validate()) {
         // 非空验证不通过，退出程序
-        return;
+        return
       }
 
       // 显示登录按钮的加载动画
@@ -90,47 +90,47 @@ export default {
         color: '#fff',
         container: '#loginBtn',
         scale: 0.45,
-      });
-      this.loginBtnDisable = true;
+      })
+      this.loginBtnDisable = true
 
-      const [username, password] = [this.loginInput[0].value, this.loginInput[1].value];
+      const [username, password] = [this.loginInput[0].value, this.loginInput[1].value]
 
       await this.$store
         .dispatch('user/login', { user_name: username, password })
         .then((code) => {
           if (code === 2000) {
-            this.$router.replace('/');
+            this.$router.replace('/')
           } else if (code === 3000 || code === 4004) {
-            this.showAlert = true;
+            this.showAlert = true
           }
         })
         .catch((err) => {
-          console.log(err);
-        });
+          console.log(err)
+        })
 
       // 关闭按钮的加载动画
-      this.$vs.loading.close('#loginBtn > .con-vs-loading');
-      this.loginBtnDisable = false;
+      this.$vs.loading.close('#loginBtn > .con-vs-loading')
+      this.loginBtnDisable = false
     },
 
     // 输入框非空验证
     validate() {
       for (let i = 0; i < 2; i += 1) {
         if (this.loginInput[i].value.length === 0) {
-          this.loginInput[i].isWarnng = true;
-          this.loginInput[i].warningText = (i === 0 ? '请输入账号' : '请输入密码');
-          return false;
+          this.loginInput[i].isWarnng = true
+          this.loginInput[i].warningText = (i === 0 ? '请输入账号' : '请输入密码')
+          return false
         }
       }
-      return true;
+      return true
     },
 
     // 输入框聚焦时隐藏警示
     inputFocus(i) {
-      this.loginInput[i].isWarnng = false;
+      this.loginInput[i].isWarnng = false
     },
   },
-};
+}
 </script>
 
 <style lang="scss" scoped>

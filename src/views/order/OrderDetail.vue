@@ -129,7 +129,7 @@
 </template>
 
 <script>
-import OrderStep from './components/OrderStep.vue';
+import OrderStep from './components/OrderStep.vue'
 
 const infos = [
   {
@@ -144,7 +144,7 @@ const infos = [
     name: '短T恤衫',
     status: '清洗完毕',
   },
-];
+]
 
 export default {
   name: 'OrderDetail',
@@ -152,17 +152,17 @@ export default {
     return {
       text: '123',
       infos,
-    };
+    }
   },
 
   components: { OrderStep },
 
   methods: {
     onCopy(e) {
-      console.log(e);
+      console.log(e)
     },
   },
-};
+}
 </script>
 
 <style lang="scss" scoped>

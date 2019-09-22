@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import VueApexCharts from 'vue-apexcharts';
+import VueApexCharts from 'vue-apexcharts'
 
 export default {
   props: {
@@ -48,7 +48,7 @@ export default {
   components: {
     VueApexCharts,
   },
-};
+}
 </script>
 
 <style lang="scss" scoped>

@@ -16,24 +16,24 @@
 </template>
 
 <script>
-import Bus from '@/utils/eventBus'; // 事件总线
+import Bus from '@/utils/eventBus' // 事件总线
 
-import TodoBar from './components/TodoBar.vue';
-import TodoItem from './components/TodoItem.vue';
-import TodoPopup from './components/TodoPopup.vue';
+import TodoBar from './components/TodoBar.vue'
+import TodoItem from './components/TodoItem.vue'
+import TodoPopup from './components/TodoPopup.vue'
 
 export default {
   data() {
-    return {};
+    return {}
   },
 
   destroyed() {
     // 移除 Bus 中监听的事件，防止事件多次触发
-    Bus.$off('openPopup');
-    Bus.$off('closePopup');
-    Bus.$off('getTodo');
-    Bus.$off('getActive');
-    Bus.$off('getEditedTodo');
+    Bus.$off('openPopup')
+    Bus.$off('closePopup')
+    Bus.$off('getTodo')
+    Bus.$off('getActive')
+    Bus.$off('getEditedTodo')
   },
 
   components: {
@@ -41,7 +41,7 @@ export default {
     TodoItem,
     TodoPopup,
   },
-};
+}
 </script>
 
 <style lang="scss" scoped>

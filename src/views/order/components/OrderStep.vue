@@ -113,9 +113,9 @@ export default {
   data() {
     return {
       currentStep: 4,
-    };
+    }
   },
-};
+}
 </script>
 
 <style lang="scss" scoped>

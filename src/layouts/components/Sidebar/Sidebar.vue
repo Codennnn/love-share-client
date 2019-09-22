@@ -65,30 +65,30 @@
 </template>
 
 <script>
-import _debounce from 'lodash/debounce'; // 引入防抖函数
+import _debounce from 'lodash/debounce' // 引入防抖函数
 
 export default {
   data() {
     return {
-    };
+    }
   },
 
   mounted() {
     window.onresize = _debounce(() => {
       if (document.body.clientWidth <= 1300) {
-        this.$store.commit('SWITCH_SIDEBAR_COLLAPSE', true);
+        this.$store.commit('SWITCH_SIDEBAR_COLLAPSE', true)
       } else {
-        this.$store.commit('SWITCH_SIDEBAR_COLLAPSE', false);
+        this.$store.commit('SWITCH_SIDEBAR_COLLAPSE', false)
       }
-    }, 400);
+    }, 400)
   },
 
   computed: {
     sidebarCollapse() {
-      return this.$store.state.sidebarCollapse;
+      return this.$store.state.sidebarCollapse
     },
     sidebarList() {
-      return this.$store.state.permission.routes;
+      return this.$store.state.permission.routes
     },
   },
 
@@ -97,10 +97,10 @@ export default {
       this.$store.commit(
         'SWITCH_SIDEBAR_COLLAPSE',
         !this.sidebarCollapse,
-      );
+      )
     },
   },
-};
+}
 </script>
 
 <style lang="scss" scoped>

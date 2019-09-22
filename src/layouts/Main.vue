@@ -65,10 +65,10 @@
 </template>
 
 <script>
-import BackToTop from 'vue-backtotop';
-import Sidebar from './components/Sidebar/Sidebar.vue';
-import Navbar from './components/Navbar/Navbar.vue';
-import Footer from './components/Footer/Footer.vue';
+import BackToTop from 'vue-backtotop'
+import Sidebar from './components/Sidebar/Sidebar.vue'
+import Navbar from './components/Navbar/Navbar.vue'
+import Footer from './components/Footer/Footer.vue'
 
 export default {
   name: 'Main',
@@ -81,10 +81,10 @@ export default {
 
   computed: {
     sidebarCollapse() {
-      return this.$store.state.sidebarCollapse;
+      return this.$store.state.sidebarCollapse
     },
   },
-};
+}
 </script>
 
 <style lang="scss" scoped>

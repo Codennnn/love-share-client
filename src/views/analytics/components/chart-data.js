@@ -56,7 +56,7 @@ export const subscribersGained = {
       x: { show: false },
     },
   },
-};
+}
 
 export const ordersRecevied = {
   series: [{
@@ -116,7 +116,7 @@ export const ordersRecevied = {
       x: { show: false },
     },
   },
-};
+}
 
 export const salesBar = {
   series: [{
@@ -154,4 +154,4 @@ export const salesBar = {
       x: { show: false },
     },
   },
-};
+}

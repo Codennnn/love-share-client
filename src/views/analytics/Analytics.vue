@@ -122,9 +122,9 @@
 </template>
 
 <script>
-import VueApexCharts from 'vue-apexcharts';
-import AreaChart from './components/AreaChart.vue';
-import { subscribersGained, ordersRecevied, salesBar } from './components/chart-data';
+import VueApexCharts from 'vue-apexcharts'
+import AreaChart from './components/AreaChart.vue'
+import { subscribersGained, ordersRecevied, salesBar } from './components/chart-data'
 
 export default {
   name: 'Analytics',
@@ -138,7 +138,7 @@ export default {
       ordersRecevied,
       salesBar,
       show: true,
-    };
+    }
   },
 
   mounted() {
@@ -146,7 +146,7 @@ export default {
 
   methods: {
   },
-};
+}
 </script>
 
 <style lang="scss" scoped>

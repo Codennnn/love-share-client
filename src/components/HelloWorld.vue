@@ -76,7 +76,7 @@ export default {
   props: {
     msg: String,
   },
-};
+}
 </script>
 
 <style scoped lang="scss">

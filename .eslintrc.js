@@ -11,20 +11,19 @@ module.exports = {
   ],
 
   rules: {
-    'no-console': 'off',
-    'no-debugger': 'off',
+    'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
+    'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     'no-param-reassign': ['error', { props: false }],
     'no-shadow': ['error', { allow: ['state'] }],
-    'vue/no-unused-vars': 'warning',
-    // 'camelcase': 2,
+    semi: ['error', 'never'],
   },
 
   parserOptions: {
     parser: 'babel-eslint',
   },
 
-  'extends': [
+  extends: [
     'plugin:vue/essential',
-    '@vue/airbnb'
-  ]
-};
+    '@vue/airbnb',
+  ],
+}

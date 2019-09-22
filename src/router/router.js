@@ -1,13 +1,13 @@
-import Vue from 'vue';
-import Router from 'vue-router';
+import Vue from 'vue'
+import Router from 'vue-router'
 
-import Layout from '@/layouts/Main.vue'; // 主框架
-import Analytics from '@/views/analytics/Analytics.vue'; // 数据分析
+import Layout from '@/layouts/Main.vue' // 主框架
+import Analytics from '@/views/analytics/Analytics.vue' // 数据分析
 
-const Login = () => import('@/views/login/Login.vue');
-const TodoList = () => import('@/views/todo-list/TodoList.vue');
+const Login = () => import('@/views/login/Login.vue')
+const TodoList = () => import('@/views/todo-list/TodoList.vue')
 
-Vue.use(Router);
+Vue.use(Router)
 
 export const constantRoutes = [
   {
@@ -24,7 +24,7 @@ export const constantRoutes = [
     component: () => import('@/views/error-page/404.vue'),
     meta: { title: '404 not found' },
   },
-];
+]
 
 export const asyncRoutes = [
   {
@@ -110,19 +110,19 @@ export const asyncRoutes = [
   },
 
   { path: '*', redirect: '/404', hidden: true },
-];
+]
 
 const createRouter = () => new Router({
   mode: 'hash',
   base: process.env.BASE_URL,
   routes: constantRoutes,
-});
+})
 
-const router = createRouter();
+const router = createRouter()
 
 export function resetRouter() {
-  const newRouter = createRouter();
-  router.matcher = newRouter.matcher; // 重置路由
+  const newRouter = createRouter()
+  router.matcher = newRouter.matcher // 重置路由
 }
 
-export default router;
+export default router

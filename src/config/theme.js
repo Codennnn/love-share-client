@@ -1,13 +1,13 @@
-import Vue from 'vue';
-import Vuesax from 'vuesax';
+import Vue from 'vue'
+import Vuesax from 'vuesax'
 
-import 'vuesax/dist/vuesax.css'; // Vuesax 样式
-import 'material-icons/iconfont/material-icons.css';
+import 'vuesax/dist/vuesax.css' // Vuesax 样式
+import 'material-icons/iconfont/material-icons.css'
 
-import '@/assets/scss/reset.scss'; // 覆盖默认样式
-import '@/assets/scss/custom.scss'; // 自定义样式
-import '@/assets/scss/tailwind.scss'; // tailwind 样式
-import '@/assets/iconfont/iconfont.css'; // 阿里云字体图标
+import '@/assets/scss/reset.scss' // 覆盖默认样式
+import '@/assets/scss/custom.scss' // 自定义样式
+import '@/assets/scss/tailwind.scss' // tailwind 样式
+import '@/assets/iconfont/iconfont.css' // 阿里云字体图标
 
 Vue.use(Vuesax, {
   theme: {
@@ -19,4 +19,4 @@ Vue.use(Vuesax, {
       dark: '#1E1E1E',
     },
   },
-});
+})

@@ -99,9 +99,9 @@
 </template>
 
 <script>
-import _isEqual from 'lodash/isEqual';
-import _cloneDeepWith from 'lodash/cloneDeepWith';
-import Bus from '@/utils/eventBus';
+import _isEqual from 'lodash/isEqual'
+import _cloneDeepWith from 'lodash/cloneDeepWith'
+import Bus from '@/utils/eventBus'
 
 export default {
   data() {
@@ -110,23 +110,23 @@ export default {
       后端: '#ff9f39',
       其它: '#67c23a',
       BUG: '#f56c6c',
-    };
+    }
     return {
       isPopupActive: false, // 是否弹框
       task: null,
       tags: ['前端', '后端', '其它', 'BUG'],
       tagColor,
       tempTodo: '',
-    };
+    }
   },
 
   mounted() {
-    Bus.$on('openPopup', () => { this.isPopupActive = true; });
-    Bus.$on('closePopup', () => { this.isPopupActive = false; });
+    Bus.$on('openPopup', () => { this.isPopupActive = true })
+    Bus.$on('closePopup', () => { this.isPopupActive = false })
     Bus.$on('getTodo', (todo) => {
-      this.refTodo = todo; // 将原 todo 存起来以便后面使用
-      this.task = _cloneDeepWith(todo); // 深拷贝 todo 对象
-    });
+      this.refTodo = todo // 将原 todo 存起来以便后面使用
+      this.task = _cloneDeepWith(todo) // 深拷贝 todo 对象
+    })
   },
 
   methods: {

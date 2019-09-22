@@ -25,22 +25,6 @@
         </div>
         <div class="nav-right">
           <div class="flex items-center">
-            <!-- 切换语言图标 -->
-            <vs-dropdown>
-              <i
-                class="nav-icon iconfont"
-                :class="`icon-${this.$i18n.locale}`"
-              ></i>
-              <vs-dropdown-menu>
-                <vs-dropdown-item
-                  v-for="(item, index) in languages"
-                  :key="index"
-                  @click="switchLanguage(item.key)"
-                >
-                  {{ item.text }}
-                </vs-dropdown-item>
-              </vs-dropdown-menu>
-            </vs-dropdown>
             <!-- 通知图标 -->
             <el-badge class="ml-3">
               <i
@@ -99,19 +83,19 @@
 </template>
 
 <script>
-import screenfull from 'screenfull';
-import { mapState } from 'vuex';
+import screenfull from 'screenfull'
+import { mapState } from 'vuex'
 
 const popItems = [
   { icon: 'el-icon-user', text: '我的信息', route: '/' },
   { icon: 'el-icon-trophy', text: '我的社团', route: '/my-club' },
   { icon: 'el-icon-switch-button', text: '退出登录' },
-];
+]
 const navIcons = [
   { tip: '社团', icon: 'icon-medal', route: '/club-list' },
   { tip: '动态', icon: 'icon-dynamic', route: '/dynamic-list' },
   { tip: '活动', icon: 'icon-activity', route: '/activity-list' },
-];
+]
 
 export default {
   name: 'NavBar',
@@ -124,18 +108,18 @@ export default {
         { text: 'English', key: 'en' },
       ],
       isFullScreen: false, // 是否全屏
-    };
+    }
   },
 
   mounted() {
     if (screenfull.enabled) {
-      screenfull.on('change', this.screenChange);
+      screenfull.on('change', this.screenChange)
     }
   },
 
   beforeDestroy() {
     if (screenfull.enabled) {
-      screenfull.off('change', this.screenChange);
+      screenfull.off('change', this.screenChange)
     }
   },
 
@@ -149,13 +133,8 @@ export default {
   methods: {
     // 退出登录
     async logout() {
-      await this.$store.dispatch('user/logout');
-      this.$router.replace('/login');
-    },
-
-    // 切换语言
-    switchLanguage(key) {
-      this.$i18n.locale = key;
+      await this.$store.dispatch('user/logout')
+      this.$router.replace('/login')
     },
 
     // 网页全屏
@@ -166,17 +145,17 @@ export default {
           title: '不支持全屏',
           text: '检测到您的浏览器不支持全屏，请开启全屏显示模式',
           color: 'warning',
-        });
-        return;
+        })
+        return
       }
-      screenfull.toggle();
+      screenfull.toggle()
     },
     screenChange() {
-      this.isFullScreen = screenfull.isFullscreen;
+      this.isFullScreen = screenfull.isFullscreen
     },
 
   },
-};
+}
 </script>
 
 <style lang="scss">

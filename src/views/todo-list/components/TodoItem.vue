@@ -91,17 +91,17 @@
 </template>
 
 <script>
-import VuePerfectScrollbar from 'vue-perfect-scrollbar';
+import VuePerfectScrollbar from 'vue-perfect-scrollbar'
 
-import _last from 'lodash/last';
-import Bus from '@/utils/eventBus';
+import _last from 'lodash/last'
+import Bus from '@/utils/eventBus'
 
 const tagColor = {
   前端: '#7367f0',
   后端: '#ff9f39',
   其它: '#67c23a',
   BUG: '#f56c6c',
-};
+}
 
 export default {
   data() {
@@ -114,92 +114,92 @@ export default {
         wheelSpeed: 0.60,
       },
       tagColor,
-    };
+    }
   },
 
   components: { VuePerfectScrollbar },
 
   mounted() {
     // 获取全部的 todo 项
-    this.todoItems = this.$store.state.todo.todos;
-    console.log(this.todoItems);
+    this.todoItems = this.$store.state.todo.todos
+    console.log(this.todoItems)
 
     // 接收 TodoBar 中的事件，获知当前激活的菜单项
     Bus.$on('getActive', (current) => {
-      this.currentAcive = current;
-    });
+      this.currentAcive = current
+    })
 
     Bus.$on('getAddedTodo', (newTodo) => {
-      console.log(_last(this.todoItems).id);
-      newTodo.id = _last(this.todoItems).id + 1;
-      this.todoItems.push(newTodo);
-      Bus.$emit('closePopup');
-    });
+      console.log(_last(this.todoItems).id)
+      newTodo.id = _last(this.todoItems).id + 1
+      this.todoItems.push(newTodo)
+      Bus.$emit('closePopup')
+    })
 
     Bus.$on('getEditedTodo', (newTodo) => {
       this.todoItems.some((item) => {
         if (item.id === newTodo.id) {
-          const indexOfItem = this.todoItems.indexOf(item);
-          this.$set(this.todoItems, indexOfItem, newTodo);
-          Bus.$emit('closePopup');
-          return true;
+          const indexOfItem = this.todoItems.indexOf(item)
+          this.$set(this.todoItems, indexOfItem, newTodo)
+          Bus.$emit('closePopup')
+          return true
         }
-        return false;
-      });
-    });
+        return false
+      })
+    })
   },
 
   computed: {
     // 返回过滤后的 todo 项
     filterTodoItems() {
-      const current = this.currentAcive || 'all';
-      console.log(current);
+      const current = this.currentAcive || 'all'
+      console.log(current)
       if (current === 'all') {
-        return this.todoItems;
+        return this.todoItems
       }
 
       if (['前端', '后端', '其它', 'BUG'].includes(current)) {
-        return this.todoItems.filter(todo => todo.tags.includes(current));
+        return this.todoItems.filter(todo => todo.tags.includes(current))
       }
 
-      return this.todoItems.filter(todo => todo[current] === true);
+      return this.todoItems.filter(todo => todo[current] === true)
     },
   },
 
   methods: {
     // 显示弹出框
     activePopup(todo) {
-      Bus.$emit('openPopup');
-      Bus.$emit('getTodo', todo);
+      Bus.$emit('openPopup')
+      Bus.$emit('getTodo', todo)
     },
 
     // 设为重要事项
     toggleIsImportant(id) {
       this.todoItems.some((el) => {
         if (el.id === id) {
-          el.isImportant = !el.isImportant;
-          return true;
+          el.isImportant = !el.isImportant
+          return true
         }
-        return false;
-      });
+        return false
+      })
     },
 
     // 设为星号标记
     toggleIsStarred(id) {
       this.todoItems.some((el) => {
         if (el.id === id) {
-          el.isStarred = !el.isStarred;
-          return true;
+          el.isStarred = !el.isStarred
+          return true
         }
-        return false;
-      });
+        return false
+      })
     },
 
     moveToTrash() {
-      this.isTrashed = !this.isTrashed;
+      this.isTrashed = !this.isTrashed
     },
   },
-};
+}
 </script>
 
 <style lang="scss" scoped>
