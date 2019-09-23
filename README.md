@@ -4,30 +4,11 @@
 🚀 代码优化 ⚡️ 性能优化 🏆 新增功能 🎨 样式调整 🔧 修改配置 🛠️ 修复BUG
 
 
-## 安装项目依赖
+### 命令
+```bash
+yarn install     # 安装依赖
+yarn run serve   # 启动项目
+yarn run build   # 构建项目
+yarn run test    # 执行测试
+yarn run lint    # 格式化文件
 ```
-npm install
-```
-
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Run your tests
-```
-npm run test
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
