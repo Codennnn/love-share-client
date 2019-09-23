@@ -2,7 +2,7 @@
   <div class="layout-main">
 
     <!-- 侧边栏 -->
-    <Sidebar />
+    <TheSidebar />
 
     <div
       id="content-area"
@@ -21,7 +21,7 @@
         </BackToTop>
 
         <!-- 头部 -->
-        <Navbar />
+        <TheNavbar />
 
         <div class="router-view p-6">
           <div class="router-content">
@@ -57,7 +57,7 @@
           </div>
 
           <!-- 页脚 -->
-          <Footer />
+          <TheFooter />
         </div>
       </div>
     </div>
@@ -66,16 +66,16 @@
 
 <script>
 import BackToTop from 'vue-backtotop'
-import Sidebar from './components/Sidebar/Sidebar.vue'
-import Navbar from './components/Navbar/Navbar.vue'
-import Footer from './components/Footer/Footer.vue'
+import TheSidebar from './components/TheSidebar.vue'
+import TheNavbar from './components/TheNavbar.vue'
+import TheFooter from './components/TheFooter.vue'
 
 export default {
   name: 'Main',
   components: {
-    Sidebar,
-    Navbar,
-    Footer,
+    TheSidebar,
+    TheNavbar,
+    TheFooter,
     BackToTop,
   },
 
@@ -91,7 +91,7 @@ export default {
 .layout-main {
   position: relative;
   height: 100%;
-  background-color: rgb(245, 245, 245);
+  background: rgb(245, 245, 245);
 }
 
 #content-area {

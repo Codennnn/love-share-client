@@ -10,10 +10,17 @@
         class="w-6 h-6"
         src="@/assets/images/logo/logo.png"
       />
-      <span
-        class="ml-3 text-lg font-semibold text-purple-600"
-        v-show="!sidebarCollapse"
-      >意想社团</span>
+      <transition
+        enter-active-class="animated fadeIn faster"
+        leave-active-class="animated fadeOut faster"
+        mode="out-in"
+      >
+        <img
+          class="w-32 ml-3"
+          src="@/assets/images/logo/logo-text.png"
+          v-show="!sidebarCollapse"
+        >
+      </transition>
     </div>
 
     <el-menu
