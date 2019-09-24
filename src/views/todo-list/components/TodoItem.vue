@@ -6,7 +6,7 @@
     >
       <!-- 搜索框 -->
       <vs-input
-        class="sticky top-0 z-40 w-full search-input"
+        class="search-input sticky top-0 z-40 w-full"
         icon="search"
         size="large"
         icon-no-border
