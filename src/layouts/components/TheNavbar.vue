@@ -25,19 +25,50 @@
         </div>
         <div class="nav-right">
           <div class="flex items-center">
-            <!-- 通知图标 -->
-            <el-badge class="ml-3">
+            <!-- 搜索图标 -->
+            <el-tooltip
+              :open-delay="100"
+              :content="showSearchInput ? '关闭搜索' : '全站搜索'"
+              effect="light"
+            >
               <i
-                class="nav-icon iconfont"
-                :class="'icon-notice'"
+                class="nav-icon iconfont ml-3"
+                :class="showSearchInput ? 'icon-close' : 'icon-search'"
+                @click="showSearchInput = !showSearchInput"
               ></i>
-            </el-badge>
+            </el-tooltip>
+            <vs-input
+              class="nav-search overflow-hidden"
+              :class="showSearchInput ? 'w-48': 'w-0'"
+              placeholder="搜索你想要的宝贝"
+              @keyup.esc="showSearchInput = false"
+              v-model="searchText"
+            />
+            <!-- 通知图标 -->
+            <el-tooltip
+              :open-delay="100"
+              content="查看通知"
+              effect="light"
+            >
+              <el-badge class="ml-3">
+                <i
+                  class="nav-icon iconfont"
+                  :class="'icon-notice'"
+                ></i>
+              </el-badge>
+            </el-tooltip>
             <!-- 全屏图标 -->
-            <i
-              class="nav-icon iconfont ml-3"
-              :class="[isFullScreen ? 'icon-screenunfull' : 'icon-screenfull' ]"
-              @click="screenfull"
-            ></i>
+            <el-tooltip
+              :open-delay="100"
+              content="切换全屏"
+              effect="light"
+            >
+              <i
+                class="nav-icon iconfont ml-3"
+                :class="[isFullScreen ? 'icon-screenunfull' : 'icon-screenfull' ]"
+                @click="screenfull"
+              ></i>
+            </el-tooltip>
           </div>
 
           <!-- 用户名称 -->
@@ -103,10 +134,8 @@ export default {
     return {
       popItems,
       navIcons,
-      languages: [
-        { text: '简体中文', key: 'cn' },
-        { text: 'English', key: 'en' },
-      ],
+      searchText: '',
+      showSearchInput: false,
       isFullScreen: false, // 是否全屏
     }
   },
@@ -194,6 +223,27 @@ export default {
 .nav-right {
   display: flex;
   align-items: center;
+}
+
+.nav-search {
+  // 重设输入框样式
+  .vs-inputx {
+    border: none !important;
+    box-shadow: none;
+    border-radius: 0;
+  }
+  .vs-icon {
+    top: 0.7rem;
+    font-size: 25px;
+  }
+  .vs-input--input {
+    border: none !important;
+    border-bottom: 2px solid #a0a0a0 !important;
+  }
+  .vs-input--input:focus {
+    border: none !important;
+    border-bottom: 2px solid #a0a0a0 !important;
+  }
 }
 
 .info {
