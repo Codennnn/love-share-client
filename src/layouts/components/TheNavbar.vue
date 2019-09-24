@@ -33,13 +33,13 @@
             >
               <i
                 class="nav-icon iconfont ml-3"
-                :class="showSearchInput ? 'icon-close' : 'icon-search'"
+                :class="[showSearchInput ? 'icon-close' : 'icon-search']"
                 @click="showSearchInput = !showSearchInput"
               ></i>
             </el-tooltip>
             <vs-input
               class="nav-search overflow-hidden"
-              :class="showSearchInput ? 'w-48': 'w-0'"
+              :class="[showSearchInput ? 'w-48': 'w-0']"
               placeholder="搜索你想要的宝贝"
               @keyup.esc="showSearchInput = false"
               v-model="searchText"
@@ -65,7 +65,7 @@
             >
               <i
                 class="nav-icon iconfont ml-3"
-                :class="[isFullScreen ? 'icon-screenunfull' : 'icon-screenfull' ]"
+                :class="[isFullScreen ? 'icon-screenunfull' : 'icon-screenfull']"
                 @click="screenfull"
               ></i>
             </el-tooltip>
@@ -190,10 +190,12 @@ export default {
 <style lang="scss">
 .nav-wrapper {
   position: fixed;
-  z-index: 500;
+  z-index: 9999;
   width: calc(100% - #{$side-bar-width});
+  min-width: 900px;
   padding: 1.4rem;
   padding-top: 1.2rem;
+  box-sizing: border-box;
   transition: width 0.5s;
   &.collapse {
     width: calc(100% - #{$side-bar-width} + 178px);
@@ -205,7 +207,6 @@ export default {
   justify-content: space-between;
   align-items: center;
   height: 65px;
-  min-width: 900px;
   padding: 0.6rem 1rem;
   background: #fff;
   box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.05);
@@ -229,20 +230,13 @@ export default {
   // 重设输入框样式
   .vs-inputx {
     border: none !important;
+    border-bottom: 2px solid #a0a0a0 !important;
     box-shadow: none;
     border-radius: 0;
-  }
-  .vs-icon {
-    top: 0.7rem;
-    font-size: 25px;
-  }
-  .vs-input--input {
-    border: none !important;
-    border-bottom: 2px solid #a0a0a0 !important;
-  }
-  .vs-input--input:focus {
-    border: none !important;
-    border-bottom: 2px solid #a0a0a0 !important;
+    &.vs-input--input:focus {
+      border: none !important;
+      border-bottom: 2px solid #a0a0a0 !important;
+    }
   }
 }
 
