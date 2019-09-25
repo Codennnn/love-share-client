@@ -190,7 +190,7 @@ export default {
 <style lang="scss">
 .nav-wrapper {
   position: fixed;
-  z-index: 9999;
+  z-index: 999;
   width: calc(100% - #{$side-bar-width});
   min-width: 900px;
   padding: 1.4rem;
