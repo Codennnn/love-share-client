@@ -15,7 +15,7 @@ Mock.mock(/\/user_info/, 'get', {
   },
 })
 
-Mock.mock(/\/users[\s\S]*?/, 'get', () => ({
+Mock.mock(/\/user[\s\S]*?/, 'get', () => ({
   data: 1234,
 }))
 

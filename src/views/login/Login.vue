@@ -11,14 +11,14 @@
               <div class="w-4/6 mt-32">
                 <vs-input
                   class="w-full py-2"
-                  v-for="(item, index) in signInInput"
+                  v-for="(item, i) in signInInput"
+                  :key="i"
                   :type="item.type"
-                  :key="index"
                   :placeholder="item.placeholder"
                   :warning="item.isWarnng"
                   :warning-text="item.warningText"
                   val-icon-warning="warning"
-                  @focus="inputFocus(index)"
+                  @focus="signInInputFocus(i)"
                   v-model.trim="item.value"
                 />
                 <vs-alert
@@ -30,7 +30,7 @@
                   账号或密码有误，请重新输入
                 </vs-alert>
                 <vs-button
-                  id="loginBtn"
+                  id="signInBtn"
                   class="w-full mt-2 vs-con-loading__container"
                   type="relief"
                   :disabled="signInDisable"
@@ -48,14 +48,14 @@
               <div class="w-4/6 mt-32">
                 <vs-input
                   class="w-full py-2"
-                  v-for="(item, index) in signUpInput"
+                  v-for="(item, i) in signUpInput"
+                  :key="i"
                   :type="item.type"
-                  :key="index"
                   :placeholder="item.placeholder"
                   :warning="item.isWarnng"
                   :warning-text="item.warningText"
                   val-icon-warning="warning"
-                  @focus="inputFocus(index)"
+                  @focus="signUpInputFocus(i)"
                   v-model.trim="item.value"
                 />
                 <vs-alert
@@ -67,7 +67,7 @@
                   账号或密码有误，请重新输入
                 </vs-alert>
                 <vs-button
-                  id="registerBtn"
+                  id="signUpBtn"
                   class="w-full mt-2 vs-con-loading__container"
                   type="relief"
                   :disabled="signUpDisable"
@@ -125,15 +125,13 @@ const signUpInput = [
 ]
 
 export default {
-  data() {
-    return {
-      signInInput,
-      signUpInput,
-      signInDisable: false,
-      signUpDisable: false,
-      showAlert: false,
-    }
-  },
+  data: () => ({
+    signInInput,
+    signUpInput,
+    signInDisable: false,
+    signUpDisable: false,
+    showAlert: false,
+  }),
 
   methods: {
     login() {
@@ -146,7 +144,7 @@ export default {
       this.$vs.loading({
         background: 'primary',
         color: '#fff',
-        container: '#loginBtn',
+        container: '#signInBtn',
         scale: 0.45,
       })
       this.signInDisable = true
@@ -162,12 +160,9 @@ export default {
             this.showAlert = true
           }
         })
-        .catch((err) => {
-          console.log(err)
-        })
 
       // 关闭按钮的加载动画
-      this.$vs.loading.close('#loginBtn > .con-vs-loading')
+      this.$vs.loading.close('#signInBtn > .con-vs-loading')
       this.signInDisable = false
     },
 
@@ -184,11 +179,24 @@ export default {
     },
 
     // 输入框聚焦时隐藏警示
-    inputFocus(i) {
+    signInInputFocus(i) {
       this.signInInput[i].isWarnng = false
     },
+    signUpInputFocus(i) {
+      this.signUpInput[i].isWarnng = false
+    },
 
-    register() {},
+    register() {
+      this.$vs.loading({
+        background: 'primary',
+        color: '#fff',
+        container: '#signUpBtn',
+        scale: 0.45,
+      })
+      this.signUpDisable = true
+      this.$vs.loading.close('#signUpBtn > .con-vs-loading')
+      this.signInDisable = false
+    },
   },
 }
 </script>

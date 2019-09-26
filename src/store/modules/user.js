@@ -27,11 +27,10 @@ const actions = {
       if (code === 2000) {
         commit('SET_TOKEN', data.token) // 将token存储到vuex
         setToken(data.token) // 将token缓存到cookie
-        return code
       }
       return code
     } catch (err) {
-      return Promise.reject(err)
+      return err
     }
   },
 
