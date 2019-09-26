@@ -2,16 +2,16 @@
   <div class="background bg-cover bg-center bg-no-repeat
       flex justify-center items-center
       w-screen h-screen">
-    <div class="login-bg bg-cover bg-center bg-no-repeat shadow-2xl rounded">
+    <div class="login-bg bg-cover bg-center bg-no-repeat shadow-2xl rounded-lg">
       <vs-tabs class="w-5/12 h-full text-xl">
+        <!-- 登录 start -->
         <vs-tab label="登录">
-          <!-- 登录 start -->
           <div class="h-full text-base">
-            <div class="h-full flex flex-col justify-center items-center">
-              <div class="w-4/6">
+            <div class="h-full flex flex-col items-center">
+              <div class="w-4/6 mt-32">
                 <vs-input
                   class="w-full py-2"
-                  v-for="(item, index) in loginInput"
+                  v-for="(item, index) in signInInput"
                   :type="item.type"
                   :key="index"
                   :placeholder="item.placeholder"
@@ -33,25 +33,58 @@
                   id="loginBtn"
                   class="w-full mt-2 vs-con-loading__container"
                   type="relief"
-                  :disabled="loginBtnDisable"
+                  :disabled="signInDisable"
                   @click="login"
                 >登录</vs-button>
               </div>
             </div>
           </div>
-          <!-- 登录 end -->
         </vs-tab>
-
+        <!-- 登录 end -->
+        <!-- 注册 start -->
         <vs-tab label="注册">
-          <p>请联系管理员添加账号</p>
+          <div class="h-full text-base">
+            <div class="h-full flex flex-col items-center">
+              <div class="w-4/6 mt-32">
+                <vs-input
+                  class="w-full py-2"
+                  v-for="(item, index) in signUpInput"
+                  :type="item.type"
+                  :key="index"
+                  :placeholder="item.placeholder"
+                  :warning="item.isWarnng"
+                  :warning-text="item.warningText"
+                  val-icon-warning="warning"
+                  @focus="inputFocus(index)"
+                  v-model.trim="item.value"
+                />
+                <vs-alert
+                  closable
+                  close-icon="close"
+                  color='danger'
+                  :active.sync="showAlert"
+                >
+                  账号或密码有误，请重新输入
+                </vs-alert>
+                <vs-button
+                  id="registerBtn"
+                  class="w-full mt-2 vs-con-loading__container"
+                  type="relief"
+                  :disabled="signUpDisable"
+                  @click="register"
+                >立即注册</vs-button>
+              </div>
+            </div>
+          </div>
         </vs-tab>
+        <!-- 注册 end -->
       </vs-tabs>
     </div>
   </div>
 </template>
 
 <script>
-const loginInput = [
+const signInInput = [
   {
     placeholder: '您的账号',
     value: '',
@@ -67,18 +100,43 @@ const loginInput = [
     warningText: '',
   },
 ]
+const signUpInput = [
+  {
+    placeholder: '昵称',
+    value: '',
+    type: 'text',
+    isWarnng: false,
+    warningText: '',
+  },
+  {
+    placeholder: '密码（6-16个字符组成，区分大小写）',
+    value: '',
+    type: 'password',
+    isWarnng: false,
+    warningText: '',
+  },
+  {
+    placeholder: '手机号码',
+    value: '',
+    type: 'text',
+    isWarnng: false,
+    warningText: '',
+  },
+]
 
 export default {
   data() {
     return {
-      loginInput,
-      loginBtnDisable: false,
+      signInInput,
+      signUpInput,
+      signInDisable: false,
+      signUpDisable: false,
       showAlert: false,
     }
   },
 
   methods: {
-    async login() {
+    login() {
       if (!this.validate()) {
         // 非空验证不通过，退出程序
         return
@@ -91,11 +149,11 @@ export default {
         container: '#loginBtn',
         scale: 0.45,
       })
-      this.loginBtnDisable = true
+      this.signInDisable = true
 
-      const [username, password] = [this.loginInput[0].value, this.loginInput[1].value]
+      const [username, password] = [this.signInInput[0].value, this.signInInput[1].value]
 
-      await this.$store
+      this.$store
         .dispatch('user/login', { user_name: username, password })
         .then((code) => {
           if (code === 2000) {
@@ -110,15 +168,15 @@ export default {
 
       // 关闭按钮的加载动画
       this.$vs.loading.close('#loginBtn > .con-vs-loading')
-      this.loginBtnDisable = false
+      this.signInDisable = false
     },
 
     // 输入框非空验证
     validate() {
       for (let i = 0; i < 2; i += 1) {
-        if (this.loginInput[i].value.length === 0) {
-          this.loginInput[i].isWarnng = true
-          this.loginInput[i].warningText = (i === 0 ? '请输入账号' : '请输入密码')
+        if (this.signInInput[i].value.length === 0) {
+          this.signInInput[i].isWarnng = true
+          this.signInInput[i].warningText = (i === 0 ? '请输入账号' : '请输入密码')
           return false
         }
       }
@@ -127,8 +185,10 @@ export default {
 
     // 输入框聚焦时隐藏警示
     inputFocus(i) {
-      this.loginInput[i].isWarnng = false
+      this.signInInput[i].isWarnng = false
     },
+
+    register() {},
   },
 }
 </script>
