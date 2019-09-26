@@ -21,7 +21,7 @@ export const constantRoutes = [
     path: '/404',
     name: '404',
     hidden: true,
-    component: () => import('@/views/error-page/404.vue'),
+    component: () => import('@/views/error-page/NotFound.vue'),
     meta: { title: '404 not found' },
   },
 ]

@@ -44,19 +44,6 @@
               @keyup.esc="showSearchInput = false"
               v-model="searchText"
             />
-            <!-- 通知图标 -->
-            <el-tooltip
-              :open-delay="100"
-              content="查看通知"
-              effect="light"
-            >
-              <el-badge class="ml-3">
-                <i
-                  class="nav-icon iconfont"
-                  :class="'icon-notice'"
-                ></i>
-              </el-badge>
-            </el-tooltip>
             <!-- 全屏图标 -->
             <el-tooltip
               :open-delay="100"
@@ -69,6 +56,39 @@
                 @click="screenfull"
               ></i>
             </el-tooltip>
+            <!-- 通知图标 -->
+            <vs-dropdown vs-custom-content>
+              <el-badge
+                class="ml-3"
+                :value="2"
+              >
+                <i
+                  class="nav-icon iconfont"
+                  :class="'icon-notice'"
+                ></i>
+              </el-badge>
+              <vs-dropdown-menu class="message-box">
+                <div class="flex items-center justify-center text-white bg-primary p-4">5 条新消息</div>
+                <vs-dropdown-item
+                  class="w-50"
+                  v-for="(pop, index) in popItems"
+                  :key="index"
+                >
+                  <router-link
+                    tag="div"
+                    class="flex items-center"
+                    :to="pop.route || ''"
+                    @click.native="!pop.route && logout()"
+                  >
+                    <i
+                      class="inner-icon text-base font-medium"
+                      :class="pop.icon"
+                    ></i>
+                    <span class="inner-text ml-3">{{ pop.text }}</span>
+                  </router-link>
+                </vs-dropdown-item>
+              </vs-dropdown-menu>
+            </vs-dropdown>
           </div>
 
           <!-- 用户名称 -->
@@ -153,9 +173,7 @@ export default {
   },
 
   computed: {
-    ...mapState([
-      'sidebarCollapse',
-    ]),
+    ...mapState(['sidebarCollapse']),
     ...mapState('user', ['nickName']),
   },
 
@@ -237,6 +255,15 @@ export default {
       border: none !important;
       border-bottom: 2px solid #a0a0a0 !important;
     }
+  }
+}
+
+.message-box {
+  .vs-dropdown--menu {
+    padding: 0 !important;
+  }
+  .vs-dropdown--menu--after {
+    background: rgba(var(--vs-primary), 1);
   }
 }
 
