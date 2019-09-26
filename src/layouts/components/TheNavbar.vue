@@ -51,15 +51,18 @@
               effect="light"
             >
               <i
-                class="nav-icon iconfont ml-3"
+                class="nav-icon iconfont mx-3"
                 :class="[isFullScreen ? 'icon-screenunfull' : 'icon-screenfull']"
                 @click="screenfull"
               ></i>
             </el-tooltip>
             <!-- 通知图标 -->
-            <vs-dropdown vs-custom-content>
+            <vs-dropdown
+              vs-custom-content
+              vs-trigger-click
+            >
               <el-badge
-                class="ml-3"
+                class="mr-2"
                 :value="2"
               >
                 <i
@@ -68,25 +71,16 @@
                 ></i>
               </el-badge>
               <vs-dropdown-menu class="message-box">
-                <div class="flex items-center justify-center text-white bg-primary p-4">5 条新消息</div>
-                <vs-dropdown-item
-                  class="w-50"
-                  v-for="(pop, index) in popItems"
-                  :key="index"
+                <div class="flex items-center justify-center
+                text-white bg-primary p-4 text-xl">5 条新消息</div>
+                <VuePerfectScrollbar
+                  ref="mainSidebarPs"
+                  :settings="settings"
                 >
-                  <router-link
-                    tag="div"
-                    class="flex items-center"
-                    :to="pop.route || ''"
-                    @click.native="!pop.route && logout()"
-                  >
-                    <i
-                      class="inner-icon text-base font-medium"
-                      :class="pop.icon"
-                    ></i>
-                    <span class="inner-text ml-3">{{ pop.text }}</span>
-                  </router-link>
-                </vs-dropdown-item>
+                  <ul>
+                    <li></li>
+                  </ul>
+                </VuePerfectScrollbar>
               </vs-dropdown-menu>
             </vs-dropdown>
           </div>
@@ -136,6 +130,7 @@
 <script>
 import screenfull from 'screenfull'
 import { mapState } from 'vuex'
+import VuePerfectScrollbar from 'vue-perfect-scrollbar'
 
 const popItems = [
   { icon: 'el-icon-user', text: '我的信息', route: '/' },
@@ -150,15 +145,19 @@ const navIcons = [
 
 export default {
   name: 'NavBar',
-  data() {
-    return {
-      popItems,
-      navIcons,
-      searchText: '',
-      showSearchInput: false,
-      isFullScreen: false, // 是否全屏
-    }
-  },
+  data: () => ({
+    popItems,
+    navIcons,
+    searchText: '',
+    showSearchInput: false,
+    isFullScreen: false, // 是否全屏,
+    settings: {
+      maxScrollbarLength: 60,
+      wheelSpeed: 0.60,
+    },
+  }),
+
+  components: { VuePerfectScrollbar },
 
   mounted() {
     if (screenfull.enabled) {
@@ -258,9 +257,14 @@ export default {
   }
 }
 
-.message-box {
+.vs-dropdown-menu.message-box {
+  width: 365px;
+
   .vs-dropdown--menu {
     padding: 0 !important;
+    border: 0;
+    overflow: hidden;
+    border-radius: 0.5rem;
   }
   .vs-dropdown--menu--after {
     background: rgba(var(--vs-primary), 1);
