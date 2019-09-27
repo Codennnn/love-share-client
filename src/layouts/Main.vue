@@ -57,7 +57,7 @@
           </div>
 
           <!-- 页脚 -->
-          <TheFooter />
+          <TheFooter class="router-footer" />
         </div>
       </div>
     </div>
@@ -111,6 +111,7 @@ export default {
   position: relative;
   min-height: 100vh;
   .router-content {
+    min-height: calc(100vh - 64px - 3rem);
     padding-top: 4.5rem;
     .icon-back {
       cursor: pointer;
@@ -121,6 +122,10 @@ export default {
         color: #333;
       }
     }
+  }
+  .router-footer {
+    height: 64px;
+    line-height: 64px;
   }
 }
 </style>
