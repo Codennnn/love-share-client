@@ -5,7 +5,7 @@ import { resetRouter } from '@/router/router'
 const state = {
   token: getToken(),
   roles: [],
-  nickName: '',
+  nickname: '',
 }
 
 const mutations = {
@@ -15,8 +15,8 @@ const mutations = {
   SET_ROLES(state, roles) {
     state.roles = roles
   },
-  SET_NICK_NAME(state, nickName) {
-    state.nickName = nickName
+  SET_NICK_NAME(state, nickname) {
+    state.nickname = nickname
   },
 }
 
@@ -37,9 +37,9 @@ const actions = {
   async getUserInfo({ commit }) {
     try {
       const { data } = await getUserInfo()
-      const { roles, nick_name: nickName } = data
+      const { roles, nickname } = data
       commit('SET_ROLES', roles)
-      commit('SET_NICK_NAME', nickName)
+      commit('SET_NICK_NAME', nickname)
       return data
     } catch (err) {
       removeToken()
