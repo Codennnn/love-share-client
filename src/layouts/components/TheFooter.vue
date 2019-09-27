@@ -1,6 +1,6 @@
 <template>
-  <div class="footer-main p-5 text-center">
-    <p>COPYRIGHT @ 2019 Jack</p>
+  <div class="footer-main text-center">
+    <p>MADE@ 2019 Jack</p>
   </div>
 </template>
 
