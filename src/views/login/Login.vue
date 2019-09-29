@@ -25,10 +25,8 @@
                   closable
                   close-icon="close"
                   color='danger'
-                  :active.sync="showAlert"
-                >
-                  账号或密码有误，请重新输入
-                </vs-alert>
+                  :active.sync="signInError"
+                >{{ signInErrorText }}</vs-alert>
                 <vs-button
                   id="signInBtn"
                   class="w-full mt-2 vs-con-loading__container"
@@ -59,14 +57,28 @@
                   @focus="signUpInputFocus(i)"
                   v-model.trim="item.value"
                 />
+                <div class="flex items-center py-2">
+                  <vs-input
+                    class="w-7/12 mr-2"
+                    placeholder="验证码"
+                    :warning="codeError"
+                    :warning-text="codeWarningText"
+                    val-icon-warning="warning"
+                    @focus="codeError = false"
+                    v-model.trim="code"
+                  />
+                  <vs-button
+                    class="w-5/12"
+                    type="border"
+                    @click="getCode"
+                  >{{ codeText }}</vs-button>
+                </div>
                 <vs-alert
                   closable
                   close-icon="close"
                   color='danger'
-                  :active.sync="showAlert"
-                >
-                  账号或密码有误，请重新输入
-                </vs-alert>
+                  :active.sync="signUpError"
+                >{{ signUpErrorText }}</vs-alert>
                 <vs-button
                   id="signUpBtn"
                   class="w-full mt-2 vs-con-loading__container"
@@ -85,6 +97,7 @@
 </template>
 
 <script>
+import { setInterval } from 'timers'
 import { register } from '@/request/api/user'
 
 const signInInput = [
@@ -108,7 +121,8 @@ const signUpInput = [
     placeholder: '昵称',
     value: '',
     type: 'text',
-    description: '不能含特殊符号，如@ / % # &',
+    description: '只能是中文、字母、数字',
+    reg: /^[1]([3-9])[0-9]{9}$/,
     isWarnng: false,
     warningText: '',
   },
@@ -117,6 +131,7 @@ const signUpInput = [
     value: '',
     type: 'password',
     description: '密码应由6-16个字符组成，区分大小写',
+    reg: /^[1]([3-9])[0-9]{9}$/,
     isWarnng: false,
     warningText: '',
   },
@@ -125,6 +140,7 @@ const signUpInput = [
     value: '',
     type: 'text',
     description: '',
+    reg: /^[1]([3-9])[0-9]{9}$/,
     isWarnng: false,
     warningText: '',
   },
@@ -134,13 +150,21 @@ export default {
   data: () => ({
     signInInput,
     signUpInput,
+    signInError: false,
+    signUpError: false,
+    signUpErrorText: '账号或密码有误，请重新输入',
+    signInErrorText: '注册失败',
     signInDisable: false,
     signUpDisable: false,
-    showAlert: false,
+    codeError: false,
+    code: '', // 验证码
+    codeText: '获取验证码',
+    codeWarningText: '',
+    timer: null,
   }),
 
   methods: {
-    login() {
+    async login() {
       if (!this.validate('signIn')) {
         // 非空验证不通过，退出程序
         return
@@ -157,23 +181,26 @@ export default {
 
       const [username, password] = [this.signInInput[0].value, this.signInInput[1].value]
 
-      this.$store
-        .dispatch('user/login', { username, password })
-        .then((code) => {
-          if (code === 2000) {
-            this.$router.replace('/')
-          } else if (code === 3000 || code === 4004) {
-            this.showAlert = true
-          }
-          // 关闭按钮的加载动画
-          this.$vs.loading.close('#signInBtn > .con-vs-loading')
-          this.signInDisable = false
-        })
+      const code = await this.$store.dispatch('user/login', { username, password })
+
+      if (code === 2000) {
+        this.$router.replace('/')
+      } else if (code === 3000 || code === 4004) {
+        // 3000 - 账号错误，4004 - 密码错误
+        this.signInError = true
+      }
+      // 关闭按钮的加载动画
+      this.$vs.loading.close('#signInBtn > .con-vs-loading')
+      this.signInDisable = false
     },
 
     async register() {
       if (!this.validate('signUp')) {
         // 非空验证不通过，退出程序
+        return
+      }
+
+      if (!this.registerValidate()) {
         return
       }
 
@@ -187,8 +214,9 @@ export default {
 
       try {
         await register()
-      } catch {
-        console.log('error')
+      } catch (err) {
+        console.log(err)
+        this.signUpError = true
       } finally {
         this.$vs.loading.close('#signUpBtn > .con-vs-loading')
         this.signInDisable = false
@@ -207,25 +235,59 @@ export default {
         }
         return true
       }
+
       if (flag === 'signUp') {
         const text = {
-
-
           0: '请输入昵称',
           1: '请输入密码',
-          2: '请输入手机',
-          3: '请输入验证码',
+          2: '请输入手机号码',
         }
-        for (let i = 0; i < 4; i += 1) {
+        for (let i = 0; i < 3; i += 1) {
           if (this.signUpInput[i].value.length === 0) {
             this.signUpInput[i].isWarnng = true
             this.signUpInput[i].warningText = text[i]
             return false
           }
         }
-        return false
+        if (this.code.length <= 0) {
+          this.codeError = true
+          this.codeWarningText = '请填入验证码'
+          return false
+        }
       }
       return true
+    },
+
+    registerValidate() {
+      const isValidated = (i) => {
+        if (this.signUpInput[i].reg.test(this.signUpInput[i].value)) {
+          return true
+        }
+        this.signUpInput[i].isWarnng = true
+        this.signUpInput[i].warningText = `请确认${this.signUpInput[i].placeholder}填写正确`
+        return false
+      }
+      const flags = [0, 1, 2].map(isValidated)
+      const flag = flags.every(Boolean)
+      console.log(flags, flag)
+      return flag
+    },
+
+    // 获取验证码
+    getCode() {
+      let count = 60
+      if (!this.timer) {
+        this.codeText = `${count}s`
+        this.timer = setInterval(() => {
+          if (count > 0) {
+            count -= 1
+            this.codeText = `${count}s`
+          } else {
+            clearInterval(this.timer)
+            this.codeText = '获取验证码'
+          }
+        }, 1000)
+      }
     },
 
     // 输入框聚焦时隐藏警示
@@ -250,8 +312,11 @@ export default {
   background-image: url("~@/assets/images/pages/login/login_bg.png");
 }
 
-.vs-tabs-primary button:not(:disabled):hover {
-  color: #fff !important; // 修正样式
+#signInBtn,
+#signUpBtn {
+  &:hover {
+    color: #fff !important; // 修正样式
+  }
 }
 
 // 重置tab选项卡的高度

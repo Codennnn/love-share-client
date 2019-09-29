@@ -7,10 +7,17 @@ Mock.mock(/\/login/, 'post', {
   },
 })
 
+Mock.mock(/\/register/, 'post', {
+  code: 2000,
+  data: {
+    token: 'login',
+  },
+})
+
 Mock.mock(/\/user_info/, 'get', {
   code: 2000,
   data: {
-    nick_name: '123456',
+    nickname: '123456',
     roles: ['admin'],
   },
 })
