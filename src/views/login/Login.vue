@@ -42,8 +42,8 @@
         <!-- 注册 start -->
         <vs-tab label="注册">
           <div class="h-full text-base">
-            <div class="h-full flex flex-col items-center">
-              <div class="w-4/6 mt-12">
+            <div class="h-full flex flex-col items-center justify-center">
+              <div class="w-4/6">
                 <div class="overflow-hidden">
                   <vs-select
                     autocomplete
@@ -146,7 +146,7 @@ const signUpInput = [
     value: '',
     type: 'text',
     description: '只能是中文、字母、数字',
-    reg: /^[A-Za-z0-9\u4e00-\u9fa5]+$/gi,
+    reg: /^[0-9a-zA-Z_]{1,}$/,
     isWarnng: false,
     warningText: '',
   },
@@ -232,6 +232,12 @@ export default {
         return
       }
 
+      if (this.code.length <= 0) {
+        this.codeError = true
+        this.codeWarningText = '请填入验证码'
+        return
+      }
+
       this.$vs.loading({
         background: 'primary',
         color: '#fff',
@@ -277,11 +283,6 @@ export default {
             return false
           }
         }
-        if (this.code.length <= 0) {
-          this.codeError = true
-          this.codeWarningText = '请填入验证码'
-          return false
-        }
       }
       return true
     },
@@ -302,18 +303,22 @@ export default {
 
     // 获取验证码
     getCode() {
-      let count = 60
-      if (!this.timer) {
-        this.codeText = `${count}s`
-        this.timer = setInterval(() => {
-          if (count > 0) {
-            count -= 1
-            this.codeText = `${count}s`
-          } else {
-            clearInterval(this.timer)
-            this.codeText = '重新发送'
-          }
-        }, 1000)
+      if (this.validate('signUp') && this.registerCheck()) {
+        if (!this.timer) {
+          let count = 60
+          this.codeText = `${count}s`
+          this.timer = setInterval(() => {
+            if (count > 0) {
+              count -= 1
+              this.codeText = `${count}s`
+            } else {
+              clearInterval(this.timer)
+              this.timer = null
+              count = 60
+              this.codeText = '重新发送'
+            }
+          }, 1000)
+        }
       }
     },
 
