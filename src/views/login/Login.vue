@@ -202,7 +202,7 @@ export default {
       }
 
       // 如果注册校验不通过，终止
-      if (!this.registerValidate()) {
+      if (!this.registerCheck()) {
         return
       }
 
@@ -260,7 +260,7 @@ export default {
       return true
     },
 
-    registerValidate() {
+    registerCheck() {
       const isValidated = (i) => {
         if (this.signUpInput[i].reg.test(this.signUpInput[i].value)) {
           return true
@@ -269,7 +269,7 @@ export default {
         this.signUpInput[i].warningText = `请确认${this.signUpInput[i].placeholder}填写正确`
         return false
       }
-      const flags = [0, 1, 2].map(isValidated)
+      const flags = [0, 1, 2].map(isValidated) // 记录三个输入框的正则状态
       const flag = flags.every(Boolean)
       return flag
     },
