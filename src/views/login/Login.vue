@@ -44,6 +44,23 @@
           <div class="h-full text-base">
             <div class="h-full flex flex-col items-center">
               <div class="w-4/6 mt-12">
+                <div class="overflow-hidden">
+                  <vs-select
+                    autocomplete
+                    class="mb-1"
+                    label="请选择您的学校"
+                    width="100%"
+                    @input-change="schoolChange"
+                    v-model="school"
+                  >
+                    <vs-select-item
+                      v-for="(item, i) in options"
+                      :key="i"
+                      :value="item.value"
+                      :text="item.text"
+                    />
+                  </vs-select>
+                </div>
                 <vs-input
                   class="w-full"
                   v-for="(item, i) in signUpInput"
@@ -100,6 +117,13 @@
 import { setInterval } from 'timers'
 import { register } from '@/request/api/user'
 
+const options = [
+  { text: '广州大学华软软件学院', value: 1000 },
+  { text: '华南理工大学', value: 1001 },
+  { text: '东莞理工学院', value: 1002 },
+  { text: '南京邮电大学', value: 1003 },
+  { text: '四川大学', value: 1004 },
+]
 const signInInput = [
   {
     placeholder: '您的账号',
@@ -149,8 +173,10 @@ const signUpInput = [
 export default {
   name: 'Login',
   data: () => ({
+    options,
     signInInput,
     signUpInput,
+    school: 1000,
     signInError: false,
     signUpError: false,
     signInErrorText: '账号或密码有误，请重新输入',
@@ -298,6 +324,8 @@ export default {
     signUpInputFocus(i) {
       this.signUpInput[i].isWarnng = false
     },
+
+    schoolChange() {},
   },
 }
 </script>
