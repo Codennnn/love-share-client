@@ -43,13 +43,13 @@
         <vs-tab label="注册">
           <div class="h-full text-base">
             <div class="h-full flex flex-col items-center">
-              <div class="w-4/6 mt-20">
+              <div class="w-4/6 mt-12">
                 <vs-input
-                  class="w-full py-2"
+                  class="w-full"
                   v-for="(item, i) in signUpInput"
                   :key="i"
                   :type="item.type"
-                  :placeholder="item.placeholder"
+                  :label-placeholder="item.placeholder"
                   :description-text="item.description"
                   :warning="item.isWarnng"
                   :warning-text="item.warningText"
@@ -57,7 +57,7 @@
                   @focus="signUpInputFocus(i)"
                   v-model.trim="item.value"
                 />
-                <div class="flex items-center py-2">
+                <div class="flex items-center mt-2 py-2">
                   <vs-input
                     class="w-7/12 mr-2"
                     placeholder="验证码"
@@ -122,7 +122,7 @@ const signUpInput = [
     value: '',
     type: 'text',
     description: '只能是中文、字母、数字',
-    reg: /^[1]([3-9])[0-9]{9}$/,
+    reg: /^[A-Za-z0-9\u4e00-\u9fa5]+$/gi,
     isWarnng: false,
     warningText: '',
   },
@@ -130,8 +130,8 @@ const signUpInput = [
     placeholder: '密码',
     value: '',
     type: 'password',
-    description: '密码应由6-16个字符组成，区分大小写',
-    reg: /^[1]([3-9])[0-9]{9}$/,
+    description: '6-16个字符，只能是字母、数字和下划线',
+    reg: /^[\w]{6,16}$/,
     isWarnng: false,
     warningText: '',
   },
@@ -147,13 +147,14 @@ const signUpInput = [
 ]
 
 export default {
+  name: 'Login',
   data: () => ({
     signInInput,
     signUpInput,
     signInError: false,
     signUpError: false,
-    signUpErrorText: '账号或密码有误，请重新输入',
-    signInErrorText: '注册失败',
+    signInErrorText: '账号或密码有误，请重新输入',
+    signUpErrorText: '注册失败',
     signInDisable: false,
     signUpDisable: false,
     codeError: false,
@@ -200,6 +201,7 @@ export default {
         return
       }
 
+      // 如果注册校验不通过，终止
       if (!this.registerValidate()) {
         return
       }
@@ -269,7 +271,6 @@ export default {
       }
       const flags = [0, 1, 2].map(isValidated)
       const flag = flags.every(Boolean)
-      console.log(flags, flag)
       return flag
     },
 
@@ -284,7 +285,7 @@ export default {
             this.codeText = `${count}s`
           } else {
             clearInterval(this.timer)
-            this.codeText = '获取验证码'
+            this.codeText = '重新发送'
           }
         }, 1000)
       }
