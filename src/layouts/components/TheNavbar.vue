@@ -75,6 +75,7 @@
                 <div class="flex items-center justify-center
                 text-white bg-primary p-4 text-xl">5 条新消息</div>
                 <VuePerfectScrollbar
+                  style="height: 350px;"
                   ref="mainSidebarPs"
                   :settings="settings"
                 >
@@ -82,17 +83,25 @@
                     v-for="(notice, i) in notices"
                     :key="i"
                   >
-                    <li class="flex justify-between px-4 py-4 notice cursor-pointer">
+                    <li class="notice flex justify-between px-4 py-4
+                    cursor-pointer hover:bg-gray-200">
                       <div class="flex items-start">
-                        <i class="iconfont icon-close"></i>
+                        <vs-icon
+                          icon="chat_bubble_outline"
+                          size="small"
+                          color="primary"
+                        ></vs-icon>
                         <div class="mx-2">
                           <div>
-                            <span class="font-medium block">{{ notice.title }}</span>
-                            <small>{{ notice.title }}</small>
+                            <span class="text-primary font-medium block">{{ notice.title }}</span>
+                            <small class="notice-content">{{ notice.msg }}</small>
                           </div>
                         </div>
                       </div>
-                      <small>{{ $dayjs().get('day') }}</small>
+                      <small
+                        class="whitespace-no-wrap"
+                        style="color: #989898;"
+                      >{{ $dayjs().format('YYYY') }}</small>
                     </li>
                   </ul>
                 </VuePerfectScrollbar>
@@ -162,7 +171,7 @@ const navIcons = [
   { tip: '活动', icon: 'icon-activity', route: '/activity-list' },
 ]
 const notices = [
-  { title: '优惠券即将到期', msg: '您有一张八折优惠券即将到期，请及时使用' },
+  { title: '优惠券即将到期', msg: '您有一张八折优惠券即将到期，请及时使用您有一张八折优惠券即将到期，请及时使用您有一张八折优惠券即将到期，请及时使用您有一张八折优惠券即将到期，请及时使用', type: 0 },
 ]
 
 export default {
@@ -175,7 +184,7 @@ export default {
     showSearchInput: false,
     isFullScreen: false, // 是否全屏,
     settings: {
-      maxScrollbarLength: 60,
+      maxScrollbarLength: 160,
       wheelSpeed: 0.60,
     },
   }),
@@ -269,6 +278,7 @@ export default {
   align-items: center;
 }
 
+// 搜索框
 .nav-search {
   // 重设输入框样式
   .vs-inputx {
@@ -283,6 +293,7 @@ export default {
   }
 }
 
+// 通知菜单
 .vs-dropdown-menu.notice-box {
   width: 365px;
 
@@ -295,6 +306,14 @@ export default {
   .vs-dropdown--menu--after {
     background: rgba(var(--vs-primary), 1);
   }
+  .notice-content {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    color: #989898;
+  }
 }
 
 .info {
@@ -302,6 +321,7 @@ export default {
   text-align: right;
 }
 
+// 用户头像
 .avatar {
   box-shadow: 0 0 8px #777777;
 }
