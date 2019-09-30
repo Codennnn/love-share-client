@@ -25,6 +25,7 @@
         </div>
         <div class="nav-right">
           <div class="flex items-center">
+
             <!-- 搜索图标 -->
             <el-tooltip
               :open-delay="100"
@@ -45,6 +46,7 @@
               @keyup.enter="search"
               v-model="searchText"
             />
+
             <!-- 全屏图标 -->
             <el-tooltip
               :open-delay="100"
@@ -57,6 +59,7 @@
                 @click="screenfull"
               ></i>
             </el-tooltip>
+
             <!-- 通知图标 -->
             <vs-dropdown
               vs-custom-content
@@ -71,20 +74,41 @@
                   :class="'icon-notice'"
                 ></i>
               </el-badge>
-              <vs-dropdown-menu class="notice-box">
-                <div class="flex items-center justify-center
-                text-white bg-primary p-4 text-xl">5 条新消息</div>
+              <vs-dropdown-menu
+                id="div-with-loading"
+                class="notice-box"
+              >
+                <div
+                  class="w-full table text-center
+                text-white bg-primary cursor-pointer"
+                  style="height: 65px;"
+                  @click="openLoadingInDiv"
+                  @mouseover="showRefresh = true"
+                  @mouseout="showRefresh = false"
+                >
+                  <div
+                    class="table-cell"
+                    style="vertical-align: middle;"
+                  >
+                    <div class="text-xl">收到 5 条通知</div>
+                    <div
+                      class="text-sm text-gray-300"
+                      v-show="showRefresh"
+                    >点击刷新</div>
+                  </div>
+                </div>
                 <VuePerfectScrollbar
                   style="height: 350px;"
-                  ref="mainSidebarPs"
                   :settings="settings"
                 >
-                  <ul
-                    v-for="(nt, i) in notices"
-                    :key="i"
-                  >
-                    <li class="notice flex justify-between px-4 py-4
-                    cursor-pointer hover:bg-gray-200">
+                  <ul class="vs-con-loading__container">
+                    <li
+                      class="notice flex justify-between px-4 py-4
+                    cursor-pointer hover:bg-gray-200"
+                      style="transition: all 0.3s;"
+                      v-for="(nt, i) in notices"
+                      :key="i"
+                    >
                       <div class="flex items-start">
                         <vs-icon
                           size="small"
@@ -108,12 +132,16 @@
                     </li>
                   </ul>
                 </VuePerfectScrollbar>
-                <div class="w-full p-2 text-center text-primary
-                cursor-pointer font-semibold bg-gray-100">
+                <div
+                  class="w-full p-2 text-center text-primary
+                cursor-pointer font-semibold bg-gray-100 hover:bg-gray-200"
+                  style="transition: all 0.3s;"
+                >
                   <span>查看全部通知</span>
                 </div>
               </vs-dropdown-menu>
             </vs-dropdown>
+
           </div>
 
           <!-- 用户名称 -->
@@ -197,6 +225,7 @@ export default {
     navIcons,
     notices,
     noticeType,
+    showRefresh: false,
     searchText: '',
     showSearchInput: false,
     isFullScreen: false, // 是否全屏,
@@ -253,6 +282,7 @@ export default {
       console.log(this.searchText)
     },
 
+    // 计算通知的时间差
     timeDiff(time) {
       const now = this.$dayjs()
       const date = this.$dayjs.unix(time)
@@ -272,6 +302,17 @@ export default {
         return `${now.diff(date, 'year')}年前`
       }
       return date.format('YYYY-MM-DD')
+    },
+
+    openLoadingInDiv() {
+      this.$vs.loading({
+        type: 'point',
+        container: '#div-with-loading',
+        scale: 0.6,
+      })
+      setTimeout(() => {
+        this.$vs.loading.close('#div-with-loading > .con-vs-loading')
+      }, 3000)
     },
   },
 }
