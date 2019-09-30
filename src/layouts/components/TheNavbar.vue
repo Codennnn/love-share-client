@@ -67,7 +67,7 @@
             >
               <el-badge
                 class="mr-2"
-                :value="2"
+                :value="this.notices.length > 0 ? this.notices.length : ''"
                 @click="getNotices"
               >
                 <i
