@@ -18,8 +18,8 @@ export const constantRoutes = [
     meta: { title: '登录' },
   },
   {
-    path: '/404',
-    name: '404',
+    path: '/not-found',
+    name: 'not-found',
     hidden: true,
     component: () => import('@/views/error-page/NotFound.vue'),
     meta: { title: '404 not found' },
@@ -109,7 +109,7 @@ export const asyncRoutes = [
     ],
   },
 
-  { path: '*', redirect: '/404', hidden: true },
+  { path: '*', redirect: '/not-found', hidden: true },
 ]
 
 const createRouter = () => new Router({
