@@ -80,8 +80,7 @@
                 class="notice-box"
               >
                 <div
-                  class="w-full table text-center
-                text-white bg-primary cursor-pointer"
+                  class="w-full table text-center text-white bg-primary cursor-pointer"
                   style="height: 65px;"
                   @mouseover="showRefresh = true"
                   @mouseout="showRefresh = false"
