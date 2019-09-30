@@ -80,28 +80,31 @@
                   :settings="settings"
                 >
                   <ul
-                    v-for="(notice, i) in notices"
+                    v-for="(nt, i) in notices"
                     :key="i"
                   >
                     <li class="notice flex justify-between px-4 py-4
                     cursor-pointer hover:bg-gray-200">
                       <div class="flex items-start">
                         <vs-icon
-                          icon="chat_bubble_outline"
                           size="small"
-                          color="primary"
+                          :icon="noticeType[nt.type].icon"
+                          :color="noticeType[nt.type].color"
                         ></vs-icon>
                         <div class="mx-2">
                           <div>
-                            <span class="text-primary font-medium block">{{ notice.title }}</span>
-                            <small class="notice-content">{{ notice.msg }}</small>
+                            <span
+                              class="font-medium block"
+                              :class="[`text-${noticeType[nt.type].color}`]"
+                            >{{ nt.title }}</span>
+                            <small class="notice-content">{{ nt.msg }}</small>
                           </div>
                         </div>
                       </div>
                       <small
                         class="whitespace-no-wrap"
                         style="color: #989898;"
-                      >{{ $dayjs().format('YYYY') }}</small>
+                      >{{ timeDiff(nt.time) }}</small>
                     </li>
                   </ul>
                 </VuePerfectScrollbar>
@@ -171,8 +174,21 @@ const navIcons = [
   { tip: '活动', icon: 'icon-activity', route: '/activity-list' },
 ]
 const notices = [
-  { title: '优惠券即将到期', msg: '您有一张八折优惠券即将到期，请及时使用您有一张八折优惠券即将到期，请及时使用您有一张八折优惠券即将到期，请及时使用您有一张八折优惠券即将到期，请及时使用', type: 0 },
+  {
+    title: '优惠券即将到期', msg: '您有一张八折优惠券即将到期，请及时使用您有一张八折优惠券即将到期，请及时使用您有一张八折优惠券即将到期，请及时使用您有一张八折优惠券即将到期，请及时使用', type: 0, time: 1569600000,
+  },
+  {
+    title: '优惠券即将到期', msg: '您有一张八折优惠券即将到期，请及时使用您有一张八折优惠券即将到期，请及时使用您有一张八折优惠券即将到期，请及时使用您有一张八折优惠券即将到期，请及时使用', type: 1, time: 1561910400,
+  },
+  {
+    title: '优惠券即将到期', msg: '您有一张八折优惠券即将到期，请及时使用您有一张八折优惠券即将到期，请及时使用您有一张八折优惠券即将到期，请及时使用您有一张八折优惠券即将到期，请及时使用', type: 2, time: 1506700800,
+  },
 ]
+const noticeType = {
+  0: { icon: 'chat_bubble_outline', color: 'primary' },
+  1: { icon: 'done_outline', color: 'success' },
+  2: { icon: 'error_outline', color: 'danger' },
+}
 
 export default {
   name: 'TheNavBar',
@@ -180,6 +196,7 @@ export default {
     popItems,
     navIcons,
     notices,
+    noticeType,
     searchText: '',
     showSearchInput: false,
     isFullScreen: false, // 是否全屏,
@@ -234,6 +251,27 @@ export default {
 
     search() {
       console.log(this.searchText)
+    },
+
+    timeDiff(time) {
+      const now = this.$dayjs()
+      const date = this.$dayjs.unix(time)
+      const diff = now.diff(date, 'day')
+      if (diff < 30) {
+        if (diff === 0) {
+          return '今天'
+        }
+        if (diff === 1) {
+          return '昨天'
+        }
+        return `${diff}天前`
+      }
+      if (diff >= 30 && diff < 365) {
+        return `${now.diff(date, 'month')}个月前`
+      } if (diff >= 365 && diff < 365 * 2) {
+        return `${now.diff(date, 'year')}年前`
+      }
+      return date.format('YYYY-MM-DD')
     },
   },
 }
