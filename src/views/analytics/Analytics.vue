@@ -21,7 +21,7 @@
               <i class="iconfont icon-safety"></i>
             </div>
             <p class="my-4 text-2xl font-medium">欢迎你，令狐聪</p>
-            <p>上次登录时间为：2019-05-07 19：21</p>
+            <p>上次登录时间为：{{ $dayjs().format('YYYY-MM-DD hh:mm') }}</p>
           </div>
         </div>
       </div>
