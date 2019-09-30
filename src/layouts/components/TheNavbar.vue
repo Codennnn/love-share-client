@@ -68,6 +68,7 @@
               <el-badge
                 class="mr-2"
                 :value="2"
+                @click="getNotices"
               >
                 <i
                   class="nav-icon iconfont"
@@ -82,15 +83,15 @@
                   class="w-full table text-center
                 text-white bg-primary cursor-pointer"
                   style="height: 65px;"
-                  @click="openLoadingInDiv"
                   @mouseover="showRefresh = true"
                   @mouseout="showRefresh = false"
                 >
                   <div
                     class="table-cell"
                     style="vertical-align: middle;"
+                    @click="noticesRefresh"
                   >
-                    <div class="text-xl">收到 5 条通知</div>
+                    <div class="text-xl">收到 {{ this.notices.length }} 条新通知</div>
                     <div
                       class="text-sm text-gray-300"
                       v-show="showRefresh"
@@ -101,7 +102,10 @@
                   style="height: 350px;"
                   :settings="settings"
                 >
-                  <ul class="vs-con-loading__container">
+                  <ul
+                    class="vs-con-loading__container"
+                    v-if="this.notices.length > 0"
+                  >
                     <li
                       class="notice flex justify-between px-4 py-4
                     cursor-pointer hover:bg-gray-200"
@@ -131,6 +135,17 @@
                       >{{ timeDiff(nt.time) }}</small>
                     </li>
                   </ul>
+                  <div
+                    class="h-full flex flex-col items-center justify-center"
+                    v-else
+                  >
+                    <vs-icon
+                      size="80px"
+                      icon="blur_on"
+                      color="#718096"
+                    ></vs-icon>
+                    <div class="mt-4 text-gray-600 text-sm">暂无更多新的通知</div>
+                  </div>
                 </VuePerfectScrollbar>
                 <div
                   class="w-full p-2 text-center text-primary
@@ -191,6 +206,8 @@ import screenfull from 'screenfull'
 import { mapState } from 'vuex'
 import VuePerfectScrollbar from 'vue-perfect-scrollbar'
 
+import { getNotices } from '@/request/api/common'
+
 const popItems = [
   { icon: 'el-icon-user', text: '我的信息', route: '/' },
   { icon: 'el-icon-trophy', text: '我的社团', route: '/my-club' },
@@ -200,17 +217,6 @@ const navIcons = [
   { tip: '社团', icon: 'icon-medal', route: '/club-list' },
   { tip: '动态', icon: 'icon-dynamic', route: '/dynamic-list' },
   { tip: '活动', icon: 'icon-activity', route: '/activity-list' },
-]
-const notices = [
-  {
-    title: '优惠券即将到期', msg: '您有一张八折优惠券即将到期，请及时使用您有一张八折优惠券即将到期，请及时使用您有一张八折优惠券即将到期，请及时使用您有一张八折优惠券即将到期，请及时使用', type: 0, time: 1569600000,
-  },
-  {
-    title: '优惠券即将到期', msg: '您有一张八折优惠券即将到期，请及时使用您有一张八折优惠券即将到期，请及时使用您有一张八折优惠券即将到期，请及时使用您有一张八折优惠券即将到期，请及时使用', type: 1, time: 1561910400,
-  },
-  {
-    title: '优惠券即将到期', msg: '您有一张八折优惠券即将到期，请及时使用您有一张八折优惠券即将到期，请及时使用您有一张八折优惠券即将到期，请及时使用您有一张八折优惠券即将到期，请及时使用', type: 2, time: 1506700800,
-  },
 ]
 const noticeType = {
   0: { icon: 'chat_bubble_outline', color: 'primary' },
@@ -223,7 +229,7 @@ export default {
   data: () => ({
     popItems,
     navIcons,
-    notices,
+    notices: [],
     noticeType,
     showRefresh: false,
     searchText: '',
@@ -241,6 +247,7 @@ export default {
     if (screenfull.enabled) {
       screenfull.on('change', this.screenChange)
     }
+    this.getNotices()
   },
 
   beforeDestroy() {
@@ -278,6 +285,7 @@ export default {
       this.isFullScreen = screenfull.isFullscreen
     },
 
+    // 搜索
     search() {
       console.log(this.searchText)
     },
@@ -304,15 +312,26 @@ export default {
       return date.format('YYYY-MM-DD')
     },
 
-    openLoadingInDiv() {
+    // 获取通知
+    async getNotices() {
+      try {
+        const { code, data } = await getNotices()
+        console.log(code, data)
+        this.notices = data.notices
+      } catch (err) {
+        console.log(err)
+      }
+    },
+
+    // 刷新通知
+    async noticesRefresh() {
       this.$vs.loading({
         type: 'point',
         container: '#div-with-loading',
         scale: 0.6,
       })
-      setTimeout(() => {
-        this.$vs.loading.close('#div-with-loading > .con-vs-loading')
-      }, 3000)
+      await this.getNotices()
+      this.$vs.loading.close('#div-with-loading > .con-vs-loading')
     },
   },
 }
