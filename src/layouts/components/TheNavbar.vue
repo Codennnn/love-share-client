@@ -42,6 +42,7 @@
               :class="[showSearchInput ? 'w-48': 'w-0']"
               placeholder="搜索你想要的宝贝"
               @keyup.esc="showSearchInput = false"
+              @keyup.enter="search"
               v-model="searchText"
             />
             <!-- 全屏图标 -->
@@ -70,24 +71,42 @@
                   :class="'icon-notice'"
                 ></i>
               </el-badge>
-              <vs-dropdown-menu class="message-box">
+              <vs-dropdown-menu class="notice-box">
                 <div class="flex items-center justify-center
                 text-white bg-primary p-4 text-xl">5 条新消息</div>
                 <VuePerfectScrollbar
                   ref="mainSidebarPs"
                   :settings="settings"
                 >
-                  <ul>
-                    <li></li>
+                  <ul
+                    v-for="(notice, i) in notices"
+                    :key="i"
+                  >
+                    <li class="flex justify-between px-4 py-4 notice cursor-pointer">
+                      <div class="flex items-start">
+                        <i class="iconfont icon-close"></i>
+                        <div class="mx-2">
+                          <div>
+                            <span class="font-medium block">{{ notice.title }}</span>
+                            <small>{{ notice.title }}</small>
+                          </div>
+                        </div>
+                      </div>
+                      <small>{{ $dayjs().get('day') }}</small>
+                    </li>
                   </ul>
                 </VuePerfectScrollbar>
+                <div class="w-full p-2 text-center text-primary
+                cursor-pointer font-semibold bg-gray-100">
+                  <span>查看全部通知</span>
+                </div>
               </vs-dropdown-menu>
             </vs-dropdown>
           </div>
 
           <!-- 用户名称 -->
           <div class="info">
-            <div class="text-right text-lg">{{ nickName }}</div>
+            <div class="text-right text-lg">{{ nickname }}</div>
             <small style="color: #919191;">新媒体工作部</small>
           </div>
 
@@ -142,12 +161,16 @@ const navIcons = [
   { tip: '动态', icon: 'icon-dynamic', route: '/dynamic-list' },
   { tip: '活动', icon: 'icon-activity', route: '/activity-list' },
 ]
+const notices = [
+  { title: '优惠券即将到期', msg: '您有一张八折优惠券即将到期，请及时使用' },
+]
 
 export default {
-  name: 'NavBar',
+  name: 'TheNavBar',
   data: () => ({
     popItems,
     navIcons,
+    notices,
     searchText: '',
     showSearchInput: false,
     isFullScreen: false, // 是否全屏,
@@ -173,7 +196,7 @@ export default {
 
   computed: {
     ...mapState(['sidebarCollapse']),
-    ...mapState('user', ['nickName']),
+    ...mapState('user', ['nickname']),
   },
 
   methods: {
@@ -200,6 +223,9 @@ export default {
       this.isFullScreen = screenfull.isFullscreen
     },
 
+    search() {
+      console.log(this.searchText)
+    },
   },
 }
 </script>
@@ -257,7 +283,7 @@ export default {
   }
 }
 
-.vs-dropdown-menu.message-box {
+.vs-dropdown-menu.notice-box {
   width: 365px;
 
   .vs-dropdown--menu {
