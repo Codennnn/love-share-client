@@ -124,7 +124,7 @@
                               class="font-medium block"
                               :class="[`text-${noticeType[nt.type].color}`]"
                             >{{ nt.title }}</span>
-                            <small class="notice-content">{{ nt.msg }}</small>
+                            <small class="notice-content">{{ nt.content }}</small>
                           </div>
                         </div>
                       </div>
@@ -205,7 +205,7 @@ import screenfull from 'screenfull'
 import { mapState } from 'vuex'
 import VuePerfectScrollbar from 'vue-perfect-scrollbar'
 
-import { getNotices } from '@/request/api/common'
+import { getNotices } from '@/request/api/notice'
 
 const popItems = [
   { icon: 'el-icon-user', text: '我的信息', route: '/' },
