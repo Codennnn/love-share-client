@@ -1,10 +1,9 @@
 import request from '../request'
 
-export function getNotices(data) {
+export function getNotices() {
   return request({
     url: '/notice/notices',
     method: 'get',
-    data,
   })
 }
 
