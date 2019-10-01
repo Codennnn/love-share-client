@@ -220,7 +220,8 @@ const navIcons = [
 const noticeType = {
   0: { icon: 'chat_bubble_outline', color: 'primary' },
   1: { icon: 'done_outline', color: 'success' },
-  2: { icon: 'error_outline', color: 'danger' },
+  2: { icon: 'help_outline', color: 'warning' },
+  3: { icon: 'error_outline', color: 'danger' },
 }
 
 export default {
