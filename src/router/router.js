@@ -54,7 +54,7 @@ export const asyncRoutes = [
         meta: { title: '商品列表' },
       },
     ],
-    meta: { title: '商品管理', icon: 'icon-dynamic' },
+    meta: { title: '商品管理', icon: 'icon-activity' },
   },
   {
     path: '',
