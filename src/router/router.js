@@ -48,6 +48,19 @@ export const asyncRoutes = [
     component: Layout,
     children: [
       {
+        path: '/goods',
+        name: 'Goods',
+        component: () => import('@/views/order/Order.vue'),
+        meta: { title: '商品列表' },
+      },
+    ],
+    meta: { title: '商品管理', icon: 'icon-dynamic' },
+  },
+  {
+    path: '',
+    component: Layout,
+    children: [
+      {
         path: '/order',
         name: 'Order',
         component: () => import('@/views/order/Order.vue'),
