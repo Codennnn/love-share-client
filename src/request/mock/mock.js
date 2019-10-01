@@ -1,6 +1,7 @@
 import Mock from 'mockjs'
 import user from './user'
 import notice from './notice'
+import goods from './goods'
 
 Mock.mock(/\/login/, 'post', user.login)
 
@@ -13,5 +14,7 @@ Mock.mock(/\/user[\s\S]*?/, 'get', () => ({
 }))
 
 Mock.mock(/\/notices/, 'get', notice.notices)
+
+Mock.mock(/\/goods/, 'get', goods.notices)
 
 Mock.setup({ timeout: '500-1000' })
