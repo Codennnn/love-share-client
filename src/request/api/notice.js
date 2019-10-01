@@ -10,7 +10,7 @@ export function getNotices(data) {
 
 export function register(query) {
   return request({
-    url: '/user/register',
+    url: '/notice/register',
     method: 'post',
     params: query,
   })
