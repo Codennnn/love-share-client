@@ -315,8 +315,9 @@ export default {
     async getNotices() {
       try {
         const { code, data } = await getNotices()
-        console.log(code, data)
-        this.notices = data.notices
+        if (code === 2000) {
+          this.notices = data.notices
+        }
       } catch (err) {
         console.log(err)
       }
