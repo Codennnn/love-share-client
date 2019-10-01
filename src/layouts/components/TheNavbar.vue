@@ -328,7 +328,7 @@ export default {
       this.$vs.loading({
         type: 'point',
         container: '#div-with-loading',
-        scale: 0.6,
+        scale: 1,
       })
       await this.getNotices()
       this.$vs.loading.close('#div-with-loading > .con-vs-loading')
