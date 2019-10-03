@@ -67,10 +67,7 @@ export const asyncRoutes = [
         meta: { title: '查询订单' },
       },
     ],
-    meta: {
-      title: '订单管理',
-      icon: 'icon-dynamic',
-    },
+    meta: { title: '订单管理', icon: 'icon-dynamic' },
   },
   {
     path: '',
