@@ -1,10 +1,9 @@
 import request from '../request'
 
-export function getGoods(data) {
+export function getGoods() {
   return request({
     url: '/goods/goods',
     method: 'get',
-    data,
   })
 }
 
