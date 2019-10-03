@@ -50,7 +50,7 @@ export const asyncRoutes = [
       {
         path: '/goods',
         name: 'Goods',
-        component: () => import('@/views/order/Order.vue'),
+        component: () => import('@/views/goods/Goods.vue'),
         meta: { title: '商品列表' },
       },
     ],

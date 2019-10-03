@@ -1,6 +1,10 @@
 <template>
   <div>
-    <vs-table :data="users">
+    <vs-table
+      :data="users"
+      max-items="5"
+      pagination
+    >
       <template slot="header">
         <h3>
           Users
@@ -48,6 +52,8 @@
 </template>
 
 <script>
+import { getGoods } from '@/request/api/goods'
+
 export default {
   data: () => ({
     users: [
@@ -123,6 +129,13 @@ export default {
       },
     ],
   }),
+
+  methods: {
+    async getGoods() {
+      const { data } = await getGoods()
+      console.log(data)
+    },
+  },
 }
 </script>
 
