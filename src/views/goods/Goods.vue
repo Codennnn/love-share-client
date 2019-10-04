@@ -23,18 +23,10 @@
         </div>
       </template>
       <template slot="thead">
-        <vs-th>
-          Email
-        </vs-th>
-        <vs-th>
-          Name
-        </vs-th>
-        <vs-th>
-          Website
-        </vs-th>
-        <vs-th>
-          Nro
-        </vs-th>
+        <vs-th>商品名称</vs-th>
+        <vs-th>卖家昵称</vs-th>
+        <vs-th>价格</vs-th>
+        <vs-th>序号</vs-th>
       </template>
 
       <template slot-scope="{data}">
