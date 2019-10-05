@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div>123465</div>
+    <div>平台商品123465</div>
     <vs-table
       pagination
       max-items="10"
