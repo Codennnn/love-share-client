@@ -111,7 +111,7 @@ export default {
   position: relative;
   min-height: 100vh;
   .router-content {
-    min-height: calc(100vh - 64px - 3rem);
+    min-height: calc(100vh - 3rem - #{$footer-height});
     padding-top: 4.5rem;
     .icon-back {
       cursor: pointer;
@@ -124,8 +124,8 @@ export default {
     }
   }
   .router-footer {
-    height: 64px;
-    line-height: 64px;
+    height: $footer-height;
+    line-height: $footer-height;
   }
 }
 </style>
