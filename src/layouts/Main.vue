@@ -23,8 +23,8 @@
         <!-- 头部 -->
         <TheNavbar />
 
-        <div class="router-view p-6">
-          <div class="router-content">
+        <div class="router-view px-6">
+          <div class="router-content pt-24">
             <!-- 面包屑导航 -->
             <transition
               enter-active-class="animated zoomIn faster"
@@ -112,7 +112,6 @@ export default {
   min-height: 100vh;
   .router-content {
     min-height: calc(100vh - 3rem - #{$footer-height});
-    padding-top: 4.5rem;
     .icon-back {
       cursor: pointer;
       font-size: 30px;
