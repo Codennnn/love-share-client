@@ -208,7 +208,7 @@ import VuePerfectScrollbar from 'vue-perfect-scrollbar'
 import { getNotices } from '@/request/api/notice'
 
 const popItems = [
-  { icon: 'el-icon-user', text: '我的信息', route: '/' },
+  { icon: 'el-icon-user', text: '我的信息', route: '/profile' },
   { icon: 'el-icon-trophy', text: '我的社团', route: '/my-club' },
   { icon: 'el-icon-switch-button', text: '退出登录' },
 ]

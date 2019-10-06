@@ -116,6 +116,18 @@ export const asyncRoutes = [
           ],
         },
       },
+      {
+        path: '/profile',
+        name: 'Profile',
+        component: () => import('@/views/profile/Profile.vue'),
+        meta: {
+          title: '个人中心',
+          breadcrumb: [
+            { title: '首页', url: '/' },
+            { title: '个人中心', active: true },
+          ],
+        },
+      },
     ],
   },
 
