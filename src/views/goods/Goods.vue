@@ -1,58 +1,67 @@
 <template>
   <div>
     <div>平台商品123465</div>
-    <vs-table
-      pagination
-      max-items="10"
-      noDataText="暂无数据"
-      :data="goods"
-      @selected="handleSelected"
-      v-model="selected"
+    <div
+      id="table-loading"
+      class="vs-con-loading__container"
     >
-      <template slot="header">
-        <div class="w-full flex items-center p-4">
-          <div class="text-xl font-semibold">商品列表</div>
-          <div class="ml-auto sm:w-1/2 md:w-1/4">
-            <vs-input
-              class="search-input w-full"
-              icon="search"
-              placeholder="搜索"
-              v-model="searchText"
-            />
+      <vs-table
+        pagination
+        max-items="10"
+        noDataText="暂无数据"
+        :data="goods"
+        @selected="handleSelected"
+        v-model="selected"
+      >
+        <template slot="header">
+          <div class="w-full flex items-center p-4">
+            <div class="text-xl font-semibold">商品列表</div>
+            <div class="ml-auto sm:w-1/2 md:w-1/4">
+              <vs-input
+                class="search-input w-full"
+                icon="search"
+                placeholder="搜索"
+                v-model="searchText"
+                @keyup.enter="onSearch"
+              />
+            </div>
           </div>
-        </div>
-      </template>
-      <template slot="thead">
-        <vs-th>商品名称</vs-th>
-        <vs-th>卖家昵称</vs-th>
-        <vs-th>价格</vs-th>
-        <vs-th>序号</vs-th>
-      </template>
+        </template>
+        <template slot="thead">
+          <vs-th>商品名称</vs-th>
+          <vs-th>卖家昵称</vs-th>
+          <vs-th>价格</vs-th>
+          <vs-th>序号</vs-th>
+        </template>
 
-      <template slot-scope="{data}">
-        <vs-tr
-          v-for="(tr, indextr) in data"
-          :key="indextr"
-          :data="tr"
-        >
-          <vs-td :data="data[indextr].email">
-            {{data[indextr].email}}
-          </vs-td>
+        <template slot-scope="{data}">
+          <vs-tr
+            v-for="(tr, indextr) in data"
+            :key="indextr"
+            :data="tr"
+          >
+            <vs-td :data="data[indextr].email">
+              {{data[indextr].email}}
+            </vs-td>
 
-          <vs-td :data="data[indextr].username">
-            {{data[indextr].name}}
-          </vs-td>
+            <vs-td :data="data[indextr].username">
+              {{data[indextr].name}}
+            </vs-td>
 
-          <vs-td :data="data[indextr].website">
-            {{data[indextr].website}}
-          </vs-td>
+            <vs-td
+              class="font-semibold"
+              :data="data[indextr].website"
+            >
+              ￥{{data[indextr].website}}
+            </vs-td>
 
-          <vs-td :data="data[indextr].id">
-            {{data[indextr].id}}
-          </vs-td>
-        </vs-tr>
-      </template>
-    </vs-table>
+            <vs-td :data="data[indextr].id">
+              {{data[indextr].id}}
+            </vs-td>
+          </vs-tr>
+        </template>
+      </vs-table>
+    </div>
   </div>
 </template>
 
@@ -72,14 +81,24 @@ export default {
 
   methods: {
     async getGoods() {
+      this.$vs.loading({
+        type: 'point',
+        container: '#table-loading',
+        scale: 1,
+      })
       const { code, goods } = await getGoods()
       if (code === 2000) {
         this.goods = goods
       }
+      this.$vs.loading.close('#table-loading > .con-vs-loading')
     },
 
     handleSelected(tr) {
       console.log(tr)
+    },
+
+    onSearch() {
+      this.getGoods()
     },
   },
 }
