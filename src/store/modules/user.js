@@ -6,6 +6,7 @@ const state = {
   token: getToken(),
   roles: [],
   nickname: '',
+  detail: {},
 }
 
 const mutations = {
@@ -15,8 +16,11 @@ const mutations = {
   SET_ROLES(state, roles) {
     state.roles = roles
   },
-  SET_NICK_NAME(state, nickname) {
+  SET_NICKNAME(state, nickname) {
     state.nickname = nickname
+  },
+  SET_DETAIL(state, detail) {
+    state.detail = detail
   },
 }
 
@@ -39,7 +43,8 @@ const actions = {
       const { data } = await getUserInfo()
       const { roles, nickname } = data
       commit('SET_ROLES', roles)
-      commit('SET_NICK_NAME', nickname)
+      commit('SET_NICKNAME', nickname)
+      commit('SET_DETAIL', data)
       return data
     } catch (err) {
       removeToken()

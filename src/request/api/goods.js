@@ -7,10 +7,16 @@ export function getGoods() {
   })
 }
 
-export function register(query) {
+export function getPublished() {
   return request({
-    url: '/user/register',
-    method: 'post',
-    params: query,
+    url: '/goods/published',
+    method: 'get',
+  })
+}
+
+export function getBought() {
+  return request({
+    url: '/goods/bought',
+    method: 'get',
   })
 }

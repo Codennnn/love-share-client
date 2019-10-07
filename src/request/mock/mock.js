@@ -15,6 +15,8 @@ Mock.mock(/\/user[\s\S]*?/, 'get', () => ({
 
 Mock.mock(/\/notices/, 'get', notice.notices)
 
+Mock.mock(/\/published/, 'get', goods.published)
+
 Mock.mock(/\/goods/, 'get', goods.goods)
 
 Mock.setup({ timeout: '500-1000' })

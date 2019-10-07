@@ -16,7 +16,9 @@ export default {
   userInfo: {
     code: 2000,
     data: {
-      nickname: '123456',
+      nickname: '令狐少侠',
+      real_name: '陈梓聪',
+      school: '广州大学华软软件学院',
       roles: ['admin', 'super_admin'],
     },
   },
