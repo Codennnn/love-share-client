@@ -45,7 +45,8 @@ const mutations = {
 const actions = {
   generateRoutes({ commit }, roles) {
     let accessedRoutes
-    if (roles.includes('admin')) {
+    if (roles.includes('super_admin')) {
+      // 如果权限为 “超级管理员” 则拥有所有路由的权限
       accessedRoutes = asyncRoutes || []
     } else {
       accessedRoutes = filterAsyncRoutes(asyncRoutes, roles)
