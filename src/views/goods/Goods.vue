@@ -1,6 +1,13 @@
 <template>
   <div>
-    <div>平台商品123465</div>
+    <div class="flex items-center">
+      <div class="w-1/4">
+        <div>平台商品123465</div>
+        <div>2300</div>
+      </div>
+      <div class="w-1/4">平台商品123465</div>
+      <div class="w-2/4">平台商品123465</div>
+    </div>
     <div
       id="table-loading"
       class="vs-con-loading__container"
@@ -10,8 +17,6 @@
         max-items="10"
         noDataText="暂无数据"
         :data="goods"
-        @selected="handleSelected"
-        v-model="selected"
       >
         <template slot="header">
           <div class="w-full flex items-center p-4">
@@ -31,33 +36,98 @@
           <vs-th>商品名称</vs-th>
           <vs-th>卖家昵称</vs-th>
           <vs-th>价格</vs-th>
+          <vs-th>订单编号</vs-th>
           <vs-th>序号</vs-th>
         </template>
 
         <template slot-scope="{data}">
           <vs-tr
-            v-for="(tr, indextr) in data"
-            :key="indextr"
+            v-for="(tr, i) in data"
+            :key="i"
             :data="tr"
           >
-            <vs-td :data="data[indextr].email">
-              {{data[indextr].email}}
+            <vs-td :data="data[i].name">
+              {{data[i].name}}
             </vs-td>
 
-            <vs-td :data="data[indextr].username">
-              {{data[indextr].name}}
+            <vs-td :data="data[i].nickname">
+              {{data[i].nickname}}
             </vs-td>
 
             <vs-td
               class="font-semibold"
-              :data="data[indextr].website"
+              :data="data[i].price"
             >
-              ￥{{data[indextr].website}}
+              ￥{{data[i].price}}
             </vs-td>
 
-            <vs-td :data="data[indextr].id">
-              {{data[indextr].id}}
+            <vs-td :data="data[i].order_id">
+              {{data[i].order_id}}
             </vs-td>
+
+            <vs-td :data="data[i].id">
+              {{data[i].id}}
+            </vs-td>
+
+            <template slot="expand">
+              <div class="flex w-full">
+                <div class="w-1/6">
+                  <div class="text-center">
+                    <vs-avatar
+                      size="45px"
+                      :src="tr.avatar_url"
+                    />
+                    <div class="ml-3">
+                      <div class="text-base font-semibold">{{ tr.nickname }}</div>
+                      <div>{{ tr.real_name }}</div>
+                    </div>
+                  </div>
+                </div>
+                <vs-list class="w-5/12">
+                  <vs-list-header
+                    class="text-base"
+                    title="卖家信息"
+                    color="success"
+                  ></vs-list-header>
+                  <vs-list-item
+                    icon="mail"
+                    title="Email"
+                    :subtitle="tr.email"
+                  ></vs-list-item>
+                  <vs-list-item
+                    icon="check"
+                    title="Website"
+                    :subtitle="tr.website"
+                  ></vs-list-item>
+                </vs-list>
+                <vs-list class="w-5/12">
+                  <vs-list-header
+                    class="text-base"
+                    title="商品信息"
+                    color="warning"
+                  ></vs-list-header>
+                  <vs-list-item
+                    icon="mail"
+                    title="订单编号"
+                    :subtitle="tr.order_id"
+                  >
+                    <vs-button
+                      color="#646464"
+                      type="flat"
+                      v-clipboard:copy="tr.order_id"
+                      v-clipboard:success="onCopy"
+                    >复制</vs-button>
+                  </vs-list-item>
+                  <vs-list-item
+                    icon="check"
+                    title="发布时间"
+                    :subtitle="tr.time"
+                  >
+                    <vs-button type="flat">查看订单详情</vs-button>
+                  </vs-list-item>
+                </vs-list>
+              </div>
+            </template>
           </vs-tr>
         </template>
       </vs-table>
@@ -70,7 +140,6 @@ import { getGoods } from '@/request/api/goods'
 
 export default {
   data: () => ({
-    selected: [],
     searchText: '',
     goods: [],
   }),
@@ -93,12 +162,12 @@ export default {
       this.$vs.loading.close('#table-loading > .con-vs-loading')
     },
 
-    handleSelected(tr) {
-      console.log(tr)
-    },
-
     onSearch() {
       this.getGoods()
+    },
+
+    onCopy(e) {
+      this.$message(`已复制订单编号：${e.text}  🎉`)
     },
   },
 }

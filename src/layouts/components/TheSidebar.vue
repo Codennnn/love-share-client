@@ -90,6 +90,10 @@ export default {
     }, 400)
   },
 
+  beforeDestroy() {
+    window.onresize = null
+  },
+
   computed: {
     sidebarCollapse() {
       return this.$store.state.sidebarCollapse

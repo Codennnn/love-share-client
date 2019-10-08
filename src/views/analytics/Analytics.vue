@@ -56,9 +56,9 @@
             <div class="w-full lg:w-1/2 xl:w-1/2 flex flex-col justify-between pr-4">
               <div>
                 <div class="mb-1 text-2xl font-bold">2.7K</div>
-                <span class="font-medium text-gray-500">交易额</span>
+                <span class="font-medium text-gray-500">平均交易额</span>
                 <p class="mt-2 text-xl font-medium">
-                  <span class='text-success'>+5.2%</span> vs last 7 days
+                  <span class='text-success'>+5.2%</span> 最近7天
                 </p>
               </div>
               <vs-button

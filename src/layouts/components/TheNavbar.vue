@@ -205,11 +205,12 @@ import screenfull from 'screenfull'
 import { mapState } from 'vuex'
 import VuePerfectScrollbar from 'vue-perfect-scrollbar'
 
+import { timeDiff } from '@/utils/util'
 import { getNotices } from '@/request/api/notice'
 
 const popItems = [
-  { icon: 'el-icon-user', text: '我的信息', route: '/profile' },
-  { icon: 'el-icon-trophy', text: '我的社团', route: '/my-club' },
+  { icon: 'el-icon-user', text: '个人中心', route: '/profile' },
+  { icon: 'el-icon-message', text: '我的消息', route: '/my-club' },
   { icon: 'el-icon-switch-button', text: '退出登录' },
 ]
 const navIcons = [
@@ -227,6 +228,7 @@ const noticeType = {
 export default {
   name: 'TheNavBar',
   data: () => ({
+    timeDiff,
     popItems,
     navIcons,
     notices: [],
@@ -262,6 +264,8 @@ export default {
   },
 
   methods: {
+    // timeDiff(time), // 计算通知的时间差
+
     // 退出登录
     async logout() {
       await this.$store.dispatch('user/logout')
@@ -288,28 +292,6 @@ export default {
     // 搜索
     search() {
       console.log(this.searchText)
-    },
-
-    // 计算通知的时间差
-    timeDiff(time) {
-      const now = this.$dayjs()
-      const date = this.$dayjs.unix(time)
-      const diff = now.diff(date, 'day')
-      if (diff < 30) {
-        if (diff === 0) {
-          return '今天'
-        }
-        if (diff === 1) {
-          return '昨天'
-        }
-        return `${diff}天前`
-      }
-      if (diff >= 30 && diff < 365) {
-        return `${now.diff(date, 'month')}个月前`
-      } if (diff >= 365 && diff < 365 * 2) {
-        return `${now.diff(date, 'year')}年前`
-      }
-      return date.format('YYYY-MM-DD')
     },
 
     // 获取通知

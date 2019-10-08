@@ -19,7 +19,7 @@ export default {
       nickname: '令狐少侠',
       real_name: '陈梓聪',
       school: '广州大学华软软件学院',
-      roles: ['admin', 'super_admin'],
+      roles: ['super_admin'],
     },
   },
 }
