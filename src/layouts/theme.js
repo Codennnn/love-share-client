@@ -12,9 +12,9 @@ import '@/assets/iconfont/iconfont.css' // 阿里云字体图标
 
 import {
   Badge, Container, Dropdown, DropdownMenu, DropdownItem,
-  Menu, MenuItem,
+  Menu, MenuItem, MenuItemGroup, Message,
   Popover, Submenu, Steps, Step,
-  Tooltip, Table, TableColumn, MenuItemGroup,
+  Tooltip, Table, TableColumn,
 } from 'element-ui' // 按需引入组件
 import 'element-ui/lib/theme-chalk/index.css'
 import '@/assets/scss/element-override.scss'
@@ -55,3 +55,5 @@ Vue.use(Popover)
 Vue.use(Badge)
 Vue.use(Steps)
 Vue.use(Step)
+
+Vue.prototype.$message = Message
