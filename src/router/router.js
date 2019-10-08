@@ -39,9 +39,7 @@ export const asyncRoutes = [
         meta: { title: '数据分析' },
       },
     ],
-    meta: {
-      title: '数据分析', icon: 'icon-home',
-    },
+    meta: { title: '数据分析', icon: 'icon-home' },
   },
   {
     path: '',
@@ -54,7 +52,7 @@ export const asyncRoutes = [
         meta: { title: '商品列表' },
       },
     ],
-    meta: { title: '商品管理', icon: 'icon-activity' },
+    meta: { title: '商品管理', icon: 'icon-activity', roles: ['super_admin'] },
   },
   {
     path: '',
