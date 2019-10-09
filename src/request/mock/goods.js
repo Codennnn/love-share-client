@@ -13,7 +13,7 @@ export default {
         nickname: () => Random.cword(2, 7),
         real_name: () => Random.cname(),
         price: () => Random.float(0, 100, 2, 2),
-        order_id: () => Random.id(),
+        goods_id: () => Random.id(),
         time: () => Random.date(),
       },
     ],
