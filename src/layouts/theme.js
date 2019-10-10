@@ -11,7 +11,8 @@ import '@/assets/scss/tailwind.scss' // tailwind 样式
 import '@/assets/iconfont/iconfont.css' // 阿里云字体图标
 
 import {
-  Badge, Container, Dropdown, DropdownMenu, DropdownItem, DatePicker,
+  Badge, Container, Dropdown, Carousel, CarouselItem,
+  DropdownMenu, DropdownItem, DatePicker,
   Menu, MenuItem, MenuItemGroup, Message,
   Popover, Submenu, Steps, Step,
   Tooltip, Table, TableColumn,
@@ -33,6 +34,8 @@ Vue.use(Vuesax, {
 
 // 布局容器
 Vue.use(Container)
+Vue.use(Carousel)
+Vue.use(CarouselItem)
 
 // 下拉菜单
 Vue.use(Dropdown)
