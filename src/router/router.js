@@ -72,15 +72,13 @@ export const asyncRoutes = [
     component: Layout,
     children: [
       {
-        path: '/apparel',
-        name: 'Apparel',
-        component: () => import('@/views/apparel/Apparel.vue'),
-        meta: { title: '服饰' },
+        path: '/user-list',
+        name: 'UserList',
+        component: () => import('@/views/user/UserList.vue'),
+        meta: { title: '用户列表' },
       },
     ],
-    meta: {
-      title: '服饰管理', icon: 'icon-apparel',
-    },
+    meta: { title: '用户管理', icon: 'icon-group' },
   },
   {
     path: '',
@@ -102,6 +100,18 @@ export const asyncRoutes = [
     hidden: true,
     component: Layout,
     children: [
+      {
+        path: '/goods-detail',
+        name: 'GoodsDetail',
+        component: () => import('@/views/goods/GoodsDetail.vue'),
+        meta: {
+          title: '商品详情',
+          breadcrumb: [
+            { title: '商品列表', url: '/goods' },
+            { title: '商品详情', active: true },
+          ],
+        },
+      },
       {
         path: '/order-detail',
         name: 'OrderDetail',
