@@ -48,7 +48,7 @@ export const asyncRoutes = [
       {
         path: '/goods',
         name: 'Goods',
-        component: () => import('@/views/goods/Goods.vue'),
+        component: () => import('@/views/goods/GoodsList.vue'),
         meta: { title: '商品列表' },
       },
     ],
