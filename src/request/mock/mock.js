@@ -19,8 +19,8 @@ Mock.mock(/\/published/, 'get', goods.published)
 
 Mock.mock(/\/bought/, 'get', goods.bought)
 
-Mock.mock(/\/goods/, 'get', goods.goods)
-
 Mock.mock(/\/goods_detail/, 'get', goods.detail)
+
+Mock.mock(/\/goods/, 'get', goods.goods)
 
 Mock.setup({ timeout: '500-1000' })

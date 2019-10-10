@@ -20,3 +20,10 @@ export function getBought() {
     method: 'get',
   })
 }
+
+export function getGoodsDetail() {
+  return request({
+    url: '/goods/goods_detail',
+    method: 'get',
+  })
+}
