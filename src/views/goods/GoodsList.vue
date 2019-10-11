@@ -116,9 +116,13 @@
                     <vs-avatar
                       size="45px"
                       :src="tr.avatar_url"
+                      @click="toUserDetail()"
                     />
-                    <div class="my-2 text-gray-600 hover:text-gray-800 text-base
-                    font-semibold cursor-pointer">{{ tr.nickname }}</div>
+                    <div
+                      class="my-2 text-gray-600 hover:text-gray-800 text-base
+                    font-semibold cursor-pointer"
+                      @click="toUserDetail()"
+                    >{{ tr.nickname }}</div>
                     <vs-chip color="success">
                       乐享信用 良好
                     </vs-chip>
@@ -260,6 +264,10 @@ export default {
 
     viewDetail(id) {
       this.$router.push({ path: '/goods-detail', query: { id } })
+    },
+
+    toUserDetail() {
+      this.$router.push({ path: '/user-detail', query: { } })
     },
 
     onCopy(e) {
