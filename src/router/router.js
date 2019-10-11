@@ -125,6 +125,18 @@ export const asyncRoutes = [
         },
       },
       {
+        path: '/user-detail',
+        name: 'UserDetail',
+        component: () => import('@/views/user/UserDetail.vue'),
+        meta: {
+          title: '用户详情',
+          breadcrumb: [
+            { title: '首页', url: '/' },
+            { title: '用户详情', active: true },
+          ],
+        },
+      },
+      {
         path: '/profile',
         name: 'Profile',
         component: () => import('@/views/profile/Profile.vue'),
