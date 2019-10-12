@@ -190,6 +190,7 @@ import { getGoods } from '@/request/api/goods'
 export default {
   name: 'Goods',
   data: () => ({
+    tableLoading: false,
     tableTitle: '已上架商品', // 表格标题
     count: 0, // 已上架商品数量
     count2: 0, // 违规下架商品数量
@@ -231,6 +232,9 @@ export default {
 
   methods: {
     async getGoods() {
+      if (this.tableLoading) return
+
+      this.tableLoading = true
       this.$vs.loading({
         type: 'point',
         container: '#table-loading',
@@ -242,13 +246,16 @@ export default {
         this.count = data.count
         this.count2 = data.count2
       }
+      this.tableLoading = false
       this.$vs.loading.close('#table-loading > .con-vs-loading')
     },
 
+    // 获取上架商品
     getAddedGoods() {
       this.getGoods()
     },
 
+    // 获取下架商品
     getViolatingGoods() {
       this.getGoods()
     },
@@ -257,15 +264,18 @@ export default {
       this.getGoods()
     },
 
+    // 按日期获取商品
     onDateChange(date) {
       console.log(this.$dayjs(date[0]).unix(), this.$dayjs(date[1]).unix())
       this.getGoods()
     },
 
+    // 查看商品详情
     viewDetail(id) {
       this.$router.push({ path: '/goods-detail', query: { id } })
     },
 
+    // 查看用户详情
     toUserDetail() {
       this.$router.push({ path: '/user-detail', query: { } })
     },
