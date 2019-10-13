@@ -46,8 +46,8 @@ export const asyncRoutes = [
     component: Layout,
     children: [
       {
-        path: '/goods',
-        name: 'Goods',
+        path: '/goods-list',
+        name: 'GoodsList',
         component: () => import('@/views/goods/GoodsList.vue'),
         meta: { title: '商品列表' },
       },
@@ -59,10 +59,10 @@ export const asyncRoutes = [
     component: Layout,
     children: [
       {
-        path: '/order',
-        name: 'Order',
-        component: () => import('@/views/order/Order.vue'),
-        meta: { title: '查询订单' },
+        path: '/order-list',
+        name: 'OrderList',
+        component: () => import('@/views/order/OrderList.vue'),
+        meta: { title: '订单列表' },
       },
     ],
     meta: { title: '订单管理', icon: 'icon-dynamic' },
