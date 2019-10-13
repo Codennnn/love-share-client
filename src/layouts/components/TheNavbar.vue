@@ -214,9 +214,9 @@ const popItems = [
   { icon: 'el-icon-switch-button', text: '退出登录' },
 ]
 const navIcons = [
-  { tip: '社团', icon: 'icon-medal', route: '/club-list' },
-  { tip: '动态', icon: 'icon-dynamic', route: '/dynamic-list' },
-  { tip: '活动', icon: 'icon-activity', route: '/activity-list' },
+  { tip: '商品', icon: 'icon-activity', route: '/goods-list' },
+  { tip: '订单', icon: 'icon-dynamic', route: '/order-list' },
+  { tip: '用户', icon: 'icon-group', route: '/user-list' },
 ]
 const noticeType = {
   0: { icon: 'chat_bubble_outline', color: 'primary' },
