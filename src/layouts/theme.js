@@ -13,8 +13,8 @@ import '@/assets/iconfont/iconfont.css' // 阿里云字体图标
 import {
   Badge, Container, Dropdown, Carousel, CarouselItem,
   DropdownMenu, DropdownItem, DatePicker,
-  Menu, MenuItem, MenuItemGroup, Message,
-  Popover, Submenu, Steps, Step,
+  Menu, MenuItem, MenuItemGroup, Message, Option,
+  Popover, Submenu, Steps, Step, Select,
   Tooltip, Table, TableColumn,
 } from 'element-ui' // 按需引入组件
 import 'element-ui/lib/theme-chalk/index.css'
@@ -42,6 +42,8 @@ Vue.use(Dropdown)
 Vue.use(DropdownMenu)
 Vue.use(DropdownItem)
 Vue.use(DatePicker)
+Vue.use(Select)
+Vue.use(Option)
 
 // 菜单栏
 Vue.use(Menu)
