@@ -4,7 +4,7 @@
       <!-- 卡片 1：欢迎卡片 -->
       <div class="lg:w-6/12 lg:pr-3 sm:w-full my-3 min-h-full">
         <div class="h-full text-white bg-purple rounded-lg shadow-xl">
-          <div class="h-full relative flex flex-col justify-center items-center">
+          <div class="h-full relative flex flex-col justify-center items-center py-4">
             <img
               class="decore-left absolute top-0 left-0"
               src="@/assets/images/pages/dashboard/decore_left.png"
@@ -25,10 +25,12 @@
           </div>
         </div>
       </div>
-      <!-- 卡片 2：关注者统计卡片 -->
+      <!-- 卡片 2：用户数统计卡片 -->
       <div class="lg:w-3/12 lg:pl-3 lg:pr-3 sm:w-1/2 sm:pr-3 my-3">
         <div class="bg-white rounded-lg shadow-xl h-full">
           <area-chart
+            statistic="2.5K"
+            label="用户数"
             icon="icon-group"
             color="primary"
             type="area"
@@ -36,10 +38,12 @@
           ></area-chart>
         </div>
       </div>
-      <!-- 卡片 3：用户统计卡片 -->
+      <!-- 卡片 3：交易量统计卡片 -->
       <div class="lg:w-3/12 lg:pl-3 sm:w-1/2 sm:pl-3 my-3">
         <div class="bg-white rounded-lg shadow-xl h-full">
           <area-chart
+            statistic="9K"
+            label="交易量"
             icon="icon-invite"
             color="warning"
             type="area"
@@ -123,15 +127,11 @@
 
 <script>
 import VueApexCharts from 'vue-apexcharts'
-import AreaChart from './components/AreaChart.vue'
-import { subscribersGained, ordersRecevied, salesBar } from './components/chart-data'
+import AreaChart from '@/components/AreaChart.vue'
+import { subscribersGained, ordersRecevied, salesBar } from './chart-data'
 
 export default {
   name: 'Analytics',
-  components: {
-    VueApexCharts,
-    AreaChart,
-  },
   data() {
     return {
       subscribersGained,
@@ -139,6 +139,11 @@ export default {
       salesBar,
       show: true,
     }
+  },
+
+  components: {
+    VueApexCharts,
+    AreaChart,
   },
 
   mounted() {

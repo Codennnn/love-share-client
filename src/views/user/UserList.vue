@@ -8,7 +8,7 @@
 import { getGoodsDetail } from '@/request/api/goods'
 
 export default {
-  name: 'GoodsDetail',
+  name: 'UserList',
   data: () => ({
   }),
 
