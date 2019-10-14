@@ -11,8 +11,8 @@
         ></i>
       </div>
       <div>
-        <div class="mt-3 text-2xl font-bold">82.5K</div>
-        <span class="text-gray-500">xxxewf</span>
+        <div class="mt-3 text-2xl font-bold">{{ statistic }}</div>
+        <span class="text-gray-500">{{ label }}</span>
       </div>
     </div>
     <div :id="chartData.id">
@@ -33,6 +33,8 @@ import VueApexCharts from 'vue-apexcharts'
 
 export default {
   props: {
+    statistic: String,
+    label: String,
     icon: String,
     color: String,
     chartData: {

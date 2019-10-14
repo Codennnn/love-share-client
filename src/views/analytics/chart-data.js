@@ -1,6 +1,6 @@
 export const subscribersGained = {
   series: [{
-    name: '关注者',
+    name: '用户数',
     data: [28, 40, 36, 52, 38, 60, 55],
   }],
   chartOptions: {
@@ -60,7 +60,7 @@ export const subscribersGained = {
 
 export const ordersRecevied = {
   series: [{
-    name: '订单数',
+    name: '交易量',
     data: [10, 15, 8, 15, 7, 12, 8],
   }],
   chartOptions: {
@@ -87,6 +87,66 @@ export const ordersRecevied = {
       width: 2.5,
     },
     colors: ['#FF9F43'],
+    fill: {
+      type: 'gradient',
+      gradient: {
+        shadeIntensity: 0.9,
+        opacityFrom: 0.7,
+        opacityTo: 0.5,
+        stops: [0, 80, 100],
+      },
+    },
+    xaxis: {
+      type: 'numeric',
+      lines: {
+        show: false,
+      },
+      axisBorder: {
+        show: false,
+      },
+      labels: { show: false },
+    },
+    yaxis: [{
+      y: 0,
+      offsetX: 0,
+      offsetY: 0,
+      padding: { left: 0, right: 0 },
+    }],
+    tooltip: {
+      x: { show: false },
+    },
+  },
+}
+
+export const ordersGained = {
+  series: [{
+    name: '用户数',
+    data: [55, 68, 44, 52, 38, 60, 55],
+  }],
+  chartOptions: {
+    grid: {
+      show: false,
+      padding: {
+        left: 0,
+        right: 0,
+      },
+    },
+    chart: {
+      toolbar: {
+        show: false,
+      },
+      sparkline: {
+        enabled: true,
+      },
+    },
+    dataLabels: {
+      enabled: false,
+    },
+    stroke: {
+      curve: 'smooth',
+      width: 2.5,
+    },
+    colors: ['#5DC76F'],
     fill: {
       type: 'gradient',
       gradient: {
