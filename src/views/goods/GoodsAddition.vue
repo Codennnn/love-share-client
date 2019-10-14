@@ -25,7 +25,7 @@
       >
         <div class="p-5 bg-white rounded-lg">
           <div class="text-xl text-gray-600">商品信息</div>
-          <div class="pt-3">
+          <div class="py-3">
             <div class="mb-2 text-gray-500">商品名称</div>
             <vs-input
               class="w-7/12"
@@ -33,9 +33,10 @@
               v-model="title"
             />
           </div>
-          <div class="pt-3">
+          <div class="py-3">
             <div class="mb-2 text-gray-500">商品分类</div>
             <el-select
+              class="w-5/12"
               multiple
               placeholder="请选择"
               v-model="classification"
@@ -50,7 +51,7 @@
               </el-option>
             </el-select>
           </div>
-          <div class="pt-3">
+          <div class="py-3">
             <div class="mb-2 text-gray-500">价格设置</div>
             <div class="flex items-end">
               <div class="mr-6">
@@ -87,7 +88,7 @@
               </div>
             </div>
           </div>
-          <div class="pt-3">
+          <div class="py-3">
             <div class="mb-2 text-gray-500">运费设置</div>
             <div class="flex">
               <vs-radio
@@ -117,7 +118,11 @@
               type="border"
               @click="storage"
             >暂存为草稿</vs-button>
-            <vs-button @click="publish">确认发布该商品</vs-button>
+            <vs-button
+              id="publishButton"
+              class="vs-con-loading__container"
+              @click="publish"
+            >确认发布该商品</vs-button>
           </div>
         </div>
       </vs-col>
@@ -129,6 +134,7 @@
 import { VueEditor } from 'vue2-editor'
 
 export default {
+  name: 'GoodsAddition',
   data: () => ({
     title: '',
     content: '',
@@ -172,7 +178,17 @@ export default {
       this.$message({ showClose: true, message: '已保存到本地草稿箱 ✔️' })
     },
 
-    publish() {},
+    publish() {
+      this.$vs.loading({
+        background: 'primary',
+        color: '#fff',
+        container: '#publishButton',
+        scale: 0.45,
+      })
+      setTimeout(() => {
+        this.$vs.loading.close('#publishButton > .con-vs-loading')
+      }, 3000)
+    },
   },
 }
 </script>

@@ -159,9 +159,8 @@
                     <vs-button
                       color="#646464"
                       type="flat"
-                      v-clipboard:copy="tr.order_id"
+                      v-clipboard:copy="tr.goods_id"
                       v-clipboard:success="onCopy"
-                      v-clipboard:error="onCopy"
                     >复制</vs-button>
                   </vs-list-item>
                   <vs-list-item
@@ -188,7 +187,7 @@
 import { getGoods } from '@/request/api/goods'
 
 export default {
-  name: 'Goods',
+  name: 'GoodsList',
   data: () => ({
     tableLoading: false,
     tableTitle: '已上架商品', // 表格标题
@@ -240,12 +239,18 @@ export default {
         container: '#table-loading',
         scale: 1,
       })
-      const { code, data } = await getGoods()
-      if (code === 2000) {
-        this.goods = data.goods
-        this.count = data.count
-        this.count2 = data.count2
+
+      try {
+        const { code, data } = await getGoods()
+        if (code === 2000) {
+          this.goods = data.goods
+          this.count = data.count
+          this.count2 = data.count2
+        }
+      } catch {
+        //
       }
+
       this.tableLoading = false
       this.$vs.loading.close('#table-loading > .con-vs-loading')
     },
