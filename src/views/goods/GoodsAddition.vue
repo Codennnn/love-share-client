@@ -25,8 +25,86 @@
       >
         <div class="p-5 bg-white rounded-lg">
           <div class="text-xl text-gray-600">商品信息</div>
+          <div class="pt-3">
+            <div class="mb-2 text-gray-500">商品名称</div>
+            <vs-input
+              class="w-7/12"
+              placeholder="请输入商品名称"
+              v-model="title"
+            />
+          </div>
+          <div class="pt-3">
+            <div class="mb-2 text-gray-500">商品分类</div>
+            <el-select
+              multiple
+              placeholder="请选择"
+              v-model="classification"
+              :multiple-limit="2"
+            >
+              <el-option
+                v-for="item in options"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              >
+              </el-option>
+            </el-select>
+          </div>
+          <div class="pt-3">
+            <div class="mb-2 text-gray-500">价格设置</div>
+            <div class="flex items-end">
+              <div class="mr-6">
+                <div class="text-sm text-gray-500">二手价</div>
+                <div class="flex items-center">
+                  <span class="mr-5 text-2xl text-primary font-bold">
+                    ￥{{ Number(price).toFixed(2) }}
+                  </span>
+                  <vs-input-number v-model="price" />
+                </div>
+              </div>
+              <div>
+                <!-- <div class="text-sm text-gray-500">入手价（可选）</div> -->
+                <vs-checkbox
+                  class="justify-start"
+                  color="warning"
+                  v-model="checked"
+                >
+                  <span class="text-sm text-gray-500">入手价（可选）</span>
+                </vs-checkbox>
+                <div class="flex items-center">
+                  <span
+                    class="mr-5 text-2xl font-bold"
+                    :class="checked ? 'text-warning' : 'text-gray-500'"
+                  >
+                    ￥{{ Number(price2).toFixed(2) }}
+                  </span>
+                  <vs-input-number
+                    :disabled="!checked"
+                    color="warning"
+                    v-model="price2"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="pt-3">
+            <div class="mb-2 text-gray-500">运费设置</div>
+            <div class="flex">
+              <vs-radio
+                class="mr-4"
+                v-model="radios"
+                vs-name="radios1"
+                vs-value="luis"
+              >包邮</vs-radio>
+              <vs-radio
+                v-model="radios"
+                vs-name="radios1"
+                vs-value="add"
+              >自费</vs-radio>
+            </div>
+          </div>
           <div class="mt-5 mb-6">
-            <div class="mb-2 text-gray-500">商品描述</div>
+            <div class="mb-2 text-gray-500">更多描述</div>
             <vue-editor
               placeholder="请输入内容..."
               v-model="content"
@@ -52,7 +130,30 @@ import { VueEditor } from 'vue2-editor'
 
 export default {
   data: () => ({
+    title: '',
     content: '',
+    classification: [],
+    price: '0.00',
+    price2: '0.00',
+    checked: false,
+    radios: '',
+    options: [{
+      value: '选项1',
+      label: '黄金糕',
+    }, {
+      value: '选项2',
+      label: '双皮奶',
+    }, {
+      value: '选项3',
+      label: '蚵仔煎',
+    }, {
+      value: '选项4',
+      label: '龙须面',
+    }, {
+      value: '选项5',
+      label: '北京烤鸭',
+    }],
+    loading: false,
   }),
 
   components: { VueEditor },
@@ -78,10 +179,14 @@ export default {
 
 <style lang="scss" scoped>
 .img-upload {
-  &::v-deep {
-    .con-img-upload {
-      background: transparent;
-    }
+  &::v-deep .con-img-upload {
+    background: transparent;
+  }
+}
+
+.el-select {
+  &::v-deep .el-input__inner {
+    border: 1px solid rgba(0, 0, 0, 0.2);
   }
 }
 </style>
