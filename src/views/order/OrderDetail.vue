@@ -151,11 +151,16 @@ export default {
   data() {
     return {
       text: '123',
+      orderID: '',
       infos,
     }
   },
 
   components: { OrderStep },
+
+  mounted() {
+    this.orderID = this.$route.query.orderID
+  },
 
   methods: {
     onCopy(e) {
