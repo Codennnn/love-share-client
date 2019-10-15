@@ -88,20 +88,38 @@
               </div>
             </div>
           </div>
-          <div class="py-3">
-            <div class="mb-2 text-gray-500">运费设置</div>
-            <div class="flex">
-              <vs-radio
-                class="mr-4"
-                v-model="radios"
-                vs-name="radios1"
-                vs-value="luis"
-              >包邮</vs-radio>
-              <vs-radio
-                v-model="radios"
-                vs-name="radios1"
-                vs-value="add"
-              >自费</vs-radio>
+          <div class="py-3 flex">
+            <div class="w-1/3">
+              <div class="mb-2 text-gray-500">运费设置</div>
+              <div class="flex">
+                <vs-radio
+                  class="mr-4"
+                  v-model="radios"
+                  vs-name="radios1"
+                  vs-value="luis"
+                >包邮</vs-radio>
+                <vs-radio
+                  v-model="radios"
+                  vs-name="radios1"
+                  vs-value="add"
+                >自费</vs-radio>
+              </div>
+            </div>
+            <div class="w-1/3">
+              <div class="mb-2 text-gray-500">议价设置</div>
+              <div class="flex">
+                <vs-radio
+                  class="mr-4"
+                  v-model="radios2"
+                  vs-name="radios2"
+                  vs-value="luis"
+                >可议价</vs-radio>
+                <vs-radio
+                  v-model="radios2"
+                  vs-name="radios2"
+                  vs-value="add"
+                >一口价</vs-radio>
+              </div>
             </div>
           </div>
           <div class="mt-5 mb-6">
@@ -143,6 +161,7 @@ export default {
     price2: '0.00',
     checked: false,
     radios: '',
+    radios2: '',
     options: [{
       value: '选项1',
       label: '黄金糕',
@@ -187,7 +206,7 @@ export default {
       })
       setTimeout(() => {
         this.$vs.loading.close('#publishButton > .con-vs-loading')
-      }, 3000)
+      }, 2000)
     },
   },
 }
