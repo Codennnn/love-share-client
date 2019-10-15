@@ -2,6 +2,7 @@ import Mock from 'mockjs'
 import user from './user'
 import notice from './notice'
 import goods from './goods'
+import order from './order'
 
 Mock.mock(/\/login/, 'post', user.login)
 
@@ -22,5 +23,7 @@ Mock.mock(/\/bought/, 'get', goods.bought)
 Mock.mock(/\/goods_detail/, 'get', goods.detail)
 
 Mock.mock(/\/goods/, 'get', goods.goods)
+
+Mock.mock(/\/orders/, 'get', order.orders)
 
 Mock.setup({ timeout: '500-1000' })

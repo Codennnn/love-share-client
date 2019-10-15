@@ -38,6 +38,12 @@ export const asyncRoutes = [
         component: Analytics,
         meta: { title: '数据分析' },
       },
+      {
+        path: '/text',
+        name: 'Text',
+        component: () => import('@/views/analytics/Text.vue'),
+        meta: { title: '测试' },
+      },
     ],
     meta: { title: '数据分析', icon: 'icon-home' },
   },
