@@ -72,15 +72,14 @@
                 end-placeholder="结束日期"
                 :picker-options="pickerOptions"
                 @change="onDateChange"
-              >
-              </el-date-picker>
+              ></el-date-picker>
             </div>
           </div>
         </template>
         <template slot="thead">
           <vs-th>商品名称</vs-th>
-          <vs-th>卖家昵称</vs-th>
           <vs-th>价格</vs-th>
+          <vs-th>卖家昵称</vs-th>
           <vs-th>序号</vs-th>
         </template>
 
@@ -94,10 +93,6 @@
               {{ data[i].name }}
             </vs-td>
 
-            <vs-td :data="data[i].nickname">
-              {{ data[i].nickname }}
-            </vs-td>
-
             <vs-td
               class="font-semibold"
               :data="data[i].price"
@@ -105,8 +100,12 @@
               ￥{{ data[i].price }}
             </vs-td>
 
-            <vs-td :data="data[i].id">
-              {{ i }}
+            <vs-td :data="data[i].nickname">
+              {{ data[i].nickname }}
+            </vs-td>
+
+            <vs-td>
+              {{ i + 1 }}
             </vs-td>
 
             <template slot="expand">
@@ -189,7 +188,6 @@ import { getGoods } from '@/request/api/goods'
 export default {
   name: 'GoodsList',
   data: () => ({
-    tableLoading: false,
     tableTitle: '已上架商品', // 表格标题
     count: 0, // 已上架商品数量
     count2: 0, // 违规下架商品数量
@@ -233,7 +231,6 @@ export default {
     async getGoods() {
       if (this.tableLoading) return
 
-      this.tableLoading = true
       this.$vs.loading({
         type: 'point',
         container: '#table-loading',
@@ -251,7 +248,6 @@ export default {
         //
       }
 
-      this.tableLoading = false
       this.$vs.loading.close('#table-loading > .con-vs-loading')
     },
 
@@ -266,7 +262,9 @@ export default {
     },
 
     onSearch() {
-      this.getGoods()
+      if (this.searchText.length > 0) {
+        this.getGoods()
+      }
     },
 
     // 按日期获取商品
