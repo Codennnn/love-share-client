@@ -12,7 +12,7 @@ import '@/assets/iconfont/iconfont.css' // 阿里云字体图标
 
 import {
   Badge, Container, Dropdown, Carousel, CarouselItem,
-  DropdownMenu, DropdownItem, DatePicker,
+  DropdownMenu, DropdownItem, DatePicker, Image,
   Menu, MenuItem, MenuItemGroup, Message, Option,
   Popover, Submenu, Steps, Step, Select,
   Tooltip, Table, TableColumn,
@@ -61,5 +61,6 @@ Vue.use(Popover)
 Vue.use(Badge)
 Vue.use(Steps)
 Vue.use(Step)
+Vue.use(Image)
 
 Vue.prototype.$message = Message
