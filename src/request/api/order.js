@@ -7,9 +7,9 @@ export function getOrders() {
   })
 }
 
-export function getPublished() {
+export function getOrderDetail() {
   return request({
-    url: '/goods/published',
+    url: '/order/order_detail',
     method: 'get',
   })
 }
