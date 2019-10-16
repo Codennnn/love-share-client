@@ -26,12 +26,17 @@ export default {
         total: Random.float(0, 100, 2, 2),
         time: Random.date(),
         create_time: Random.now('yyyy-MM-dd hh:mm:ss'),
-        buyer_name: Random.cname(),
-        phone: Random.string('number', 11),
         status: Random.integer(0, 2),
+        delivery_method: '包邮',
         address: Random.county(true),
         note: Random.csentence(0, 20),
         payment: '微信支付',
+        user: {
+          user_id: Random.id(),
+          name: Random.cname(),
+          school: Random.county(true),
+          phone: Random.string('number', 11),
+        },
         'goods|1-3': [
           {
             goods_id: () => Random.id(),
