@@ -131,7 +131,7 @@ export const asyncRoutes = [
         meta: {
           title: '订单详情',
           breadcrumb: [
-            { title: '查询订单', url: '/' },
+            { title: '查询订单', url: '/order-list' },
             { title: '订单详情', active: true },
           ],
         },

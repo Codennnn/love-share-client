@@ -2,7 +2,7 @@
   <div class="main">
     <div class="card">
       <div class="card-header">
-        <p class="mr-3">订单号：{{ `123456789987654321` }}</p>
+        <p class="mr-3">订单号：{{ detail.order_id }}</p>
         <el-tooltip
           content="复制订单号"
           effect="light"
@@ -10,7 +10,7 @@
           <i
             class="iconfont icon-copy cursor-pointer"
             style="font-size: 20px;"
-            v-clipboard:copy="text"
+            v-clipboard:copy="detail.order_id"
             v-clipboard:success="onCopy"
           ></i>
         </el-tooltip>
@@ -22,48 +22,49 @@
           <div class="order-info__col">
             <div class="order-info__item">
               <div class="label">收货地址</div>
-              <div class="value">广州市海珠区飞天小区</div>
+              <div class="value">{{ detail.address }}</div>
             </div>
             <div class="order-info__item">
               <div class="label">订单状态</div>
-              <div class="value">清洗中</div>
+              <div class="value">{{ detail.status }}</div>
             </div>
           </div>
           <div class="order-info__col">
             <div class="order-info__item">
               <div class="label">创建时间</div>
-              <div class="value">2019-08-17 14:25</div>
+              <div class="value">{{ detail.create_time }}</div>
             </div>
             <div class="order-info__item">
               <div class="label">付款时间</div>
-              <div class="value">2019-08-17 14:50</div>
+              <div class="value">{{ detail.create_time }}</div>
             </div>
             <div class="order-info__item">
               <div class="label">支付方式</div>
-              <div class="value">微信支付</div>
+              <div class="value">{{ detail.payment }}</div>
             </div>
           </div>
           <div class="order-info__col">
             <div class="order-info__item">
               <div class="label">备注信息</div>
-              <div class="value">务必清洗干净！!</div>
+              <div class="value text-sm">{{ detail.note || '无备注' }}</div>
             </div>
           </div>
         </div>
+
         <!-- 衣物表格 -->
         <div class="py-6">
-          <vs-table :data="infos">
+          <vs-table
+            noDataText="暂无数据"
+            :data="infos"
+          >
             <template slot="header">
-              <h3 class="p-2">
-                衣物信息
-              </h3>
+              <div class="p-4">衣物信息</div>
             </template>
             <template slot="thead">
-              <vs-th>品种</vs-th>
-              <vs-th>状态</vs-th>
+              <vs-th>#</vs-th>
+              <vs-th>商品名称</vs-th>
+              <vs-th>数量</vs-th>
               <vs-th>价格</vs-th>
-              <vs-th>件数</vs-th>
-              <vs-th>金额</vs-th>
             </template>
 
             <template slot-scope="{data}">
@@ -71,18 +72,31 @@
                 v-for="(tr, i) in data"
                 :key="i"
               >
+                <vs-td :data="tr.img_urls[0]">
+                  <el-image
+                    class="rounded-lg border-gray-500"
+                    style="width: 80px; height: 80px"
+                    fit="cover"
+                    :src="tr.img_urls[0]"
+                  >
+                  </el-image>
+                </vs-td>
                 <vs-td :data="tr.name">{{ tr.name }}</vs-td>
-                <vs-td :data="tr.status">{{ tr.status }}</vs-td>
+                <vs-td :data="tr.price">1</vs-td>
                 <vs-td :data="tr.price">￥{{ tr.price }}</vs-td>
-                <vs-td :data="tr.num">{{ tr.num }}</vs-td>
-                <vs-td :data="tr.num">￥{{ (tr.price * tr.num).toFixed(2) }}</vs-td>
+                <vs-td>
+                  <i
+                    class="el-icon-more p-2 text-gray-600 cursor-pointer"
+                    @click="$router.push({path: '/goods-detail'})"
+                  ></i>
+                </vs-td>
               </vs-tr>
             </template>
           </vs-table>
         </div>
         <div class="flex flex-col items-end">
           <div>已付款</div>
-          <div class="price">￥{{ `107.60` }}</div>
+          <div class="price">￥{{ detail.total }}</div>
         </div>
       </div>
     </div>
@@ -104,7 +118,7 @@
         <div class="user-info__col">
           <div class="user-info__item">
             <div class="label">用户姓名</div>
-            <div class="value">广州市海珠区飞天小区</div>
+            <div class="value">{{ detail.buyer_name }}</div>
           </div>
           <div class="user-info__item">
             <div class="label">住址</div>
@@ -120,7 +134,7 @@
         <div class="user-info__col">
           <div class="user-info__item">
             <div class="label">联系方式</div>
-            <div class="value">13724540846</div>
+            <div class="value">{{ detail.phone }}</div>
           </div>
         </div>
       </div>
@@ -131,28 +145,16 @@
 <script>
 import OrderStep from './components/OrderStep.vue'
 
-const infos = [
-  {
-    num: 1,
-    price: '35.80',
-    name: '毛衣',
-    status: '清洗中',
-  },
-  {
-    num: 2,
-    price: '35.90',
-    name: '短T恤衫',
-    status: '清洗完毕',
-  },
-]
+import { getOrderDetail } from '@/request/api/order'
 
 export default {
   name: 'OrderDetail',
   data() {
     return {
+      detail: {},
       text: '123',
       orderID: '',
-      infos,
+      infos: [],
     }
   },
 
@@ -160,11 +162,24 @@ export default {
 
   mounted() {
     this.orderID = this.$route.query.orderID
+    this.getOrderDetail(this.$route.query.orderID)
   },
 
   methods: {
+    async getOrderDetail() {
+      try {
+        const { code, data } = await getOrderDetail()
+        if (code === 2000) {
+          this.detail = data.detail
+          this.infos = data.detail.goods
+        }
+      } catch {
+        //
+      }
+    },
+
     onCopy(e) {
-      console.log(e)
+      this.$message(`已复制订单编号：${e.text}  🎉`)
     },
   },
 }
