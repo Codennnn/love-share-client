@@ -26,4 +26,6 @@ Mock.mock(/\/goods/, 'get', goods.goods)
 
 Mock.mock(/\/orders/, 'get', order.orders)
 
+Mock.mock(/\/order_detail/, 'get', order.detail)
+
 Mock.setup({ timeout: '500-600' })
