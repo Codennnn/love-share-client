@@ -85,13 +85,12 @@
             v-for="(tr, i) in data"
             :key="i"
             :data="tr"
-
             @dblclick.native="viewDetail(tr.order_id)"
           >
             <vs-td
               class="text-gray-500"
               title="点击复制"
-              :data="data[i].order_id"
+              :data="tr.order_id"
               @click.native="onCopy(tr.order_id)"
             >
               {{ tr.order_id }}
@@ -103,21 +102,21 @@
 
             <vs-td
               class="font-semibold"
-              :data="data[i].total"
+              :data="tr.total"
             >
-              ￥{{ data[i].total }}
+              ￥{{ tr.total }}
             </vs-td>
 
-            <vs-td :data="data[i].time">
-              {{ timeDiff(data[i].time) }}
+            <vs-td :data="tr.time">
+              {{ timeDiff(tr.time) }}
             </vs-td>
 
-            <vs-td :data="data[i].status">
+            <vs-td :data="tr.status">
               <vs-chip
-                :style="{background: `rgba(var(--vs-${status[data[i].status].color}), 0.2)`}"
-                :class="['font-bold', `text-${status[data[i].status].color}`]"
+                :style="{background: `rgba(var(--vs-${status[tr.status].color}), 0.2)`}"
+                :class="['font-bold', `text-${status[tr.status].color}`]"
               >
-                {{ status[data[i].status].text }}
+                {{ status[tr.status].text }}
               </vs-chip>
             </vs-td>
 
