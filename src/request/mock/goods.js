@@ -17,7 +17,7 @@ export default {
           real_name: () => Random.cname(),
           price: () => Random.float(0, 100, 2, 2),
           goods_id: () => Random.id(),
-          time: () => Random.date(),
+          time: () => Random.date('yyyy-MM-dd hh:mm'),
         },
       ],
     },
