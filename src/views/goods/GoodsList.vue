@@ -44,7 +44,13 @@
             type="border"
             @click="exportExcel"
           >导出列表数据</vs-button>
-          <vs-button type="relief">查看图片列表</vs-button>
+          <vs-button
+            type="relief"
+            @click="$router.push({
+                      path: '/goods-vivid-list',
+                      query: {}
+                    })"
+          >查看图片列表</vs-button>
         </div>
       </div>
     </div>
@@ -240,11 +246,14 @@
 </template>
 
 <script>
-import { getGoods } from '@/request/api/goods'
+import { getGoods, getGoodsCategory } from '@/request/api/goods'
+
 
 export default {
   name: 'GoodsList',
   data: () => ({
+    category: '',
+    categoryList: [],
     options: [{
       value: '选项1',
       label: '黄金糕',
@@ -299,6 +308,7 @@ export default {
 
   mounted() {
     this.getGoods()
+    this.getGoodsCategory()
   },
 
   methods: {
@@ -323,6 +333,17 @@ export default {
       }
 
       this.$vs.loading.close('#table-loading > .con-vs-loading')
+    },
+
+    async getGoodsCategory() {
+      try {
+        const { code, data } = await getGoodsCategory()
+        if (code === 2000) {
+          this.categoryList = data.categoryList
+        }
+      } catch {
+        //
+      }
     },
 
     // 获取上架商品
