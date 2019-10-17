@@ -27,3 +27,10 @@ export function getGoodsDetail() {
     method: 'get',
   })
 }
+
+export function getGoodsCategory() {
+  return request({
+    url: '/goods/goods_category',
+    method: 'get',
+  })
+}
