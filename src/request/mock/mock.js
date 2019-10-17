@@ -22,6 +22,8 @@ Mock.mock(/\/bought/, 'get', goods.bought)
 
 Mock.mock(/\/goods_detail/, 'get', goods.detail)
 
+Mock.mock(/\/goods_category/, 'get', goods.category)
+
 Mock.mock(/\/goods/, 'get', goods.goods)
 
 Mock.mock(/\/orders/, 'get', order.orders)
