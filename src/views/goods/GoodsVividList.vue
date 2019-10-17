@@ -16,6 +16,15 @@
         </vs-col>
         <vs-col vs-w="9">
           <h6 class="my-3 text-sm text-gray-700">共查询到 120 个商品</h6>
+          <!-- 搜索框 -->
+          <vs-input
+            class="search-input mb-6 top-0 z-40 w-full shadow-lg rounded-lg overflow-hidden"
+            icon="search"
+            size="large"
+            icon-no-border
+            placeholder="搜索..."
+            v-model="search"
+          />
           <div class="grid">
             <div
               v-for="(item, i) in 8"
@@ -73,6 +82,21 @@ export default {
 <style lang="scss" scoped>
 .shadow {
   box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.05);
+}
+
+.search-input {
+  // 重设输入框样式
+  &::v-deep {
+    .vs-inputx {
+      border: none !important;
+      box-shadow: none;
+      border-radius: 0;
+    }
+    .vs-icon {
+      top: 0.7rem;
+      font-size: 25px;
+    }
+  }
 }
 
 .grid {
