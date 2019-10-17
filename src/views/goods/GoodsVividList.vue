@@ -22,8 +22,8 @@
             icon="search"
             size="large"
             icon-no-border
-            placeholder="搜索..."
-            v-model="search"
+            placeholder="输入商品 ID 进行搜索..."
+            v-model="searchText"
           />
           <div class="grid">
             <div
@@ -51,6 +51,7 @@ export default {
   data: () => ({
     category: '',
     categoryList: [],
+    searchText: '',
   }),
 
   mounted() {
