@@ -1,8 +1,11 @@
 <template>
   <div>
-    <div>
-      <vs-row>
-        <vs-col vs-w="2">
+    <div class="flex">
+      <div
+        class="w-1/4 pr-4"
+        vs-w="2"
+      >
+        <div>
           <h6 class="my-3 text-sm text-gray-700">筛选搜索</h6>
           <div class="p-4 shadow bg-white rounded-lg">
             <vs-radio
@@ -13,8 +16,13 @@
               v-model="category"
             >{{ item.label }}</vs-radio>
           </div>
-        </vs-col>
-        <vs-col vs-w="9">
+        </div>
+      </div>
+      <div
+        class="w-3/4 pl-3"
+        vs-w="9"
+      >
+        <div>
           <h6 class="my-3 text-sm text-gray-700">共查询到 120 个商品</h6>
           <!-- 搜索框 -->
           <vs-input
@@ -37,8 +45,8 @@
               <div class="title">衬衫</div>
             </div>
           </div>
-        </vs-col>
-      </vs-row>
+        </div>
+      </div>
     </div>
   </div>
 </template>
