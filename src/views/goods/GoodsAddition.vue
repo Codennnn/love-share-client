@@ -64,7 +64,6 @@
                 </div>
               </div>
               <div>
-                <!-- <div class="text-sm text-gray-500">入手价（可选）</div> -->
                 <vs-checkbox
                   class="justify-start"
                   color="warning"
