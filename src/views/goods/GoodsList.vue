@@ -8,7 +8,7 @@
         @click="getAddedGoods(), tableTitle = '已上架商品'"
       >
         <div class="">
-          <div class="text-3xl">{{ count.toLocaleString() }}</div>
+          <div class="text-3xl">{{ count ? count.toLocaleString() : '--' }}</div>
           <div class="text-gray-600">已上架商品</div>
         </div>
         <div
@@ -25,7 +25,7 @@
         @click="getViolatingGoods(), tableTitle = '违规下架商品'"
       >
         <div>
-          <div class="text-3xl">{{ count2.toLocaleString() }}</div>
+          <div class="text-3xl">{{ count2 ? count2.toLocaleString() : '--' }}</div>
           <div class="text-gray-600">违规下架商品</div>
         </div>
         <div
@@ -36,15 +36,83 @@
         </div>
       </div>
       <div class="w-2/4 py-3 px-6 rounded-lg bg-white">
-        <div class="mb-3 text-gray-600">高级搜索</div>
+        <div class="mb-3 text-gray-600">高级操作</div>
+        <div class="flex items-center justify-end text-sm">
+          <vs-button
+            class="mr-5"
+            color="primary"
+            type="border"
+            @click="exportExcel"
+          >导出列表数据</vs-button>
+          <vs-button type="relief">查看图片列表</vs-button>
+        </div>
+      </div>
+    </div>
+
+    <div class="mb-6 pt-3 pb-5 px-6 rounded-lg bg-white">
+      <div class="mb-3 text-gray-600">筛选搜索</div>
+      <div class="flex justify-around items-center">
         <div>
-          <vs-input
-            class="search-input"
-            icon="search"
-            placeholder="输入商品 ID 搜索"
-            v-model="searchText"
-            @keyup.enter="onSearch"
-          />
+          <el-select
+            v-model="value"
+            filterable
+            placeholder="根据商品分类搜索"
+          >
+            <el-option
+              v-for="item in options"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            >
+            </el-option>
+          </el-select>
+        </div>
+        <div>
+          <el-select
+            v-model="value"
+            filterable
+            placeholder="根据商品分类搜索"
+          >
+            <el-option
+              v-for="item in options"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            >
+            </el-option>
+          </el-select>
+        </div>
+        <div>
+          <el-select
+            v-model="value"
+            filterable
+            placeholder="根据学校搜索"
+          >
+            <el-option
+              v-for="item in options"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            >
+            </el-option>
+          </el-select>
+        </div>
+        <div>
+          <vs-button
+            class="w-32 text-sm"
+            type="relief"
+          >确认搜索</vs-button>
+        </div>
+        <div>
+          <div class="flex items-center justify-end shadow-lg">
+            <vs-input
+              class="search-input w-64"
+              icon="search"
+              placeholder="输入商品 ID 搜索"
+              v-model="searchText"
+              @keyup.enter="onSearchByID"
+            />
+          </div>
         </div>
       </div>
     </div>
@@ -57,7 +125,7 @@
         pagination
         max-items="10"
         noDataText="暂无数据"
-        :data="goods"
+        :data="goodsList"
       >
         <template slot="header">
           <div class="w-full flex items-center p-4">
@@ -89,24 +157,13 @@
             :key="i"
             :data="tr"
           >
-            <vs-td :data="data[i].name">
-              {{ data[i].name }}
-            </vs-td>
-
+            <vs-td :data="tr.name">{{ tr.name }}</vs-td>
             <vs-td
               class="font-semibold"
-              :data="data[i].price"
-            >
-              ￥{{ data[i].price }}
-            </vs-td>
-
-            <vs-td :data="data[i].nickname">
-              {{ data[i].nickname }}
-            </vs-td>
-
-            <vs-td>
-              {{ i + 1 }}
-            </vs-td>
+              :data="tr.price"
+            >￥{{ tr.price }}</vs-td>
+            <vs-td :data="tr.nickname">{{ tr.nickname }}</vs-td>
+            <vs-td>{{ i + 1 }}</vs-td>
 
             <template slot="expand">
               <div class="flex w-full">
@@ -188,10 +245,27 @@ import { getGoods } from '@/request/api/goods'
 export default {
   name: 'GoodsList',
   data: () => ({
+    options: [{
+      value: '选项1',
+      label: '黄金糕',
+    }, {
+      value: '选项2',
+      label: '双皮奶',
+    }, {
+      value: '选项3',
+      label: '蚵仔煎',
+    }, {
+      value: '选项4',
+      label: '龙须面',
+    }, {
+      value: '选项5',
+      label: '北京烤鸭',
+    }],
+    value: '',
     tableTitle: '已上架商品', // 表格标题
-    count: 0, // 已上架商品数量
-    count2: 0, // 违规下架商品数量
-    goods: [], // 商品列表
+    count: null, // 已上架商品数量
+    count2: null, // 违规下架商品数量
+    goodsList: [], // 商品列表
     searchText: '',
     date: null,
     pickerOptions: {
@@ -240,7 +314,7 @@ export default {
       try {
         const { code, data } = await getGoods()
         if (code === 2000) {
-          this.goods = data.goods
+          this.goodsList = data.goods
           this.count = data.count
           this.count2 = data.count2
         }
@@ -267,6 +341,12 @@ export default {
       }
     },
 
+    onSearchByID() {
+      if (this.searchText.length > 0) {
+        this.getGoods()
+      }
+    },
+
     // 按日期获取商品
     onDateChange(date) {
       console.log(this.$dayjs(date[0]).unix(), this.$dayjs(date[1]).unix())
@@ -286,6 +366,30 @@ export default {
     onCopy(e) {
       this.$message(`已复制订单编号：${e.text}  🎉`)
     },
+
+    exportExcel() {
+      import('@/vendor/Export2Excel').then((excel) => {
+        const tHeader = ['商品 ID', '商品名称', '价格', '卖家姓名', '发布时间']
+        const filterVal = ['goods_id', 'name', 'price', 'real_name', 'time']
+        const data = this.formatJson(filterVal, this.goodsList)
+        console.log(data)
+        excel.export_json_to_excel({
+          header: tHeader,
+          data,
+          filename: '乐享校园_商品列表',
+          autoWidth: true,
+          bookType: 'xlsx',
+        })
+      })
+    },
+    formatJson(filterVal, jsonData) {
+      return jsonData.map(v => filterVal.map((j) => {
+        if (j === 'timestamp') {
+          return this.$dayjs.unix(v[j]).format('YYYY-MM-DD hh:mm:ss')
+        }
+        return v[j]
+      }))
+    },
   },
 }
 </script>
@@ -300,6 +404,15 @@ export default {
     .vs-icon {
       top: 0.6rem;
       font-size: 20px;
+    }
+  }
+}
+
+.el-select {
+  &::v-deep .el-input__inner {
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    &::placeholder {
+      color: rgba(0, 0, 0, 0.8);
     }
   }
 }
