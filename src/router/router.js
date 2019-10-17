@@ -58,6 +58,12 @@ export const asyncRoutes = [
         meta: { title: '商品列表' },
       },
       {
+        path: '/goods-category',
+        name: 'GoodsAddition',
+        component: () => import('@/views/goods/GoodsCategory.vue'),
+        meta: { title: '商品分类', roles: ['super_admin'] },
+      },
+      {
         path: '/goods-addition',
         name: 'GoodsAddition',
         component: () => import('@/views/goods/GoodsAddition.vue'),
@@ -121,6 +127,18 @@ export const asyncRoutes = [
           breadcrumb: [
             { title: '商品列表', url: '/goods-list' },
             { title: '商品详情', active: true },
+          ],
+        },
+      },
+      {
+        path: '/goods-vivid-list',
+        name: 'GoodsVividList',
+        component: () => import('@/views/goods/GoodsVividList.vue'),
+        meta: {
+          title: '商品图片列表',
+          breadcrumb: [
+            { title: '商品列表', url: '/goods-list' },
+            { title: '商品图片列表', active: true },
           ],
         },
       },
