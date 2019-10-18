@@ -1,6 +1,12 @@
 <template>
   <div>
-
+    <el-transfer
+      v-model="category"
+      :titles="titles"
+      :props="{key: 'value'}"
+      :data="categoryList"
+      @change="change"
+    ></el-transfer>
   </div>
 </template>
 
@@ -10,7 +16,8 @@ import { getGoodsCategory } from '@/request/api/goods'
 export default {
   name: 'GoodsCategory',
   data: () => ({
-    category: '',
+    titles: ['可选分类', '已选分类'],
+    category: [],
     categoryList: [],
   }),
 
@@ -28,6 +35,10 @@ export default {
       } catch {
         //
       }
+    },
+
+    change() {
+      console.log(this.category)
     },
   },
 }
