@@ -87,13 +87,13 @@
             :data="tr"
             @dblclick.native="viewDetail(tr.order_id)"
           >
-            <vs-td
-              class="text-gray-500"
-              title="点击复制"
-              :data="tr.order_id"
-              @click.native="onCopy(tr.order_id)"
-            >
-              {{ tr.order_id }}
+            <vs-td class="text-gray-500">
+              <span
+                title="点击复制"
+                @click.native="onCopy(tr.order_id)"
+              >
+                {{ tr.order_id }}
+              </span>
             </vs-td>
 
             <vs-td :data="data[i].buyer_name">

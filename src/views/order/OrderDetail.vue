@@ -63,14 +63,14 @@
             </div>
           </div>
 
-          <!-- 衣物表格 -->
+          <!-- 所购商品表格 -->
           <div class="py-6">
             <vs-table
               noDataText="暂无数据"
               :data="infos"
             >
               <template slot="header">
-                <div class="p-4">衣物信息</div>
+                <div class="p-4">商品列表</div>
               </template>
               <template slot="thead">
                 <vs-th>#</vs-th>
@@ -86,7 +86,7 @@
                 >
                   <vs-td :data="tr.img_urls[0]">
                     <el-image
-                      class="rounded-lg border-gray-500"
+                      class="rounded-lg border-gray-500 cursor-pointer"
                       style="width: 80px; height: 80px"
                       fit="cover"
                       :src="tr.img_urls[0]"

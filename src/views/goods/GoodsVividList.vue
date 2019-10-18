@@ -2,7 +2,7 @@
   <div>
     <div class="flex">
       <div
-        class="w-1/4 pr-4"
+        class="md:w-1/6 lg:w-1/4 pr-4"
         vs-w="2"
       >
         <div>
@@ -19,7 +19,7 @@
         </div>
       </div>
       <div
-        class="w-3/4 pl-3"
+        class="md:w-5/6 lg:w-3/4 pl-3"
         vs-w="9"
       >
         <div>

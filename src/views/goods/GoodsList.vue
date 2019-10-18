@@ -110,15 +110,13 @@
           >确认搜索</vs-button>
         </div>
         <div>
-          <div class="flex items-center justify-end shadow-lg">
-            <vs-input
-              class="search-input w-64"
-              icon="search"
-              placeholder="输入商品 ID 搜索"
-              v-model="searchText"
-              @keyup.enter="onSearchByID"
-            />
-          </div>
+          <vs-input
+            class="search-input w-64 shadow-md"
+            icon="search"
+            placeholder="输入商品 ID 搜索"
+            v-model="searchText"
+            @keyup.enter="onSearchByID"
+          />
         </div>
       </div>
     </div>
