@@ -6,7 +6,17 @@
       :props="{key: 'value'}"
       :data="categoryList"
       @change="change"
-    ></el-transfer>
+    >
+      <div
+        slot="left-footer"
+        class="h-full flex justify-center items-center"
+      >
+        <vs-button
+          class="w-5/12"
+          size="small"
+        >添加分类</vs-button>
+      </div>
+    </el-transfer>
   </div>
 </template>
 
@@ -31,6 +41,7 @@ export default {
         const { code, data } = await getGoodsCategory()
         if (code === 2000) {
           this.categoryList = data.categoryList
+          this.category = this.categoryList.map(it => it.value)
         }
       } catch {
         //

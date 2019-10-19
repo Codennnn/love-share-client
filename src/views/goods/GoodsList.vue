@@ -2,7 +2,7 @@
   <div>
     <div class="flex mt-3 mb-6">
       <div
-        class="w-1/4 mr-5 lg:px-6 px-3 flex items-center justify-between rounded-lg
+        class="w-1/4 lg:px-6 px-3 flex items-center justify-between rounded-lg
       bg-white cursor-pointer hover:shadow-lg"
         style="transition: all 0.3s;"
         @click="getAddedGoods(), tableTitle = '已上架商品'"
@@ -19,7 +19,7 @@
         </div>
       </div>
       <div
-        class="w-1/4 mr-5 lg:px-6 px-3 flex items-center justify-between rounded-lg
+        class="w-1/4 mx-5 lg:px-6 px-3 flex items-center justify-between rounded-lg
       bg-white cursor-pointer hover:shadow-lg"
         style="transition: all 0.3s;"
         @click="getViolatingGoods(), tableTitle = '违规下架商品'"
@@ -57,7 +57,7 @@
 
     <div class="mb-6 pt-3 pb-5 px-6 rounded-lg bg-white">
       <div class="mb-3 text-gray-600">筛选搜索</div>
-      <div class="flex justify-around items-center">
+      <div class="flex justify-around items-center flex-wrap">
         <div>
           <el-select
             v-model="value"
@@ -109,7 +109,7 @@
             type="relief"
           >确认搜索</vs-button>
         </div>
-        <div>
+        <div class="mt">
           <vs-input
             class="search-input w-64"
             style="box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.2);"
@@ -434,6 +434,12 @@ export default {
     &::placeholder {
       color: rgba(0, 0, 0, 0.8);
     }
+  }
+}
+
+.mt {
+  @media (max-width: 1154px) {
+    margin-top: 1rem;
   }
 }
 </style>
