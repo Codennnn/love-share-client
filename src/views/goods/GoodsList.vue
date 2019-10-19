@@ -111,7 +111,8 @@
         </div>
         <div>
           <vs-input
-            class="search-input w-64 shadow-md"
+            class="search-input w-64"
+            style="box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.2);"
             icon="search"
             placeholder="输入商品 ID 搜索"
             v-model="searchText"
