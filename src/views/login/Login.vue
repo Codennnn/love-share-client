@@ -85,7 +85,7 @@
                     v-model.trim="code"
                   />
                   <vs-button
-                    class="w-5/12"
+                    class="w-5/12 text-sm"
                     type="border"
                     @click="getCode"
                   >{{ codeText }}</vs-button>

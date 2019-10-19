@@ -54,8 +54,8 @@
           <div class="py-3">
             <div class="mb-2 text-gray-500">价格设置</div>
             <div class="flex items-end">
-              <div class="mr-6">
-                <div class="text-sm text-gray-500">二手价</div>
+              <div>
+                <div class="text-sm text-gray-500">二手价（单价）</div>
                 <div class="flex items-center">
                   <span class="mr-5 text-2xl text-primary font-bold">
                     ￥{{ Number(price).toFixed(2) }}
@@ -63,7 +63,7 @@
                   <vs-input-number v-model="price" />
                 </div>
               </div>
-              <div>
+              <div class="mx-6">
                 <vs-checkbox
                   class="justify-start"
                   color="warning"
@@ -82,6 +82,17 @@
                     :disabled="!checked"
                     color="warning"
                     v-model="price2"
+                  />
+                </div>
+              </div>
+              <div class="mr-6">
+                <div class="text-sm text-gray-500">数量</div>
+                <div class="flex items-center">
+                  <vs-input-number
+                    :min="1"
+                    color="success"
+                    v-model="num"
+                    @input="(e) => { num = Number(e).toFixed(0) }"
                   />
                 </div>
               </div>
@@ -104,7 +115,7 @@
                 >自费</vs-radio>
               </div>
             </div>
-            <div class="w-1/3">
+            <div class="lg:w-1/3">
               <div class="mb-2 text-gray-500">议价设置</div>
               <div class="flex">
                 <vs-radio
@@ -156,6 +167,7 @@ export default {
     title: '',
     content: '',
     classification: [],
+    num: 1,
     price: '0.00',
     price2: '0.00',
     checked: false,

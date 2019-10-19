@@ -164,6 +164,7 @@ export const asyncRoutes = [
         meta: {
           title: '商品详情',
           breadcrumb: [
+            { title: '首页', url: '/' },
             { title: '商品列表', url: '/goods-list' },
             { title: '商品详情', active: true },
           ],
@@ -176,6 +177,7 @@ export const asyncRoutes = [
         meta: {
           title: '商品图片列表',
           breadcrumb: [
+            { title: '首页', url: '/' },
             { title: '商品列表', url: '/goods-list' },
             { title: '商品图片列表', active: true },
           ],
@@ -188,6 +190,7 @@ export const asyncRoutes = [
         meta: {
           title: '订单详情',
           breadcrumb: [
+            { title: '首页', url: '/' },
             { title: '查询订单', url: '/order-list' },
             { title: '订单详情', active: true },
           ],
@@ -201,6 +204,7 @@ export const asyncRoutes = [
           title: '用户详情',
           breadcrumb: [
             { title: '首页', url: '/' },
+            { title: '用户列表', url: '/user-list' },
             { title: '用户详情', active: true },
           ],
         },
@@ -208,11 +212,12 @@ export const asyncRoutes = [
       {
         path: '/profile',
         name: 'Profile',
-        component: () => import('@/views/profile/Profile.vue'),
+        component: () => import('@/views/user/UserDetail.vue'),
         meta: {
           title: '个人中心',
           breadcrumb: [
             { title: '首页', url: '/' },
+            { title: '用户列表', url: '/user-list' },
             { title: '个人中心', active: true },
           ],
         },
