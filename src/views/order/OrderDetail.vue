@@ -58,7 +58,7 @@
             <div class="order-info__col">
               <div class="order-info__item">
                 <div class="label">买家留言</div>
-                <div class="value text-sm">{{ detail.note || '无备注' }}</div>
+                <div class="value">{{ detail.note || '无备注' }}</div>
               </div>
             </div>
           </div>
@@ -122,7 +122,7 @@
 
       <div class="card">
         <div class="card-header">
-          <p>操作流水线</p>
+          <p>交易流程</p>
         </div>
         <vs-divider />
         <OrderStep />
@@ -264,6 +264,7 @@ export default {
   }
   .value {
     width: 66%;
+    font-size: 15px;
   }
 }
 
