@@ -26,7 +26,7 @@ export default {
         total: Random.float(0, 100, 2, 2),
         time: Random.date(),
         create_time: Random.now('yyyy-MM-dd hh:mm:ss'),
-        status: Random.integer(0, 2),
+        'status|0-2': 0,
         delivery_method: '包邮',
         address: Random.county(true),
         note: Random.csentence(0, 20),
