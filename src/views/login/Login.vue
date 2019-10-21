@@ -11,15 +11,16 @@
               <div class="w-4/6 mt-32">
                 <vs-input
                   class="w-full py-2"
+                  val-icon-warning="warning"
                   v-for="(item, i) in signInInput"
                   :key="i"
                   :type="item.type"
                   :placeholder="item.placeholder"
                   :warning="item.isWarnng"
                   :warning-text="item.warningText"
-                  val-icon-warning="warning"
-                  @focus="signInInputFocus(i)"
                   v-model.trim="item.value"
+                  @focus="signInInputFocus(i)"
+                  @keyup.enter="login"
                 />
                 <vs-alert
                   closable
@@ -39,6 +40,7 @@
           </div>
         </vs-tab>
         <!-- 登录 end -->
+
         <!-- 注册 start -->
         <vs-tab label="注册">
           <div class="h-full text-base">
