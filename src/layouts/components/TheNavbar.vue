@@ -342,7 +342,7 @@ export default {
   height: 65px;
   padding: 0.6rem 1rem;
   background: #fff;
-  box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.05);
+  box-shadow: 0 0 25px 0 rgba(0, 0, 0, 0.05);
   box-sizing: border-box;
   .nav-icon {
     &:hover {
