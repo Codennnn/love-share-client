@@ -91,7 +91,7 @@ export default {
 .layout-main {
   position: relative;
   height: 100%;
-  background: rgb(245, 245, 245);
+  background: rgb(248, 248, 248);
 }
 
 #content-area {
