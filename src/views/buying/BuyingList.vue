@@ -33,24 +33,22 @@
           <span>添加新项目</span>
         </vs-button>
       </div>
+
       <template slot="thead">
-        <vs-th sort-key="name">标题</vs-th>
+        <vs-th sort-key="name">商品标题</vs-th>
         <vs-th sort-key="category">分类</vs-th>
         <vs-th sort-key="price">求购价</vs-th>
         <vs-th sort-key="time">发布时间</vs-th>
       </template>
+
       <template slot-scope="{data}">
         <vs-tr
           v-for="(tr, i) in data"
           :key="i"
           :data="tr"
         >
-          <vs-td>
-            <p class="product-name font-medium">{{ tr.name }}</p>
-          </vs-td>
-          <vs-td>
-            <p class="product-category">{{ tr.category }}</p>
-          </vs-td>
+          <vs-td>{{ tr.name }}</vs-td>
+          <vs-td>{{ tr.category }}</vs-td>
           <vs-td>
             <p class="text-gray-600">￥{{ tr.price }}</p>
           </vs-td>
