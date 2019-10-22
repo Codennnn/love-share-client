@@ -3,6 +3,7 @@ import user from './user'
 import notice from './notice'
 import goods from './goods'
 import order from './order'
+import buying from './buying'
 
 Mock.mock(/\/login/, 'post', user.login)
 
@@ -29,5 +30,7 @@ Mock.mock(/\/goods/, 'get', goods.goods)
 Mock.mock(/\/orders/, 'get', order.orders)
 
 Mock.mock(/\/order_detail/, 'get', order.detail)
+
+Mock.mock(/\/buying_list/, 'get', buying.buying_list)
 
 Mock.setup({ timeout: '500-600' })
