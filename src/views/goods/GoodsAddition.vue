@@ -12,7 +12,7 @@
             multiple
             automatic
             :limit="6"
-            text="上传商品图片"
+            text="图片格式（JPG、PNG）"
             action="https://jsonplaceholder.typicode.com/posts/"
             @on-success="successUpload"
           />
@@ -131,6 +131,13 @@
                 >一口价</vs-radio>
               </div>
             </div>
+            <div class="lg:w-1/3">
+              <div class="mb-2 text-gray-500">退货设置</div>
+              <div class="flex items-center">
+                <div class="mr-2">7天无理由退货</div>
+                <vs-switch v-model="switch1" />
+              </div>
+            </div>
           </div>
           <div class="mt-5 mb-6">
             <div class="mb-2 text-gray-500">更多描述</div>
@@ -173,6 +180,7 @@ export default {
     checked: false,
     radios: '',
     radios2: '',
+    switch1: false,
     options: [{
       value: '选项1',
       label: '黄金糕',
@@ -236,6 +244,12 @@ export default {
     &::placeholder {
       color: rgba(0, 0, 0, 0.8);
     }
+  }
+}
+
+.con-upload {
+  &::v-deep .con-input-upload.disabled-upload {
+    display: none;
   }
 }
 </style>

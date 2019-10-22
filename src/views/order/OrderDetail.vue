@@ -6,13 +6,16 @@
     <div v-if="detail">
       <div class="card">
         <div class="card-header">
-          <p class="mr-3">订单号：{{ detail.order_id }}</p>
+          <p class="mr-3">
+            订单号：
+            <span class="text-base text-gray-500">{{ detail.order_id }}</span>
+          </p>
           <el-tooltip
             content="复制订单号"
             effect="light"
           >
             <i
-              class="iconfont icon-copy cursor-pointer"
+              class="el-icon-copy-document text-gray-500 cursor-pointer"
               style="font-size: 20px;"
               v-clipboard:copy="detail.order_id"
               v-clipboard:success="onCopy"
@@ -31,9 +34,10 @@
               <div class="order-info__item">
                 <div class="label">订单状态</div>
                 <div class="value">
-                  <el-tag :type="status[detail.status].color">
+                  <vs-chip :color="status[detail.status].color">
+                    <i :class="[status[detail.status].icon, 'mr-2 text-lg']"></i>
                     {{ status[detail.status].text }}
-                  </el-tag>
+                  </vs-chip>
                 </div>
               </div>
               <div class="order-info__item">
@@ -182,14 +186,17 @@ export default {
         0: {
           text: '进行中',
           color: 'primary',
+          icon: 'el-icon-loading',
         },
         1: {
           text: '已完成',
           color: 'success',
+          icon: 'el-icon-check',
         },
         2: {
           text: '已取消',
           color: 'danger',
+          icon: 'el-icon-close',
         },
       },
     }
