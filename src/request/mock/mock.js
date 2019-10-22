@@ -11,6 +11,8 @@ Mock.mock(/\/register/, 'post', user.register)
 
 Mock.mock(/\/user_info/, 'get', user.userInfo)
 
+Mock.mock(/\/user_list/, 'get', user.user_list)
+
 Mock.mock(/\/user[\s\S]*?/, 'get', () => ({
   data: 1234,
 }))

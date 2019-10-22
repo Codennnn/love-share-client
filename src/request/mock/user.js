@@ -1,3 +1,7 @@
+import Mock from 'mockjs'
+
+const { Random } = Mock
+
 export default {
   login: {
     code: 2000,
@@ -20,6 +24,20 @@ export default {
       real_name: '陈梓聪',
       school: '广州大学华软软件学院',
       roles: ['super_admin'],
+    },
+  },
+
+  user_list: {
+    code: 2000,
+    data: {
+      'user_list|15-20': [
+        {
+          avatar_url: 'https://randomuser.me/api/portraits/women/0.jpg',
+          nickname: () => Random.cname(),
+          'credit_value|200-1000': 500,
+          time: () => Random.date('yyyy-MM-dd hh:mm'),
+        },
+      ],
     },
   },
 }

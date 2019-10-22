@@ -24,3 +24,10 @@ export function getUserInfo() {
     method: 'get',
   })
 }
+
+export function getUserList() {
+  return request({
+    url: '/user/user_list',
+    method: 'get',
+  })
+}

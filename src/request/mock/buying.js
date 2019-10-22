@@ -8,7 +8,7 @@ export default {
     data: {
       count: 290870,
       count2: 1480,
-      'buying_list|15-30': [
+      'buying_list|15-20': [
         {
           'id|+1': 1,
           avatar_url: 'https://randomuser.me/api/portraits/women/0.jpg',
