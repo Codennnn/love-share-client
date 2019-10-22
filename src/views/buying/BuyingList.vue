@@ -1,0 +1,212 @@
+<template>
+  <div
+    id="data-list-list-view"
+    class="data-list-container"
+  >
+    <AddNewDataSidebar
+      :title="sidebarTitle"
+      :isSidebarActive="addNewDataSidebar"
+      @closeSidebar="addNewDataSidebar = false"
+    />
+
+    <vs-table
+      search
+      multiple
+      pagination
+      noDataText="暂无数据"
+      :max-items="itemsPerPage"
+      :data="buyingList"
+      v-model="selected"
+    >
+      <div
+        slot="header"
+        class="flex flex-wrap-reverse items-center flex-grow justify-between"
+      >
+        <vs-button
+          style="padding: 7px 10px;"
+          color="primary"
+          type="border"
+          size="small"
+          @click="addNewDataSidebar = true, sidebarTitle = '添加新项目'"
+        >
+          <i class="el-icon-plus mr-1 font-semibold"></i>
+          <span>添加新项目</span>
+        </vs-button>
+      </div>
+      <template slot="thead">
+        <vs-th sort-key="name">标题</vs-th>
+        <vs-th sort-key="category">分类</vs-th>
+        <vs-th sort-key="price">求购价</vs-th>
+        <vs-th sort-key="time">发布时间</vs-th>
+      </template>
+      <template slot-scope="{data}">
+        <tbody>
+          <vs-tr
+            v-for="(tr, i) in data"
+            :key="i"
+            :data="tr"
+          >
+            <vs-td>
+              <p class="product-name font-medium">{{ tr.name }}</p>
+            </vs-td>
+            <vs-td>
+              <p class="product-category">{{ tr.category }}</p>
+            </vs-td>
+            <vs-td>
+              <p class="text-gray-600">￥{{ tr.price }}</p>
+            </vs-td>
+            <vs-td>
+              <p class="text-gray-600">{{ tr.time }}</p>
+            </vs-td>
+            <vs-td>
+              <div class="text-center">
+                <vs-dropdown>
+                  <i class="el-icon-more-outline"></i>
+                  <vs-dropdown-menu class="w-24">
+                    <vs-dropdown-item @click="addNewDataSidebar = true,sidebarTitle = '编辑更新'">
+                      <div class="flex items-center justify-center">
+                        <i class="el-icon-edit mr-2"></i>
+                        <span>编辑</span>
+                      </div>
+                    </vs-dropdown-item>
+                    <vs-dropdown-item class="text-danger">
+                      <div class="flex items-center justify-center">
+                        <i class="el-icon-delete mr-2"></i>
+                        <span>删除</span>
+                      </div>
+                    </vs-dropdown-item>
+                  </vs-dropdown-menu>
+                </vs-dropdown>
+              </div>
+            </vs-td>
+          </vs-tr>
+        </tbody>
+      </template>
+    </vs-table>
+  </div>
+</template>
+
+<script>
+import AddNewDataSidebar from './components/AddNewDataSidebar.vue'
+
+import { getBuyingList } from '@/request/api/buying'
+
+export default {
+  data: () => ({
+    selected: [],
+    itemsPerPage: 4,
+    buyingList: [],
+    sidebarTitle: '',
+    addNewDataSidebar: false,
+  }),
+
+  components: { AddNewDataSidebar },
+
+  mounted() {
+    this.getBuyingList()
+  },
+
+  methods: {
+    async getBuyingList() {
+      const { code, data } = await getBuyingList()
+      if (code === 2000) {
+        this.buyingList = data.buying_list
+      }
+    },
+  },
+}
+</script>
+
+<style lang="scss" scoped>
+#data-list-list-view {
+  .vs-con-table {
+    background: transparent;
+    &::v-deep {
+      .vs-table--header {
+        height: 45px;
+        display: flex;
+        flex-wrap: wrap-reverse;
+        margin-left: 1.5rem;
+        margin-right: 1.5rem;
+        > span {
+          display: flex;
+          flex-grow: 1;
+        }
+
+        .vs-table--search {
+          .vs-table--search-input {
+            padding: 0.5rem 2.5rem;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            font-size: 1rem;
+            & + i {
+              left: 1rem;
+            }
+            &:focus + i {
+              left: 1rem;
+            }
+          }
+          .vs-icon {
+            font-size: 1.4rem;
+          }
+        }
+      }
+
+      .vs-table {
+        border-collapse: separate;
+        border-spacing: 0 1.3rem;
+        padding: 0 1rem;
+        & .is-selected {
+          border: none;
+          border-radius: 5px;
+          box-shadow: 0 0 10px 0 rgba(var(--vs-primary), 0.2) !important;
+          overflow: hidden;
+        }
+        tr {
+          box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.05);
+          td {
+            padding: 20px;
+            &:first-child {
+              border-top-left-radius: 0.5rem;
+              border-bottom-left-radius: 0.5rem;
+            }
+            &:last-child {
+              border-top-right-radius: 0.5rem;
+              border-bottom-right-radius: 0.5rem;
+            }
+          }
+          td.td-check {
+            padding: 20px !important;
+          }
+        }
+      }
+
+      .vs-table--thead {
+        th {
+          padding-top: 0;
+          padding-bottom: 0;
+          .vs-table-text {
+            text-transform: uppercase;
+            font-weight: 600;
+            color: #6e6e6e;
+          }
+        }
+        th.td-check {
+          padding: 0 15px !important;
+          .con-td-check {
+            background: transparent;
+            box-shadow: none;
+          }
+        }
+        tr {
+          background: none;
+          box-shadow: none;
+        }
+      }
+
+      .vs-table--pagination {
+        justify-content: center;
+      }
+    }
+  }
+}
+</style>
