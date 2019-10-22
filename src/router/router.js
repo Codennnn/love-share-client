@@ -103,10 +103,10 @@ export const asyncRoutes = [
     component: Layout,
     children: [
       {
-        path: '/user-list',
-        name: 'UserList',
-        component: () => import('@/views/user/UserList.vue'),
-        meta: { title: '用户列表' },
+        path: '/buying-list',
+        name: 'BuyingList',
+        component: () => import('@/views/buying/BuyingList.vue'),
+        meta: { title: '求购列表' },
       },
     ],
     meta: { title: '求购管理', icon: 'icon-shakehands' },
@@ -129,10 +129,16 @@ export const asyncRoutes = [
     component: Layout,
     children: [
       {
-        path: '/user-list',
+        path: '/',
         name: 'UserList',
         component: () => import('@/views/user/UserList.vue'),
-        meta: { title: '用户列表' },
+        meta: { title: '活动管理' },
+      },
+      {
+        path: '/',
+        name: 'UserList',
+        component: () => import('@/views/user/UserList.vue'),
+        meta: { title: '推广管理' },
       },
     ],
     meta: { title: '资讯管理', icon: 'icon-cspace' },

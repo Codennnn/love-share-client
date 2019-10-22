@@ -19,10 +19,9 @@
     <vs-divider class="mb-0"></vs-divider>
 
     <VuePerfectScrollbar
-      class="scroll-area--data-list-add-new pt-4 pb-6"
+      class="scroll-area pt-4 pb-6"
       :settings="settings"
     >
-
       <div class="p-6">
         <!-- 标题 -->
         <vs-input
@@ -175,7 +174,7 @@ export default {
   }
 }
 
-.scroll-area--data-list-add-new {
+.scroll-area {
   height: calc(100% - 4rem);
 }
 </style>
