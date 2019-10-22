@@ -40,47 +40,44 @@
         <vs-th sort-key="time">发布时间</vs-th>
       </template>
       <template slot-scope="{data}">
-        <tbody>
-          <vs-tr
-            v-for="(tr, i) in data"
-            :key="i"
-            :data="tr"
-          >
-            <vs-td>
-              <p class="product-name font-medium">{{ tr.name }}</p>
-            </vs-td>
-            <vs-td>
-              <p class="product-category">{{ tr.category }}</p>
-            </vs-td>
-            <vs-td>
-              <p class="text-gray-600">￥{{ tr.price }}</p>
-            </vs-td>
-            <vs-td>
-              <p class="text-gray-600">{{ tr.time }}</p>
-            </vs-td>
-            <vs-td>
-              <div class="text-center">
-                <vs-dropdown>
-                  <i class="el-icon-more-outline"></i>
-                  <vs-dropdown-menu class="w-24">
-                    <vs-dropdown-item @click="addNewDataSidebar = true,sidebarTitle = '编辑更新'">
-                      <div class="flex items-center justify-center">
-                        <i class="el-icon-edit mr-2"></i>
-                        <span>编辑</span>
-                      </div>
-                    </vs-dropdown-item>
-                    <vs-dropdown-item class="text-danger">
-                      <div class="flex items-center justify-center">
-                        <i class="el-icon-delete mr-2"></i>
-                        <span>删除</span>
-                      </div>
-                    </vs-dropdown-item>
-                  </vs-dropdown-menu>
-                </vs-dropdown>
-              </div>
-            </vs-td>
-          </vs-tr>
-        </tbody>
+        <vs-tr
+          v-for="(tr, i) in data"
+          :key="i"
+          :data="tr"
+        >
+          <vs-td>
+            <p class="product-name font-medium">{{ tr.name }}</p>
+          </vs-td>
+          <vs-td>
+            <p class="product-category">{{ tr.category }}</p>
+          </vs-td>
+          <vs-td>
+            <p class="text-gray-600">￥{{ tr.price }}</p>
+          </vs-td>
+          <vs-td>
+            <p class="text-gray-600">{{ tr.time }}</p>
+          </vs-td>
+          <vs-td>
+            <div class="text-center">
+              <vs-dropdown>
+                <i class="el-icon-more-outline"></i>
+                <vs-dropdown-menu class="w-24">
+                  <vs-dropdown-item
+                    class="text-center"
+                    @click="addNewDataSidebar = true,sidebarTitle = '编辑更新'"
+                  >
+                    <i class="el-icon-edit mr-2"></i>
+                    <span>编辑</span>
+                  </vs-dropdown-item>
+                  <vs-dropdown-item class="text-center text-danger">
+                    <i class="el-icon-delete mr-2"></i>
+                    <span>删除</span>
+                  </vs-dropdown-item>
+                </vs-dropdown-menu>
+              </vs-dropdown>
+            </div>
+          </vs-td>
+        </vs-tr>
       </template>
     </vs-table>
   </div>
