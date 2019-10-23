@@ -40,4 +40,17 @@ export default {
       ],
     },
   },
+
+  user_detail: {
+    code: 2000,
+    data: {
+      user_detail: {
+        user_id: Random.id(),
+        'credit_value|200-1000': 500,
+        real_name: '陈梓聪',
+        nickname: '令狐少侠',
+        school: '广州大学华软软件学院',
+      },
+    },
+  },
 }

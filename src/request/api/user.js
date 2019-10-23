@@ -31,3 +31,10 @@ export function getUserList() {
     method: 'get',
   })
 }
+
+export function getUserDetail() {
+  return request({
+    url: '/user/user_detail',
+    method: 'get',
+  })
+}
