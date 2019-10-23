@@ -116,7 +116,6 @@
 </template>
 
 <script>
-import { setInterval } from 'timers'
 import { register } from '@/request/api/user'
 
 const options = [
