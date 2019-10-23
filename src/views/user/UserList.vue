@@ -99,6 +99,7 @@
 import { getUserList } from '@/request/api/user'
 
 export default {
+  name: 'userList',
   data: () => ({
     selected: [],
     itemsPerPage: 4,
