@@ -119,6 +119,8 @@ export default {
             position: 'top-right',
             icon: 'check_box',
           })
+          await this.$store.dispatch('user/logout')
+          this.$router.replace('/login')
         }
       } catch {
         // TODO

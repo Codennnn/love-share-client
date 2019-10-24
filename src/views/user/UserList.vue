@@ -115,7 +115,6 @@ export default {
       const { code, data } = await getUserList()
       if (code === 2000) {
         this.userList = data.user_list
-        console.log(this.userList)
       }
     },
 
