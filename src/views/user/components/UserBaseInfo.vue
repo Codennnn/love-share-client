@@ -29,31 +29,25 @@
                   <vs-image
                     class="w-32 h-32 shadow"
                     :src="data[i].img_urls[0]"
+                    @click.native="showViewer = true, imgUrls = tr.img_urls"
                   ></vs-image>
                 </vs-td>
 
-                <vs-td :data="data[i].name">
-                  {{data[i].name}}
-                </vs-td>
+                <vs-td>{{ tr.name }}</vs-td>
 
-                <vs-td
-                  class="font-semibold"
-                  :data="data[i].price"
-                >
-                  ￥{{data[i].price}}
-                </vs-td>
+                <vs-td class="font-semibold">￥{{ tr.price }}</vs-td>
 
-                <vs-td :data="data[i].time">
+                <vs-td>
                   <div class="whitespace-no-wrap">{{ timeDiff(data[i].time) }}</div>
                 </vs-td>
 
-                <vs-td :data="data[i].status">
+                <vs-td>
                   <div
                     style="border-radius: 0.4rem;"
                     class="whitespace-no-wrap py-1 px-2"
-                    :style="`background: rgba(var(--vs-${status[data[i].status].color}), 0.2);`"
-                    :class="[`text-${status[data[i].status].color}`]"
-                  >{{ status[data[i].status].text }}</div>
+                    :style="`background: rgba(var(--vs-${status[tr.status].color}), 0.2);`"
+                    :class="[`text-${status[tr.status].color}`]"
+                  >{{ status[tr.status].text }}</div>
                 </vs-td>
               </vs-tr>
             </template>
@@ -85,35 +79,26 @@
                 :key="i"
                 :data="tr"
               >
-                <vs-td :data="data[i].img_urls">
+                <vs-td>
                   <vs-image
                     class="w-32 h-32 shadow"
-                    :src="data[i].img_urls[0]"
+                    :src="tr.img_urls[0]"
+                    @click.native="showViewer = true, imgUrls = tr.img_urls"
                   ></vs-image>
                 </vs-td>
-
-                <vs-td :data="data[i].name">
-                  {{data[i].name}}
+                <vs-td>{{ tr.name }}</vs-td>
+                <vs-td class="font-semibold">￥{{ tr.price }}</vs-td>
+                <vs-td>
+                  <div class="whitespace-no-wrap">{{ timeDiff(tr.time) }}</div>
                 </vs-td>
 
-                <vs-td
-                  class="font-semibold"
-                  :data="data[i].price"
-                >
-                  ￥{{data[i].price}}
-                </vs-td>
-
-                <vs-td :data="data[i].time">
-                  <div class="whitespace-no-wrap">{{ timeDiff(data[i].time) }}</div>
-                </vs-td>
-
-                <vs-td :data="data[i].status">
+                <vs-td>
                   <div
                     style="border-radius: 0.4rem;"
                     class="whitespace-no-wrap py-1 px-2"
-                    :style="`background: rgba(var(--vs-${status[data[i].status].color}), 0.2);`"
-                    :class="[`text-${status[data[i].status].color}`]"
-                  >{{ status[data[i].status].text }}</div>
+                    :style="`background: rgba(var(--vs-${status[tr.status].color}), 0.2);`"
+                    :class="[`text-${status[tr.status].color}`]"
+                  >{{ status[tr.status].text }}</div>
                 </vs-td>
               </vs-tr>
             </template>
@@ -125,10 +110,18 @@
     <div class="w-4/12 pl-2">
       <div class="p-6 bg-white rounded-lg"></div>
     </div>
+
+    <el-image-viewer
+      v-show="showViewer"
+      :on-close="() => showViewer = false"
+      :url-list="imgUrls"
+    />
   </div>
 </template>
 
 <script>
+import ElImageViewer from 'element-ui/packages/image/src/image-viewer.vue'
+
 import { timeDiff } from '@/utils/util'
 import { getPublished, getBought } from '@/request/api/goods'
 
@@ -136,6 +129,8 @@ export default {
   name: 'UserBaseInfo',
   data: () => ({
     timeDiff,
+    showViewer: false,
+    imgUrls: [],
     publishedGoods: [],
     userDetail: {},
     boughtGoods: [],
@@ -150,6 +145,8 @@ export default {
       },
     },
   }),
+
+  components: { ElImageViewer },
 
   mounted() {
     this.getPublished()
@@ -184,6 +181,12 @@ export default {
     .vs-table-text {
       justify-content: center;
     }
+  }
+}
+
+.el-image-viewer__wrapper {
+  &::v-deep .el-image-viewer__close {
+    color: #ececec;
   }
 }
 </style>

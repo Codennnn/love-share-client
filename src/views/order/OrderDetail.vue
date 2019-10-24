@@ -112,7 +112,7 @@
               </template>
             </vs-table>
             <el-image-viewer
-              v-if="showViewer"
+              v-show="showViewer"
               :on-close="() => showViewer = false"
               :url-list="urlList"
             />
