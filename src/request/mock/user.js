@@ -45,12 +45,20 @@ export default {
     code: 2000,
     data: {
       user_detail: {
+        avatar_url: 'https://avatars2.githubusercontent.com/u/31676496?s=460&v=4',
         user_id: Random.id(),
         'credit_value|200-1000': 500,
         real_name: '陈梓聪',
         nickname: '令狐少侠',
         school: '广州大学华软软件学院',
+        fans_num: 54,
+        follow_num: 12,
       },
     },
+  },
+
+  reset_password: {
+    code: 2000,
+    msg: '成功重置密码',
   },
 }
