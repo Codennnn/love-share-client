@@ -1,14 +1,5 @@
 <template>
-  <div
-    id="data-list-list-view"
-    class="data-list-container"
-  >
-    <AddNewDataSidebar
-      :title="sidebarTitle"
-      :isSidebarActive="addNewDataSidebar"
-      @closeSidebar="addNewDataSidebar = false"
-    />
-
+  <div class="data-list mt-4">
     <vs-table
       search
       multiple
@@ -27,10 +18,10 @@
           color="primary"
           type="border"
           size="small"
-          @click="addNewDataSidebar = true, sidebarTitle = '添加新项目'"
+          @click="addNewDataSidebar = true, sidebarTitle = '添加求购信息'"
         >
           <i class="el-icon-plus mr-1 font-semibold"></i>
-          <span>添加新项目</span>
+          <span>添加求购信息</span>
         </vs-button>
       </div>
 
@@ -62,7 +53,7 @@
                 <vs-dropdown-menu class="w-24">
                   <vs-dropdown-item
                     class="text-center"
-                    @click="addNewDataSidebar = true,sidebarTitle = '编辑更新'"
+                    @click="addNewDataSidebar = true, sidebarTitle = '编辑更新'"
                   >
                     <i class="el-icon-edit mr-2"></i>
                     <span>编辑</span>
@@ -78,6 +69,13 @@
         </vs-tr>
       </template>
     </vs-table>
+
+    <!-- 侧边抽屉 -->
+    <AddNewDataSidebar
+      :title="sidebarTitle"
+      :isSidebarActive="addNewDataSidebar"
+      @closeSidebar="addNewDataSidebar = false"
+    />
   </div>
 </template>
 
@@ -89,7 +87,7 @@ import { getBuyingList } from '@/request/api/buying'
 export default {
   data: () => ({
     selected: [],
-    itemsPerPage: 4,
+    itemsPerPage: 6,
     buyingList: [],
     sidebarTitle: '',
     addNewDataSidebar: false,
@@ -113,7 +111,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-#data-list-list-view {
+.data-list {
   .vs-con-table {
     background: transparent;
     &::v-deep {

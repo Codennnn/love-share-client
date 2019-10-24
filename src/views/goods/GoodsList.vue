@@ -7,7 +7,7 @@
         style="transition: all 0.3s;"
         @click="getAddedGoods(), tableTitle = '已上架商品'"
       >
-        <div class="">
+        <div>
           <div class="text-3xl">{{ count ? count.toLocaleString() : '--' }}</div>
           <div class="text-gray-600">已上架商品</div>
         </div>
@@ -15,7 +15,7 @@
           class="rounded-full"
           style="background: rgba(var(--vs-primary), 0.2)"
         >
-          <i class="el-icon-goods p-2 text-3xl text-primary"></i>
+          <i class="el-icon-sell p-2 text-3xl text-primary"></i>
         </div>
       </div>
       <div
@@ -47,14 +47,14 @@
           <vs-button
             type="relief"
             @click="$router.push({
-                      path: '/goods-vivid-list',
-                      query: {}
+                      path: '/goods-vivid-list'
                     })"
           >查看图片列表</vs-button>
         </div>
       </div>
     </div>
 
+    <!-- 筛选搜索 -->
     <div class="mb-6 pt-3 pb-5 px-6 rounded-lg bg-white">
       <div class="mb-3 text-gray-600">筛选搜索</div>
       <div class="flex justify-around items-center flex-wrap">
@@ -127,6 +127,7 @@
       class="vs-con-loading__container"
     >
       <vs-table
+        search
         pagination
         max-items="10"
         noDataText="暂无数据"
@@ -151,9 +152,10 @@
         </template>
         <template slot="thead">
           <vs-th>商品名称</vs-th>
-          <vs-th>价格</vs-th>
+          <vs-th>单价</vs-th>
+          <vs-th>件数</vs-th>
           <vs-th>卖家昵称</vs-th>
-          <vs-th>序号</vs-th>
+          <vs-th>#</vs-th>
         </template>
 
         <template slot-scope="{data}">
@@ -162,13 +164,11 @@
             :key="i"
             :data="tr"
           >
-            <vs-td :data="tr.name">{{ tr.name }}</vs-td>
-            <vs-td
-              class="font-semibold"
-              :data="tr.price"
-            >￥{{ tr.price }}</vs-td>
-            <vs-td :data="tr.nickname">{{ tr.nickname }}</vs-td>
-            <vs-td>{{ i + 1 }}</vs-td>
+            <vs-td>{{ tr.name }}</vs-td>
+            <vs-td class="font-bold">￥{{ tr.price }}</vs-td>
+            <vs-td class="font-bold">{{ tr.goods_num }}</vs-td>
+            <vs-td class="text-gray-700">{{ tr.nickname }}</vs-td>
+            <vs-td class="text-gray-600">{{ i }}</vs-td>
 
             <template slot="expand">
               <div class="flex w-full">
@@ -379,8 +379,8 @@ export default {
     },
 
     // 查看用户详情
-    toUserDetail() {
-      this.$router.push({ path: '/user-detail', query: { } })
+    toUserDetail(id) {
+      this.$router.push({ path: '/user-detail', query: { id } })
     },
 
     onCopy(e) {
@@ -433,6 +433,28 @@ export default {
     border: 1px solid rgba(0, 0, 0, 0.2);
     &::placeholder {
       color: rgba(0, 0, 0, 0.8);
+    }
+  }
+}
+
+.vs-con-table {
+  &::v-deep {
+    .vs-table--search {
+      margin-right: 20px;
+      .vs-table--search-input {
+        padding: 0.5rem 2.5rem;
+        border: 1px solid rgba(0, 0, 0, 0.15);
+        font-size: 1rem;
+        & + i {
+          left: 1rem;
+        }
+        &:focus + i {
+          left: 1rem;
+        }
+      }
+      .vs-icon {
+        font-size: 1.4rem;
+      }
     }
   }
 }

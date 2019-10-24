@@ -81,6 +81,7 @@
                 <vs-th>商品名称</vs-th>
                 <vs-th>数量</vs-th>
                 <vs-th>价格</vs-th>
+                <vs-th>商品详情</vs-th>
               </template>
 
               <template slot-scope="{data}">
@@ -104,7 +105,7 @@
                   <vs-td>
                     <i
                       title="查看详情"
-                      class="el-icon-more p-2 text-gray-600 cursor-pointer"
+                      class="el-icon-goods ml-3 p-2 text-xl text-gray-600 cursor-pointer"
                       @click="$router.push({path: '/goods-detail'})"
                     ></i>
                   </vs-td>
