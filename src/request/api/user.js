@@ -45,3 +45,10 @@ export function getUserDetail() {
     method: 'get',
   })
 }
+
+export function getRecentContacts() {
+  return request({
+    url: '/user/recent_contacts',
+    method: 'get',
+  })
+}

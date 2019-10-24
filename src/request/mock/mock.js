@@ -17,6 +17,8 @@ Mock.mock(/\/user_detail/, 'get', user.user_detail)
 
 Mock.mock(/\/reset_password/, 'put', user.reset_password)
 
+Mock.mock(/\/recent_contacts/, 'get', user.recent_contacts)
+
 Mock.mock(/\/user[\s\S]*?/, 'get', () => ({
   data: 1234,
 }))

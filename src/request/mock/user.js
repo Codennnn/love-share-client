@@ -32,9 +32,11 @@ export default {
     data: {
       'user_list|15-20': [
         {
+          user_id: () => Random.id(),
           avatar_url: 'https://randomuser.me/api/portraits/women/0.jpg',
           nickname: () => Random.cname(),
           'credit_value|200-1000': 500,
+          share_value: () => Random.integer(60, 200),
           time: () => Random.date('yyyy-MM-dd hh:mm'),
         },
       ],
@@ -60,5 +62,18 @@ export default {
   reset_password: {
     code: 2000,
     msg: '成功重置密码',
+  },
+
+  recent_contacts: {
+    code: 2000,
+    data: {
+      'recent_contacts|0-10': [
+        {
+          user_id: () => Random.id(),
+          avatar_url: 'https://avatars2.githubusercontent.com/u/31676496?s=460&v=4',
+          nickname: () => Random.cname(),
+        },
+      ],
+    },
   },
 }
