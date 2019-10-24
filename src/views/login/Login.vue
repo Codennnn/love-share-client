@@ -19,7 +19,7 @@
                   :warning="item.isWarnng"
                   :warning-text="item.warningText"
                   v-model.trim="item.value"
-                  @focus="signInInputFocus(i)"
+                  @focus="() => { signInInput[i].isWarnng = false }"
                   @keyup.enter="login"
                 />
                 <vs-alert
@@ -73,7 +73,7 @@
                   :warning="item.isWarnng"
                   :warning-text="item.warningText"
                   val-icon-warning="warning"
-                  @focus="signUpInputFocus(i)"
+                  @focus="() => { signUpInput[i].isWarnng = false }"
                   v-model.trim="item.value"
                 />
                 <div class="flex items-center mt-2 py-2">
