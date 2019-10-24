@@ -1,6 +1,6 @@
 <template>
   <div class="flex">
-    <div class="w-8/12 pr-3">
+    <div class="w-8/12">
       <!-- 我发布的 -->
       <div class="p-6 bg-white rounded-lg">
         <div class="text-lg font-bold mb-4">TA发布的</div>
@@ -107,8 +107,53 @@
       </div>
     </div>
 
-    <div class="w-4/12 pl-2">
-      <div class="p-6 bg-white rounded-lg"></div>
+    <div class="w-4/12 pl-5">
+      <div class="p-5 bg-white rounded-lg">
+        <div class="mb-4 text-gray-700">最近联系</div>
+        <ul v-if="recentContacts.length > 0">
+          <li
+            class="mb-3 flex items-center justify-between"
+            v-for="(item, i) in recentContacts"
+            :key="i"
+          >
+            <div class="flex items-center">
+              <vs-avatar
+                class="mr-3"
+                size="40px"
+                :src="item.avatar_url"
+              />
+              <div>
+                <div class="text-sm">{{ item.nickname }}</div>
+                <div
+                  class="text-gray-500"
+                  style="font-size: 0.7rem;"
+                >19/10/24 17:50</div>
+              </div>
+            </div>
+            <vs-button
+              radius
+              color="primary"
+              type="border"
+              icon-pack="el-icon"
+              icon="el-icon-user"
+              @click="$router.push({
+                        path: '/user-detail',
+                        query: { id: item.user_id }
+                      })"
+            ></vs-button>
+          </li>
+          <li class="text-center">
+            <vs-button class="text-sm w-2/3">
+              查看更多
+              <i class="el-icon-arrow-right"></i>
+            </vs-button>
+          </li>
+        </ul>
+        <div
+          class="text-gray-600 text-center text-sm"
+          v-else
+        >暂无最近联系人</div>
+      </div>
     </div>
 
     <el-image-viewer
@@ -123,17 +168,19 @@
 import ElImageViewer from 'element-ui/packages/image/src/image-viewer.vue'
 
 import { timeDiff } from '@/utils/util'
+import { getRecentContacts } from '@/request/api/user'
 import { getPublished, getBought } from '@/request/api/goods'
 
 export default {
   name: 'UserBaseInfo',
   data: () => ({
     timeDiff,
+    userID: '',
     showViewer: false,
     imgUrls: [],
     publishedGoods: [],
-    userDetail: {},
     boughtGoods: [],
+    recentContacts: [],
     status: {
       0: {
         color: 'warning',
@@ -149,12 +196,14 @@ export default {
   components: { ElImageViewer },
 
   mounted() {
+    this.userID = this.$route.query.id
+    console.log('user id:', this.userID)
     this.getPublished()
     this.getBought()
+    this.getRecentContacts()
   },
 
   methods: {
-
     async getPublished() {
       const { code, data } = await getPublished()
       if (code === 2000) {
@@ -166,6 +215,17 @@ export default {
       const { code, data } = await getBought()
       if (code === 2000) {
         this.boughtGoods = data.goods
+      }
+    },
+
+    async getRecentContacts() {
+      try {
+        const { code, data } = await getRecentContacts()
+        if (code === 2000) {
+          this.recentContacts = data.recent_contacts
+        }
+      } catch {
+        // TODO
       }
     },
   },
