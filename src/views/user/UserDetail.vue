@@ -54,13 +54,13 @@
             color="#646464"
             type="flat"
             @click="currentComponent = 'UserBaseInfo'"
-          >详细资料</vs-button>
+          >概况</vs-button>
           <vs-button
             class="mr-4"
             color="#646464"
             type="flat"
-            @click="currentComponent = 'UserBaseInfo'"
-          >我的消息</vs-button>
+            @click="currentComponent = 'UserDetailInfo'"
+          >详细资料</vs-button>
           <vs-button
             color="#646464"
             type="flat"
@@ -71,8 +71,8 @@
     </div>
 
     <transition
-      enter-active-class="animated fadeInLeft quickly"
-      leave-active-class="animated fadeOutRight quickly"
+      enter-active-class="animated fadeIn quickly"
+      leave-active-class="animated fadeOut quickly"
       mode="out-in"
     >
       <keep-alive>
@@ -92,6 +92,10 @@ const UserChangePassword = Vue.component(
   'UserChangePassword',
   () => import('./components/UserChangePassword.vue'),
 )
+const UserDetailInfo = Vue.component(
+  'UserDetailInfo',
+  () => import('./components/UserDetailInfo.vue'),
+)
 
 export default {
   name: 'UserDetail',
@@ -100,7 +104,7 @@ export default {
     userDetail: {},
   }),
 
-  components: { UserBaseInfo, UserChangePassword },
+  components: { UserBaseInfo, UserChangePassword, UserDetailInfo },
 
   mounted() {
     this.getUserDetail()
@@ -108,9 +112,13 @@ export default {
 
   methods: {
     async getUserDetail() {
-      const { code, data } = await getUserDetail()
-      if (code === 2000) {
-        this.userDetail = data.user_detail
+      try {
+        const { code, data } = await getUserDetail()
+        if (code === 2000) {
+          this.userDetail = data.user_detail
+        }
+      } catch {
+        // TODO
       }
     },
 
@@ -135,6 +143,6 @@ export default {
 
 <style lang="scss" scoped>
 .quickly {
-  animation-duration: 0.3s;
+  animation-duration: 0.2s;
 }
 </style>
