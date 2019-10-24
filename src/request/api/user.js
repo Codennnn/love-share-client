@@ -25,6 +25,13 @@ export function getUserInfo() {
   })
 }
 
+export function resetPassword() {
+  return request({
+    url: '/user/reset_password',
+    method: 'put',
+  })
+}
+
 export function getUserList() {
   return request({
     url: '/user/user_list',
