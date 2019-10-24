@@ -1,42 +1,47 @@
 <template>
-  <div class="w-1/3">
-    <vs-input
-      class="w-full py-2"
-      val-icon-warning="warning"
-      v-for="(item, i) in inputs"
-      :key="i"
-      :type="item.type"
-      :label="item.label"
-      :placeholder="item.placeholder"
-      :warning="item.isWarnng"
-      :warning-text="item.warningText"
-      :description-text="item.description"
-      v-model.trim="item.value"
-      @focus="() => { inputs[i].isWarnng = false }"
-    />
-    <div class="flex items-center mt-2 py-2">
-      <vs-input
-        class="w-7/12 mr-2"
-        placeholder="验证码"
-        :warning="codeError"
-        :warning-text="codeWarningText"
-        val-icon-warning="warning"
-        @focus="codeError = false"
-        @keyup.enter="onReset()"
-        v-model.trim="code"
-      />
-      <vs-button
-        class="w-5/12 text-sm"
-        type="border"
-        @click="getCode()"
-      >{{ codeText }}</vs-button>
+  <div class="p-6 bg-white rounded-lg">
+    <div class="text-xl font-bold text-gray-600">修改密码</div>
+    <div class="py-4 flex justify-center">
+      <div class="w-1/3">
+        <vs-input
+          class="w-full py-2"
+          val-icon-warning="warning"
+          v-for="(item, i) in inputs"
+          :key="i"
+          :type="item.type"
+          :label="item.label"
+          :placeholder="item.placeholder"
+          :warning="item.isWarnng"
+          :warning-text="item.warningText"
+          :description-text="item.description"
+          v-model.trim="item.value"
+          @focus="() => { inputs[i].isWarnng = false }"
+        />
+        <div class="flex items-center mt-2 py-2">
+          <vs-input
+            class="w-7/12 mr-2"
+            placeholder="验证码"
+            :warning="codeError"
+            :warning-text="codeWarningText"
+            val-icon-warning="warning"
+            @focus="codeError = false"
+            @keyup.enter="onReset()"
+            v-model.trim="code"
+          />
+          <vs-button
+            class="w-5/12 text-sm"
+            type="border"
+            @click="getCode()"
+          >{{ codeText }}</vs-button>
+        </div>
+        <vs-button
+          id="resetBtn"
+          class="w-full mt-2 vs-con-loading__container"
+          type="relief"
+          @click="onReset()"
+        >重置密码</vs-button>
+      </div>
     </div>
-    <vs-button
-      id="resetBtn"
-      class="w-full mt-2 vs-con-loading__container"
-      type="relief"
-      @click="onReset()"
-    >重置密码</vs-button>
   </div>
 </template>
 
@@ -119,6 +124,7 @@ export default {
             position: 'top-right',
             icon: 'check_box',
           })
+          // 重新登录
           await this.$store.dispatch('user/logout')
           this.$router.replace('/login')
         }
