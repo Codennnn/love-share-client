@@ -53,28 +53,45 @@
             class="mr-4"
             color="#646464"
             type="flat"
+            @click="currentComponent = 'UserBaseInfo'"
           >详细资料</vs-button>
           <vs-button
             class="mr-4"
             color="#646464"
             type="flat"
+            @click="currentComponent = 'UserBaseInfo'"
           >我的消息</vs-button>
           <vs-button
             color="#646464"
             type="flat"
+            @click="currentComponent = 'UserChangePassword'"
           >修改密码</vs-button>
         </div>
       </div>
     </div>
 
-    <component :is="currentComponent" />
+    <transition
+      enter-active-class="animated fadeInLeft quickly"
+      leave-active-class="animated fadeOutRight quickly"
+      mode="out-in"
+    >
+      <keep-alive>
+        <component :is="currentComponent" />
+      </keep-alive>
+    </transition>
   </div>
 </template>
 
 <script>
+import Vue from 'vue'
 import UserBaseInfo from './components/UserBaseInfo.vue'
 
 import { getUserDetail } from '@/request/api/user'
+
+const UserChangePassword = Vue.component(
+  'UserChangePassword',
+  () => import('./components/UserChangePassword.vue'),
+)
 
 export default {
   name: 'UserDetail',
@@ -83,7 +100,7 @@ export default {
     userDetail: {},
   }),
 
-  components: { UserBaseInfo },
+  components: { UserBaseInfo, UserChangePassword },
 
   mounted() {
     this.getUserDetail()
@@ -117,4 +134,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.quickly {
+  animation-duration: 0.3s;
+}
 </style>
