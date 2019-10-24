@@ -367,4 +367,10 @@ export default {
 #loginBtn:hover {
   color: #fff !important;
 }
+
+.con-select {
+  &::v-deep .vs-select--input {
+    border: 1px solid rgba(0, 0, 0, 0.2);
+  }
+}
 </style>
