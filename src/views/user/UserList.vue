@@ -23,7 +23,7 @@
           size="small"
           @click="addNewDataSidebar = true, sidebarTitle = '添加新项目'"
         >
-          <i class="el-icon-plus mr-1 font-semibold"></i>
+          <i class="el-icon-plus mr-1 font-bold"></i>
           <span>添加新项目</span>
         </vs-button>
       </div>
@@ -32,7 +32,7 @@
         <vs-th>头像</vs-th>
         <vs-th>昵称</vs-th>
         <vs-th>乐享信用值</vs-th>
-        <vs-th sort-key="price">求购价</vs-th>
+        <vs-th sort-key="share_value">乐享值</vs-th>
         <vs-th sort-key="time">注册时间</vs-th>
       </template>
 
@@ -57,7 +57,7 @@
             ></vs-progress>
           </vs-td>
           <vs-td>
-            <p class="text-gray-600">￥{{ tr.price }}</p>
+            <p class="text-gray-600">{{ tr.share_value }}</p>
           </vs-td>
           <vs-td>
             <p class="text-gray-600">{{ tr.time }}</p>
@@ -76,7 +76,10 @@
                   </vs-dropdown-item>
                   <vs-dropdown-item
                     class="text-center"
-                    @click="$router.push({ path: '/user-detail' })"
+                    @click="$router.push({
+                              path: '/user-detail',
+                              query: { id: tr.user_id }
+                            })"
                   >
                     <i class="el-icon-news mr-2"></i>
                     <span>查看</span>
