@@ -12,6 +12,7 @@ export default {
         {
           'id|+1': 1,
           avatar_url: 'https://randomuser.me/api/portraits/women/0.jpg',
+          goods_num: 1,
           name: () => Random.cword(10, 35),
           nickname: () => Random.cword(2, 7),
           real_name: () => Random.cname(),
