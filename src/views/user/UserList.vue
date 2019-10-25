@@ -1,8 +1,5 @@
 <template>
-  <div
-    id="data-list-list-view"
-    class="data-list-container"
-  >
+  <div class="data-list mt-4">
     <vs-table
       search
       multiple
@@ -12,22 +9,6 @@
       :data="userList"
       v-model="selected"
     >
-      <div
-        slot="header"
-        class="flex flex-wrap-reverse items-center flex-grow justify-between"
-      >
-        <vs-button
-          style="padding: 7px 10px;"
-          color="primary"
-          type="border"
-          size="small"
-          @click="addNewDataSidebar = true, sidebarTitle = '添加新项目'"
-        >
-          <i class="el-icon-plus mr-1 font-bold"></i>
-          <span>添加新项目</span>
-        </vs-button>
-      </div>
-
       <template slot="thead">
         <vs-th>头像</vs-th>
         <vs-th>昵称</vs-th>
@@ -141,7 +122,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-#data-list-list-view {
+.data-list {
   .vs-con-table {
     background: transparent;
     &::v-deep {
