@@ -56,10 +56,10 @@
                     v-model="school"
                   >
                     <vs-select-item
-                      v-for="(item, i) in options"
+                      v-for="(item, i) in schools"
                       :key="i"
                       :value="item.value"
-                      :text="item.text"
+                      :text="item.label"
                     />
                   </vs-select>
                 </div>
@@ -117,14 +117,8 @@
 
 <script>
 import { register } from '@/request/api/user'
+import { getSchools } from '@/request/api/common'
 
-const options = [
-  { text: '广州大学华软软件学院', value: 1000 },
-  { text: '华南理工大学', value: 1001 },
-  { text: '东莞理工学院', value: 1002 },
-  { text: '南京邮电大学', value: 1003 },
-  { text: '四川大学', value: 1004 },
-]
 const signInInput = [
   {
     placeholder: '您的账号',
@@ -174,10 +168,10 @@ const signUpInput = [
 export default {
   name: 'Login',
   data: () => ({
-    options,
     signInInput,
     signUpInput,
     school: 1000,
+    schools: [],
     signInError: false,
     signUpError: false,
     signInErrorText: '账号或密码有误，请重新输入',
@@ -190,6 +184,10 @@ export default {
     codeWarningText: '',
     timer: null,
   }),
+
+  mounted() {
+    this.getSchools()
+  },
 
   methods: {
     async login() {
@@ -323,15 +321,18 @@ export default {
       }
     },
 
-    // 输入框聚焦时隐藏警示
-    signInInputFocus(i) {
-      this.signInInput[i].isWarnng = false
-    },
-    signUpInputFocus(i) {
-      this.signUpInput[i].isWarnng = false
-    },
-
     schoolChange() {},
+
+    async getSchools() {
+      try {
+        const { code, data } = await getSchools()
+        if (code === 2000) {
+          this.schools = data.schools
+        }
+      } catch {
+        // TODO
+      }
+    },
   },
 }
 </script>
