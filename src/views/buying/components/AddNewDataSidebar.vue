@@ -6,7 +6,7 @@
     parent="body"
     default-index="1"
     color="primary"
-    class="add-new-data-sidebar items-no-padding"
+    class="sidebar-main"
     v-model="isSidebarActiveLocal"
   >
     <div class="mt-6 flex items-center justify-between px-6">
@@ -146,7 +146,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.add-new-data-sidebar {
+.sidebar-main {
   &::v-deep {
     .vs-sidebar--items {
       padding: 0;
