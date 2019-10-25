@@ -34,7 +34,7 @@
             <vs-progress
               :title="tr.credit_value"
               :percent="(tr.credit_value / 1000) * 100"
-              :color="getCreditColor(tr.credit_value)"
+              :color="setCreditColor(tr.credit_value)"
             ></vs-progress>
           </vs-td>
           <vs-td>
@@ -80,11 +80,13 @@
 </template>
 
 <script>
+import { setCreditColor } from '@/utils/util'
 import { getUserList } from '@/request/api/user'
 
 export default {
   name: 'userList',
   data: () => ({
+    setCreditColor,
     selected: [],
     itemsPerPage: 4,
     userList: [],
@@ -100,22 +102,6 @@ export default {
       if (code === 2000) {
         this.userList = data.user_list
       }
-    },
-
-    getCreditColor(val) {
-      if (val >= 500 && val <= 690) {
-        return 'primary'
-      }
-      if (val > 690) {
-        return 'success'
-      }
-      if (val < 490 && val >= 390) {
-        return 'warning'
-      }
-      if (val < 390) {
-        return 'danger'
-      }
-      return 'primary'
     },
   },
 }

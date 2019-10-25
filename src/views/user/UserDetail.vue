@@ -12,21 +12,11 @@
             <div class="mb-4">
               <span class="font-bold text-2xl">{{ userDetail.nickname }}</span>
               <span>（{{ userDetail.real_name }}）</span>
-              <span
-                class="my-2 py-1 px-3 text-center text-sm text-white"
-                style="border-radius: 0.3rem;background: rgba(var(--vs-primary), 0.9)"
-              >{{ userDetail.school }}</span>
             </div>
-            <div>
-              <vs-chip :color="getCreditColor(userDetail.credit_value)">
-                乐享信用值：{{ userDetail.credit_value }} / 1000
-              </vs-chip>
-              <vs-progress
-                :height="8"
-                :percent="(userDetail.credit_value / 1000) * 100"
-                :color="getCreditColor(userDetail.credit_value)"
-              ></vs-progress>
-            </div>
+            <span
+              class="my-2 py-1 px-3 text-center text-sm text-white"
+              style="border-radius: 0.3rem;background: rgba(var(--vs-primary), 0.9)"
+            >{{ userDetail.school }}</span>
           </div>
         </div>
         <div class="w-1/2 flex justify-around">
@@ -141,22 +131,6 @@ export default {
       } catch {
         // TODO
       }
-    },
-
-    getCreditColor(val) {
-      if (val >= 500 && val <= 690) {
-        return 'primary'
-      }
-      if (val > 690) {
-        return 'success'
-      }
-      if (val < 490 && val >= 390) {
-        return 'warning'
-      }
-      if (val < 390) {
-        return 'danger'
-      }
-      return 'primary'
     },
   },
 }
