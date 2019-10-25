@@ -76,4 +76,17 @@ export default {
       ],
     },
   },
+
+  detail_info: {
+    code: 2000,
+    data: {
+      detail_info: {
+        phone: '13724540846',
+        wechat: 'czc12580520',
+        credit_value: 750,
+        qq: '1559162803',
+        sex: 1,
+      },
+    },
+  },
 }

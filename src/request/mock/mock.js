@@ -4,6 +4,7 @@ import notice from './notice'
 import goods from './goods'
 import order from './order'
 import buying from './buying'
+import common from './common'
 
 Mock.mock(/\/login/, 'post', user.login)
 
@@ -18,6 +19,8 @@ Mock.mock(/\/user_detail/, 'get', user.user_detail)
 Mock.mock(/\/reset_password/, 'put', user.reset_password)
 
 Mock.mock(/\/recent_contacts/, 'get', user.recent_contacts)
+
+Mock.mock(/\/detail_info/, 'get', user.detail_info)
 
 Mock.mock(/\/user[\s\S]*?/, 'get', () => ({
   data: 1234,
@@ -40,5 +43,7 @@ Mock.mock(/\/orders/, 'get', order.orders)
 Mock.mock(/\/order_detail/, 'get', order.detail)
 
 Mock.mock(/\/buying_list/, 'get', buying.buying_list)
+
+Mock.mock(/\/schools/, 'get', common.schools)
 
 Mock.setup({ timeout: '500-600' })

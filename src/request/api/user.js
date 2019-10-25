@@ -46,6 +46,13 @@ export function getUserDetail() {
   })
 }
 
+export function getUserDetailInfo() {
+  return request({
+    url: '/user/detail_info',
+    method: 'get',
+  })
+}
+
 export function getRecentContacts() {
   return request({
     url: '/user/recent_contacts',
