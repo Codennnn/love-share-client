@@ -81,11 +81,14 @@ export default {
     code: 2000,
     data: {
       detail_info: {
+        nickname: '令狐少侠',
+        real_name: '陈梓聪',
         phone: '13724540846',
         wechat: 'czc12580520',
         credit_value: 750,
         qq: '1559162803',
         sex: 1,
+        school: { value: 1000, label: '广州大学华软软件学院' },
       },
     },
   },
