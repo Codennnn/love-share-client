@@ -150,6 +150,7 @@ export default {
   &::v-deep {
     .vs-sidebar--items {
       padding: 0;
+      overflow: hidden;
     }
     .vs-sidebar--background {
       z-index: 52010;
