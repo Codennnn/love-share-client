@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="mb-6 bg-white rounded-lg p-5">
-      <div class="flex items-center">
+      <div class="mb-3 flex items-center">
         <div class="w-1/2 flex items-center">
           <vs-avatar
             class="mr-6"
@@ -31,22 +31,37 @@
         </div>
         <div class="w-1/2 flex justify-around">
           <div class="flex flex-col items-center justify-center">
-            <div>TA的关注</div>
+            <div>关注的人</div>
             <div class="mt-4 text-2xl font-bold">{{ userDetail.follow_num }}</div>
           </div>
           <div class="flex flex-col items-center justify-center">
-            <div>TA的粉丝</div>
+            <div>粉丝数</div>
             <div class="mt-4 text-2xl font-bold">{{ userDetail.fans_num }}</div>
           </div>
           <div class="flex flex-col items-center justify-center">
-            <div>TA的关注</div>
-            <div class="mt-4 text-2xl font-bold">{{ `12` }}</div>
+            <div>收藏夹</div>
+            <div class="mt-4 text-2xl font-bold">{{ `2` }}</div>
           </div>
         </div>
       </div>
 
       <div class="flex items-center">
         <div class="w-1/3">
+          <vs-collapse>
+            <vs-collapse-item :not-arrow="true">
+              <vs-button
+                slot="header"
+                class="text-sm"
+                color="dark"
+                type="line"
+                icon-pack="el-icon"
+                icon="el-icon-chat-line-square"
+              >个人简介</vs-button>
+              <div class="text-gray-600">
+                个人简介个人简介个人简介个人简介个人简介个人简介
+              </div>
+            </vs-collapse-item>
+          </vs-collapse>
         </div>
         <div class="flex justify-end w-2/3">
           <vs-button
@@ -54,13 +69,19 @@
             color="#646464"
             type="flat"
             @click="currentComponent = 'UserBaseInfo'"
-          >概况</vs-button>
+          >概 况</vs-button>
           <vs-button
             class="mr-4"
             color="#646464"
             type="flat"
             @click="currentComponent = 'UserDetailInfo'"
           >详细资料</vs-button>
+          <vs-button
+            class="mr-4"
+            color="#646464"
+            type="flat"
+            @click="currentComponent = 'UserDetailInfo'"
+          >财富收益</vs-button>
           <vs-button
             color="#646464"
             type="flat"
