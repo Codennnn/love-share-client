@@ -22,6 +22,18 @@ export function timeDiff(time) {
   return time
 }
 
-export function formatTime() {
-
+export function setCreditColor(val) {
+  if (val >= 500 && val <= 690) {
+    return 'primary'
+  }
+  if (val > 690) {
+    return 'success'
+  }
+  if (val < 490 && val >= 390) {
+    return 'warning'
+  }
+  if (val < 390) {
+    return 'danger'
+  }
+  return 'primary'
 }
