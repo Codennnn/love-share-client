@@ -87,7 +87,7 @@ export default {
         wechat: 'czc12580520',
         credit_value: 750,
         qq: '1559162803',
-        sex: 1,
+        gender: '1',
         school: { value: 1000, label: '广州大学华软软件学院' },
       },
     },
