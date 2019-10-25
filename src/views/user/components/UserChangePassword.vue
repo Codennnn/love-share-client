@@ -1,6 +1,7 @@
 <template>
   <div class="p-6 bg-white rounded-lg">
     <div class="text-xl font-bold text-gray-600">修改密码</div>
+    <vs-divider />
     <div class="py-4 flex justify-center">
       <div class="w-1/3">
         <vs-input
