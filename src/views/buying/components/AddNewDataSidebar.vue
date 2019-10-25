@@ -81,6 +81,7 @@
 import VuePerfectScrollbar from 'vue-perfect-scrollbar'
 
 export default {
+  name: 'AddNewDataSidebar',
   props: {
     isSidebarActive: {
       type: Boolean,
