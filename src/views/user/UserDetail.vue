@@ -73,6 +73,7 @@
             @click="currentComponent = 'UserProfit'"
           >财富收益</vs-button>
           <vs-button
+            v-if="$auth()"
             color="#646464"
             type="flat"
             @click="currentComponent = 'UserChangePassword'"
@@ -99,10 +100,6 @@ import UserBaseInfo from './components/UserBaseInfo.vue'
 
 import { getUserDetail } from '@/request/api/user'
 
-const UserChangePassword = Vue.component(
-  'UserChangePassword',
-  () => import('./components/UserChangePassword.vue'),
-)
 const UserDetailInfo = Vue.component(
   'UserDetailInfo',
   () => import('./components/UserDetailInfo.vue'),
@@ -110,6 +107,10 @@ const UserDetailInfo = Vue.component(
 const UserProfit = Vue.component(
   'UserProfit',
   () => import('./components/UserProfit.vue'),
+)
+const UserChangePassword = Vue.component(
+  'UserChangePassword',
+  () => import('./components/UserChangePassword.vue'),
 )
 
 export default {
