@@ -14,6 +14,7 @@
         class="flex flex-wrap-reverse items-center flex-grow justify-between"
       >
         <vs-button
+          v-auth
           style="padding: 7px 10px;"
           color="primary"
           type="border"
@@ -46,19 +47,23 @@
           <vs-td>
             <p class="text-gray-600">{{ tr.time }}</p>
           </vs-td>
-          <vs-td>
+          <vs-td v-if="$auth()">
             <div class="text-center">
               <vs-dropdown>
                 <i class="el-icon-more-outline"></i>
                 <vs-dropdown-menu class="w-24">
                   <vs-dropdown-item
+                    v-auth
                     class="text-center"
                     @click="addNewDataSidebar = true, sidebarTitle = '编辑更新'"
                   >
                     <i class="el-icon-edit mr-2"></i>
                     <span>编辑</span>
                   </vs-dropdown-item>
-                  <vs-dropdown-item class="text-center text-danger">
+                  <vs-dropdown-item
+                    v-auth
+                    class="text-center text-danger"
+                  >
                     <i class="el-icon-delete mr-2"></i>
                     <span>删除</span>
                   </vs-dropdown-item>
