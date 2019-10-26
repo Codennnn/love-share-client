@@ -53,6 +53,7 @@ export default {
         real_name: '陈梓聪',
         nickname: '令狐少侠',
         school: '广州大学华软软件学院',
+        introduction: '我有一只小毛驴我从来都不骑，有一天我心血来潮骑它去赶集',
         fans_num: 54,
         follow_num: 12,
       },
