@@ -48,7 +48,7 @@
                 icon="el-icon-chat-line-square"
               >个人简介</vs-button>
               <div class="text-gray-600">
-                个人简介个人简介个人简介个人简介个人简介个人简介
+                {{ userDetail.introduction }}
               </div>
             </vs-collapse-item>
           </vs-collapse>
@@ -70,7 +70,7 @@
             class="mr-4"
             color="#646464"
             type="flat"
-            @click="currentComponent = 'UserDetailInfo'"
+            @click="currentComponent = 'UserProfit'"
           >财富收益</vs-button>
           <vs-button
             color="#646464"
@@ -107,6 +107,10 @@ const UserDetailInfo = Vue.component(
   'UserDetailInfo',
   () => import('./components/UserDetailInfo.vue'),
 )
+const UserProfit = Vue.component(
+  'UserProfit',
+  () => import('./components/UserProfit.vue'),
+)
 
 export default {
   name: 'UserDetail',
@@ -115,7 +119,12 @@ export default {
     userDetail: {},
   }),
 
-  components: { UserBaseInfo, UserChangePassword, UserDetailInfo },
+  components: {
+    UserBaseInfo,
+    UserDetailInfo,
+    UserProfit,
+    UserChangePassword,
+  },
 
   mounted() {
     this.getUserDetail()
