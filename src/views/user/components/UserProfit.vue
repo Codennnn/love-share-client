@@ -57,5 +57,6 @@ export default {
   flex: 1;
   border-radius: 0.5rem;
   box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.1);
+  cursor: pointer;
 }
 </style>
