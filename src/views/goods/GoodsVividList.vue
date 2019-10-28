@@ -26,7 +26,7 @@
           <h6 class="my-3 text-sm text-gray-700">共查询到 120 个商品</h6>
           <!-- 搜索框 -->
           <vs-input
-            class="search-input mb-6 top-0 z-40 w-full shadow-lg rounded-lg overflow-hidden"
+            class="search-input mb-6 top-0 z-40 w-full shadow rounded-lg overflow-hidden"
             icon="search"
             size="large"
             icon-no-border
@@ -40,7 +40,11 @@
               class="item shadow"
             >
               <div class="img-wrapper">
-                <img src="@/assets/cloth.png" />
+                <el-image
+                  style="width: 100%; height: 100%;"
+                  src="https://cdn-demo.algolia.com/bestbuy-0118/4397400_sb.jpg"
+                  fit="cover"
+                ></el-image>
               </div>
               <div class="title">衬衫</div>
             </div>
