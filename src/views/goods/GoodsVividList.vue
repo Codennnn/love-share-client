@@ -37,16 +37,59 @@
             <div
               v-for="(item, i) in 8"
               :key="i"
-              class="item shadow"
+              class="goods-item"
             >
-              <div class="img-wrapper">
+              <div
+                class="img-wrapper cursor-pointer"
+                @click="viewGoodsDetail(item.goods_id)"
+              >
                 <el-image
-                  style="width: 100%; height: 100%;"
+                  class="w-full h-full"
                   src="https://cdn-demo.algolia.com/bestbuy-0118/4397400_sb.jpg"
                   fit="cover"
                 ></el-image>
               </div>
-              <div class="title">衬衫</div>
+              <div class="p-3">
+                <div class="my-2 flex justify-between items-center">
+                  <div>
+                    <vs-chip color="primary">
+                      <span style="margin: 0 0.5rem 0.2rem 0">{{ '4' }}</span>
+                      <i class="el-icon-star-off"></i>
+                    </vs-chip>
+                  </div>
+                  <div class="font-bold">￥{{ '39.50' }}</div>
+                </div>
+                <div class="text-overflow">
+                  {{ '123456789123456789101457' }}
+                </div>
+                <div class="text-overflow text-gray-500 text-sm">
+                  {{ '12345678912345678924891' }}
+                </div>
+              </div>
+              <div class="flex lg:flex-col xl:flex-row">
+                <div
+                  class="xl:w-1/2 p-2 flex justify-center items-center cursor-pointer"
+                  style="background: rgb(246, 246, 246);font-size: 15px;"
+                >
+                  <i
+                    v-if="true"
+                    class="el-icon-star-on text-xl mr-1 text-warning"
+                  ></i>
+                  <i
+                    v-else
+                    class="el-icon-star-off mr-1"
+                  ></i>
+                  收藏
+                </div>
+                <div
+                  class="xl:w-1/2 p-2 flex justify-center items-center
+                  bg-primary text-white cursor-pointer"
+                  style="font-size: 14px;"
+                >
+                  <i class="el-icon-shopping-cart-2 mr-2 text-lg"></i>
+                  加入购物车
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -88,6 +131,13 @@ export default {
         //
       }
     },
+
+    viewGoodsDetail(id) {
+      this.$router.push({
+        path: '/goods-detail',
+        query: { id },
+      })
+    },
   },
 }
 </script>
@@ -105,8 +155,13 @@ export default {
       box-shadow: none;
       border-radius: 0;
     }
+    .vs-input--input,
+    .vs-input--placeholder {
+      padding-left: 40px;
+    }
     .vs-icon {
-      top: 0.7rem;
+      top: 0.75rem;
+      left: 10px;
       font-size: 25px;
     }
   }
@@ -114,23 +169,33 @@ export default {
 
 .grid {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
-  grid-gap: 18px;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-column-gap: 24px;
+  grid-row-gap: 26px;
 }
 
-.item {
+.goods-item {
   border-radius: 10px;
   background: #fff;
   overflow: hidden;
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.1);
+  transition: all 0.4s;
+  &:hover {
+    box-shadow: 0 0 25px 10px rgba(var(--vs-primary), 0.2);
+  }
   .img-wrapper {
-    padding: 20px;
+    // width: 150px;
+    // height: 260px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    // padding: 20px;
   }
 }
 
-.title {
-  padding: 8px 0;
-  text-align: center;
-  color: #fff;
-  background: rgba(var(--vs-primary), 1);
+.text-overflow {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 </style>
