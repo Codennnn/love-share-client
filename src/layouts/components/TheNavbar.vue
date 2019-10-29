@@ -231,8 +231,8 @@ export default {
     timeDiff,
     popItems,
     navIcons,
-    notices: [],
     noticeType,
+    notices: [],
     showRefresh: false,
     searchText: '',
     showSearchInput: false,
@@ -264,8 +264,6 @@ export default {
   },
 
   methods: {
-    // timeDiff(time), // 计算通知的时间差
-
     // 退出登录
     async logout() {
       await this.$store.dispatch('user/logout')
@@ -342,7 +340,7 @@ export default {
   height: 65px;
   padding: 0.6rem 1rem;
   background: #fff;
-  box-shadow: 0 0 25px 0 rgba(0, 0, 0, 0.05);
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.08);
   box-sizing: border-box;
   .nav-icon {
     &:hover {
