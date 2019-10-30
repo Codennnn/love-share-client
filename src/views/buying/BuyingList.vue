@@ -50,7 +50,7 @@
             </vs-chip>
           </vs-td>
           <vs-td>
-            <p class="text-gray-600">￥{{ tr.price }}</p>
+            <p class="text-gray-600 font-bold">￥{{ tr.price }}</p>
           </vs-td>
           <vs-td>
             <p class="text-gray-600">{{ tr.time }}</p>
