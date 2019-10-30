@@ -59,7 +59,7 @@ export const asyncRoutes = [
       },
       {
         path: '/goods-category',
-        name: 'GoodsAddition',
+        name: 'GoodsCategory',
         component: () => import('@/views/goods/GoodsCategory.vue'),
         meta: { title: '商品分类', roles: ['super_admin'] },
       },
