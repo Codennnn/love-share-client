@@ -30,7 +30,7 @@
             <vs-input
               class="w-7/12"
               placeholder="请输入商品名称"
-              v-model="title"
+              v-model="name"
             />
           </div>
           <div class="py-3">
@@ -39,11 +39,11 @@
               class="w-5/12"
               multiple
               placeholder="请选择"
-              v-model="classification"
+              v-model="category"
               :multiple-limit="2"
             >
               <el-option
-                v-for="item in options"
+                v-for="item in categoryList"
                 :key="item.value"
                 :label="item.label"
                 :value="item.value"
@@ -167,46 +167,40 @@
 
 <script>
 import { VueEditor } from 'vue2-editor'
+import { getGoodsCategory } from '@/request/api/goods'
 
 export default {
   name: 'GoodsAddition',
   data: () => ({
-    title: '',
-    content: '',
-    classification: [],
-    num: 1,
-    price: '0.00',
-    price2: '0.00',
-    checked: false,
-    radios: '',
-    radios2: '',
-    switch1: false,
-    options: [{
-      value: '选项1',
-      label: '黄金糕',
-    }, {
-      value: '选项2',
-      label: '双皮奶',
-    }, {
-      value: '选项3',
-      label: '蚵仔煎',
-    }, {
-      value: '选项4',
-      label: '龙须面',
-    }, {
-      value: '选项5',
-      label: '北京烤鸭',
-    }],
+    name: '', // 商品名称
+    category: [],
+    categoryList: [], // 商品分类
+    num: 1, // 商品数量
+    price: '0.00', // 二手价
+    price2: '0.00', // 入手价
+    checked: false, // 是否选择入手价
+    radios: '', // 运费设置
+    radios2: '', // 议价设置
+    switch1: false, // 退货设置
+    content: '', // 商品描述
     loading: false,
   }),
 
   components: { VueEditor },
 
   mounted() {
+    this.getGoodsCategory()
     this.content = localStorage.getItem('goods_editor')
   },
 
   methods: {
+    async getGoodsCategory() {
+      const { code, data } = await getGoodsCategory()
+      if (code === 2000) {
+        this.categoryList = data.category_list
+      }
+    },
+
     successUpload() {
       this.$vs.notify({ color: 'success', title: 'Upload Success', text: 'Lorem ipsum dolor sit amet, consectetur' })
     },

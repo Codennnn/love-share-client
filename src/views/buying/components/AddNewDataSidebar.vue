@@ -27,30 +27,34 @@
         <vs-input
           class="mt-5 w-full"
           label="标题"
-          name="name"
           v-model="name"
         />
 
         <!-- 分类 -->
-        <vs-select
-          class="mt-5 w-full"
-          label="分类"
+        <div
+          class="mt-5"
+          style="font-size: 0.85rem;color: rgba(0, 0, 0, .7);"
+        >商品分类</div>
+        <el-select
+          class="w-full"
           v-model="category"
+          multiple
+          placeholder="请选择分类"
         >
-          <vs-select-item
+          <el-option
+            v-for="item in categoryList"
             :key="item.value"
+            :label="item.label"
             :value="item.value"
-            :text="item.text"
-            v-for="item in category_choices"
-          />
-        </vs-select>
+          >
+          </el-option>
+        </el-select>
 
         <!-- 价格 -->
         <vs-input
           class="mt-5 w-full"
           label="价格"
           icon="attach_money"
-          name="price"
           v-model="price"
         />
 
@@ -80,6 +84,8 @@
 <script>
 import VuePerfectScrollbar from 'vue-perfect-scrollbar'
 
+import { getGoodsCategory } from '@/request/api/goods'
+
 export default {
   name: 'AddNewDataSidebar',
   props: {
@@ -91,26 +97,17 @@ export default {
       type: String,
       required: true,
     },
+    data: {
+      type: Object,
+      required: true,
+    },
   },
 
   data: () => ({
     name: '',
-    category: 'audio',
-    order_status: 'pending',
+    category: [],
+    categoryList: [],
     price: '',
-
-    category_choices: [
-      { text: 'Audio', value: 'audio' },
-      { text: 'Computers', value: 'computers' },
-      { text: 'Fitness', value: 'fitness' },
-      { text: 'Appliance', value: 'appliance' },
-    ],
-    order_status_choices: [
-      { text: 'Pending', value: 'pending' },
-      { text: 'Canceled', value: 'canceled' },
-      { text: 'Delivered', value: 'delivered' },
-      { text: 'On Hold', value: 'on_hold' },
-    ],
     settings: {
       maxScrollbarLength: 180,
       wheelSpeed: 0.60,
@@ -118,6 +115,10 @@ export default {
   }),
 
   components: { VuePerfectScrollbar },
+
+  mounted() {
+    this.getGoodsCategory()
+  },
 
   computed: {
     isSidebarActiveLocal: {
@@ -127,19 +128,42 @@ export default {
       set(val) {
         if (!val) {
           this.$emit('closeSidebar')
-          this.initValues()
         }
       },
     },
   },
 
+  watch: {
+    isSidebarActive(flag) {
+      if (flag) {
+        if (this.title === '添加求购信息') {
+          this.name = ''
+          this.category = []
+          this.price = ''
+        } else {
+          this.initValues()
+        }
+      }
+    },
+  },
+
   methods: {
     initValues() {
-      this.name = ''
-      this.category = 'audio'
-      this.order_status = 'pending'
-      this.price = '0'
+      this.name = this.data.name
+      this.category = this.data.category
+      this.price = this.data.price
       this.$refs.fileUpload.srcs = []
+    },
+
+    async getGoodsCategory() {
+      try {
+        const { code, data } = await getGoodsCategory()
+        if (code === 2000) {
+          this.categoryList = data.category_list
+        }
+      } catch {
+        //
+      }
     },
   },
 }
@@ -179,10 +203,21 @@ export default {
 .scroll-area {
   height: calc(100% - 4rem);
 }
+
+.el-select {
+  &::v-deep {
+    .el-input__inner {
+      border: 1px solid rgba(0, 0, 0, 0.2);
+      &::placeholder {
+        color: rgba(0, 0, 0, 0.8);
+      }
+    }
+  }
+}
 </style>
 
-<style lang="scss">
-.vs-select--options {
-  z-index: 52011;
+<style>
+.el-select-dropdown {
+  z-index: 52012 !important;
 }
 </style>

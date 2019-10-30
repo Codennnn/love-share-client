@@ -124,7 +124,7 @@ export default {
       try {
         const { code, data } = await getGoodsCategory()
         if (code === 2000) {
-          this.categoryList = data.categoryList
+          this.categoryList = data.category_list
           this.category = this.categoryList[0].value
         }
       } catch {
