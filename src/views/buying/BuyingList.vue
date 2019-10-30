@@ -40,7 +40,15 @@
           :data="tr"
         >
           <vs-td>{{ tr.name }}</vs-td>
-          <vs-td>{{ tr.category }}</vs-td>
+          <vs-td>
+            <vs-chip
+              class="mr-1"
+              v-for="(item, i) in tr.category"
+              :key="i"
+            >
+              {{ item.label }}
+            </vs-chip>
+          </vs-td>
           <vs-td>
             <p class="text-gray-600">￥{{ tr.price }}</p>
           </vs-td>
@@ -55,7 +63,7 @@
                   <vs-dropdown-item
                     v-auth
                     class="text-center"
-                    @click="addNewDataSidebar = true, sidebarTitle = '编辑更新'"
+                    @click="addNewDataSidebar = true, sidebarTitle = '编辑更新', sidebarData = tr"
                   >
                     <i class="el-icon-edit mr-2"></i>
                     <span>编辑</span>
@@ -79,6 +87,7 @@
     <AddNewDataSidebar
       :title="sidebarTitle"
       :isSidebarActive="addNewDataSidebar"
+      :data="sidebarData"
       @closeSidebar="addNewDataSidebar = false"
     />
   </div>
@@ -95,6 +104,7 @@ export default {
     itemsPerPage: 6,
     buyingList: [],
     sidebarTitle: '',
+    sidebarData: {},
     addNewDataSidebar: false,
   }),
 
