@@ -115,7 +115,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-$hoverColor: #f0f0f0; // 导航菜单 hover 时的背景色
+$hoverColor: #f4f4f4; // 导航菜单 hover 时的背景色
 
 .menu-main {
   position: fixed;
@@ -154,16 +154,22 @@ $hoverColor: #f0f0f0; // 导航菜单 hover 时的背景色
 
 .el-submenu {
   margin-bottom: 10px;
-  .el-submenu__title {
-    &:hover {
-      border-radius: 5px;
-      background-color: $hoverColor;
+  &::v-deep {
+    .el-submenu__title {
+      &:hover {
+        border-radius: 0.5rem;
+        background-color: $hoverColor;
+      }
+      .menu-icon {
+        margin-right: 10px;
+        font-size: 22px;
+        font-weight: normal;
+        color: $menuIcon;
+      }
     }
-    .menu-icon {
-      margin-right: 10px;
-      font-size: 22px;
-      font-weight: normal;
-      color: $menuIcon;
+    &.is-opened .el-submenu__title {
+      border-radius: 0.5rem;
+      background-color: $hoverColor;
     }
   }
   .el-menu-item-group {
