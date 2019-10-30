@@ -33,7 +33,7 @@ Mock.mock(/\/published/, 'get', goods.published)
 
 Mock.mock(/\/bought/, 'get', goods.bought)
 
-Mock.mock(/\/goods_detail/, 'get', goods.detail)
+Mock.mock(/\/goods_detail/, 'get', goods.goods_detail)
 
 Mock.mock(/\/goods_category/, 'get', goods.category)
 

@@ -24,16 +24,29 @@ export default {
     },
   },
 
-  detail: {
+  goods_detail: {
     code: 2000,
     data: {
-      detail: {
+      goods_detail: {
         'imgs|4': [Random.image('480x300')],
         name: Random.cword(10, 35),
-        desc: '123<br />123',
-        nickname: Random.cword(2, 7),
+        description: '123<br />123',
         price: Random.float(0, 100, 2, 2),
+        original_price: Random.float(0, 100, 2, 2),
+        num: 2,
+        delivery: '1',
+        bargain: '1',
+        returnable: true,
         time: Random.date(),
+      },
+      seller_info: {
+        user_id: Random.id(),
+        nickname: Random.cword(2, 7),
+        gender: 1,
+        if_follow: true,
+        published_num: 2,
+        follower_num: 15,
+        school: '广州大学华软软件学院',
       },
     },
   },
