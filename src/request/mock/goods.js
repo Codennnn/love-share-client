@@ -92,7 +92,7 @@ export default {
   category: {
     code: 2000,
     data: {
-      categoryList: [
+      category_list: [
         { value: '电子数码', label: '电子数码' },
         { value: '宿舍电器', label: '宿舍电器' },
         { value: '日常用品', label: '日常用品' },
