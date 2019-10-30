@@ -2,7 +2,7 @@
   <div>
     <vs-row>
       <vs-col
-        class="pr-2"
+        class="pr-3"
         vs-w="9"
       >
         <div class="flex p-6 bg-white rounded-lg">
@@ -12,7 +12,7 @@
               :autoplay="false"
             >
               <el-carousel-item
-                v-for="(image, i) in detail.imgs"
+                v-for="(image, i) in goods.imgs"
                 :key="i"
               >
                 <img
@@ -25,7 +25,7 @@
             <vs-images hover="zoom">
               <vs-image
                 class=""
-                v-for="(image, i) in detail.imgs"
+                v-for="(image, i) in goods.imgs"
                 :key="i"
                 :src="image"
                 @click.native="setActiveItem(i)"
@@ -33,15 +33,63 @@
             </vs-images>
           </div>
           <div class="w-1/2 px-5">
-            <div class="text-xl font-semibold">{{ detail.name }}</div>
+            <div class="text-lg font-semibold">{{ goods.name }}</div>
+            <div class="my-2 text-gray-500 text-sm">
+              发布于 {{ timeDiff(goods.time) }}
+            </div>
             <div
-              class="text-sm  my-3"
-              v-html="detail.desc"
+              class="text-sm  my-4"
+              v-html="goods.description"
             ></div>
-            <div class="text-xl text-primary font-semibold">￥{{ detail.price }}</div>
+            <div class="info-item">
+              <vs-chip class="mr-2">价 格</vs-chip>
+              <div>
+                <span class="text-xl text-primary font-semibold">
+                  ￥{{ goods.price || '--' }}
+                </span>
+                <span
+                  class="text-gray-500"
+                  style="text-decoration: line-through;"
+                >
+                  ￥{{ goods.original_price }}
+                </span>
+              </div>
+            </div>
+            <div class="info-item">
+              <vs-chip class="mr-2">数 量</vs-chip>
+              <span style="margin-bottom: 2px;">{{ goods.num }}</span>
+            </div>
+            <div class="info-item">
+              <vs-chip class="mr-2">配 送</vs-chip>
+              <span style="margin-bottom: 4px;">
+                {{ goods.delivery === '1' ? '包邮' : goods.delivery === '2' ? '自费' : '自提' }}
+              </span>
+            </div>
+            <div
+              class="info-item"
+              v-if="goods.returnable"
+            >
+              <vs-chip class="mr-2">保 障</vs-chip>
+              <span style="margin-bottom: 4px;">
+                7天无理由退换货
+              </span>
+            </div>
+            <div class="flex items-center mt-6">
+              <vs-input-number
+                v-model="num"
+                :min="1"
+                :max="goods.num"
+              />
+              <vs-button
+                class="ml-3 text-sm"
+                @click="showPopup()"
+              >加入购物车</vs-button>
+            </div>
           </div>
         </div>
       </vs-col>
+
+      <!-- 卖家信息 -->
       <vs-col
         class="pl-3"
         vs-w="3"
@@ -50,46 +98,85 @@
           <vs-avatar
             size="90px"
             src="https://avatars2.githubusercontent.com/u/31676496?s=460&v=4"
+            @click="viewUserDetail(seller.user_id)"
           />
-          <div class="text-xl">123456</div>
-          <div class="mb-1 text-gray-500">1234</div>
+          <div
+            class="flex justify-center items-center text-lg cursor-pointer"
+            @click="viewUserDetail(seller.user_id)"
+          >
+            <span>{{ seller.nickname }}</span>
+            <i
+              class="el-icon-male ml-1"
+              style="color: rgb(31, 116, 255);"
+              v-if="seller.gender === 1"
+            ></i>
+            <i
+              class="el-icon-female ml-1 text-red-500"
+              v-else-if="seller.gender === 0"
+            ></i>
+          </div>
+          <div class="my-1 text-sm text-gray-500">
+            <!-- {{ seller.if_follow ? '已关注' : '关注此人' }} -->
+            {{ seller.school }}
+          </div>
           <div class="flex justify-center overflow-hidden">
             <span
-              class="px-5 py-2 flex items-center justify-center text-white text-sm
-              bg-primary cursor-pointer"
+              class="px-5 py-2 flex items-center justify-center text-white
+              text-sm bg-primary cursor-pointer"
               style="height: 34px;border-radius: 17px;"
               color="primary"
             >
-              关注此人
+              联系卖家
             </span>
           </div>
           <div class="flex justify-around mt-3">
             <div>
-              <div class="font-semibold">2</div>
+              <div class="font-semibold">{{ seller.published_num || '0' }}</div>
               <div class="text-gray-600 text-sm">已发布</div>
             </div>
             <div>
-              <div class="font-semibold">4</div>
+              <div class="font-semibold">{{ seller.published_num || '0' }}</div>
               <div class="text-gray-600 text-sm">已获赞</div>
             </div>
             <div>
-              <div class="font-semibold">15</div>
+              <div class="font-semibold">{{ seller.follower_num || '0' }}</div>
               <div class="text-gray-600 text-sm">关注者</div>
             </div>
           </div>
         </div>
       </vs-col>
     </vs-row>
+
+    <vs-popup
+      title="已加入购物车"
+      :active.sync="popupActive"
+    >
+      <p>该商品已加入您的购物车, 是否结算付款?</p>
+      <div class="mt-4 flex justify-end">
+        <vs-button
+          class="mr-4"
+          color="#a4a4a4"
+          type="border"
+          @click="popupActive = false"
+        >暂不结算</vs-button>
+        <vs-button type="relief">立即结算</vs-button>
+      </div>
+    </vs-popup>
   </div>
 </template>
 
 <script>
+import { timeDiff } from '@/utils/util'
 import { getGoodsDetail } from '@/request/api/goods'
 
 export default {
   name: 'GoodsDetail',
   data: () => ({
-    detail: {},
+    timeDiff,
+    goods: {},
+    seller: {},
+    num: 1,
+    popupActive: false,
   }),
 
   mounted() {
@@ -100,16 +187,33 @@ export default {
     async getGoodsDetail() {
       const { code, data } = await getGoodsDetail()
       if (code === 2000) {
-        this.detail = data.detail
+        this.goods = data.goods_detail
+        this.seller = data.seller_info
       }
+    },
+
+    viewUserDetail(id) {
+      this.$router.push({
+        path: '/user-detail',
+        query: { id },
+      })
     },
 
     setActiveItem(i) {
       this.$refs.carousel.setActiveItem(i)
+    },
+
+    showPopup() {
+      this.popupActive = true
     },
   },
 }
 </script>
 
 <style lang="scss" scoped>
+.info-item {
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+}
 </style>
