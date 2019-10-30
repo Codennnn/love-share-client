@@ -4,6 +4,7 @@ import notice from './notice'
 import goods from './goods'
 import order from './order'
 import buying from './buying'
+import service from './service'
 import common from './common'
 
 Mock.mock(/\/login/, 'post', user.login)
@@ -45,5 +46,7 @@ Mock.mock(/\/order_detail/, 'get', order.detail)
 Mock.mock(/\/buying_list/, 'get', buying.buying_list)
 
 Mock.mock(/\/schools/, 'get', common.schools)
+
+Mock.mock(/\/article/, 'get', service.article)
 
 Mock.setup({ timeout: '500-600' })
