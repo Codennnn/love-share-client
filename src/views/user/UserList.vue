@@ -12,6 +12,7 @@
       <template slot="thead">
         <vs-th>头像</vs-th>
         <vs-th>昵称</vs-th>
+        <vs-th>ID</vs-th>
         <vs-th>乐享信用值</vs-th>
         <vs-th sort-key="share_value">乐享值</vs-th>
         <vs-th sort-key="time">注册时间</vs-th>
@@ -30,6 +31,7 @@
             />
           </vs-td>
           <vs-td>{{ tr.nickname }}</vs-td>
+          <vs-td class="text-gray-600">{{ tr.user_id }}</vs-td>
           <vs-td>
             <vs-progress
               :title="tr.credit_value"
@@ -38,7 +40,7 @@
             ></vs-progress>
           </vs-td>
           <vs-td>
-            <p class="text-gray-600">{{ tr.share_value }}</p>
+            <p class="font-bold">{{ tr.share_value }}</p>
           </vs-td>
           <vs-td>
             <p class="text-gray-600">{{ tr.time }}</p>
