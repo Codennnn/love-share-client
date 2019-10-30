@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="pt-3">
     <div class="flex">
       <!-- 待办事项操作栏 -->
       <div class="todo-bar">
@@ -23,9 +23,7 @@ import TodoItem from './components/TodoItem.vue'
 import TodoPopup from './components/TodoPopup.vue'
 
 export default {
-  data() {
-    return {}
-  },
+  name: 'TodoList',
 
   destroyed() {
     // 移除 Bus 中监听的事件，防止事件多次触发
