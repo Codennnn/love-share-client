@@ -13,13 +13,14 @@
       <span class="text-lg">编辑资料</span>
       <i
         class="el-icon-close text-2xl font-bold cursor-pointer"
-        @click.stop="isSidebarActiveLocal = false"
+        @click.stop="onCancel()"
       ></i>
     </div>
     <vs-divider class="mb-0"></vs-divider>
 
     <VuePerfectScrollbar
       class="scroll-area pt-4 pb-6"
+      v-if="data"
       :settings="settings"
     >
       <div class="p-6">
@@ -27,34 +28,34 @@
         <vs-input
           class="mt-5 w-full"
           label="昵称"
-          v-model="info.nickname"
+          v-model="data.nickname"
         />
 
         <!-- QQ -->
         <vs-input
           class="mt-5 w-full"
           label="QQ"
-          v-model="info.qq"
+          v-model="data.qq"
         />
 
         <!-- 微信 -->
         <vs-input
           class="mt-5 w-full"
           label="微信"
-          v-model="info.wechat"
+          v-model="data.wechat"
         />
 
         <!-- 学校 -->
         <vs-select
           class="mt-5 w-full"
           label="学校"
-          v-model="info.school.value"
+          v-model="data.school"
         >
           <vs-select-item
             v-for="item in schools"
-            :key="item.value"
-            :value="item.value"
-            :text="item.label"
+            :key="item"
+            :value="item"
+            :text="item"
           />
         </vs-select>
 
@@ -66,11 +67,11 @@
           <div class="flex">
             <vs-radio
               class="mr-4"
-              v-model="info.gender"
+              v-model="data.gender"
               vs-value="1"
             >男</vs-radio>
             <vs-radio
-              v-model="info.gender"
+              v-model="data.gender"
               vs-value="0"
             >女</vs-radio>
           </div>
@@ -89,12 +90,37 @@
       class="flex flex-wrap items-center p-6 text-sm"
       slot="footer"
     >
-      <vs-button class="mr-6">确认更新</vs-button>
       <vs-button
-        type="border"
-        color="danger"
-        @click="isSidebarActiveLocal = false"
-      >取消操作</vs-button>
+        class="mr-6"
+        @click="onUpdate()"
+      >确认更新</vs-button>
+      <el-popover
+        width="220"
+        trigger="manual"
+        v-model="showPopover"
+      >
+        <p>确定要放弃您已更改的内容吗?</p>
+        <div class="mt-3 text-right">
+          <vs-button
+            type="flat"
+            color="dark"
+            size="small"
+            @click="showPopover = false"
+          >取消</vs-button>
+          <vs-button
+            type="flat"
+            color="danger"
+            size="small"
+            @click="showPopover = false, isSidebarActiveLocal = false"
+          >确定</vs-button>
+        </div>
+        <vs-button
+          slot="reference"
+          type="border"
+          color="danger"
+          @click="onCancel()"
+        >取消操作</vs-button>
+      </el-popover>
     </div>
   </vs-sidebar>
 </template>
@@ -102,6 +128,8 @@
 <script>
 import VuePerfectScrollbar from 'vue-perfect-scrollbar'
 
+import _isEqual from 'lodash/isEqual'
+import _cloneDeepWith from 'lodash/cloneDeepWith'
 import { getSchools } from '@/request/api/common'
 
 export default {
@@ -118,7 +146,9 @@ export default {
   },
 
   data: () => ({
+    data: null,
     schools: [],
+    showPopover: false,
     settings: {
       maxScrollbarLength: 180,
       wheelSpeed: 0.60,
@@ -128,7 +158,6 @@ export default {
   components: { VuePerfectScrollbar },
 
   mounted() {
-    console.log(this.info.school)
     this.getSchools()
   },
 
@@ -146,9 +175,17 @@ export default {
     },
   },
 
+  watch: {
+    isSidebarActive(val) {
+      if (val) {
+        this.data = _cloneDeepWith(this.info)
+      }
+    },
+  },
+
   methods: {
     initValues() {
-      this.$refs.fileUpload.srcs = []
+      // this.$refs.fileUpload.srcs = []
     },
 
     async getSchools() {
@@ -159,6 +196,19 @@ export default {
         }
       } catch {
         // TODO
+      }
+    },
+
+    onUpdate() {
+      console.log(this.data)
+    },
+
+    onCancel() {
+      if (_isEqual(this.data, this.info)) {
+        this.showPopover = false
+        this.isSidebarActiveLocal = false
+      } else {
+        this.showPopover = true
       }
     },
   },
@@ -202,7 +252,8 @@ export default {
 </style>
 
 <style lang="scss">
-.vs-select--options {
-  z-index: 52011;
+.vs-select--options,
+.el-popover {
+  z-index: 52012 !important;
 }
 </style>

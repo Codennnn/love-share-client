@@ -121,7 +121,7 @@
             </vs-td>
 
             <vs-td>
-              <vs-dropdown vs-trigger-click>
+              <vs-dropdown>
                 <i class="el-icon-more px-2 text-lg text-gray-600"></i>
                 <vs-dropdown-menu>
                   <vs-dropdown-item>

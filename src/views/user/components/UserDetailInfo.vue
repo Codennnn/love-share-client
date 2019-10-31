@@ -3,6 +3,7 @@
     <div class="text-xl font-bold text-gray-600">详细资料</div>
     <vs-divider />
     <div class="flex">
+      <!-- 乐享信用 -->
       <div class="w-1/3">
         <vs-chip :color="setCreditColor(detailInfo.credit_value)">
           乐享信用值：{{ detailInfo.credit_value }} / 1000
@@ -13,6 +14,8 @@
           :color="setCreditColor(detailInfo.credit_value)"
         ></vs-progress>
       </div>
+
+      <!-- 用户资料 -->
       <div
         class="w-1/3"
         style="font-size: 14px;"
@@ -43,7 +46,7 @@
         />
         <InfoItem
           label="学校"
-          :value="detailInfo.school && detailInfo.school.label"
+          :value="detailInfo.school"
         />
         <vs-button
           v-auth
@@ -54,6 +57,8 @@
           @click="showSidebar = true"
         >编辑资料</vs-button>
       </div>
+
+      <!-- 收货地址 -->
       <div class="w-1/3">
         <vs-list>
           <vs-list-header title="收货地址"></vs-list-header>
@@ -63,19 +68,64 @@
               :key="i"
               :title="`${item.contact} ${item.phone}`"
               :subtitle="item.address"
-            ></vs-list-item>
+            >
+              <div class="flex items-center">
+                <vs-chip
+                  color="primary"
+                  v-show="item.address_id === i"
+                >默认</vs-chip>
+                <i class="el-icon-more ml-2 cursor-pointer"></i>
+              </div>
+            </vs-list-item>
           </template>
           <div
             class="my-4 text-gray-600 text-center"
             v-else
           >暂无收货地址</div>
         </vs-list>
-        <div class="flex justify-end">
-          <vs-button
-            class="mt-4"
-            type="border"
-            size="small"
-          >管理收货地址</vs-button>
+        <div
+          class="mt-2 p-3 rounded-lg"
+          style="background: rgba(150, 150, 150, 0.1);"
+        >
+          <div
+            class="my-3"
+            v-show="addAddress"
+          >
+            <div class="flex">
+              <vs-input
+                class="mr-2"
+                label="收货人"
+                size="small"
+                v-model="receiver"
+              />
+              <vs-input
+                label="联系电话"
+                size="small"
+                v-model="contact"
+              />
+            </div>
+            <vs-input
+              class="w-full"
+              label="地址"
+              size="small"
+              v-model="address"
+            />
+          </div>
+          <div class="flex items-center justify-end">
+            <vs-button
+              class="mr-2 text-xl"
+              type="border"
+              icon="done"
+              v-show="addAddress"
+            ></vs-button>
+            <vs-button
+              class="text-xl"
+              :color="addAddress ? 'danger' : 'primary'"
+              type="border"
+              :icon="addAddress ? 'clear' : 'add'"
+              @click="action()"
+            ></vs-button>
+          </div>
         </div>
       </div>
     </div>
@@ -107,6 +157,11 @@ export default {
     showSidebar: false,
     detailInfo: {},
     shippingAddress: [],
+    defaultAddress: null,
+    addAddress: false,
+    receiver: '',
+    contact: '',
+    address: '',
   }),
 
   components: { InfoItem, EditUserInfo },
@@ -132,10 +187,19 @@ export default {
       try {
         const { code, data } = await getShippingAddress()
         if (code === 2000) {
+          this.defaultAddress = data.default_address
           this.shippingAddress = data.shipping_address
         }
       } catch {
         // TODO
+      }
+    },
+
+    action() {
+      if (this.addAddress) {
+        this.addAddress = false
+      } else {
+        this.addAddress = true
       }
     },
   },
