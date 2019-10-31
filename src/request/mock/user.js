@@ -60,6 +60,7 @@ export default {
     },
   },
 
+  // 重置密码
   reset_password: {
     code: 2000,
     msg: '成功重置密码',
@@ -91,16 +92,23 @@ export default {
         credit_value: 750,
         qq: '1559162803',
         gender: '1',
-        school: { value: 1000, label: '广州大学华软软件学院' },
+        school: '广州大学华软软件学院',
       },
     },
   },
 
+  // 收货地址
   shipping_address: {
     code: 2000,
     data: {
+      default_address: 1,
       shipping_address: [
-        { contact: '陈梓聪', phone: '13724540846', address: '广东省东莞市厚街镇桥头南丰苑' },
+        {
+          address_id: 0,
+          contact: '陈梓聪',
+          phone: '13724540846',
+          address: '广东省东莞市厚街镇桥头南丰苑',
+        },
       ],
     },
   },
