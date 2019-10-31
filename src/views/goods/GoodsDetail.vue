@@ -28,7 +28,7 @@
                 v-for="(image, i) in goods.imgs"
                 :key="i"
                 :src="image"
-                @click.native="setActiveItem(i)"
+                @click.native="showViewer = true"
               />
             </vs-images>
           </div>
@@ -162,10 +162,18 @@
         <vs-button type="relief">立即结算</vs-button>
       </div>
     </vs-popup>
+
+    <el-image-viewer
+      v-show="showViewer"
+      :on-close="() => showViewer = false"
+      :url-list="goods.imgs"
+    />
   </div>
 </template>
 
 <script>
+import ElImageViewer from 'element-ui/packages/image/src/image-viewer.vue'
+
 import { timeDiff } from '@/utils/util'
 import { getGoodsDetail } from '@/request/api/goods'
 
@@ -173,11 +181,14 @@ export default {
   name: 'GoodsDetail',
   data: () => ({
     timeDiff,
+    showViewer: false,
     goods: {},
     seller: {},
     num: 1,
     popupActive: false,
   }),
+
+  components: { ElImageViewer },
 
   mounted() {
     this.getGoodsDetail()
