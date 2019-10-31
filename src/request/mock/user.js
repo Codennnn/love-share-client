@@ -65,6 +65,7 @@ export default {
     msg: '成功重置密码',
   },
 
+  // 最近联系人
   recent_contacts: {
     code: 2000,
     data: {
@@ -78,6 +79,7 @@ export default {
     },
   },
 
+  // 详细资料
   detail_info: {
     code: 2000,
     data: {
@@ -91,6 +93,15 @@ export default {
         gender: '1',
         school: { value: 1000, label: '广州大学华软软件学院' },
       },
+    },
+  },
+
+  shipping_address: {
+    code: 2000,
+    data: {
+      shipping_address: [
+        { contact: '陈梓聪', phone: '13724540846', address: '广东省东莞市厚街镇桥头南丰苑' },
+      ],
     },
   },
 }

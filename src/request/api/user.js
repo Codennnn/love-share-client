@@ -59,3 +59,10 @@ export function getRecentContacts() {
     method: 'get',
   })
 }
+
+export function getShippingAddress() {
+  return request({
+    url: '/user/shipping_address',
+    method: 'get',
+  })
+}
