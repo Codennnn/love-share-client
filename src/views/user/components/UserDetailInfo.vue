@@ -3,6 +3,16 @@
     <div class="text-xl font-bold text-gray-600">详细资料</div>
     <vs-divider />
     <div class="flex">
+      <div class="w-1/3">
+        <vs-chip :color="setCreditColor(detailInfo.credit_value)">
+          乐享信用值：{{ detailInfo.credit_value }} / 1000
+        </vs-chip>
+        <vs-progress
+          :height="8"
+          :percent="(detailInfo.credit_value / 1000) * 100"
+          :color="setCreditColor(detailInfo.credit_value)"
+        ></vs-progress>
+      </div>
       <div
         class="w-1/3"
         style="font-size: 14px;"
@@ -44,15 +54,29 @@
           @click="showSidebar = true"
         >编辑资料</vs-button>
       </div>
-      <div class="mb-6 w-1/3">
-        <vs-chip :color="setCreditColor(detailInfo.credit_value)">
-          乐享信用值：{{ detailInfo.credit_value }} / 1000
-        </vs-chip>
-        <vs-progress
-          :height="8"
-          :percent="(detailInfo.credit_value / 1000) * 100"
-          :color="setCreditColor(detailInfo.credit_value)"
-        ></vs-progress>
+      <div class="w-1/3">
+        <vs-list>
+          <vs-list-header title="收货地址"></vs-list-header>
+          <template v-if="shippingAddress.length > 0">
+            <vs-list-item
+              v-for="(item, i) in shippingAddress"
+              :key="i"
+              :title="`${item.contact} ${item.phone}`"
+              :subtitle="item.address"
+            ></vs-list-item>
+          </template>
+          <div
+            class="my-4 text-gray-600 text-center"
+            v-else
+          >暂无收货地址</div>
+        </vs-list>
+        <div class="flex justify-end">
+          <vs-button
+            class="mt-4"
+            type="border"
+            size="small"
+          >管理收货地址</vs-button>
+        </div>
       </div>
     </div>
 
@@ -69,7 +93,7 @@ import Vue from 'vue'
 import InfoItem from './InfoItem.vue'
 
 import { setCreditColor } from '@/utils/util'
-import { getUserDetailInfo } from '@/request/api/user'
+import { getUserDetailInfo, getShippingAddress } from '@/request/api/user'
 
 const EditUserInfo = Vue.component(
   'EditUserInfo',
@@ -82,12 +106,14 @@ export default {
     setCreditColor,
     showSidebar: false,
     detailInfo: {},
+    shippingAddress: [],
   }),
 
   components: { InfoItem, EditUserInfo },
 
   mounted() {
     this.getUserDetailInfo()
+    this.getShippingAddress()
   },
 
   methods: {
@@ -96,6 +122,17 @@ export default {
         const { code, data } = await getUserDetailInfo()
         if (code === 2000) {
           this.detailInfo = data.detail_info
+        }
+      } catch {
+        // TODO
+      }
+    },
+
+    async getShippingAddress() {
+      try {
+        const { code, data } = await getShippingAddress()
+        if (code === 2000) {
+          this.shippingAddress = data.shipping_address
         }
       } catch {
         // TODO
