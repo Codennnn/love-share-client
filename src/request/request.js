@@ -56,7 +56,8 @@ const errorHandler = {
 service.interceptors.response.use(
   (response) => {
     const res = response
-    console.log(res)
+    console.log(`%c${res.config.url}`, 'color: green;')
+    console.log(res.data)
     console.log('<<<<<<<<<<<<')
     return res.data
   },
