@@ -281,10 +281,4 @@ export default {
   font-size: 30px;
   font-weight: bold;
 }
-
-.el-image-viewer__wrapper {
-  &::v-deep .el-image-viewer__close {
-    color: #ececec;
-  }
-}
 </style>
