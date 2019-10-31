@@ -41,3 +41,11 @@ body {
 .material-icons {
   font-size: inherit;
 }
+
+// 修改 element 图片预览组件的关闭按钮颜色
+.el-image-viewer__wrapper {
+  .el-image-viewer__close {
+    right: 50%;
+    color: #ececec;
+  }
+}
