@@ -139,4 +139,16 @@ export default {
       ],
     },
   },
+
+  add_category: {
+    code: 2000,
+    data: {
+    },
+  },
+
+  delete_category: {
+    code: 2000,
+    data: {
+    },
+  },
 }

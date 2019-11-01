@@ -55,3 +55,17 @@ export function getGoodsCategory() {
     method: 'get',
   })
 }
+
+export function addGoodsCategory() {
+  return request({
+    url: '/goods/category/add',
+    method: 'post',
+  })
+}
+
+export function deleteGoodsCategory() {
+  return request({
+    url: '/goods/category/delete',
+    method: 'delete',
+  })
+}
