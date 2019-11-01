@@ -3,7 +3,7 @@
     <el-transfer
       v-model="category"
       :titles="titles"
-      :props="{key: 'value'}"
+      :props="{key: 'value', lebel: 'value'}"
       :data="categoryList"
       @change="change"
     >
@@ -40,7 +40,9 @@ export default {
       try {
         const { code, data } = await getGoodsCategory()
         if (code === 2000) {
-          this.categoryList = data.categoryList
+          this.categoryList = data.category_list.map(el => ({
+            value: el,
+          }))
           this.category = this.categoryList.map(it => it.value)
         }
       } catch {
