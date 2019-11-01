@@ -25,6 +25,12 @@ Mock.mock(/\/detail_info/, 'get', user.detail_info)
 
 Mock.mock(/\/shipping_address/, 'get', user.shipping_address)
 
+Mock.mock(/\/default_address/, 'put', user.default_address)
+
+Mock.mock(/\/address/, 'post', user.add_address)
+
+Mock.mock(/\/address/, 'delete', user.delete_address)
+
 Mock.mock(/\/user[\s\S]*?/, 'get', () => ({
   data: 1234,
 }))

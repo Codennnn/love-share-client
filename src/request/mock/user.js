@@ -101,15 +101,23 @@ export default {
   shipping_address: {
     code: 2000,
     data: {
-      default_address: 1,
+      default_address: 0,
       shipping_address: [
         {
           address_id: 0,
-          contact: '陈梓聪',
+          receiver: '陈梓聪',
           phone: '13724540846',
           address: '广东省东莞市厚街镇桥头南丰苑',
         },
       ],
     },
+  },
+
+  default_address: {
+    code: 2000,
+  },
+
+  delete_address: {
+    code: 2000,
   },
 }

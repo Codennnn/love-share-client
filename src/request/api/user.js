@@ -66,3 +66,24 @@ export function getShippingAddress() {
     method: 'get',
   })
 }
+
+export function setDefaultAddress() {
+  return request({
+    url: '/user/default_address',
+    method: 'put',
+  })
+}
+
+export function addAddress() {
+  return request({
+    url: '/user/address',
+    method: 'post',
+  })
+}
+
+export function deleteAddress() {
+  return request({
+    url: '/user/address',
+    method: 'delete',
+  })
+}
