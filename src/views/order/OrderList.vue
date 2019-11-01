@@ -1,16 +1,19 @@
 <template>
   <div>
     <!-- 统计表格 -->
-    <div class="flex pt-3 pb-6">
+    <div
+      class="flex pt-3 pb-6"
+      v-if="initFinished"
+    >
       <div class="w-1/3 pr-3">
         <div class="bg-white rounded-lg shadow-md h-full">
           <area-chart
             statistic="9K"
-            label="成交量"
-            icon="el-icon-finished"
+            label="交易额"
+            icon="el-icon-coin"
             color="primary"
             type="area"
-            :chartData="subscribersGained"
+            :chartData="chartData1"
           ></area-chart>
         </div>
       </div>
@@ -18,11 +21,11 @@
         <div class="bg-white rounded-lg shadow-md h-full">
           <area-chart
             statistic="9K"
-            label="交易额"
-            icon="el-icon-star-off"
+            label="成交量"
+            icon="el-icon-finished"
             color="warning"
             type="area"
-            :chartData="ordersRecevied"
+            :chartData="chartData2"
           ></area-chart>
         </div>
       </div>
@@ -34,7 +37,7 @@
             icon="el-icon-collection"
             color="success"
             type="area"
-            :chartData="ordersGained"
+            :chartData="chartData3"
           ></area-chart>
         </div>
       </div>
@@ -78,6 +81,7 @@
           <vs-th>总价</vs-th>
           <vs-th>创建时间</vs-th>
           <vs-th>状态</vs-th>
+          <vs-th></vs-th>
         </template>
 
         <template slot-scope="{data}">
@@ -141,19 +145,25 @@
 </template>
 
 <script>
+import _cloneDeepWith from 'lodash/cloneDeepWith'
 import AreaChart from '@/components/AreaChart.vue'
 
-import { getOrderList } from '@/request/api/order'
-import { subscribersGained, ordersRecevied, ordersGained } from '@/views/analytics/chart-data'
-import { timeDiff } from '@/utils/util'
+import {
+  getOrderList,
+  getOrderTransactionAmount,
+  getOrderVolume,
+  getOrderNum,
+} from '@/request/api/order'
+import { timeDiff, areaChartOptions } from '@/utils/util'
 
 export default {
   name: 'OrderList',
   data: () => ({
     timeDiff,
-    subscribersGained,
-    ordersRecevied,
-    ordersGained,
+    initFinished: false,
+    chartData1: {},
+    chartData2: {},
+    chartData3: {},
     orderList: [], // 订单列表
     selected: [], // 列表选中的行
     searchText: '',
@@ -204,10 +214,27 @@ export default {
   components: { AreaChart },
 
   mounted() {
+    this.initCharts()
     this.getOrderList()
   },
 
   methods: {
+    async initCharts() {
+      const [data1, data2, data3] = await Promise.all(
+        [getOrderTransactionAmount(), getOrderVolume(), getOrderNum()],
+      )
+      const options1 = _cloneDeepWith(areaChartOptions)
+      const options2 = _cloneDeepWith(areaChartOptions)
+      const options3 = _cloneDeepWith(areaChartOptions)
+      options1.colors = ['#7367F0']
+      options2.colors = ['#FF9F43']
+      options3.colors = ['#5DC76F']
+      this.chartData1 = { series: [data1.data], chartOptions: options1 }
+      this.chartData2 = { series: [data2.data], chartOptions: options2 }
+      this.chartData3 = { series: [data3.data], chartOptions: options3 }
+      this.initFinished = true
+    },
+
     async getOrderList() {
       if (this.tableLoading) return
 
