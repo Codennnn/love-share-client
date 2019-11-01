@@ -10,7 +10,7 @@ export default {
       count2: 1480,
       'buying_list|15-20': [
         {
-          goods_id: () => Random.id(),
+          buying_id: () => Random.id(),
           name: () => Random.cword(10, 35),
           category: [
             '电子数码',
