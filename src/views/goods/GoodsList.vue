@@ -263,22 +263,6 @@ export default {
     category: '',
     categoryList: [],
     schoolList: [],
-    options: [{
-      value: '选项1',
-      label: '黄金糕',
-    }, {
-      value: '选项2',
-      label: '双皮奶',
-    }, {
-      value: '选项3',
-      label: '蚵仔煎',
-    }, {
-      value: '选项4',
-      label: '龙须面',
-    }, {
-      value: '选项5',
-      label: '北京烤鸭',
-    }],
     value: '',
     tableTitle: '已上架商品', // 表格标题
     storedCount: null, // 已上架商品数量
@@ -405,20 +389,20 @@ export default {
 
     onSearch() {
       if (this.searchText.length > 0) {
-        this.getGoods()
+        this.getStoredGoods()
       }
     },
 
     onSearchByID() {
       if (this.searchText.length > 0) {
-        this.getGoods()
+        this.getStoredGoods()
       }
     },
 
     // 按日期获取商品
     onDateChange(date) {
       console.log(this.$dayjs(date[0]).unix(), this.$dayjs(date[1]).unix())
-      this.getGoods()
+      this.getStoredGoods()
     },
 
     // 查看商品详情
@@ -437,12 +421,11 @@ export default {
 
     exportExcel() {
       import('@/vendor/Export2Excel').then((excel) => {
-        const tHeader = ['商品 ID', '商品名称', '价格', '卖家姓名', '发布时间']
+        const header = ['商品 ID', '商品名称', '价格', '卖家姓名', '发布时间']
         const filterVal = ['goods_id', 'name', 'price', 'real_name', 'time']
         const data = this.formatJson(filterVal, this.goodsList)
-        console.log(data)
         excel.export_json_to_excel({
-          header: tHeader,
+          header,
           data,
           filename: '乐享校园_商品列表',
           autoWidth: true,
