@@ -56,7 +56,7 @@
                     v-model="school"
                   >
                     <vs-select-item
-                      v-for="(item, i) in schools"
+                      v-for="(item, i) in schoolList"
                       :key="i"
                       :value="item.value"
                       :text="item.label"
@@ -117,7 +117,7 @@
 
 <script>
 import { register } from '@/request/api/user'
-import { getSchools } from '@/request/api/common'
+import { getSchoolList } from '@/request/api/common'
 
 const signInInput = [
   {
@@ -171,7 +171,7 @@ export default {
     signInInput,
     signUpInput,
     school: 1000,
-    schools: [],
+    schoolList: [],
     signInError: false,
     signUpError: false,
     signInErrorText: '账号或密码有误，请重新输入',
@@ -186,7 +186,7 @@ export default {
   }),
 
   mounted() {
-    this.getSchools()
+    this.getSchoolList()
   },
 
   methods: {
@@ -323,11 +323,11 @@ export default {
 
     schoolChange() {},
 
-    async getSchools() {
+    async getSchoolList() {
       try {
-        const { code, data } = await getSchools()
+        const { code, data } = await getSchoolList()
         if (code === 2000) {
-          this.schools = data.schools
+          this.schoolList = data.school_list
         }
       } catch {
         // TODO

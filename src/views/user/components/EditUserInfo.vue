@@ -52,7 +52,7 @@
           v-model="data.school"
         >
           <vs-select-item
-            v-for="item in schools"
+            v-for="item in schoolList"
             :key="item"
             :value="item"
             :text="item"
@@ -130,7 +130,7 @@ import VuePerfectScrollbar from 'vue-perfect-scrollbar'
 
 import _isEqual from 'lodash/isEqual'
 import _cloneDeepWith from 'lodash/cloneDeepWith'
-import { getSchools } from '@/request/api/common'
+import { getSchoolList } from '@/request/api/common'
 
 export default {
   name: 'EditUserInfo',
@@ -147,7 +147,7 @@ export default {
 
   data: () => ({
     data: null,
-    schools: [],
+    schoolList: [],
     showPopover: false,
     settings: {
       maxScrollbarLength: 180,
@@ -158,7 +158,7 @@ export default {
   components: { VuePerfectScrollbar },
 
   mounted() {
-    this.getSchools()
+    this.getSchoolList()
   },
 
   computed: {
@@ -188,11 +188,11 @@ export default {
       // this.$refs.fileUpload.srcs = []
     },
 
-    async getSchools() {
+    async getSchoolList() {
       try {
-        const { code, data } = await getSchools()
+        const { code, data } = await getSchoolList()
         if (code === 2000) {
-          this.schools = data.schools
+          this.schoolList = data.school_list
         }
       } catch {
         // TODO

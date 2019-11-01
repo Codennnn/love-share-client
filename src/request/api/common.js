@@ -7,9 +7,9 @@ export function getNotices() {
   })
 }
 
-export function getSchools() {
+export function getSchoolList() {
   return request({
-    url: '/common/schools',
+    url: '/common/school_list',
     method: 'get',
   })
 }

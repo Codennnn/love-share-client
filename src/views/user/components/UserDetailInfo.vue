@@ -62,9 +62,9 @@
       <div class="w-1/3">
         <vs-list>
           <vs-list-header title="收货地址"></vs-list-header>
-          <template v-if="shippingAddress.length > 0">
+          <template v-if="addressList.length > 0">
             <vs-list-item
-              v-for="(item, i) in shippingAddress"
+              v-for="(item, i) in addressList"
               :key="i"
               :title="`${item.receiver} ${item.phone}`"
               :subtitle="item.address"
@@ -113,7 +113,7 @@
         >
           <div
             class="my-3"
-            v-if="addAddress"
+            v-if="showAddressDiv"
           >
             <div class="flex">
               <vs-input
@@ -147,16 +147,16 @@
           <div class="flex items-center justify-end">
             <vs-button
               class="mr-2 text-xl"
-              v-if="addAddress"
+              v-if="showAddressDiv"
               type="border"
               icon="done"
-              @click="onAddAddress()"
+              @click="onshowAddressDiv()"
             ></vs-button>
             <vs-button
               class="text-xl"
-              :color="addAddress ? 'danger' : 'primary'"
+              :color="showAddressDiv ? 'danger' : 'primary'"
               type="border"
-              :icon="addAddress ? 'clear' : 'add'"
+              :icon="showAddressDiv ? 'clear' : 'add'"
               @click="onAddOrClose()"
             ></vs-button>
           </div>
@@ -179,10 +179,11 @@ import InfoItem from './InfoItem.vue'
 import { setCreditColor } from '@/utils/util'
 import {
   getUserDetailInfo,
-  getShippingAddress,
+  getAddress,
   setDefaultAddress,
   addAddress,
   deleteAddress,
+  modifyAddress,
 } from '@/request/api/user'
 
 const EditUserInfo = Vue.component(
@@ -196,9 +197,9 @@ export default {
     setCreditColor,
     showSidebar: false,
     detailInfo: {},
-    shippingAddress: [],
+    addressList: [], // 地址列表
     defaultAddress: null,
-    addAddress: false,
+    showAddressDiv: false,
     receiver: '', // 收货人
     phone: '', // 联系电话
     address: '', // 地址
@@ -211,7 +212,7 @@ export default {
 
   mounted() {
     this.getUserDetailInfo()
-    this.getShippingAddress()
+    this.getAddress()
   },
 
   methods: {
@@ -226,12 +227,12 @@ export default {
       }
     },
 
-    async getShippingAddress() {
+    async getAddress() {
       try {
-        const { code, data } = await getShippingAddress()
+        const { code, data } = await getAddress()
         if (code === 2000) {
           this.defaultAddress = data.default_address
-          this.shippingAddress = data.shipping_address
+          this.addressList = data.address_list
         }
       } catch {
         // TODO
@@ -271,42 +272,53 @@ export default {
 
     // 添加或关闭
     onAddOrClose() {
-      if (this.addAddress) {
+      if (this.showAddressDiv) {
         this.clearAddress()
-        this.addAddress = false
+        this.showAddressDiv = false
       } else {
-        this.addAddress = true
+        this.showAddressDiv = true
       }
     },
 
     // 添加地址
-    async onAddAddress() {
+    async onshowAddressDiv() {
       if (this.verification()) {
-        const addressID = this.shippingAddress.length
-        this.shippingAddress.push({
-          address_id: addressID,
-          receiver: this.receiver,
-          phone: this.phone,
-          address: this.address,
-        })
-        this.clearAddress()
-        this.addAddress = false
-        await addAddress()
+        const { code, data } = await addAddress()
+        if (code === 2000) {
+          this.addressList.push({
+            address_id: data.address_id,
+            receiver: this.receiver,
+            phone: this.phone,
+            address: this.address,
+          })
+          this.clearAddress()
+          this.showAddressDiv = false
+        }
       }
+      await modifyAddress()
     },
 
     // 删除地址
     async onDeleteAddress(id) {
-      this.shippingAddress.splice(id, 1)
+      this.addressList.forEach((el, i, _this) => {
+        if (el.address_id === id) {
+          _this.splice(i, 1)
+        }
+      })
       await deleteAddress()
     },
 
     // 修改地址
     async onModifyAddress(id) {
-      this.receiver = this.shippingAddress[id].receiver
-      this.phone = this.shippingAddress[id].phone
-      this.address = this.shippingAddress[id].address
-      this.addAddress = true
+      this.showAddressDiv = true
+
+      this.addressList.forEach((el) => {
+        if (el.address_id === id) {
+          this.receiver = el.receiver
+          this.phone = el.phone
+          this.address = el.address
+        }
+      })
     },
 
     // 设置默认地址

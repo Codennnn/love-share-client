@@ -67,7 +67,10 @@
                     <i class="el-icon-news mr-2"></i>
                     <span>查看</span>
                   </vs-dropdown-item>
-                  <vs-dropdown-item class="text-center text-danger">
+                  <vs-dropdown-item
+                    class="text-center text-danger"
+                    divider
+                  >
                     <i class="el-icon-delete mr-2"></i>
                     <span>删除</span>
                   </vs-dropdown-item>

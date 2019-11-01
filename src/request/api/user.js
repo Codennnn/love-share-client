@@ -20,7 +20,7 @@ export function logout() { }
 
 export function getUserInfo() {
   return request({
-    url: '/user/user_info',
+    url: '/user/info',
     method: 'get',
   })
 }
@@ -34,14 +34,14 @@ export function resetPassword() {
 
 export function getUserList() {
   return request({
-    url: '/user/user_list',
+    url: '/user/list',
     method: 'get',
   })
 }
 
 export function getUserDetail() {
   return request({
-    url: '/user/user_detail',
+    url: '/user/detail',
     method: 'get',
   })
 }
@@ -60,9 +60,9 @@ export function getRecentContacts() {
   })
 }
 
-export function getShippingAddress() {
+export function getAddress() {
   return request({
-    url: '/user/shipping_address',
+    url: '/user/address_list',
     method: 'get',
   })
 }
@@ -70,20 +70,27 @@ export function getShippingAddress() {
 export function setDefaultAddress() {
   return request({
     url: '/user/default_address',
-    method: 'put',
+    method: 'post',
   })
 }
 
 export function addAddress() {
   return request({
-    url: '/user/address',
+    url: '/user/address/add',
     method: 'post',
   })
 }
 
 export function deleteAddress() {
   return request({
-    url: '/user/address',
+    url: '/user/address/delete',
     method: 'delete',
+  })
+}
+
+export function modifyAddress() {
+  return request({
+    url: '/user/address/modify',
+    method: 'put',
   })
 }

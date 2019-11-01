@@ -1,8 +1,8 @@
 import request from '../request'
 
-export function getOrders() {
+export function getOrderList() {
   return request({
-    url: '/order/orders',
+    url: '/order/list',
     method: 'get',
   })
 }

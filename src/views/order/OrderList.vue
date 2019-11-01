@@ -53,7 +53,7 @@
         pagination
         max-items="10"
         noDataText="暂无数据"
-        :data="orders"
+        :data="orderList"
       >
         <template slot="header">
           <div class="w-full flex items-center p-4">
@@ -143,7 +143,7 @@
 <script>
 import AreaChart from '@/components/AreaChart.vue'
 
-import { getOrders } from '@/request/api/order'
+import { getOrderList } from '@/request/api/order'
 import { subscribersGained, ordersRecevied, ordersGained } from '@/views/analytics/chart-data'
 import { timeDiff } from '@/utils/util'
 
@@ -154,7 +154,7 @@ export default {
     subscribersGained,
     ordersRecevied,
     ordersGained,
-    orders: [],
+    orderList: [], // 订单列表
     selected: [], // 列表选中的行
     searchText: '',
     date: null, // 搜索日期
@@ -204,11 +204,11 @@ export default {
   components: { AreaChart },
 
   mounted() {
-    this.getOrders()
+    this.getOrderList()
   },
 
   methods: {
-    async getOrders() {
+    async getOrderList() {
       if (this.tableLoading) return
 
       this.$vs.loading({
@@ -218,25 +218,15 @@ export default {
       })
 
       try {
-        const { code, data } = await getOrders()
+        const { code, data } = await getOrderList()
         if (code === 2000) {
-          this.orders = data.orders
+          this.orderList = data.order_list
         }
       } catch {
         //
       }
 
       this.$vs.loading.close('#table-loading > .con-vs-loading')
-    },
-
-    // 获取上架商品
-    getAddedGoods() {
-      this.getOrders()
-    },
-
-    // 获取下架商品
-    getViolatingGoods() {
-      this.getOrders()
     },
 
     onSearch() {
@@ -246,7 +236,6 @@ export default {
     // 按日期获取商品
     onDateChange(date) {
       console.log(date)
-      // console.log(this.$dayjs(date[0]).unix(), this.$dayjs(date[1]).unix())
       this.getOrders()
     },
 

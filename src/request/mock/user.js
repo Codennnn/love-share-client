@@ -98,13 +98,13 @@ export default {
   },
 
   // 收货地址
-  shipping_address: {
+  address_list: {
     code: 2000,
     data: {
       default_address: 0,
-      shipping_address: [
+      address_list: [
         {
-          address_id: 0,
+          address_id: () => Random.id(),
           receiver: '陈梓聪',
           phone: '13724540846',
           address: '广东省东莞市厚街镇桥头南丰苑',
@@ -117,7 +117,18 @@ export default {
     code: 2000,
   },
 
+  add_address: {
+    code: 2000,
+    data: {
+      address_id: () => Random.id(),
+    },
+  },
+
   delete_address: {
+    code: 2000,
+  },
+
+  modify_address: {
     code: 2000,
   },
 }

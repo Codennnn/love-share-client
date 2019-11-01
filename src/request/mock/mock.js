@@ -8,32 +8,35 @@ import service from './service'
 import common from './common'
 
 // 用户
-Mock.mock(/\/login/, 'post', user.login)
-Mock.mock(/\/register/, 'post', user.register)
-Mock.mock(/\/user_info/, 'get', user.userInfo)
-Mock.mock(/\/user_list/, 'get', user.user_list)
-Mock.mock(/\/user_detail/, 'get', user.user_detail)
-Mock.mock(/\/reset_password/, 'put', user.reset_password)
-Mock.mock(/\/recent_contacts/, 'get', user.recent_contacts)
-Mock.mock(/\/detail_info/, 'get', user.detail_info)
-Mock.mock(/\/shipping_address/, 'get', user.shipping_address)
-Mock.mock(/\/default_address/, 'put', user.default_address)
-Mock.mock(/\/address/, 'post', user.add_address)
-Mock.mock(/\/address/, 'delete', user.delete_address)
+Mock.mock('/api/user/login', 'post', user.login)
+Mock.mock('/api/user/register', 'post', user.register)
+Mock.mock('/api/user/info', 'get', user.userInfo)
+Mock.mock('/api/user/list', 'get', user.user_list)
+Mock.mock('/api/user/detail', 'get', user.user_detail)
+Mock.mock('/api/user/reset_password', 'put', user.reset_password)
+Mock.mock('/api/user/recent_contacts', 'get', user.recent_contacts)
+Mock.mock('/api/user/detail_info', 'get', user.detail_info)
+Mock.mock('/api/user/address_list', 'get', user.address_list)
+Mock.mock('/api/user/default_address', 'post', user.default_address)
+Mock.mock('/api/user/address/add', 'post', user.add_address)
+Mock.mock('/api/user/address/delete', 'delete', user.delete_address)
+Mock.mock('/api/user/address/modify', 'put', user.modify_address)
 
 // 通知
 Mock.mock(/\/notices/, 'get', notice.notices)
 
 // 商品
-Mock.mock(/\/published/, 'get', goods.published)
-Mock.mock(/\/bought/, 'get', goods.bought)
-Mock.mock(/\/goods_detail/, 'get', goods.goods_detail)
-Mock.mock(/\/goods_category/, 'get', goods.category)
-Mock.mock(/\/goods/, 'get', goods.goods)
+Mock.mock('/api/goods/stored', 'get', goods.stored_goods)
+Mock.mock('/api/goods/dismounted', 'get', goods.dismounted_goods)
+Mock.mock('/api/goods/list_info', 'get', goods.list_info)
+Mock.mock('/api/goods/published', 'get', goods.published)
+Mock.mock('/api/goods/bought', 'get', goods.bought)
+Mock.mock('/api/goods/detail', 'get', goods.goods_detail)
+Mock.mock('/api/goods/category_list', 'get', goods.category_list)
 
 // 订单
-Mock.mock(/\/orders/, 'get', order.orders)
-Mock.mock(/\/order_detail/, 'get', order.detail)
+Mock.mock('/api/order/list', 'get', order.order_list)
+Mock.mock('/api/order/detail', 'get', order.detail)
 
 // 求购
 Mock.mock('/api/buying/list', 'get', buying.buying_list)
@@ -41,7 +44,8 @@ Mock.mock('/api/buying/add', 'post', buying.add_buying)
 Mock.mock('/api/buying/delete', 'delete', buying.delete_buying)
 Mock.mock('/api/buying/update', 'put', buying.update_buying)
 
-Mock.mock(/\/schools/, 'get', common.schools)
+// 通用
+Mock.mock('/api/common/school_list', 'get', common.schools)
 
 Mock.mock(/\/article/, 'get', service.article)
 

@@ -3,11 +3,9 @@ import Mock from 'mockjs'
 const { Random } = Mock
 
 export default {
-  goods: {
+  stored_goods: {
     code: 2000,
     data: {
-      count: 290870,
-      count2: 1480,
       'goods|15-30': [
         {
           'id|+1': 1,
@@ -21,6 +19,33 @@ export default {
           time: () => Random.date('yyyy-MM-dd hh:mm'),
         },
       ],
+    },
+  },
+
+  dismounted_goods: {
+    code: 2000,
+    data: {
+      'goods|5-20': [
+        {
+          'id|+1': 1,
+          avatar_url: 'https://randomuser.me/api/portraits/women/0.jpg',
+          goods_num: 1,
+          name: () => Random.cword(10, 35),
+          nickname: () => Random.cword(2, 7),
+          real_name: () => Random.cname(),
+          price: () => Random.float(0, 100, 2, 2),
+          goods_id: () => Random.id(),
+          time: () => Random.date('yyyy-MM-dd hh:mm'),
+        },
+      ],
+    },
+  },
+
+  list_info: {
+    code: 2000,
+    data: {
+      stored_count: 290870,
+      dismounted_count: 1480,
     },
   },
 
@@ -102,7 +127,7 @@ export default {
     },
   },
 
-  category: {
+  category_list: {
     code: 2000,
     data: {
       category_list: [

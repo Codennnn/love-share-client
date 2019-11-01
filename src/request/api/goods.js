@@ -2,7 +2,28 @@ import request from '../request'
 
 export function getGoods() {
   return request({
-    url: '/goods/goods',
+    url: '/goods/list',
+    method: 'get',
+  })
+}
+
+export function getStoredGoods() {
+  return request({
+    url: '/goods/stored',
+    method: 'get',
+  })
+}
+
+export function getDismountedGoods() {
+  return request({
+    url: '/goods/dismounted',
+    method: 'get',
+  })
+}
+
+export function getGoodsListInfo() {
+  return request({
+    url: '/goods/list_info',
     method: 'get',
   })
 }
@@ -23,14 +44,14 @@ export function getBought() {
 
 export function getGoodsDetail() {
   return request({
-    url: '/goods/goods_detail',
+    url: '/goods/detail',
     method: 'get',
   })
 }
 
 export function getGoodsCategory() {
   return request({
-    url: '/goods/goods_category',
+    url: '/goods/category_list',
     method: 'get',
   })
 }

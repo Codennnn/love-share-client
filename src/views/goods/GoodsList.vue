@@ -5,10 +5,12 @@
         class="w-1/4 lg:px-6 px-3 flex items-center justify-between rounded-lg
       bg-white cursor-pointer hover:shadow-lg"
         style="transition: all 0.3s;"
-        @click="getAddedGoods(), tableTitle = '已上架商品'"
+        @click="getStoredGoods()"
       >
         <div>
-          <div class="text-3xl">{{ count ? count.toLocaleString() : '--' }}</div>
+          <div class="text-3xl">
+            {{ storedCount ? storedCount.toLocaleString() : '--' }}
+          </div>
           <div class="text-gray-600">已上架商品</div>
         </div>
         <div
@@ -22,10 +24,12 @@
         class="w-1/4 mx-5 lg:px-6 px-3 flex items-center justify-between rounded-lg
       bg-white cursor-pointer hover:shadow-lg"
         style="transition: all 0.3s;"
-        @click="getViolatingGoods(), tableTitle = '违规下架商品'"
+        @click="getDismountedGoods()"
       >
         <div>
-          <div class="text-3xl">{{ count2 ? count2.toLocaleString() : '--' }}</div>
+          <div class="text-3xl">
+            {{ dismountedCount ? dismountedCount.toLocaleString() : '--' }}
+          </div>
           <div class="text-gray-600">违规下架商品</div>
         </div>
         <div
@@ -65,10 +69,10 @@
             placeholder="根据商品分类搜索"
           >
             <el-option
-              v-for="item in options"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
+              v-for="item in categoryList"
+              :key="item"
+              :label="item"
+              :value="item"
             >
             </el-option>
           </el-select>
@@ -80,10 +84,10 @@
             placeholder="根据商品分类搜索"
           >
             <el-option
-              v-for="item in options"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
+              v-for="item in schoolList"
+              :key="item"
+              :label="item"
+              :value="item"
             >
             </el-option>
           </el-select>
@@ -95,10 +99,10 @@
             placeholder="根据学校搜索"
           >
             <el-option
-              v-for="item in options"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
+              v-for="item in schoolList"
+              :key="item"
+              :label="item"
+              :value="item"
             >
             </el-option>
           </el-select>
@@ -245,14 +249,20 @@
 </template>
 
 <script>
-import { getGoods, getGoodsCategory } from '@/request/api/goods'
-
+import { getSchoolList } from '@/request/api/common'
+import {
+  getStoredGoods,
+  getDismountedGoods,
+  getGoodsCategory,
+  getGoodsListInfo,
+} from '@/request/api/goods'
 
 export default {
   name: 'GoodsList',
   data: () => ({
     category: '',
     categoryList: [],
+    schoolList: [],
     options: [{
       value: '选项1',
       label: '黄金糕',
@@ -271,8 +281,8 @@ export default {
     }],
     value: '',
     tableTitle: '已上架商品', // 表格标题
-    count: null, // 已上架商品数量
-    count2: null, // 违规下架商品数量
+    storedCount: null, // 已上架商品数量
+    dismountedCount: null, // 违规下架商品数量
     goodsList: [], // 商品列表
     searchText: '',
     date: null,
@@ -306,14 +316,18 @@ export default {
   }),
 
   mounted() {
-    this.getGoods()
+    this.getStoredGoods()
+    this.getGoodsListInfo()
     this.getGoodsCategory()
+    this.getSchoolList()
   },
 
   methods: {
-    async getGoods() {
+    // 获取上架商品
+    async getStoredGoods() {
       if (this.tableLoading) return
 
+      this.tableTitle = '已上架商品'
       this.$vs.loading({
         type: 'point',
         container: '#table-loading',
@@ -321,11 +335,32 @@ export default {
       })
 
       try {
-        const { code, data } = await getGoods()
+        const { code, data } = await getStoredGoods()
         if (code === 2000) {
           this.goodsList = data.goods
-          this.count = data.count
-          this.count2 = data.count2
+        }
+      } catch {
+        //
+      }
+
+      this.$vs.loading.close('#table-loading > .con-vs-loading')
+    },
+
+    // 获取下架商品
+    async getDismountedGoods() {
+      if (this.tableLoading) return
+
+      this.tableTitle = '违规下架商品'
+      this.$vs.loading({
+        type: 'point',
+        container: '#table-loading',
+        scale: 1,
+      })
+
+      try {
+        const { code, data } = await getDismountedGoods()
+        if (code === 2000) {
+          this.goodsList = data.goods
         }
       } catch {
         //
@@ -338,21 +373,34 @@ export default {
       try {
         const { code, data } = await getGoodsCategory()
         if (code === 2000) {
-          this.categoryList = data.categoryList
+          this.categoryList = data.category_list
         }
       } catch {
         //
       }
     },
 
-    // 获取上架商品
-    getAddedGoods() {
-      this.getGoods()
+    async getGoodsListInfo() {
+      try {
+        const { code, data } = await getGoodsListInfo()
+        if (code === 2000) {
+          this.storedCount = data.stored_count
+          this.dismountedCount = data.dismounted_count
+        }
+      } catch {
+        //
+      }
     },
 
-    // 获取下架商品
-    getViolatingGoods() {
-      this.getGoods()
+    async getSchoolList() {
+      try {
+        const { code, data } = await getSchoolList()
+        if (code === 2000) {
+          this.schoolList = data.school_list
+        }
+      } catch {
+        //
+      }
     },
 
     onSearch() {
