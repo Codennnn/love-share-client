@@ -48,4 +48,28 @@ export default {
       },
     },
   },
+
+  order_transaction_amount: {
+    code: 2000,
+    data: {
+      name: '交易额',
+      data: [28, 40, 36, 52, 38, 60, 55],
+    },
+  },
+
+  order_volume: {
+    code: 2000,
+    data: {
+      name: '成交量',
+      data: [10, 15, 8, 15, 7, 12, 8],
+    },
+  },
+
+  order_num: {
+    code: 2000,
+    data: {
+      name: '订单数',
+      data: [55, 68, 44, 52, 38, 60, 55],
+    },
+  },
 }

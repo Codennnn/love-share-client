@@ -37,6 +37,9 @@ Mock.mock('/api/goods/category_list', 'get', goods.category_list)
 // 订单
 Mock.mock('/api/order/list', 'get', order.order_list)
 Mock.mock('/api/order/detail', 'get', order.detail)
+Mock.mock('/api/order/order_transaction_amount', 'get', order.order_transaction_amount)
+Mock.mock('/api/order/order_volume', 'get', order.order_volume)
+Mock.mock('/api/order/order_num', 'get', order.order_num)
 
 // 求购
 Mock.mock('/api/buying/list', 'get', buying.buying_list)

@@ -13,3 +13,24 @@ export function getOrderDetail() {
     method: 'get',
   })
 }
+
+export function getOrderTransactionAmount() {
+  return request({
+    url: '/order/order_transaction_amount',
+    method: 'get',
+  })
+}
+
+export function getOrderVolume() {
+  return request({
+    url: '/order/order_volume',
+    method: 'get',
+  })
+}
+
+export function getOrderNum() {
+  return request({
+    url: '/order/order_num',
+    method: 'get',
+  })
+}
