@@ -72,6 +72,7 @@
                     v-auth
                     divider
                     class="text-center text-danger"
+                    @click="deleteData(tr.buying_id)"
                   >
                     <i class="el-icon-delete mr-2"></i>
                     <span>删除</span>
@@ -131,8 +132,16 @@ export default {
 
     updateData(data) {
       this.buyingList.forEach((el, i, _this) => {
-        if (el.goods_id === data.goods_id) {
+        if (el.buying_id === data.buying_id) {
           _this.splice(i, 1, data)
+        }
+      })
+    },
+
+    deleteData(id) {
+      this.buyingList.forEach((el, i, _this) => {
+        if (el.buying_id === id) {
+          _this.splice(i, 1)
         }
       })
     },

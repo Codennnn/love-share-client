@@ -209,7 +209,7 @@ export default {
     onUpdate() {
       if (this.verification()) {
         const data = {
-          goods_id: this.data.goods_id,
+          buying_id: this.data.buying_id,
           time: this.data.time,
           name: this.name,
           category: this.category,
