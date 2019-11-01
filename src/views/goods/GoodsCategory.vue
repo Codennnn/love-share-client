@@ -101,6 +101,7 @@ export default {
         this.selected.forEach((it) => {
           if (el.value === it) {
             _.splice(i, 1)
+            this.disabled = true
           }
         })
       })
