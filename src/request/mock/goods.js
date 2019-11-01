@@ -106,11 +106,11 @@ export default {
     code: 2000,
     data: {
       category_list: [
-        { value: '电子数码', label: '电子数码' },
-        { value: '宿舍电器', label: '宿舍电器' },
-        { value: '日常用品', label: '日常用品' },
-        { value: '图书书籍', label: '图书书籍' },
-        { value: '服饰鞋包', label: '服饰鞋包' },
+        '电子数码',
+        '宿舍电器',
+        '日常用品',
+        '图书书籍',
+        '服饰鞋包',
       ],
     },
   },
