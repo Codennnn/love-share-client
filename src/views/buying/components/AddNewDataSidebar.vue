@@ -121,8 +121,8 @@ export default {
   data: () => ({
     name: '',
     category: [],
-    categoryList: [], // 所有商品分类
     price: '',
+    categoryList: [], // 所有商品分类
     settings: {
       maxScrollbarLength: 180,
       wheelSpeed: 0.60,
@@ -183,9 +183,9 @@ export default {
 
     verification() {
       if (
-        this.name.length >= 0
-        && this.category.length >= 0
-        && this.price.length >= 0
+        this.name.length > 0
+        && this.category.length > 0
+        && this.price.length > 0
       ) {
         return true
       }

@@ -100,7 +100,12 @@
 <script>
 import AddNewDataSidebar from './components/AddNewDataSidebar.vue'
 
-import { getBuyingList } from '@/request/api/buying'
+import {
+  getBuyingList,
+  addBuying,
+  deleteBuying,
+  updateBuying,
+} from '@/request/api/buying'
 
 export default {
   data: () => ({
@@ -126,24 +131,45 @@ export default {
       }
     },
 
-    addData(data) {
-      this.buyingList.unshift(data)
-    },
-
-    updateData(data) {
-      this.buyingList.forEach((el, i, _this) => {
-        if (el.buying_id === data.buying_id) {
-          _this.splice(i, 1, data)
-        }
+    notify({
+      title, text, color = 'success', time = 3000,
+    }) {
+      this.$vs.notify({
+        title, text, color, time,
       })
     },
 
-    deleteData(id) {
+    async addData(info) {
+      const { code, data } = await addBuying()
+      if (code === 2000) {
+        info.buying_id = data.buying_id
+        this.buyingList.unshift(info)
+        this.notify({ title: '添加成功', text: '成功添加一条求购商品信息' })
+      }
+    },
+
+    async deleteData(id) {
       this.buyingList.forEach((el, i, _this) => {
         if (el.buying_id === id) {
           _this.splice(i, 1)
         }
       })
+      const { code } = await deleteBuying()
+      if (code === 2000) {
+        this.notify({ title: '删除成功', text: '成功删除一条求购商品信息' })
+      }
+    },
+
+    async updateData(data) {
+      this.buyingList.forEach((el, i, _this) => {
+        if (el.buying_id === data.buying_id) {
+          _this.splice(i, 1, data)
+        }
+      })
+      const { code } = await updateBuying()
+      if (code === 2000) {
+        this.notify({ title: '更新成功', text: '成功更新一条求购商品信息' })
+      }
     },
   },
 }
