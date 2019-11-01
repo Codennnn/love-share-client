@@ -167,13 +167,13 @@ $hoverColor: #f4f4f4; // 导航菜单 hover 时的背景色
         color: $menuIcon;
       }
     }
-    &.is-active.is-opened .el-submenu__title {
-      border-radius: 0.5rem;
-      background-color: rgba(var(--vs-primary), 0.1);
-    }
     &.is-opened .el-submenu__title {
       border-radius: 0.5rem;
       background-color: $hoverColor;
+    }
+    &.is-active .el-submenu__title {
+      border-radius: 0.5rem;
+      background-color: rgba(var(--vs-primary), 0.1);
     }
   }
   .el-menu-item-group {
