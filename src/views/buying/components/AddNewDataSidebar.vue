@@ -10,7 +10,10 @@
     v-model="isSidebarActiveLocal"
   >
     <div class="mt-6 flex items-center justify-between px-6">
-      <span class="text-lg">{{ title }}</span>
+      <span
+        class="text-lg"
+        :class="[title === '添加求购信息' ? 'text-primary' : 'text-success']"
+      >{{ title }}</span>
       <i
         class="el-icon-close text-2xl font-bold cursor-pointer"
         @click.stop="isSidebarActiveLocal = false"
@@ -37,15 +40,16 @@
         >商品分类</div>
         <el-select
           class="w-full"
-          v-model="category"
           multiple
           placeholder="请选择分类"
+          :multiple-limit="2"
+          v-model="category"
         >
           <el-option
-            v-for="item in categoryList"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
+            v-for="(item, i) in categoryList"
+            :key="i"
+            :label="item"
+            :value="item"
           >
           </el-option>
         </el-select>
@@ -71,7 +75,17 @@
       class="flex flex-wrap items-center p-6 text-sm"
       slot="footer"
     >
-      <vs-button class="mr-6">确认添加</vs-button>
+      <vs-button
+        v-if="this.title === '添加求购信息'"
+        class="mr-6"
+        @click="onPublish()"
+      >确认添加</vs-button>
+      <vs-button
+        v-else
+        class="mr-6"
+        color="success"
+        @click="onUpdate()"
+      >更新修改</vs-button>
       <vs-button
         type="border"
         color="danger"
@@ -93,6 +107,7 @@ export default {
       type: Boolean,
       required: true,
     },
+    // 侧边栏标题
     title: {
       type: String,
       required: true,
@@ -106,7 +121,7 @@ export default {
   data: () => ({
     name: '',
     category: [],
-    categoryList: [],
+    categoryList: [], // 所有商品分类
     price: '',
     settings: {
       maxScrollbarLength: 180,
@@ -163,6 +178,45 @@ export default {
         }
       } catch {
         //
+      }
+    },
+
+    verification() {
+      if (
+        this.name.length >= 0
+        && this.category.length >= 0
+        && this.price.length >= 0
+      ) {
+        return true
+      }
+      return false
+    },
+
+    // 发布求购
+    onPublish() {
+      if (this.verification()) {
+        const data = {
+          name: this.name,
+          category: this.category,
+          price: this.price,
+          time: this.$dayjs().format('YY-MM-DD hh:mm:ss'),
+        }
+        this.$emit('addListData', data)
+        this.$emit('closeSidebar')
+      }
+    },
+
+    onUpdate() {
+      if (this.verification()) {
+        const data = {
+          goods_id: this.data.goods_id,
+          time: this.data.time,
+          name: this.name,
+          category: this.category,
+          price: this.price,
+        }
+        this.$emit('updateListData', data)
+        this.$emit('closeSidebar')
       }
     },
   },

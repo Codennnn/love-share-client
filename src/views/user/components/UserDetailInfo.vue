@@ -303,7 +303,6 @@ export default {
 
     // 修改地址
     async onModifyAddress(id) {
-      console.log(this.shippingAddress[id])
       this.receiver = this.shippingAddress[id].receiver
       this.phone = this.shippingAddress[id].phone
       this.address = this.shippingAddress[id].address

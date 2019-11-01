@@ -46,7 +46,7 @@
               v-for="(item, i) in tr.category"
               :key="i"
             >
-              {{ item.label }}
+              {{ item }}
             </vs-chip>
           </vs-td>
           <vs-td>
@@ -63,13 +63,14 @@
                   <vs-dropdown-item
                     v-auth
                     class="text-center"
-                    @click="addNewDataSidebar = true, sidebarTitle = '编辑更新', sidebarData = tr"
+                    @click="addNewDataSidebar = true, sidebarTitle = '编辑更新信息', sidebarData = tr"
                   >
                     <i class="el-icon-edit mr-2"></i>
                     <span>编辑</span>
                   </vs-dropdown-item>
                   <vs-dropdown-item
                     v-auth
+                    divider
                     class="text-center text-danger"
                   >
                     <i class="el-icon-delete mr-2"></i>
@@ -88,6 +89,8 @@
       :title="sidebarTitle"
       :isSidebarActive="addNewDataSidebar"
       :data="sidebarData"
+      @addListData="addData"
+      @updateListData="updateData"
       @closeSidebar="addNewDataSidebar = false"
     />
   </div>
@@ -120,6 +123,18 @@ export default {
       if (code === 2000) {
         this.buyingList = data.buying_list
       }
+    },
+
+    addData(data) {
+      this.buyingList.unshift(data)
+    },
+
+    updateData(data) {
+      this.buyingList.forEach((el, i, _this) => {
+        if (el.goods_id === data.goods_id) {
+          _this.splice(i, 1, data)
+        }
+      })
     },
   },
 }
