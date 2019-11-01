@@ -21,4 +21,19 @@ export default {
       ],
     },
   },
+
+  add_buying: {
+    code: 2000,
+    data: {
+      buying_id: () => Random.id(),
+    },
+  },
+
+  delete_buying: {
+    code: 2000,
+  },
+
+  update_buying: {
+    code: 2000,
+  },
 }
