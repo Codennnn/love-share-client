@@ -95,7 +95,7 @@
             <vs-td class="text-gray-500">
               <span
                 title="点击复制"
-                @click.native="onCopy(tr.order_id)"
+                @click.stop="onCopy(tr.order_id)"
               >
                 {{ tr.order_id }}
               </span>
@@ -251,7 +251,7 @@ export default {
           this.orderList = data.order_list
         }
       } catch {
-        //
+        // TODO
       }
 
       this.$vs.loading.close('#table-loading > .con-vs-loading')

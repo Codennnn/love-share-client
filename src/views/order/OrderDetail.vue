@@ -105,7 +105,7 @@
                   <vs-td>
                     <i
                       title="查看详情"
-                      class="el-icon-goods ml-3 p-2 text-xl text-gray-600 cursor-pointer"
+                      class="el-icon-goods ml-3 p-2 text-xl cursor-pointer"
                       @click="$router.push({path: '/goods-detail'})"
                     ></i>
                   </vs-td>
