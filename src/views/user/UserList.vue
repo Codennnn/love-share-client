@@ -34,13 +34,14 @@
           <vs-td class="text-gray-600">{{ tr.user_id }}</vs-td>
           <vs-td>
             <vs-progress
+              :height="8"
               :title="tr.credit_value"
               :percent="(tr.credit_value / 1000) * 100"
               :color="setCreditColor(tr.credit_value)"
             ></vs-progress>
           </vs-td>
           <vs-td>
-            <p class="font-bold">{{ tr.share_value }}</p>
+            <p class="ml-4 font-bold">{{ tr.share_value }}</p>
           </vs-td>
           <vs-td>
             <p class="text-gray-600">{{ tr.time }}</p>
