@@ -77,7 +77,9 @@
           </div>
         </template>
         <template slot="thead">
-          <vs-th>订单编号</vs-th>
+          <vs-th>
+            订单编号
+            <span class="ml-1 text-gray-600 font-medium">（点击复制）</span></vs-th>
           <vs-th>买家昵称</vs-th>
           <vs-th>总价</vs-th>
           <vs-th>创建时间</vs-th>
@@ -93,10 +95,7 @@
             @dblclick.native="viewDetail(tr.order_id)"
           >
             <vs-td class="text-gray-500">
-              <span
-                title="点击复制"
-                @click.stop="onCopy(tr.order_id)"
-              >
+              <span @click.stop="onCopy(tr.order_id)">
                 {{ tr.order_id }}
               </span>
             </vs-td>
