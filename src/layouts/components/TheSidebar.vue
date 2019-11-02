@@ -56,7 +56,7 @@
           <!-- 单个菜单项 -->
           <el-menu-item
             v-else-if="menuItem.children && menuItem.single"
-            class="mb-3"
+            class="mt-3"
             :key="index"
             :index="menuItem.children[0].path"
           >
