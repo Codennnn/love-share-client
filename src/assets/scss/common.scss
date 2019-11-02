@@ -39,3 +39,7 @@
 .bg-dark {
   background-color: rgba(var(--vs-dark), 1) !important;
 }
+
+.bg-primary-gradient {
+  background: linear-gradient(118deg, rgba(var(--vs-primary), 1), rgba(var(--vs-primary), .7)) !important;
+}
