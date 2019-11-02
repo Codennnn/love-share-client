@@ -53,6 +53,7 @@
       class="vs-con-loading__container"
     >
       <vs-table
+        search
         pagination
         max-items="10"
         noDataText="暂无数据"

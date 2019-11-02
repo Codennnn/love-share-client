@@ -468,28 +468,6 @@ export default {
   }
 }
 
-.vs-con-table {
-  &::v-deep {
-    .vs-table--search {
-      margin-right: 20px;
-      .vs-table--search-input {
-        padding: 0.5rem 2.5rem;
-        border: 1px solid rgba(0, 0, 0, 0.15);
-        font-size: 1rem;
-        & + i {
-          left: 1rem;
-        }
-        &:focus + i {
-          left: 1rem;
-        }
-      }
-      .vs-icon {
-        font-size: 1.4rem;
-      }
-    }
-  }
-}
-
 .mt {
   @media (max-width: 1154px) {
     margin-top: 1rem;
