@@ -9,7 +9,7 @@ export function getOrderList() {
 
 export function getOrderDetail() {
   return request({
-    url: '/order/order_detail',
+    url: '/order/detail',
     method: 'get',
   })
 }
