@@ -13,7 +13,7 @@
       :class="{ 'label-active': currentActive === 5 }"
       @click="setActive('all', 5)"
     >
-      <i class="iconfont icon-task-all label-icon"></i>
+      <i class="el-icon-files label-icon"></i>
       <span class="label-text">所有任务</span>
     </div>
 
@@ -27,7 +27,7 @@
       @click="setActive(item.type, index)"
     >
       <i
-        class="iconfont label-icon"
+        class="label-icon"
         :class="item.icon"
       ></i>
       <span class="label-text">{{ item.text }}</span>
@@ -61,22 +61,22 @@ export default {
   data() {
     const labelItems = [
       {
-        icon: 'icon-task-importance',
+        icon: 'el-icon-collection-tag',
         text: '重要事项',
         type: 'isImportant',
       },
       {
-        icon: 'icon-task-star',
+        icon: 'el-icon-star-off',
         text: '星号标记',
         type: 'isStarred',
       },
       {
-        icon: 'icon-task-done',
+        icon: 'el-icon-finished',
         text: '已完成',
         type: 'isDone',
       },
       {
-        icon: 'icon-task-trashed',
+        icon: 'el-icon-delete',
         text: '丢弃的',
         type: 'isTrashed',
       },

@@ -45,7 +45,7 @@ export const asyncRoutes = [
         meta: { title: '测试' },
       },
     ],
-    meta: { title: '数据分析', icon: 'icon-home' },
+    meta: { title: '数据分析', icon: 'el-icon-data-analysis' },
   },
   {
     path: '',
@@ -70,7 +70,7 @@ export const asyncRoutes = [
         meta: { title: '添加商品', roles: ['super_admin'] },
       },
     ],
-    meta: { title: '商品管理', icon: 'icon-activity', roles: ['super_admin'] },
+    meta: { title: '商品管理', icon: 'el-icon-box', roles: ['super_admin'] },
   },
   {
     path: '',
@@ -83,7 +83,7 @@ export const asyncRoutes = [
         meta: { title: '订单列表' },
       },
     ],
-    meta: { title: '订单管理', icon: 'icon-dynamic' },
+    meta: { title: '订单管理', icon: 'el-icon-files' },
   },
   {
     path: '',
@@ -96,7 +96,7 @@ export const asyncRoutes = [
         meta: { title: '用户列表' },
       },
     ],
-    meta: { title: '用户管理', icon: 'icon-group' },
+    meta: { title: '用户管理', icon: 'el-icon-user' },
   },
   {
     path: '',
@@ -109,7 +109,7 @@ export const asyncRoutes = [
         meta: { title: '求购列表' },
       },
     ],
-    meta: { title: '求购管理', icon: 'icon-shakehands' },
+    meta: { title: '求购管理', icon: 'el-icon-sell' },
   },
   {
     path: '',
@@ -122,7 +122,7 @@ export const asyncRoutes = [
         meta: { title: '用户列表' },
       },
     ],
-    meta: { title: '评价管理', icon: 'icon-message' },
+    meta: { title: '评价管理', icon: 'el-icon-chat-line-square' },
   },
   {
     path: '/service',
@@ -141,7 +141,7 @@ export const asyncRoutes = [
         meta: { title: '常见问题' },
       },
     ],
-    meta: { title: '资讯管理', icon: 'icon-cspace' },
+    meta: { title: '资讯管理', icon: 'el-icon-thumb' },
   },
   {
     path: '',
@@ -152,7 +152,20 @@ export const asyncRoutes = [
         path: '/todo-list',
         name: 'TodoList',
         component: TodoList,
-        meta: { title: '待办事项', icon: 'icon-todo' },
+        meta: { title: '待办事项', icon: 'el-icon-collection' },
+      },
+    ],
+  },
+  {
+    path: '',
+    single: true,
+    component: Layout,
+    children: [
+      {
+        path: '/chat',
+        name: 'Chat',
+        component: () => import('@/views/chat/Chat.vue'),
+        meta: { title: '在线沟通', icon: 'el-icon-chat-round' },
       },
     ],
   },

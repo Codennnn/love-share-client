@@ -66,16 +66,16 @@
             >
               <div>
                 <i
-                  class="todo-mark__icon iconfont icon-task-importance"
+                  class="todo-mark__icon el-icon-collection-tag"
                   :class="{important: todo.isImportant}"
                   @click.stop="toggleIsImportant(todo.id)"
                 ></i>
                 <i
-                  class="todo-mark__icon iconfont icon-task-star"
+                  class="todo-mark__icon el-icon-star-off"
                   :class="{star: todo.isStarred}"
                   @click.stop="toggleIsStarred(todo.id)"
                 ></i>
-                <i class="todo-mark__icon iconfont icon-task-trashed"></i>
+                <i class="todo-mark__icon el-icon-delete"></i>
               </div>
             </vs-col>
             <!-- end -->

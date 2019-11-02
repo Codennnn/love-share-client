@@ -17,7 +17,7 @@
               effect="light"
             >
               <i
-                class="nav-icon iconfont mr-3"
+                class="nav-icon mr-3"
                 :class="item.icon"
               ></i>
             </el-tooltip>
@@ -33,8 +33,8 @@
               effect="light"
             >
               <i
-                class="nav-icon iconfont ml-3"
-                :class="[showSearchInput ? 'icon-close' : 'icon-search']"
+                class="nav-icon ml-3"
+                :class="[showSearchInput ? 'el-icon-close' : 'el-icon-search']"
                 @click="showSearchInput = !showSearchInput"
               ></i>
             </el-tooltip>
@@ -54,8 +54,8 @@
               effect="light"
             >
               <i
-                class="nav-icon iconfont mx-3"
-                :class="[isFullScreen ? 'icon-screenunfull' : 'icon-screenfull']"
+                class="nav-icon mx-3"
+                :class="[isFullScreen ? 'el-icon-crop' : 'el-icon-full-screen']"
                 @click="screenfull"
               ></i>
             </el-tooltip>
@@ -70,10 +70,7 @@
                 :value="this.notices.length > 0 ? this.notices.length : ''"
                 @click="getNotices"
               >
-                <i
-                  class="nav-icon iconfont"
-                  :class="'icon-notice'"
-                ></i>
+                <i class="nav-icon el-icon-bell"></i>
               </el-badge>
               <vs-dropdown-menu
                 id="div-with-loading"
@@ -214,10 +211,10 @@ const popItems = [
   { icon: 'el-icon-switch-button', text: '退出登录' },
 ]
 const navIcons = [
-  { tip: '商品列表', icon: 'icon-activity', route: '/goods-list' },
-  { tip: '订单列表', icon: 'icon-dynamic', route: '/order-list' },
-  { tip: '用户列表', icon: 'icon-group', route: '/user-list' },
-  { tip: '求购列表', icon: 'icon-shakehands', route: '/buying-list' },
+  { tip: '商品列表', icon: 'el-icon-box', route: '/goods-list' },
+  { tip: '订单列表', icon: 'el-icon-files', route: '/order-list' },
+  { tip: '用户列表', icon: 'el-icon-user', route: '/user-list' },
+  { tip: '求购列表', icon: 'el-icon-sell', route: '/buying-list' },
 ]
 const noticeType = {
   0: { icon: 'chat_bubble_outline', color: 'primary' },

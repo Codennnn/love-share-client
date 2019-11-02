@@ -41,7 +41,7 @@
           >
             <template slot="title">
               <i
-                class="menu-icon iconfont"
+                class="menu-icon"
                 :class="menuItem.meta.icon"
               ></i>
               <span slot="title">{{ menuItem.meta.title }}</span>
@@ -56,11 +56,12 @@
           <!-- 单个菜单项 -->
           <el-menu-item
             v-else-if="menuItem.children && menuItem.single"
+            class="mb-3"
             :key="index"
             :index="menuItem.children[0].path"
           >
             <i
-              class="menu-icon iconfont"
+              class="menu-icon"
               :class="menuItem.children[0].meta.icon"
             ></i>
             <span slot="title">{{ menuItem.children[0].meta.title }}</span>
