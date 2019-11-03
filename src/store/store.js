@@ -8,6 +8,7 @@ import actions from './actions'
 
 import user from './modules/user'
 import todo from './modules/todo'
+import chat from './modules/chat'
 import permission from './modules/permission'
 
 Vue.use(Vuex)
@@ -16,6 +17,7 @@ export default new Vuex.Store({
   modules: {
     user,
     todo,
+    chat,
     permission,
   },
 

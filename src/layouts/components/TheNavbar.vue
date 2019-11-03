@@ -166,10 +166,13 @@
             class="ml-4"
             vs-custom-content
           >
-            <img
-              class="avatar cursor-pointer rounded-full w-10 h-10 overflow-hidden"
-              src="@/assets/images/avatar.jpg"
-            />
+            <div class="flex items-center justify-center">
+              <vs-avatar
+                class=""
+                size="40px"
+                :src="'https://avatars2.githubusercontent.com/u/31676496?s=460&v=4'"
+              />
+            </div>
             <vs-dropdown-menu>
               <vs-dropdown-item
                 class="w-32"
@@ -396,10 +399,5 @@ export default {
 .info {
   margin-left: 15px;
   text-align: right;
-}
-
-// 用户头像
-.avatar {
-  box-shadow: 0 0 8px #777777;
 }
 </style>
