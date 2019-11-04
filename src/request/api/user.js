@@ -101,3 +101,17 @@ export function getContactList() {
     method: 'get',
   })
 }
+
+export function subscribe() {
+  return request({
+    url: '/user/subscribe',
+    method: 'post',
+  })
+}
+
+export function unsubscribe() {
+  return request({
+    url: '/user/unsubscribe',
+    method: 'post',
+  })
+}

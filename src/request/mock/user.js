@@ -144,4 +144,12 @@ export default {
       ],
     },
   },
+
+  subscribe: {
+    code: 2000,
+  },
+
+  unsubscribe: {
+    code: 2000,
+  },
 }
