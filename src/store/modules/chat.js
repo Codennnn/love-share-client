@@ -1,4 +1,10 @@
+import Vue from 'vue'
+
+import { getContactList } from '@/request/api/user'
+
 const state = {
+  contactList: [],
+  chatSearchQuery: '',
   chats: {
     1: {
       isPinned: true,
@@ -115,20 +121,85 @@ const state = {
   },
 }
 
-const getters = {
-  chatDataOfUser: state => id => state.chats[Object.keys(state.chats).find(key => key === id)],
-}
+// const getters =
 
 const mutations = {
+  SET_CONTACT_LIST(state, contactList) {
+    state.contactList = contactList
+  },
+
+  SEND_CHAT_MESSAGE(state, payload) {
+    if (payload.chatData) {
+      state.chats[Object.keys(state.chats).find(key => key === payload.id)].msg.push(payload.msg)
+    } else {
+      const chatId = payload.id
+      Vue.set(state.chats, [chatId], { isPinned: payload.isPinned, msg: [payload.msg] })
+    }
+  },
 }
 
 const actions = {
+  async getContactList({ commit }) {
+    const { code, data } = await getContactList()
+    if (code === 2000) {
+      commit('SET_CONTACT_LIST', data.contact_list)
+    }
+  },
+
+  sendChatMessage({ getters, commit }, payload) {
+    payload.chatData = getters.chatDataOfUser(payload.id)
+    console.log(getters.chatDataOfUser(payload.id))
+    commit('SEND_CHAT_MESSAGE', payload)
+  },
 }
 
 export default {
   namespaced: true,
   state,
-  getters,
   mutations,
   actions,
+  getters: {
+    chatDataOfUser: state => id => state.chats[Object.keys(state.chats).find(key => key === id)],
+
+    chats: (state, getters) => {
+      const chatArray = state.contactList.filter((contact) => {
+        // console.log('====', getters.chatDataOfUser(contact.id))
+        if (getters.chatDataOfUser(contact.id)) {
+          return (
+            contact.nickname.toLowerCase().includes(state.chatSearchQuery.toLowerCase())
+            && (getters.chatDataOfUser(contact.id).msg.length > 0)
+          )
+        }
+        return []
+      })
+      return chatArray.sort((x, y) => {
+        const timeX = getters.chatLastMessaged(x.id).time
+        const timeY = getters.chatLastMessaged(y.id).time
+        return (new Date(timeY) - new Date(timeX))
+      })
+    },
+
+    chatLastMessaged: (state, getters) => (id) => {
+      console.log('!!!!!!!!!!!!')
+
+      if (getters.chatDataOfUser(id)) {
+        return getters.chatDataOfUser(id).msg.slice(-1)[0]
+      }
+      return false
+    },
+
+    chatUnseenMessages: (state, getters) => (id) => {
+      let unseenMsg = 0
+      const chatData = getters.chatDataOfUser(id)
+      if (chatData) {
+        chatData.msg.map((msg) => {
+          if (!msg.isSeen && !msg.isSent) {
+            unseenMsg += 1
+          }
+          return ''
+        })
+      }
+      return unseenMsg
+    },
+  },
 }

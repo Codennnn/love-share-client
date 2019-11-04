@@ -20,7 +20,7 @@
               class="mx-0 flex-no-shrink"
               :class="msg.isSent ? 'sm:ml-5 ml-3' : 'sm:mr-5 mr-3'"
               :src="'https://avatars2.githubusercontent.com/u/31676496?s=460&v=4'"
-            ></vs-avatar>
+            />
           </template>
         </template>
 
@@ -30,7 +30,7 @@
             class="mx-0 flex-no-shrink"
             :class="msg.isSent ? 'sm:ml-5 ml-3' : 'sm:mr-5 mr-3'"
             :src="'https://avatars2.githubusercontent.com/u/31676496?s=460&v=4'"
-          ></vs-avatar>
+          />
         </template>
 
         <template v-if="chatData.msg[index-1]">
