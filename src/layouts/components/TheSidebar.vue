@@ -25,6 +25,7 @@
 
     <el-menu
       router
+      unique-opened
       class="wrapper"
       :default-active="$route.path"
       :class="{ 'side-bar-menu': !sidebarCollapse }"

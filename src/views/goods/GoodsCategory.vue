@@ -30,6 +30,7 @@
               class="w-full"
               label-placeholder="分类名称"
               v-model="categoryName"
+              @keyup.enter="onAddCategory()"
             />
             <div class="mt-2 flex justify-end">
               <vs-button
@@ -92,24 +93,25 @@ export default {
       if (this.categoryName.length > 0) {
         this.categoryList.push({ value: this.categoryName })
         this.showPopover = false
+        this.categoryName = ''
         addGoodsCategory()
       }
     },
 
     onDeleteCategory() {
-      this.categoryList.forEach((el, i, _) => {
-        this.selected.forEach((it) => {
+      this.selected.forEach((it) => {
+        this.categoryList.forEach((el, i, _) => {
           if (el.value === it) {
             _.splice(i, 1)
-            this.disabled = true
           }
         })
       })
+      this.disabled = true
       deleteGoodsCategory()
     },
 
-    leftCheck(it) {
-      this.selected = it
+    leftCheck(checked) {
+      this.selected = checked
       if (this.selected.length > 0) {
         this.disabled = false
       } else {
