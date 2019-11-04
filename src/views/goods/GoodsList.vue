@@ -20,6 +20,7 @@
           <i class="el-icon-sell p-2 text-3xl text-primary"></i>
         </div>
       </div>
+
       <div
         class="w-1/4 mx-5 lg:px-6 px-3 flex items-center justify-between rounded-lg
       bg-white cursor-pointer hover:shadow-lg"
@@ -39,6 +40,7 @@
           <i class="el-icon-sold-out p-2 text-3xl text-danger"></i>
         </div>
       </div>
+
       <div class="w-2/4 py-3 px-6 rounded-lg bg-white">
         <div class="mb-3 text-gray-600">高级操作</div>
         <div class="flex items-center justify-end text-sm">
@@ -174,6 +176,7 @@
             <vs-td class="text-gray-700">{{ tr.nickname }}</vs-td>
             <vs-td class="text-gray-600">{{ i }}</vs-td>
 
+            <!-- 展开的内容 -->
             <template slot="expand">
               <div class="flex w-full">
                 <div class="w-1/6">
@@ -236,7 +239,7 @@
                     <vs-button
                       type="flat"
                       @click="viewDetail(tr.goods_id)"
-                    >查看订单详情</vs-button>
+                    >查看商品详情</vs-button>
                   </vs-list-item>
                 </vs-list>
               </div>
@@ -353,6 +356,7 @@ export default {
       this.$vs.loading.close('#table-loading > .con-vs-loading')
     },
 
+    // 获取商品分类
     async getGoodsCategory() {
       try {
         const { code, data } = await getGoodsCategory()
@@ -364,6 +368,7 @@ export default {
       }
     },
 
+    // 获取商品的统计数据
     async getGoodsListInfo() {
       try {
         const { code, data } = await getGoodsListInfo()
@@ -376,6 +381,7 @@ export default {
       }
     },
 
+    // 获取学校列表
     async getSchoolList() {
       try {
         const { code, data } = await getSchoolList()
@@ -387,12 +393,7 @@ export default {
       }
     },
 
-    onSearch() {
-      if (this.searchText.length > 0) {
-        this.getStoredGoods()
-      }
-    },
-
+    // 根据商品编号搜索
     onSearchByID() {
       if (this.searchText.length > 0) {
         this.getStoredGoods()
@@ -415,10 +416,12 @@ export default {
       this.$router.push({ path: '/user-detail', query: { id } })
     },
 
+    // 复制商品编号
     onCopy(e) {
-      this.$message(`已复制订单编号：${e.text}  🎉`)
+      this.$message(`已复制商品编号：${e.text}  🎉`)
     },
 
+    // 导出为 Excel 表格
     exportExcel() {
       import('@/vendor/Export2Excel').then((excel) => {
         const header = ['商品 ID', '商品名称', '价格', '卖家姓名', '发布时间']
