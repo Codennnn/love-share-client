@@ -24,6 +24,6 @@ export function deleteBuying() {
 export function updateBuying() {
   return request({
     url: '/buying/update',
-    method: 'update',
+    method: 'put',
   })
 }
