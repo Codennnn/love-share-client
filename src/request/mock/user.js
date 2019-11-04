@@ -131,4 +131,17 @@ export default {
   modify_address: {
     code: 2000,
   },
+
+  contact_list: {
+    code: 2000,
+    data: {
+      contact_list: [
+        {
+          id: '2',
+          nickname: '令狐少侠',
+          avatar_url: 'https://avatars2.githubusercontent.com/u/31676496?s=460&v=4',
+        },
+      ],
+    },
+  },
 }

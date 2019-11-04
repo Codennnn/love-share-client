@@ -94,3 +94,10 @@ export function modifyAddress() {
     method: 'put',
   })
 }
+
+export function getContactList() {
+  return request({
+    url: '/user/contact_list',
+    method: 'get',
+  })
+}

@@ -21,6 +21,7 @@ Mock.mock('/api/user/default_address', 'post', user.default_address)
 Mock.mock('/api/user/address/add', 'post', user.add_address)
 Mock.mock('/api/user/address/delete', 'delete', user.delete_address)
 Mock.mock('/api/user/address/modify', 'put', user.modify_address)
+Mock.mock('/api/user/contact_list', 'get', user.contact_list)
 
 // 通知
 Mock.mock(/\/notices/, 'get', notice.notices)
