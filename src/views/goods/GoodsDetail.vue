@@ -33,7 +33,36 @@
             </vs-images>
           </div>
           <div class="w-1/2 px-5">
-            <div class="text-lg font-semibold">{{ goods.name }}</div>
+            <div class="flex items-start text-lg font-semibold">
+              <div>{{ goods.name }}</div>
+              <div>
+                <vs-dropdown>
+                  <vs-button
+                    class="ml-2"
+                    radius
+                    size="small"
+                    type="flat"
+                    icon-pack="el-icon"
+                    icon="el-icon-more"
+                  ></vs-button>
+
+                  <vs-dropdown-menu>
+                    <vs-dropdown-item>
+                      啊啊
+                    </vs-dropdown-item>
+                    <vs-dropdown-item>
+                      下架该商品
+                    </vs-dropdown-item>
+                    <vs-dropdown-item
+                      class="text-danger"
+                      divider
+                    >
+                      删除该商品
+                    </vs-dropdown-item>
+                  </vs-dropdown-menu>
+                </vs-dropdown>
+              </div>
+            </div>
             <div class="my-2 text-gray-500 text-sm">
               发布于 {{ timeDiff(goods.time) }}
             </div>
@@ -126,7 +155,7 @@
               style="height: 34px;border-radius: 17px;"
               color="primary"
             >
-              联系卖家
+              {{ '加关注' }}
             </span>
           </div>
           <div class="flex justify-around mt-3">
@@ -143,6 +172,10 @@
               <div class="text-gray-600 text-sm">关注者</div>
             </div>
           </div>
+        </div>
+        <div class="hover-light cursor-pointer">
+          <div class="mt-5 p-2 text-center text-white bg-primary-gradient rounded">联系卖家</div>
+          <div class="light"></div>
         </div>
       </vs-col>
     </vs-row>
@@ -226,5 +259,41 @@ export default {
   margin-bottom: 0.5rem;
   display: flex;
   align-items: center;
+}
+
+// 按钮闪光闪烁
+.hover-light {
+  position: relative;
+  .light {
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 150px;
+    height: 100%;
+    background-image: -moz-linear-gradient(
+      0deg,
+      rgba(255, 255, 255, 0),
+      rgba(255, 255, 255, 0.5),
+      rgba(255, 255, 255, 0)
+    );
+    background-image: -webkit-linear-gradient(
+      0deg,
+      rgba(255, 255, 255, 0),
+      rgba(255, 255, 255, 0.5),
+      rgba(255, 255, 255, 0)
+    );
+    transform: skewX(-25deg);
+  }
+  &:hover .light {
+    animation: flash 0.3s;
+  }
+  @keyframes flash {
+    from {
+      left: -100%;
+    }
+    to {
+      left: 100%;
+    }
+  }
 }
 </style>

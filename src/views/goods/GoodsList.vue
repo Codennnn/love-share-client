@@ -203,12 +203,14 @@
                     color="success"
                   ></vs-list-header>
                   <vs-list-item
-                    icon="person_outline"
+                    icon-pack="el-icon"
+                    icon="el-icon-user"
                     title="真实姓名"
                     :subtitle="tr.real_name"
                   ></vs-list-item>
                   <vs-list-item
-                    icon="star_border"
+                    icon-pack="el-icon"
+                    icon="el-icon-star-off"
                     title="乐享值"
                     :subtitle="`${tr.price}`"
                   ></vs-list-item>
@@ -220,7 +222,8 @@
                     color="warning"
                   ></vs-list-header>
                   <vs-list-item
-                    icon="turned_in_not"
+                    icon-pack="el-icon"
+                    icon="el-icon-collection-tag"
                     title="商品 ID"
                     :subtitle="tr.goods_id"
                   >
@@ -232,7 +235,8 @@
                     >复制</vs-button>
                   </vs-list-item>
                   <vs-list-item
-                    icon="access_time"
+                    icon-pack="el-icon"
+                    icon="el-icon-time"
                     title="发布时间"
                     :subtitle="tr.time"
                   >
