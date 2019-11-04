@@ -70,16 +70,37 @@ export function deleteGoodsCategory() {
   })
 }
 
+export function deleteGoods() {
+  return request({
+    url: '/goods/delete',
+    method: 'delete',
+  })
+}
+
 export function collectGoods() {
   return request({
-    url: '/goods/collect_goods',
+    url: '/goods/collect',
     method: 'post',
   })
 }
 
 export function uncollectGoods() {
   return request({
-    url: '/goods/uncollect_goods',
+    url: '/goods/uncollect',
     method: 'delete',
+  })
+}
+
+export function dismountGoods() {
+  return request({
+    url: '/goods/dismount',
+    method: 'post',
+  })
+}
+
+export function cancelDismountGoods() {
+  return request({
+    url: '/goods/cancel_dismount',
+    method: 'post',
   })
 }

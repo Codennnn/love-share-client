@@ -152,11 +152,23 @@ export default {
     },
   },
 
-  collect_goods: {
+  delete: {
     code: 2000,
   },
 
-  uncollect_goods: {
+  collect: {
+    code: 2000,
+  },
+
+  uncollect: {
+    code: 2000,
+  },
+
+  dismount: {
+    code: 2000,
+  },
+
+  cancel_dismount: {
     code: 2000,
   },
 }
