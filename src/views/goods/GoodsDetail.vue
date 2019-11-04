@@ -5,7 +5,7 @@
         class="pr-3"
         vs-w="9"
       >
-        <div class="p-6 bg-white rounded-lg">
+        <div class="relative p-6 bg-white rounded-lg overflow-hidden">
           <div class="flex">
             <div class="w-1/2 ">
               <el-carousel :autoplay="false">
@@ -56,6 +56,7 @@
                       <vs-dropdown-item
                         class="text-danger"
                         divider
+                        @click="isPopupActive = true"
                       >
                         删除该商品
                       </vs-dropdown-item>
@@ -131,6 +132,15 @@
               v-html="goods.description"
             ></div>
           </div>
+
+          <!-- 下架标志 -->
+          <div
+            class="absolute z-50 cursor-default"
+            style="transform: rotateZ(-45deg);top: 1.5rem; left: -3.5rem;"
+            v-if="isDismount"
+          >
+            <div class="w-48 py-1 text-center text-white text-xl bg-danger">已下架</div>
+          </div>
         </div>
       </vs-col>
 
@@ -204,6 +214,28 @@
     </vs-row>
 
     <vs-popup
+      style="color: white;"
+      title="是否删除该商品"
+      background-color="rgba(255, 255, 255, .6)"
+      background-color-popup="rgba(var(--vs-danger), 1)"
+      :active.sync="isPopupActive"
+    >
+      <p>删除后将无法恢复, 请谨慎操作! </p>
+      <div class="flex justify-end">
+        <vs-button
+          class="mr-3 text-sm text-white"
+          type="border"
+          color="rgb(255, 255, 255)"
+        >取消操作</vs-button>
+        <vs-button
+          class="text-danger text-sm"
+          type="relief"
+          color="rgb(255, 255, 255)"
+          @click="deleteGoods()"
+        >确认删除</vs-button>
+      </div>
+    </vs-popup>
+    <vs-popup
       title="已加入购物车"
       :active.sync="popupActive"
     >
@@ -250,6 +282,7 @@ export default {
     seller: {},
     num: 1, // 购买的数量
     popupActive: false,
+    isPopupActive: false,
     isCollect: false,
     isDismount: false,
     isSubscribe: false,
@@ -259,6 +292,7 @@ export default {
   components: { ElImageViewer },
 
   mounted() {
+    console.log('商品 ID', this.$route.query.id)
     this.getGoodsDetail()
   },
 
@@ -271,6 +305,7 @@ export default {
       }
     },
 
+    // 查看用户详情
     viewUserDetail(id) {
       this.$router.push({
         path: '/user-detail',
@@ -278,10 +313,12 @@ export default {
       })
     },
 
+    // 加入购物车
     addCart() {
       this.popupActive = true
     },
 
+    // 关注
     async subscribe() {
       this.isSubscribeLoading = true
       try {
@@ -295,6 +332,7 @@ export default {
       this.isSubscribeLoading = false
     },
 
+    // 取消关注
     async unsubscribe() {
       this.isSubscribeLoading = true
       try {
@@ -308,7 +346,9 @@ export default {
       this.isSubscribeLoading = false
     },
 
+    // 删除商品
     async deleteGoods() {
+      this.isPopupActive = false
       try {
         const { code } = await deleteGoods()
         if (code === 2000) {
@@ -319,6 +359,7 @@ export default {
       }
     },
 
+    // 收藏商品
     async collectGoods() {
       try {
         const { code } = await collectGoods()
@@ -330,6 +371,7 @@ export default {
       }
     },
 
+    // 取消收藏商品
     async uncollectGoods() {
       try {
         const { code } = await uncollectGoods()
@@ -341,6 +383,7 @@ export default {
       }
     },
 
+    // 下架商品
     async dismountGoods() {
       try {
         const { code } = await dismountGoods()
@@ -356,6 +399,7 @@ export default {
       }
     },
 
+    // 取消下架
     async cancelDismountGoods() {
       try {
         const { code } = await cancelDismountGoods()
@@ -389,7 +433,7 @@ export default {
     position: absolute;
     display: none;
     top: 0;
-    left: -100%;
+    left: -150px;
     width: 150px;
     height: 100%;
     background-image: -moz-linear-gradient(
@@ -412,7 +456,7 @@ export default {
   }
   @keyframes flash {
     from {
-      left: -100%;
+      left: -150px;
     }
     to {
       left: 100%;

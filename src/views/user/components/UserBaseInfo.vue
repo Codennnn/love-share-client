@@ -23,17 +23,21 @@
               <vs-tr
                 v-for="(tr, i) in data"
                 :key="i"
-                :data="tr"
               >
                 <vs-td :data="data[i].img_urls">
                   <vs-image
                     class="w-32 h-32 shadow"
                     :src="data[i].img_urls[0]"
-                    @click.native="showViewer = true, imgUrls = tr.img_urls"
+                    @click.native.stop="showViewer = true, imgUrls = tr.img_urls"
                   ></vs-image>
                 </vs-td>
 
-                <vs-td>{{ tr.name }}</vs-td>
+                <vs-td>
+                  <p
+                    class="cursor-pointer"
+                    @click.native="viewGoodsDetail(tr.goods_id)"
+                  >{{ tr.name }}</p>
+                </vs-td>
 
                 <vs-td class="font-semibold">￥{{ tr.price }}</vs-td>
 
@@ -216,6 +220,13 @@ export default {
       if (code === 2000) {
         this.boughtGoods = data.goods
       }
+    },
+
+    async viewGoodsDetail(id) {
+      this.$router.push({
+        path: '/goods-detail',
+        query: { id },
+      })
     },
 
     async getRecentContacts() {

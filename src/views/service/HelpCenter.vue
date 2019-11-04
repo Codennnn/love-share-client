@@ -3,6 +3,7 @@
     <div class="w-1/5 bg-white rounded-lg">
       <vs-collapse>
         <vs-collapse-item
+          open
           v-for="(menu, index) in menus"
           :key="index"
         >
