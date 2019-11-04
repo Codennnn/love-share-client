@@ -5,115 +5,129 @@
         class="pr-3"
         vs-w="9"
       >
-        <div class="flex p-6 bg-white rounded-lg">
-          <div class="w-1/2 ">
-            <el-carousel
-              ref="carousel"
-              :autoplay="false"
-            >
-              <el-carousel-item
-                v-for="(image, i) in goods.imgs"
-                :key="i"
-              >
-                <img
-                  class="h-full"
-                  style="max-width: inherit;"
-                  :src="image"
+        <div class="p-6 bg-white rounded-lg">
+          <div class="flex">
+            <div class="w-1/2 ">
+              <el-carousel :autoplay="false">
+                <el-carousel-item
+                  v-for="(image, i) in goods.imgs"
+                  :key="i"
                 >
-              </el-carousel-item>
-            </el-carousel>
-            <vs-images hover="zoom">
-              <vs-image
-                class=""
-                v-for="(image, i) in goods.imgs"
-                :key="i"
-                :src="image"
-                @click.native="showViewer = true"
-              />
-            </vs-images>
-          </div>
-          <div class="w-1/2 px-5">
-            <div class="flex items-start text-lg font-semibold">
-              <div>{{ goods.name }}</div>
-              <div>
-                <vs-dropdown>
-                  <vs-button
-                    class="ml-2"
-                    radius
-                    size="small"
-                    type="flat"
-                    icon-pack="el-icon"
-                    icon="el-icon-more"
-                  ></vs-button>
+                  <img
+                    class="h-full"
+                    style="max-width: inherit;"
+                    :src="image"
+                  >
+                </el-carousel-item>
+              </el-carousel>
+              <vs-images hover="zoom">
+                <vs-image
+                  class=""
+                  v-for="(image, i) in goods.imgs"
+                  :key="i"
+                  :src="image"
+                  @click.native="showViewer = true"
+                />
+              </vs-images>
+            </div>
+            <div class="w-1/2 px-5">
+              <div class="flex items-start text-lg font-semibold">
+                <div>{{ goods.name }}</div>
+                <div>
+                  <vs-dropdown>
+                    <vs-button
+                      class="ml-2"
+                      radius
+                      size="small"
+                      type="flat"
+                      icon-pack="el-icon"
+                      icon="el-icon-more"
+                    ></vs-button>
 
-                  <vs-dropdown-menu>
-                    <vs-dropdown-item>
-                      啊啊
-                    </vs-dropdown-item>
-                    <vs-dropdown-item>
-                      下架该商品
-                    </vs-dropdown-item>
-                    <vs-dropdown-item
-                      class="text-danger"
-                      divider
-                    >
-                      删除该商品
-                    </vs-dropdown-item>
-                  </vs-dropdown-menu>
-                </vs-dropdown>
+                    <vs-dropdown-menu>
+                      <vs-dropdown-item>
+                        啊啊
+                      </vs-dropdown-item>
+                      <vs-dropdown-item>
+                        下架该商品
+                      </vs-dropdown-item>
+                      <vs-dropdown-item
+                        class="text-danger"
+                        divider
+                      >
+                        删除该商品
+                      </vs-dropdown-item>
+                    </vs-dropdown-menu>
+                  </vs-dropdown>
+                </div>
+              </div>
+              <div class="my-2 flex items-center text-gray-500 text-sm">
+                <p>发布于 {{ timeDiff(goods.time) }}</p>
+                <vs-button
+                  class="ml-6"
+                  type="flat"
+                  size="small"
+                  icon-pack="el-icon"
+                  icon="el-icon-star-off"
+                  :color="isCollect ? 'warning' : 'success'"
+                  @click="isCollect ? uncollectGoods() : collectGoods()"
+                >
+                  {{ isCollect ? '取消收藏' : '加入收藏' }}
+                </vs-button>
+              </div>
+              <div class="info-item">
+                <vs-chip class="mr-2">价 格</vs-chip>
+                <div>
+                  <span class="text-xl text-primary font-semibold">
+                    ￥{{ goods.price || '--' }}
+                  </span>
+                  <span
+                    class="text-gray-500"
+                    style="text-decoration: line-through;"
+                  >
+                    ￥{{ goods.original_price }}
+                  </span>
+                </div>
+              </div>
+              <div class="info-item">
+                <vs-chip class="mr-2">数 量</vs-chip>
+                <span style="margin-bottom: 2px;">{{ goods.num }}</span>
+              </div>
+              <div class="info-item">
+                <vs-chip class="mr-2">配 送</vs-chip>
+                <span style="margin-bottom: 4px;">
+                  {{ goods.delivery === '1' ? '包邮' : goods.delivery === '2' ? '自费' : '自提' }}
+                </span>
+              </div>
+              <div
+                class="info-item"
+                v-if="goods.returnable"
+              >
+                <vs-chip class="mr-2">保 障</vs-chip>
+                <span style="margin-bottom: 4px;">
+                  7天无理由退换货
+                </span>
+              </div>
+              <div class="flex items-center mt-6">
+                <vs-input-number
+                  v-model="num"
+                  :min="1"
+                  :max="goods.num"
+                />
+                <vs-button
+                  class="ml-3 text-sm"
+                  @click="addCart()"
+                >加入购物车</vs-button>
               </div>
             </div>
-            <div class="my-2 text-gray-500 text-sm">
-              发布于 {{ timeDiff(goods.time) }}
-            </div>
+          </div>
+
+          <div class="mt-4">
+            <p class="text-gray-600">详情</p>
             <div
-              class="text-sm  my-4"
+              class="mt-1 text-sm"
               v-html="goods.description"
             ></div>
-            <div class="info-item">
-              <vs-chip class="mr-2">价 格</vs-chip>
-              <div>
-                <span class="text-xl text-primary font-semibold">
-                  ￥{{ goods.price || '--' }}
-                </span>
-                <span
-                  class="text-gray-500"
-                  style="text-decoration: line-through;"
-                >
-                  ￥{{ goods.original_price }}
-                </span>
-              </div>
-            </div>
-            <div class="info-item">
-              <vs-chip class="mr-2">数 量</vs-chip>
-              <span style="margin-bottom: 2px;">{{ goods.num }}</span>
-            </div>
-            <div class="info-item">
-              <vs-chip class="mr-2">配 送</vs-chip>
-              <span style="margin-bottom: 4px;">
-                {{ goods.delivery === '1' ? '包邮' : goods.delivery === '2' ? '自费' : '自提' }}
-              </span>
-            </div>
-            <div
-              class="info-item"
-              v-if="goods.returnable"
-            >
-              <vs-chip class="mr-2">保 障</vs-chip>
-              <span style="margin-bottom: 4px;">
-                7天无理由退换货
-              </span>
-            </div>
-            <div class="flex items-center mt-6">
-              <vs-input-number
-                v-model="num"
-                :min="1"
-                :max="goods.num"
-              />
-              <vs-button
-                class="ml-3 text-sm"
-                @click="showPopup()"
-              >加入购物车</vs-button>
-            </div>
           </div>
         </div>
       </vs-col>
@@ -145,7 +159,6 @@
             ></i>
           </div>
           <div class="my-1 text-sm text-gray-500">
-            <!-- {{ seller.if_follow ? '已关注' : '关注此人' }} -->
             {{ seller.school }}
           </div>
           <div class="flex justify-center overflow-hidden">
@@ -154,8 +167,13 @@
               text-sm bg-primary cursor-pointer"
               style="height: 34px;border-radius: 17px;"
               color="primary"
+              @click="isSubscribe ? unsubscribe() : subscribe()"
             >
-              {{ '加关注' }}
+              <i
+                class="el-icon-loading mr-1"
+                v-if="isSubscribeLoading"
+              ></i>
+              {{ isSubscribe ? '取消关注' : '加关注' }}
             </span>
           </div>
           <div class="flex justify-around mt-3">
@@ -174,7 +192,10 @@
           </div>
         </div>
         <div class="hover-light cursor-pointer">
-          <div class="mt-5 p-2 text-center text-white bg-primary-gradient rounded">联系卖家</div>
+          <div class="mt-5 p-2 flex justify-center items-center text-center text-white
+          bg-primary-gradient rounded">
+            联系卖家
+          </div>
           <div class="light"></div>
         </div>
       </vs-col>
@@ -208,7 +229,8 @@
 import ElImageViewer from 'element-ui/packages/image/src/image-viewer.vue'
 
 import { timeDiff } from '@/utils/util'
-import { getGoodsDetail } from '@/request/api/goods'
+import { subscribe, unsubscribe } from '@/request/api/user'
+import { getGoodsDetail, collectGoods, uncollectGoods } from '@/request/api/goods'
 
 export default {
   name: 'GoodsDetail',
@@ -217,8 +239,11 @@ export default {
     showViewer: false,
     goods: {},
     seller: {},
-    num: 1,
+    num: 1, // 购买的数量
     popupActive: false,
+    isCollect: false,
+    isSubscribe: false,
+    isSubscribeLoading: false,
   }),
 
   components: { ElImageViewer },
@@ -243,12 +268,56 @@ export default {
       })
     },
 
-    setActiveItem(i) {
-      this.$refs.carousel.setActiveItem(i)
+    addCart() {
+      this.popupActive = true
     },
 
-    showPopup() {
-      this.popupActive = true
+    async subscribe() {
+      this.isSubscribeLoading = true
+      try {
+        const { code } = await subscribe()
+        if (code === 2000) {
+          this.isSubscribe = true
+        }
+      } catch {
+        // TODO
+      }
+      this.isSubscribeLoading = false
+    },
+
+    async unsubscribe() {
+      this.isSubscribeLoading = true
+      try {
+        const { code } = await unsubscribe()
+        if (code === 2000) {
+          this.isSubscribe = false
+        }
+      } catch {
+        // TODO
+      }
+      this.isSubscribeLoading = false
+    },
+
+    async collectGoods() {
+      try {
+        const { code } = await collectGoods()
+        if (code === 2000) {
+          this.isCollect = true
+        }
+      } catch {
+        // TODO
+      }
+    },
+
+    async uncollectGoods() {
+      try {
+        const { code } = await uncollectGoods()
+        if (code === 2000) {
+          this.isCollect = false
+        }
+      } catch {
+        // TODO
+      }
     },
   },
 }
@@ -259,6 +328,7 @@ export default {
   margin-bottom: 0.5rem;
   display: flex;
   align-items: center;
+  cursor: default;
 }
 
 // 按钮闪光闪烁
@@ -266,6 +336,7 @@ export default {
   position: relative;
   .light {
     position: absolute;
+    display: none;
     top: 0;
     left: -100%;
     width: 150px;
@@ -285,6 +356,7 @@ export default {
     transform: skewX(-25deg);
   }
   &:hover .light {
+    display: block;
     animation: flash 0.3s;
   }
   @keyframes flash {
