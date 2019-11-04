@@ -69,3 +69,17 @@ export function deleteGoodsCategory() {
     method: 'delete',
   })
 }
+
+export function collectGoods() {
+  return request({
+    url: '/goods/collect_goods',
+    method: 'post',
+  })
+}
+
+export function uncollectGoods() {
+  return request({
+    url: '/goods/uncollect_goods',
+    method: 'delete',
+  })
+}

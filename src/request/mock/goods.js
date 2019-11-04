@@ -151,4 +151,12 @@ export default {
     data: {
     },
   },
+
+  collect_goods: {
+    code: 2000,
+  },
+
+  uncollect_goods: {
+    code: 2000,
+  },
 }

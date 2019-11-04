@@ -38,6 +38,8 @@ Mock.mock('/api/goods/detail', 'get', goods.goods_detail)
 Mock.mock('/api/goods/category_list', 'get', goods.category_list)
 Mock.mock('/api/goods/category/add', 'post', goods.add_category)
 Mock.mock('/api/goods/category/delete', 'delete', goods.delete_category)
+Mock.mock('/api/goods/collect_goods', 'post', goods.collect_goods)
+Mock.mock('/api/goods/uncollect_goods', 'delete', goods.uncollect_goods)
 
 // 订单
 Mock.mock('/api/order/list', 'get', order.order_list)
