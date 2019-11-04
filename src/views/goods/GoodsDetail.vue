@@ -32,7 +32,7 @@
             </div>
             <div class="w-1/2 px-5">
               <div class="flex items-start text-lg font-semibold">
-                <div>{{ goods.name }}</div>
+                <p>{{ goods.name }}</p>
                 <div>
                   <vs-dropdown>
                     <vs-button
@@ -48,8 +48,10 @@
                       <vs-dropdown-item>
                         啊啊
                       </vs-dropdown-item>
-                      <vs-dropdown-item>
-                        下架该商品
+                      <vs-dropdown-item @click="isDismount ?
+                       cancelDismountGoods()
+                       : dismountGoods()">
+                        {{ isDismount ? '重新上架' : '下架该商品' }}
                       </vs-dropdown-item>
                       <vs-dropdown-item
                         class="text-danger"
@@ -230,7 +232,14 @@ import ElImageViewer from 'element-ui/packages/image/src/image-viewer.vue'
 
 import { timeDiff } from '@/utils/util'
 import { subscribe, unsubscribe } from '@/request/api/user'
-import { getGoodsDetail, collectGoods, uncollectGoods } from '@/request/api/goods'
+import {
+  getGoodsDetail,
+  deleteGoods,
+  collectGoods,
+  uncollectGoods,
+  dismountGoods,
+  cancelDismountGoods,
+} from '@/request/api/goods'
 
 export default {
   name: 'GoodsDetail',
@@ -242,6 +251,7 @@ export default {
     num: 1, // 购买的数量
     popupActive: false,
     isCollect: false,
+    isDismount: false,
     isSubscribe: false,
     isSubscribeLoading: false,
   }),
@@ -298,6 +308,17 @@ export default {
       this.isSubscribeLoading = false
     },
 
+    async deleteGoods() {
+      try {
+        const { code } = await deleteGoods()
+        if (code === 2000) {
+          // TODO
+        }
+      } catch {
+        // TODO
+      }
+    },
+
     async collectGoods() {
       try {
         const { code } = await collectGoods()
@@ -314,6 +335,36 @@ export default {
         const { code } = await uncollectGoods()
         if (code === 2000) {
           this.isCollect = false
+        }
+      } catch {
+        // TODO
+      }
+    },
+
+    async dismountGoods() {
+      try {
+        const { code } = await dismountGoods()
+        if (code === 2000) {
+          this.isDismount = true
+          this.$message({
+            message: '该商品已被下架',
+            type: 'warning',
+          })
+        }
+      } catch {
+        // TODO
+      }
+    },
+
+    async cancelDismountGoods() {
+      try {
+        const { code } = await cancelDismountGoods()
+        if (code === 2000) {
+          this.isDismount = false
+          this.$message({
+            message: '该商品已重新上架',
+            type: 'success',
+          })
         }
       } catch {
         // TODO
