@@ -60,6 +60,17 @@
               ></i>
             </el-tooltip>
 
+            <el-tooltip
+              :open-delay="100"
+              content="购物车"
+              effect="light"
+            >
+              <i
+                class="nav-icon el-icon-shopping-cart-2 mr-3"
+                @click="$router.push('/goods-cart')"
+              ></i>
+            </el-tooltip>
+
             <!-- 通知图标 -->
             <vs-dropdown
               vs-custom-content
@@ -344,9 +355,7 @@ export default {
   box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.08);
   box-sizing: border-box;
   .nav-icon {
-    &:hover {
-      cursor: pointer;
-    }
+    cursor: pointer;
     font-size: 22px;
     font-weight: 500;
     color: $navIcon;

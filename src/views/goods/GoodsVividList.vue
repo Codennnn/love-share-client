@@ -8,13 +8,15 @@
         <div>
           <h6 class="my-3 text-sm text-gray-700">筛选搜索</h6>
           <div class="p-4 shadow bg-white rounded-lg">
-            <vs-radio
-              class="my-2"
-              v-for="(item, index) in categoryList"
-              :key="index"
-              :vs-value="item.value"
-              v-model="category"
-            >{{ item.label }}</vs-radio>
+            <div class="md:w-full lg:w-1/2">
+              <vs-radio
+                class="my-2"
+                v-for="(item, index) in categoryList"
+                :key="index"
+                :vs-value="item"
+                v-model="category"
+              >{{ item }}</vs-radio>
+            </div>
           </div>
         </div>
       </div>
@@ -23,7 +25,9 @@
         vs-w="9"
       >
         <div>
-          <h6 class="my-3 text-sm text-gray-700">共查询到 120 个商品</h6>
+          <h6 class="my-3 text-sm text-gray-700">
+            共查询到 {{ total }} 个商品
+          </h6>
           <!-- 搜索框 -->
           <vs-input
             class="search-input mb-6 top-0 z-40 w-full shadow rounded-lg overflow-hidden"
@@ -33,46 +37,47 @@
             placeholder="输入商品 ID 进行搜索..."
             v-model="searchText"
           />
+
           <div class="grid">
             <div
-              v-for="(item, i) in 8"
-              :key="i"
               class="goods-item"
+              v-for="(goods, i) in goodsList"
+              :key="i"
             >
               <div
                 class="img-wrapper cursor-pointer"
-                @click="viewGoodsDetail(item.goods_id)"
+                @click="viewGoodsDetail(goods.goods_id)"
               >
                 <el-image
                   class="w-full h-full"
-                  src="https://cdn-demo.algolia.com/bestbuy-0118/4397400_sb.jpg"
                   fit="cover"
+                  :src="goods.img_list[0]"
                 ></el-image>
               </div>
               <div class="p-3">
                 <div class="my-2 flex justify-between items-center">
                   <div>
                     <vs-chip color="primary">
-                      <span style="margin: 0 0.5rem 0.2rem 0">{{ '4' }}</span>
+                      <span style="margin: 0 0.5rem 0.2rem 0">{{ goods.collect_num }}</span>
                       <i class="el-icon-star-off"></i>
                     </vs-chip>
                   </div>
-                  <div class="font-bold">￥{{ '39.50' }}</div>
+                  <div class="font-bold">￥{{ goods.price }}</div>
                 </div>
                 <div class="text-overflow">
-                  {{ '123456789123456789101457' }}
+                  {{ goods.name }}
                 </div>
                 <div class="text-overflow text-gray-500 text-sm">
                   {{ '12345678912345678924891' }}
                 </div>
               </div>
-              <div class="flex lg:flex-col xl:flex-row">
+              <div class="flex md:flex-col lg:flex-col xl:flex-row">
                 <div
                   class="xl:w-1/2 p-2 flex justify-center items-center cursor-pointer"
                   style="background: rgb(246, 246, 246);font-size: 15px;"
                 >
                   <i
-                    v-if="true"
+                    v-if="goods.is_collected"
                     class="el-icon-star-on text-xl mr-1 text-warning"
                   ></i>
                   <i
@@ -92,6 +97,14 @@
               </div>
             </div>
           </div>
+
+          <vs-pagination
+            class="mt-12 mb-5"
+            goto
+            v-if="pagination"
+            v-model="currentPage"
+            :total="Math.ceil(total / 15)"
+          ></vs-pagination>
         </div>
       </div>
     </div>
@@ -99,17 +112,22 @@
 </template>
 
 <script>
-import { getGoodsCategory } from '@/request/api/goods'
+import { getGoodsCategory, getStoredGoods } from '@/request/api/goods'
 
 export default {
   name: 'GoodsVividList',
   data: () => ({
+    total: null,
+    currentPage: 1,
+    pagination: null,
     category: '',
     categoryList: [],
+    goodsList: [],
     searchText: '',
   }),
 
   mounted() {
+    this.getStoredGoods()
     this.getGoodsCategory()
   },
 
@@ -120,6 +138,19 @@ export default {
   },
 
   methods: {
+    async getStoredGoods() {
+      try {
+        const { code, data } = await getStoredGoods()
+        if (code === 2000) {
+          this.total = data.total
+          this.goodsList = data.goods_list
+          this.pagination = data.pagination
+        }
+      } catch {
+        // TODO
+      }
+    },
+
     async getGoodsCategory() {
       try {
         const { code, data } = await getGoodsCategory()
@@ -128,7 +159,7 @@ export default {
           this.category = this.categoryList[0].value
         }
       } catch {
-        //
+        // TODO
       }
     },
 

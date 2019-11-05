@@ -328,7 +328,7 @@ export default {
       try {
         const { code, data } = await getStoredGoods()
         if (code === 2000) {
-          this.goodsList = data.goods
+          this.goodsList = data.goods_list
         }
       } catch {
         //

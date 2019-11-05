@@ -227,6 +227,7 @@ export default {
       }
     },
 
+    // 获取收货地址
     async getAddress() {
       try {
         const { code, data } = await getAddress()

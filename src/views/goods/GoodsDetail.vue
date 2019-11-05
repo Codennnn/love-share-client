@@ -79,9 +79,19 @@
                 </vs-button>
               </div>
               <div class="info-item">
+                <vs-chip class="mr-2">类 别</vs-chip>
+                <span
+                  style="margin: 0 5px 4px 0;font-size: 15px;"
+                  v-for="(item, i) in goods.category"
+                  :key="i"
+                >
+                  {{ item }}
+                </span>
+              </div>
+              <div class="info-item">
                 <vs-chip class="mr-2">价 格</vs-chip>
                 <div>
-                  <span class="text-xl text-primary font-semibold">
+                  <span class="text-2xl text-primary font-semibold">
                     ￥{{ goods.price || '--' }}
                   </span>
                   <span
@@ -98,7 +108,7 @@
               </div>
               <div class="info-item">
                 <vs-chip class="mr-2">配 送</vs-chip>
-                <span style="margin-bottom: 4px;">
+                <span style="margin-bottom: 4px;font-size: 15px;">
                   {{ goods.delivery === '1' ? '包邮' : goods.delivery === '2' ? '自费' : '自提' }}
                 </span>
               </div>
@@ -107,7 +117,7 @@
                 v-if="goods.returnable"
               >
                 <vs-chip class="mr-2">保 障</vs-chip>
-                <span style="margin-bottom: 4px;">
+                <span style="margin-bottom: 4px;font-size: 15px;">
                   7天无理由退换货
                 </span>
               </div>
@@ -126,9 +136,9 @@
           </div>
 
           <div class="mt-4">
-            <p class="text-gray-600">详情</p>
+            <p class="text-gray-600">商品详细介绍</p>
             <div
-              class="mt-1 text-sm"
+              class="mt-2 text-sm"
               v-html="goods.description"
             ></div>
           </div>
