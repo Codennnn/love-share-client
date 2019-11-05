@@ -188,7 +188,18 @@ export default {
     data: {
       cart_list: [
         {
-          name: Random.cword(8, 20),
+          goods_id: () => Random.id(),
+          img_list: ['https://cdn-demo.algolia.com/bestbuy-0118/4397400_sb.jpg'],
+          'goods_num|1-4': 1,
+          name: () => Random.cword(10, 35),
+          nickname: () => Random.cword(2, 7),
+          real_name: () => Random.cname(),
+          'num|1-2': 1,
+          'delivery|1-3': 1,
+          price: () => Random.float(0, 100, 2, 2),
+          'collect_num|1-10': 4,
+          'is_collected|1-2': true,
+          time: () => Random.date('yyyy-MM-dd hh:mm'),
         },
       ],
     },
