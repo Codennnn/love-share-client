@@ -104,3 +104,10 @@ export function cancelDismountGoods() {
     method: 'post',
   })
 }
+
+export function getCartList() {
+  return request({
+    url: '/goods/cart_list',
+    method: 'get',
+  })
+}

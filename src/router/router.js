@@ -203,6 +203,18 @@ export const asyncRoutes = [
         },
       },
       {
+        path: '/goods-cart',
+        name: 'GoodsCart',
+        component: () => import('@/views/goods/GoodsCart.vue'),
+        meta: {
+          title: '购物车',
+          breadcrumb: [
+            { title: '首页', url: '/' },
+            { title: '购物车', active: true },
+          ],
+        },
+      },
+      {
         path: '/order-detail',
         name: 'OrderDetail',
         component: () => import('@/views/order/OrderDetail.vue'),

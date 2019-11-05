@@ -6,19 +6,24 @@ export default {
   stored_goods: {
     code: 2000,
     data: {
-      'goods|15-30': [
+      'total|25-50': 30,
+      'goods_list|15': [
         {
-          'id|+1': 1,
-          avatar_url: 'https://randomuser.me/api/portraits/women/0.jpg',
-          goods_num: 1,
+          goods_id: () => Random.id(),
+          img_list: ['https://cdn-demo.algolia.com/bestbuy-0118/4397400_sb.jpg'],
+          'goods_num|1-4': 1,
           name: () => Random.cword(10, 35),
           nickname: () => Random.cword(2, 7),
           real_name: () => Random.cname(),
           price: () => Random.float(0, 100, 2, 2),
-          goods_id: () => Random.id(),
+          'collect_num|1-10': 4,
+          'is_collected|1-2': true,
           time: () => Random.date('yyyy-MM-dd hh:mm'),
         },
       ],
+      pagination: {
+        total: 30,
+      },
     },
   },
 
@@ -59,6 +64,7 @@ export default {
         price: Random.float(0, 100, 2, 2),
         original_price: Random.float(0, 100, 2, 2),
         num: 2,
+        category: ['图书书籍', '电子数码'],
         delivery: '1',
         bargain: '1',
         returnable: true,
@@ -175,5 +181,16 @@ export default {
 
   cancel_dismount: {
     code: 2000,
+  },
+
+  cart_list: {
+    code: 2000,
+    data: {
+      cart_list: [
+        {
+          name: Random.cword(8, 20),
+        },
+      ],
+    },
   },
 }
