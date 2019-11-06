@@ -1,5 +1,5 @@
 <template>
-  <div class="flex mt-8">
+  <div class="flex">
     <div class="w-2/3 pr-2">
       <div>
         <ul>
@@ -87,7 +87,10 @@
           <span class="label">实付</span>
           <span>￥{{ '50.50' }}</span>
         </div>
-        <vs-button class="w-full">去结算</vs-button>
+        <vs-button
+          class="w-full mt-4"
+          @click="onSettle()"
+        >开始结算</vs-button>
       </div>
     </div>
   </div>
@@ -114,6 +117,13 @@ export default {
     async getCartList() {
       await this.$store.dispatch('cart/getCartList')
       this.cartList = this.$store.getters['cart/carts']
+    },
+
+    onSettle() {
+      this.$emit('switchComponent', {
+        currentStep: 2,
+        currentComponent: 'CartAddress',
+      })
     },
   },
 }
