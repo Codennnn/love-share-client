@@ -50,4 +50,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.quickly {
+  transition: 0.2s;
+}
 </style>
