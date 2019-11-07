@@ -5,15 +5,15 @@
     </div>
     <div class="w-1/3 pl-3">
       <div class="p-5 bg-white shadow rounded-lg">
-        <div class="text-2xl">{{ '陈梓聪' }}</div>
+        <div class="text-2xl">{{ current.receiver }}</div>
         <div class="my-3 flex items-center">
-          <vs-chip>学校</vs-chip>
+          <vs-chip>{{ current.address_type }}</vs-chip>
           <span
             class="ml-2"
             style="color: #666;"
-          >{{ '广州大学华软软件学院' }}</span>
+          >{{ current.address }}</span>
         </div>
-        <div style="color: #999;">{{ '13724540846' }}</div>
+        <div style="color: #999;">{{ current.phone }}</div>
         <vs-divider />
         <vs-button
           class="w-full mt-4"
@@ -33,6 +33,8 @@ export default {
   name: 'cart-address',
   data: () => ({
     addressList: [],
+    defaultAddress: '',
+    current: {},
   }),
 
   mounted() {
@@ -47,6 +49,11 @@ export default {
         if (code === 2000) {
           this.defaultAddress = data.default_address
           this.addressList = data.address_list
+          this.addressList.forEach((el) => {
+            if (el.address_id) {
+              this.current = el
+            }
+          })
         }
       } catch {
         // TODO
