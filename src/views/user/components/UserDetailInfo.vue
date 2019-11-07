@@ -194,7 +194,7 @@ import InfoItem from './InfoItem.vue'
 import { setCreditColor } from '@/utils/util'
 import {
   getUserDetailInfo,
-  getAddress,
+  getAddressList,
   setDefaultAddress,
   addAddress,
   deleteAddress,
@@ -235,7 +235,7 @@ export default {
 
   mounted() {
     this.getUserDetailInfo()
-    this.getAddress()
+    this.getAddressList()
   },
 
   methods: {
@@ -251,9 +251,9 @@ export default {
     },
 
     // 获取收货地址
-    async getAddress() {
+    async getAddressList() {
       try {
-        const { code, data } = await getAddress()
+        const { code, data } = await getAddressList()
         if (code === 2000) {
           this.defaultAddress = data.default_address
           this.addressList = data.address_list
