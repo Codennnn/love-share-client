@@ -25,15 +25,34 @@
 </template>
 
 <script>
+import {
+  getAddressList,
+} from '@/request/api/user'
+
 export default {
   name: 'cart-address',
   data: () => ({
+    addressList: [],
   }),
 
   mounted() {
+    this.getAddressList()
   },
 
   methods: {
+    // 获取收货地址
+    async getAddressList() {
+      try {
+        const { code, data } = await getAddressList()
+        if (code === 2000) {
+          this.defaultAddress = data.default_address
+          this.addressList = data.address_list
+        }
+      } catch {
+        // TODO
+      }
+    },
+
     onSettle() {
       this.$emit('switchComponent', {
         currentStep: 3,
