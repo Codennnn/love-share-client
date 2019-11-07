@@ -60,7 +60,7 @@ export function getRecentContacts() {
   })
 }
 
-export function getAddress() {
+export function getAddressList() {
   return request({
     url: '/user/address_list',
     method: 'get',
