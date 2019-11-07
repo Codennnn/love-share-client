@@ -86,7 +86,7 @@
                     </vs-dropdown-item>
                     <vs-dropdown-item
                       class="text-center"
-                      @click="onModifyAddress(item.address_id)"
+                      @click="editForm = true, onShowForm(item)"
                     >
                       修改
                     </vs-dropdown-item>
@@ -113,14 +113,14 @@
         >
           <div
             class="my-3"
-            v-if="showAddressDiv"
+            v-if="showForm"
           >
             <div class="flex">
               <vs-input
                 class="mr-2"
                 label="收货人"
                 size="small"
-                v-model="receiver"
+                v-model="addressData.receiver"
                 val-icon-warning="warning"
                 :warning="receiverWarning"
                 @focus="() => { receiverWarning = false }"
@@ -129,7 +129,7 @@
                 label="联系电话"
                 size="small"
                 val-icon-warning="warning"
-                v-model="phone"
+                v-model="addressData.phone"
                 :warning="phoneWarning"
                 @focus="() => { phoneWarning = false }"
               />
@@ -139,25 +139,39 @@
               label="地址"
               size="small"
               val-icon-warning="warning"
-              v-model="address"
+              v-model="addressData.address"
               :warning="addressWarning"
               @focus="() => { addressWarning = false }"
             />
+            <vs-select
+              class="address-select"
+              label="地址类型"
+              v-model="addressData.address_type"
+              :warning="addressTypeWarning"
+              @focus="() => { addressTypeWarning = false }"
+            >
+              <vs-select-item
+                v-for="(item, i) in ['学校', '家庭', '公司']"
+                :key="i"
+                :value="item"
+                :text="item"
+              />
+            </vs-select>
           </div>
           <div class="flex items-center justify-end">
             <vs-button
               class="mr-2 text-xl"
-              v-if="showAddressDiv"
+              v-if="showForm"
               type="border"
               icon="done"
-              @click="onshowAddressDiv()"
+              @click="editForm ? onModifyAddress() : onAddAddress()"
             ></vs-button>
             <vs-button
               class="text-xl"
-              :color="showAddressDiv ? 'danger' : 'primary'"
+              :color="showForm ? 'danger' : 'primary'"
               type="border"
-              :icon="showAddressDiv ? 'clear' : 'add'"
-              @click="onAddOrClose()"
+              :icon="showForm ? 'clear' : 'add'"
+              @click="showForm ? onHideForm() : onShowForm()"
             ></vs-button>
           </div>
         </div>
@@ -174,6 +188,7 @@
 
 <script>
 import Vue from 'vue'
+import _cloneDeepWith from 'lodash/cloneDeepWith'
 import InfoItem from './InfoItem.vue'
 
 import { setCreditColor } from '@/utils/util'
@@ -199,13 +214,21 @@ export default {
     detailInfo: {},
     addressList: [], // 地址列表
     defaultAddress: null,
-    showAddressDiv: false,
-    receiver: '', // 收货人
-    phone: '', // 联系电话
-    address: '', // 地址
+    showForm: false,
+    editForm: false,
+
+    addressData: {
+      address_id: '', // 地址 ID
+      receiver: '', // 收货人
+      phone: '', // 联系电话
+      address: '', // 地址
+      address_type: '', // 地址类型
+    },
+
     receiverWarning: false,
     phoneWarning: false,
     addressWarning: false,
+    addressTypeWarning: false,
   }),
 
   components: { InfoItem, EditUserInfo },
@@ -240,63 +263,53 @@ export default {
       }
     },
 
-    // 清空
-    clearAddress() {
-      this.receiver = ''
-      this.phone = ''
-      this.address = ''
-      this.receiverWarning = false
-      this.phoneWarning = false
-      this.addressWarning = false
-    },
-
     // 验证
     verification() {
-      if (this.receiver.length <= 0) {
+      if (this.addressData.receiver.length <= 0) {
         this.receiverWarning = true
       }
-      if (this.phone.length <= 0) {
+      if (this.addressData.phone.length <= 0) {
         this.phoneWarning = true
       }
-      if (this.address.length <= 0) {
+      if (this.addressData.address.length <= 0) {
         this.addressWarning = true
       }
+      if (this.addressData.address_type.length <= 0) {
+        this.addressTypeWarning = true
+      }
       if (
-        this.receiver.length > 0
-        && this.phone.length > 0
-        && this.address.length > 0
+        this.addressData.receiver.length > 0
+        && this.addressData.phone.length > 0
+        && this.addressData.address.length > 0
+        && this.addressData.address_type.length > 0
       ) {
         return true
       }
       return false
     },
 
-    // 添加或关闭
-    onAddOrClose() {
-      if (this.showAddressDiv) {
-        this.clearAddress()
-        this.showAddressDiv = false
-      } else {
-        this.showAddressDiv = true
+    // 显示地址表单
+    onShowForm(item) {
+      if (this.editForm) {
+        this.addressData = _cloneDeepWith(item)
       }
+      this.showForm = true
     },
 
-    // 添加地址
-    async onshowAddressDiv() {
-      if (this.verification()) {
-        const { code, data } = await addAddress()
-        if (code === 2000) {
-          this.addressList.push({
-            address_id: data.address_id,
-            receiver: this.receiver,
-            phone: this.phone,
-            address: this.address,
-          })
-          this.clearAddress()
-          this.showAddressDiv = false
-        }
-      }
-      await modifyAddress()
+    // 隐藏地址表单
+    onHideForm() {
+      this.showForm = false
+
+      this.addressData.address_id = ''
+      this.addressData.receiver = ''
+      this.addressData.phone = ''
+      this.addressData.address = ''
+      this.addressData.address_type = ''
+      this.receiverWarning = false
+      this.phoneWarning = false
+      this.addressWarning = false
+      this.addressTypeWarning = false
+      this.editForm = false
     },
 
     // 删除地址
@@ -309,17 +322,32 @@ export default {
       await deleteAddress()
     },
 
-    // 修改地址
-    async onModifyAddress(id) {
-      this.showAddressDiv = true
-
-      this.addressList.forEach((el) => {
-        if (el.address_id === id) {
-          this.receiver = el.receiver
-          this.phone = el.phone
-          this.address = el.address
+    // 添加地址
+    async onAddAddress() {
+      if (this.verification()) {
+        this.addressList.push(_cloneDeepWith(this.addressData))
+        this.onHideForm()
+        const { code, data } = await addAddress()
+        if (code === 2000) {
+          this.addressData.address_id = data.address_id
         }
-      })
+      }
+    },
+
+    // 修改地址
+    async onModifyAddress() {
+      if (this.verification()) {
+        this.addressList.forEach((el, i, _) => {
+          if (el.address_id === this.addressData.address_id) {
+            _.splice(i, 1, _cloneDeepWith(this.addressData))
+          }
+        })
+        this.onHideForm()
+        const { code } = await modifyAddress()
+        if (code === 2000) {
+          // TODO
+        }
+      }
     },
 
     // 设置默认地址
@@ -332,4 +360,15 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.address-select {
+  &::v-deep {
+    .vs-select--input {
+      border: 1px solid rgba(0, 0, 0, 0.2);
+      font-size: 88%;
+    }
+    &.input-select-validate-warning .input-select {
+      border-color: rgba(var(--vs-warning), 1);
+    }
+  }
+}
 </style>
