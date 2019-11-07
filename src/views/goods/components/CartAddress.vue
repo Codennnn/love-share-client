@@ -13,7 +13,7 @@
             style="color: #666;"
           >{{ current.address }}</span>
         </div>
-        <div style="color: #999;">{{ current.phone }}</div>
+        <div style="color: #888;">{{ current.phone }}</div>
         <vs-divider />
         <vs-button
           class="w-full mt-4"
