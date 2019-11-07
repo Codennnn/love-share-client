@@ -6,6 +6,7 @@
       :active="currentStep"
     >
       <el-step
+        class="cursor-pointer"
         title="购物车"
         icon="el-icon-shopping-cart-1"
         @click="currentStep = 1, currentComponent = 'CartList'"
@@ -17,6 +18,7 @@
         @click.native="currentStep = 2, currentComponent = 'CartAddress'"
       ></el-step>
       <el-step
+        class="cursor-pointer"
         title="结算付款"
         icon="el-icon-wallet"
         @click="currentStep = 3, currentComponent = 'CartSettle'"
