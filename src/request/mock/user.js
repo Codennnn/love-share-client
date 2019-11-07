@@ -108,6 +108,7 @@ export default {
           receiver: '陈梓聪',
           phone: '13724540846',
           address: '广东省东莞市厚街镇桥头南丰苑',
+          'address_type|1': ['学校', '家庭', '公司'],
         },
       ],
     },
