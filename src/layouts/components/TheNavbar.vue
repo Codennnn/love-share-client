@@ -169,7 +169,7 @@
           <!-- 用户名称 -->
           <div class="info">
             <div class="text-right text-lg">{{ nickname }}</div>
-            <small style="color: #919191;">新媒体工作部</small>
+            <small style="color: #919191;">{{ setTitle(roles) }}</small>
           </div>
 
           <!-- 头像 -->
@@ -272,10 +272,20 @@ export default {
 
   computed: {
     ...mapState(['sidebarCollapse']),
-    ...mapState('user', ['nickname']),
+    ...mapState('user', ['nickname', 'roles']),
   },
 
   methods: {
+    setTitle(roles) {
+      if (roles.includes('super_admin')) {
+        return '超级管理员'
+      }
+      if (roles.includes('admin')) {
+        return '普通管理员'
+      }
+      return '身份不明'
+    },
+
     // 退出登录
     async logout() {
       await this.$store.dispatch('user/logout')
