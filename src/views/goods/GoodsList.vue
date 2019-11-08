@@ -158,6 +158,7 @@
         </template>
         <template slot="thead">
           <vs-th>商品名称</vs-th>
+          <vs-th>分类</vs-th>
           <vs-th>单价</vs-th>
           <vs-th>件数</vs-th>
           <vs-th>卖家昵称</vs-th>
@@ -171,6 +172,12 @@
             :data="tr"
           >
             <vs-td>{{ tr.name }}</vs-td>
+            <vs-td>
+              <vs-chip
+                v-for="(item, i) in tr.category"
+                :key="i"
+              >{{ item }}</vs-chip>
+            </vs-td>
             <vs-td class="font-bold">￥{{ tr.price }}</vs-td>
             <vs-td class="font-bold">{{ tr.goods_num }}</vs-td>
             <vs-td class="text-gray-700">{{ tr.nickname }}</vs-td>
@@ -318,7 +325,6 @@ export default {
     async getStoredGoods() {
       if (this.tableLoading) return
 
-      this.tableTitle = '已上架商品'
       this.$vs.loading({
         type: 'point',
         container: '#table-loading',
@@ -328,6 +334,7 @@ export default {
       try {
         const { code, data } = await getStoredGoods()
         if (code === 2000) {
+          this.tableTitle = '已上架商品'
           this.goodsList = data.goods_list
         }
       } catch {
@@ -341,7 +348,6 @@ export default {
     async getDismountedGoods() {
       if (this.tableLoading) return
 
-      this.tableTitle = '违规下架商品'
       this.$vs.loading({
         type: 'point',
         container: '#table-loading',
@@ -351,6 +357,7 @@ export default {
       try {
         const { code, data } = await getDismountedGoods()
         if (code === 2000) {
+          this.tableTitle = '违规下架商品'
           this.goodsList = data.goods
         }
       } catch {
