@@ -27,7 +27,7 @@
                 <div class="flex">
                   <vs-input-number
                     :max="item.num"
-                    v-model="item.num"
+                    v-model="item.quantity"
                   />
                 </div>
               </div>
