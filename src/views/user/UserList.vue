@@ -44,7 +44,7 @@
             <p class="ml-4 font-bold">{{ tr.share_value }}</p>
           </vs-td>
           <vs-td>
-            <p class="text-gray-600">{{ tr.time }}</p>
+            <p class="text-gray-600">{{ tr.register_time }}</p>
           </vs-td>
           <vs-td>
             <div class="text-center">

@@ -37,7 +37,7 @@ export default {
           nickname: () => Random.cname(),
           'credit_value|200-1000': 500,
           share_value: () => Random.integer(60, 200),
-          time: () => Random.date('yyyy-MM-dd hh:mm'),
+          register_time: () => Random.date('yyyy-MM-dd hh:mm'),
         },
       ],
     },
