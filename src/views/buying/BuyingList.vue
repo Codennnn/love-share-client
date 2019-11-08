@@ -156,7 +156,12 @@ export default {
       })
       const { code } = await deleteBuying()
       if (code === 2000) {
-        this.notify({ title: '删除成功', text: '成功删除一条求购商品信息' })
+        this.notify({
+          title: '删除成功',
+          text: '成功删除一条求购商品信息',
+          color: 'danger',
+          time: 5000,
+        })
       }
     },
 

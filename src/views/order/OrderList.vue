@@ -134,6 +134,12 @@
                       @click="viewDetail(tr.order_id)"
                     >查看详情</div>
                   </vs-dropdown-item>
+                  <vs-dropdown-item divider>
+                    <div
+                      class="w-24 text-danger text-center"
+                      @click="deleteOrder(tr.order_id)"
+                    >删除订单</div>
+                  </vs-dropdown-item>
                 </vs-dropdown-menu>
               </vs-dropdown>
             </vs-td>
@@ -271,6 +277,14 @@ export default {
       this.$router.push({
         path: '/order-detail',
         query: { orderID: id },
+      })
+    },
+
+    deleteOrder(id) {
+      this.orderList.forEach((el, i, _) => {
+        if (el.order_id === id) {
+          _.splice(i, 1)
+        }
       })
     },
 

@@ -141,7 +141,10 @@
       >
         <template slot="header">
           <div class="w-full flex items-center p-4">
-            <div class="text-xl font-semibold">{{ tableTitle }}</div>
+            <div
+              class="text-xl font-semibold"
+              :class="tableTitle === '已上架商品' ? 'text-primary' : 'text-danger'"
+            >{{ tableTitle }}</div>
             <div class="ml-auto">
               <el-date-picker
                 v-model="date"
