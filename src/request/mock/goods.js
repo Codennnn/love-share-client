@@ -204,4 +204,12 @@ export default {
       ],
     },
   },
+
+  add_cart_item: {
+    code: 2000,
+  },
+
+  remove_cart_item: {
+    code: 2000,
+  },
 }

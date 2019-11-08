@@ -111,3 +111,17 @@ export function getCartList() {
     method: 'get',
   })
 }
+
+export function addCartItem() {
+  return request({
+    url: '/goods/cart_item/add',
+    method: 'post',
+  })
+}
+
+export function removeCartItem() {
+  return request({
+    url: '/goods/cart_item/remove',
+    method: 'delete',
+  })
+}
