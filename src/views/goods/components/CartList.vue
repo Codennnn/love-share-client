@@ -185,7 +185,6 @@ export default {
         if (code === 2000) {
           this.cartList.forEach((el, i, _) => {
             if (el.goods_id === id) {
-              console.log(_[i])
               _[i].is_collected = false
             }
           })

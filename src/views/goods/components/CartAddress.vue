@@ -5,10 +5,63 @@
       :class="addressList.length > 0 ? 'w-2/3' : 'w-full'"
     >
       <div class="p-5 bg-white shadow rounded-lg">
-        <p class="text-lg font-bold">设置新收货地址</p>
+        <p class="text-lg font-bold">设置新的收货地址</p>
         <p class="text-sm text-gray-500">填写完成时，请确认地址无误</p>
+        <div class="my-8 pr-40">
+          <el-form
+            ref="form"
+            label-width="100px"
+            hide-required-asterisk
+            :rules="rules"
+            :model="newAddress"
+          >
+            <el-form-item
+              label="收货人姓名"
+              prop="receiver"
+            >
+              <el-input v-model="newAddress.receiver"></el-input>
+            </el-form-item>
+            <el-form-item
+              label="收货地址"
+              prop="address"
+            >
+              <el-input v-model="newAddress.address"></el-input>
+            </el-form-item>
+            <el-form-item
+              label="联系电话"
+              prop="phone"
+            >
+              <el-input v-model="newAddress.phone"></el-input>
+            </el-form-item>
+            <el-form-item
+              label="地址类型"
+              prop="address_type"
+            >
+              <el-select
+                v-model="newAddress.address_type"
+                placeholder="请选择地址类型"
+              >
+                <el-option
+                  v-for="(item, i) in ['学校', '家庭', '公司']"
+                  :key="i"
+                  :label="item"
+                  :value="item"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item class="btn-group">
+              <vs-button
+                class="mr-4"
+                type="border"
+                @click="onResetForm()"
+              >重新填写</vs-button>
+              <vs-button @click="onSetAddress()">设置地址并保存</vs-button>
+            </el-form-item>
+          </el-form>
+        </div>
       </div>
     </div>
+
     <div
       class="w-1/3 pl-3"
       v-if="addressList.length > 0"
@@ -81,6 +134,27 @@ export default {
     current: {},
     showPopup: false,
     addressCheck: null,
+
+    rules: {
+      receiver: [
+        { required: true, message: '请填写收货人姓名' },
+      ],
+      address: [
+        { required: true, message: '请填写收货地址' },
+      ],
+      phone: [
+        { required: true, message: '请填写联系电话' },
+      ],
+      address_type: [
+        { required: true, message: '请填写地址类型' },
+      ],
+    },
+    newAddress: {
+      receiver: '',
+      address: '',
+      phone: '',
+      address_type: '',
+    },
   }),
 
   mounted() {
@@ -116,6 +190,20 @@ export default {
       this.showPopup = false
     },
 
+    onSetAddress() {
+      this.$refs.form.validate((valid) => {
+        if (valid) {
+          this.onSettle()
+          return true
+        }
+        return false
+      })
+    },
+
+    onResetForm() {
+      this.$refs.form.resetField()
+    },
+
     onSettle() {
       this.$emit('switchComponent', {
         currentStep: 3,
@@ -136,6 +224,14 @@ export default {
   &::v-deep {
     .vs-popup {
       width: 450px;
+    }
+  }
+}
+
+.btn-group {
+  &::v-deep {
+    .el-form-item__content {
+      line-height: inherit;
     }
   }
 }
