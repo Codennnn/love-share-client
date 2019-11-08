@@ -35,7 +35,7 @@
           <vs-td>
             <vs-progress
               :height="8"
-              :title="tr.credit_value"
+              :title="`${tr.credit_value}分`"
               :percent="(tr.credit_value / 1000) * 100"
               :color="setCreditColor(tr.credit_value)"
             ></vs-progress>
