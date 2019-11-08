@@ -27,7 +27,7 @@
                 <div class="flex">
                   <vs-input-number
                     :max="item.num"
-                    v-model="number"
+                    v-model="item.num"
                   />
                 </div>
               </div>
@@ -140,8 +140,7 @@ export default {
     },
 
     actuallyPaid() {
-      return this.cartList.reduce((acc, curr) => acc + curr.price,
-        0)
+      return this.cartList.reduce((acc, curr) => acc + curr.price, 0)
     },
   },
 
