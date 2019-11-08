@@ -9,19 +9,29 @@
         class="cursor-pointer"
         title="购物车"
         icon="el-icon-shopping-cart-1"
-        @click="currentStep = 1, currentComponent = 'CartList'"
+        @click.native="changeComponent({
+                         currentStep: 1,
+                         currentComponent: 'CartList',
+                       })"
       ></el-step>
       <el-step
         class="cursor-pointer"
         title="收货地址"
         icon="el-icon-map-location"
-        @click.native="currentStep = 2, currentComponent = 'CartAddress'"
+        @click.native="changeComponent({
+                         currentStep: 2,
+                         currentComponent: 'CartAddress',
+                       })"
       ></el-step>
       <el-step
         class="cursor-pointer"
         title="结算付款"
         icon="el-icon-wallet"
-        @click="currentStep = 3, currentComponent = 'CartSettle'"
+        disabled
+        @click.native="changeComponent({
+                         currentStep: 3,
+                         currentComponent: 'CartSettle',
+                       })"
       ></el-step>
     </el-steps>
 
@@ -57,15 +67,21 @@ export default {
   name: 'goods-cart',
   data: () => ({
     currentStep: 1,
+    activeStep: ['CartList'], // 已被激活的步骤
     currentComponent: 'CartList',
   }),
 
   components: { CartList, CartAddress, CartSettle },
 
   methods: {
-    changeComponent(val) {
-      this.currentStep = val.currentStep
-      this.currentComponent = val.currentComponent
+    changeComponent({ currentStep, currentComponent, isActive = false }) {
+      if (isActive || this.activeStep.includes(currentComponent)) {
+        this.currentStep = currentStep
+        this.currentComponent = currentComponent
+        if (!this.activeStep.includes(currentComponent)) {
+          this.activeStep.push(currentComponent)
+        }
+      }
     },
   },
 }
@@ -73,7 +89,7 @@ export default {
 
 <style lang="scss" scoped>
 .quickly {
-  animation-duration: 0.2s;
+  animation-duration: 0.1s;
 }
 
 .el-steps {
