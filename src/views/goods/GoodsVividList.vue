@@ -58,7 +58,7 @@
                 <div class="my-2 flex justify-between items-center">
                   <div>
                     <vs-chip color="primary">
-                      <span style="margin: 0 0.5rem 0.2rem 0">{{ goods.collect_num }}</span>
+                      <span style="margin: 0 0.5rem 0.15rem 0">{{ goods.collect_num }}</span>
                       <i class="el-icon-star-off"></i>
                     </vs-chip>
                   </div>
@@ -90,6 +90,7 @@
                   class="xl:w-1/2 p-2 flex justify-center items-center
                   bg-primary text-white cursor-pointer"
                   style="font-size: 14px;"
+                  @click="addCartItem(goods)"
                 >
                   <i class="el-icon-shopping-cart-2 mr-2 text-lg"></i>
                   加入购物车
@@ -163,6 +164,10 @@ export default {
       }
     },
 
+    async addCartItem(item) {
+      await this.$store.dispatch('cart/addCartItem', item)
+    },
+
     viewGoodsDetail(id) {
       this.$router.push({
         path: '/goods-detail',
@@ -215,12 +220,9 @@ export default {
     box-shadow: 0 0 25px 10px rgba(var(--vs-primary), 0.2);
   }
   .img-wrapper {
-    // width: 150px;
-    // height: 260px;
     display: flex;
     justify-content: center;
     align-items: center;
-    // padding: 20px;
   }
 }
 

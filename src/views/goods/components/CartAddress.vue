@@ -113,12 +113,14 @@ export default {
 
     onSelectAddress() {
       this.current = this.addressCheck
+      this.showPopup = false
     },
 
     onSettle() {
       this.$emit('switchComponent', {
         currentStep: 3,
         currentComponent: 'CartSettle',
+        isActive: true,
       })
     },
   },

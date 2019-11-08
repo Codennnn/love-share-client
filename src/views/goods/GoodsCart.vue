@@ -6,7 +6,7 @@
       :active="currentStep"
     >
       <el-step
-        class="cursor-pointer"
+        :class="activeStep.includes('CartList') ? 'cursor-pointer' : 'cursor-not-allowed'"
         title="购物车"
         icon="el-icon-shopping-cart-1"
         @click.native="changeComponent({
@@ -15,7 +15,7 @@
                        })"
       ></el-step>
       <el-step
-        class="cursor-pointer"
+        :class="activeStep.includes('CartAddress') ? 'cursor-pointer' : 'cursor-not-allowed'"
         title="收货地址"
         icon="el-icon-map-location"
         @click.native="changeComponent({
@@ -24,7 +24,7 @@
                        })"
       ></el-step>
       <el-step
-        class="cursor-pointer"
+        :class="activeStep.includes('CartSettle') ? 'cursor-pointer' : 'cursor-not-allowed'"
         title="结算付款"
         icon="el-icon-wallet"
         disabled
