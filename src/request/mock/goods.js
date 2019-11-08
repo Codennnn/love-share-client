@@ -12,6 +12,9 @@ export default {
           goods_id: () => Random.id(),
           img_list: ['https://cdn-demo.algolia.com/bestbuy-0118/4397400_sb.jpg'],
           'goods_num|1-4': 1,
+          category: [
+            '电子数码',
+          ],
           name: () => Random.cword(10, 35),
           nickname: () => Random.cword(2, 7),
           real_name: () => Random.cname(),
@@ -35,6 +38,9 @@ export default {
           'id|+1': 1,
           avatar_url: 'https://randomuser.me/api/portraits/women/0.jpg',
           goods_num: 1,
+          category: [
+            '电子数码',
+          ],
           name: () => Random.cword(10, 35),
           nickname: () => Random.cword(2, 7),
           real_name: () => Random.cname(),
