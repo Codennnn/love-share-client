@@ -186,7 +186,7 @@ export default {
   cart_list: {
     code: 2000,
     data: {
-      cart_list: [
+      'cart_list|2-4': [
         {
           goods_id: () => Random.id(),
           img_list: ['https://cdn-demo.algolia.com/bestbuy-0118/4397400_sb.jpg'],
