@@ -195,6 +195,7 @@ export default {
           nickname: () => Random.cword(2, 7),
           real_name: () => Random.cname(),
           'num|1-2': 1,
+          quantity: 1,
           'delivery|1-3': 1,
           price: () => Random.float(0, 100, 2, 2),
           'collect_num|1-10': 4,
