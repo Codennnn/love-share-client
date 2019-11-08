@@ -7,7 +7,7 @@
       <div class="p-5 bg-white shadow rounded-lg">
         <p class="text-lg font-bold">设置新的收货地址</p>
         <p class="text-sm text-gray-500">填写完成时，请确认地址无误</p>
-        <div class="my-8 pr-40">
+        <div class="w-2/3 my-8">
           <el-form
             ref="form"
             label-width="100px"
@@ -123,7 +123,7 @@
 
 <script>
 import {
-  getAddressList,
+  getAddressList, addAddress,
 } from '@/request/api/user'
 
 export default {
@@ -191,9 +191,10 @@ export default {
     },
 
     onSetAddress() {
-      this.$refs.form.validate((valid) => {
+      this.$refs.form.validate(async (valid) => {
         if (valid) {
           this.onSettle()
+          await addAddress()
           return true
         }
         return false
@@ -201,7 +202,7 @@ export default {
     },
 
     onResetForm() {
-      this.$refs.form.resetField()
+      this.$refs.form.resetFields()
     },
 
     onSettle() {
