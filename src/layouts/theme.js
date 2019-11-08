@@ -12,7 +12,7 @@ import '@/assets/iconfont/iconfont.css' // 阿里云字体图标
 
 import {
   Badge, Container, Dropdown, Carousel, CarouselItem,
-  DropdownMenu, DropdownItem, DatePicker, Image,
+  DropdownMenu, DropdownItem, DatePicker, Form, FormItem, Image, Input,
   Menu, MenuItem, MenuItemGroup, Message, Option,
   Popover, Submenu, Steps, Step, Select,
   Tooltip, Table, TableColumn, Tag, Transfer,
@@ -41,9 +41,6 @@ Vue.use(CarouselItem)
 Vue.use(Dropdown)
 Vue.use(DropdownMenu)
 Vue.use(DropdownItem)
-Vue.use(DatePicker)
-Vue.use(Select)
-Vue.use(Option)
 
 // 菜单栏
 Vue.use(Menu)
@@ -54,6 +51,14 @@ Vue.use(Submenu)
 // 表格
 Vue.use(Table)
 Vue.use(TableColumn)
+
+// 表单
+Vue.use(Form)
+Vue.use(FormItem)
+Vue.use(DatePicker)
+Vue.use(Select)
+Vue.use(Option)
+Vue.use(Input)
 
 // 弹出小组件
 Vue.use(Tooltip)
