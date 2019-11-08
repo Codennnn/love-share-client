@@ -5,10 +5,10 @@
         <div>
           <ul>
             <li
-              class="list-item vs-con-loading__container"
-              v-for="(item, i) in cartList"
+              class="list-item vs-con-loading__container mb-6"
+              v-for="item in cartList"
+              :key="item.goods_id"
               :id="`li-loading${item.goods_id}`"
-              :key="i"
             >
               <div class="w-1/3">
                 <el-image
@@ -44,15 +44,18 @@
                   style="background: rgb(244, 244, 244);"
                   @click="removeCartItem(item.goods_id)"
                 >
-                  <i class="el-icon-close mr-1 text-lg"></i>
+                  <i class="el-icon-close mr-1 text-xl"></i>
                   移出购物车
                 </div>
                 <div
                   class="btn text-white"
                   style="background: rgba(var(--vs-primary), 1);"
+                  @click="item.is_collected
+                  ? uncollectGoods(item.goods_id)
+                  : collectGoods(item.goods_id)"
                 >
-                  <i class="el-icon-wallet mr-2 text-lg"></i>
-                  结算付款
+                  <i class="el-icon-star-off mr-1 text-lg"></i>
+                  {{ item.is_collected ? '取消收藏' : '添加到收藏' }}
                 </div>
               </div>
             </li>
@@ -65,9 +68,10 @@
           class="p-4 bg-white rounded-lg"
           style="box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.1);"
         >
-          <div class="flex justify-between">
+          <p class="mb-1 text-sm text-gray-500">购物车账单总览</p>
+          <div class="flex justify-between cursor-pointer">
             <span class="label">优惠券</span>
-            <span>选择</span>
+            <span>{{ true ? '无' : '未选择' }}</span>
           </div>
           <vs-divider />
           <div>
@@ -75,20 +79,20 @@
           </div>
           <div class="item">
             <span class="item-label">总价</span>
-            <span class="item-value">￥{{ '' }}</span>
+            <span class="item-value">￥{{ actuallyPaid.toFixed(2) }}</span>
           </div>
           <div class="item">
             <span class="item-label">折扣</span>
-            <span class="item-value">￥{{ '' }}</span>
+            <span class="item-value">无</span>
           </div>
           <div class="item">
             <span class="item-label">运费</span>
-            <span class="item-value">￥{{ '0.00' }}</span>
+            <span class="item-value">无</span>
           </div>
           <vs-divider />
           <div class="flex justify-between">
             <span class="label">实付</span>
-            <span>￥{{ '50.50' }}</span>
+            <span class="label">￥{{ actuallyPaid.toFixed(2) }}</span>
           </div>
           <vs-button
             class="w-full mt-4"
@@ -113,6 +117,8 @@
 </template>
 
 <script>
+import { collectGoods, uncollectGoods } from '@/request/api/goods'
+
 export default {
   name: 'CartList',
   data: () => ({
@@ -132,6 +138,11 @@ export default {
     cartList() {
       return this.$store.getters['cart/carts']
     },
+
+    actuallyPaid() {
+      return this.cartList.reduce((acc, curr) => acc + curr.price,
+        0)
+    },
   },
 
   methods: {
@@ -139,19 +150,56 @@ export default {
       await this.$store.dispatch('cart/getCartList')
     },
 
+    // 移出购物车
     async removeCartItem(id) {
       this.$vs.loading({
         container: `#li-loading${id}`,
         scale: 1,
       })
       await this.$store.dispatch('cart/removeCartItem', id)
-      this.$vs.loading.close(`#li-loading${id} > .con-vs-loading`)
+      this.$nextTick(() => {
+        this.$vs.loading.close(`#li-loading${id} > .con-vs-loading`)
+      })
+    },
+
+    // 收藏商品
+    async collectGoods(id) {
+      try {
+        const { code } = await collectGoods()
+        if (code === 2000) {
+          this.cartList.forEach((el, i, _) => {
+            if (el.goods_id === id) {
+              _[i].is_collected = true
+            }
+          })
+        }
+      } catch {
+        // TODO
+      }
+    },
+
+    // 取消收藏商品
+    async uncollectGoods(id) {
+      try {
+        const { code } = await uncollectGoods()
+        if (code === 2000) {
+          this.cartList.forEach((el, i, _) => {
+            if (el.goods_id === id) {
+              console.log(_[i])
+              _[i].is_collected = false
+            }
+          })
+        }
+      } catch {
+        // TODO
+      }
     },
 
     onSettle() {
       this.$emit('switchComponent', {
         currentStep: 2,
         currentComponent: 'CartAddress',
+        isActive: true,
       })
     },
   },
