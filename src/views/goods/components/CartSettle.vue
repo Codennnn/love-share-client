@@ -1,9 +1,8 @@
 <template>
-  <div class="flex">
-    <div></div>
+  <div>
     <div
-      class="w-1/3 p-5"
-      style="border-right: 1px dashed #cfcfcf;"
+      class="p-5"
+      style="box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2);"
     >
       <div>
       </div>
@@ -13,7 +12,7 @@
 
 <script>
 export default {
-  name: 'cart-settle',
+  name: 'CartSettle',
   data: () => ({
   }),
 
