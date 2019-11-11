@@ -51,6 +51,14 @@ export default {
   mutations,
   actions,
   getters: {
-    carts: state => state.cartList,
+    cartAmount: state => state.cartList.length,
+    deliveryCharges: (state) => {
+      const charge = state.cartList.reduce((acc, curr) => acc + curr.delivery_charge, 0)
+      if (charge === 0) {
+        return '免费'
+      }
+      return charge.toFixed(2)
+    },
+    amountPayable: state => state.cartList.reduce((acc, curr) => acc + curr.price, 0),
   },
 }
