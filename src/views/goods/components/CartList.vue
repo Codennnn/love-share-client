@@ -130,10 +130,6 @@ export default {
     },
   }),
 
-  mounted() {
-    this.getCartList()
-  },
-
   computed: {
     cartList() {
       return this.$store.getters['cart/carts']
@@ -145,10 +141,6 @@ export default {
   },
 
   methods: {
-    async getCartList() {
-      await this.$store.dispatch('cart/getCartList')
-    },
-
     // 移出购物车
     async removeCartItem(id) {
       this.$vs.loading({
@@ -193,6 +185,7 @@ export default {
       }
     },
 
+    // 开始结算
     onSettle() {
       this.$emit('switchComponent', {
         currentStep: 2,
