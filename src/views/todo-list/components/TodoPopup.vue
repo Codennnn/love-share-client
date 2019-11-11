@@ -30,18 +30,18 @@
       >
         <div class="todo-icon__group">
           <i
-            class="iconfont icon-task-importance cursor-pointer"
+            class="icon el-icon-collection-tag cursor-pointer"
             :class="{ important: task.isImportant }"
             @click="task.isImportant = !task.isImportant"
           ></i>
           <i
-            class="iconfont icon-task-star cursor-pointer"
+            class="icon el-icon-star-off cursor-pointer"
             :class="{ star: task.isStarred }"
             @click="task.isStarred = !task.isStarred"
           ></i>
           <!-- 选择任务的标签 -->
           <vs-dropdown>
-            <i class="iconfont icon-tag"></i>
+            <i class="icon el-icon-price-tag"></i>
             <vs-dropdown-menu>
               <vs-dropdown-item
                 v-for="(tag, index) in tags"
@@ -181,7 +181,7 @@ export default {
 
 // 弹出框的图标
 .todo-icon__group {
-  .iconfont {
+  .icon {
     margin-left: 8px;
     font-size: 18px;
     transition: all 0.2s;
