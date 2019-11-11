@@ -261,6 +261,8 @@ export default {
     if (screenfull.enabled) {
       screenfull.on('change', this.screenChange)
     }
+
+    this.getCartList()
     this.getNotices()
   },
 
@@ -312,6 +314,11 @@ export default {
     // 搜索
     search() {
       console.log(this.searchText)
+    },
+
+    // 获取购物车
+    getCartList() {
+      this.$store.dispatch('cart/getCartList')
     },
 
     // 获取通知

@@ -126,6 +126,25 @@ import {
   getAddressList, addAddress,
 } from '@/request/api/user'
 
+const validateReceiver = (rule, value, callback) => {
+  if (value.length <= 0) {
+    callback(new Error('请填写收货人姓名'))
+  } else if (!/^[\u4E00-\u9FA5A-Za-z\s]+(·[\u4E00-\u9FA5A-Za-z]+)*$/.test(value)) {
+    callback(new Error('姓名格式不正确'))
+  } else {
+    callback()
+  }
+}
+const validatePhone = (rule, value, callback) => {
+  if (value.length <= 0) {
+    callback(new Error('请填写联系电话'))
+  } else if (!/^(((13|14|15|18|17)\d{9}))$/.test(value)) {
+    callback(new Error('电话格式不正确'))
+  } else {
+    callback()
+  }
+}
+
 export default {
   name: 'CartAddress',
   data: () => ({
@@ -137,13 +156,13 @@ export default {
 
     rules: {
       receiver: [
-        { required: true, message: '请填写收货人姓名' },
+        { validator: validateReceiver, trigger: 'blur' },
       ],
       address: [
         { required: true, message: '请填写收货地址' },
       ],
       phone: [
-        { required: true, message: '请填写联系电话' },
+        { validator: validatePhone, trigger: 'blur' },
       ],
       address_type: [
         { required: true, message: '请填写地址类型' },
