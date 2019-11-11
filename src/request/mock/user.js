@@ -43,6 +43,21 @@ export default {
     },
   },
 
+  manager_list: {
+    code: 2000,
+    data: {
+      'manager_list|15-20': [
+        {
+          user_id: () => Random.id(),
+          avatar_url: 'https://randomuser.me/api/portraits/women/0.jpg',
+          nickname: () => Random.cname(),
+          roles: ['super_admin'],
+          register_time: () => Random.date('yyyy-MM-dd hh:mm'),
+        },
+      ],
+    },
+  },
+
   user_detail: {
     code: 2000,
     data: {

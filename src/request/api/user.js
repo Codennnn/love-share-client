@@ -39,6 +39,13 @@ export function getUserList() {
   })
 }
 
+export function getManagerList() {
+  return request({
+    url: '/user/manager_list',
+    method: 'get',
+  })
+}
+
 export function getUserDetail() {
   return request({
     url: '/user/detail',
