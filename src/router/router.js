@@ -95,6 +95,12 @@ export const asyncRoutes = [
         component: () => import('@/views/user/UserList.vue'),
         meta: { title: '用户列表' },
       },
+      {
+        path: '/manager-list',
+        name: 'ManagerList',
+        component: () => import('@/views/user/ManagerList.vue'),
+        meta: { title: '管理员列表' },
+      },
     ],
     meta: { title: '用户管理', icon: 'el-icon-user' },
   },
