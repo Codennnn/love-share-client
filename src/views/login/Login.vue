@@ -15,7 +15,7 @@
                   v-for="(item, i) in signInInput"
                   :key="i"
                   :type="item.type"
-                  :placeholder="item.placeholder"
+                  :label-placeholder="item.placeholder"
                   :warning="item.isWarnng"
                   :warning-text="item.warningText"
                   v-model.trim="item.value"
@@ -58,8 +58,8 @@
                     <vs-select-item
                       v-for="(item, i) in schoolList"
                       :key="i"
-                      :value="item.value"
-                      :text="item.label"
+                      :value="item"
+                      :text="item"
                     />
                   </vs-select>
                 </div>
