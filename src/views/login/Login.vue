@@ -10,7 +10,7 @@
             <div class="h-full flex flex-col items-center">
               <div class="w-4/6 mt-32">
                 <vs-input
-                  class="w-full py-2"
+                  class="w-full pb-1"
                   val-icon-warning="warning"
                   v-for="(item, i) in signInInput"
                   :key="i"
@@ -30,7 +30,7 @@
                 >{{ signInErrorText }}</vs-alert>
                 <vs-button
                   id="signInBtn"
-                  class="w-full mt-2 vs-con-loading__container"
+                  class="w-full mt-3 vs-con-loading__container"
                   type="relief"
                   :disabled="signInDisable"
                   @click="login"

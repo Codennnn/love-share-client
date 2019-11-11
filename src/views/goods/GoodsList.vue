@@ -193,14 +193,14 @@
                   <div class="flex flex-col h-full justify-center items-center">
                     <vs-avatar
                       size="45px"
-                      :src="tr.avatar_url"
+                      :src="tr.seller_info.avatar_url"
                       @click="toUserDetail()"
                     />
                     <div
                       class="my-2 text-gray-600 hover:text-gray-800 text-base
                     font-semibold cursor-pointer"
                       @click="toUserDetail()"
-                    >{{ tr.nickname }}</div>
+                    >{{ tr.seller_info.nickname }}</div>
                     <vs-chip color="success">
                       乐享信用 良好
                     </vs-chip>

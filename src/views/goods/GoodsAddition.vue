@@ -84,8 +84,8 @@
                 <vs-input-number
                   :min="1"
                   color="success"
-                  v-model="num"
-                  @input="(e) => { num = Number(e).toFixed(0) }"
+                  v-model="quantity"
+                  @input="(e) => { quantity = Number(e).toFixed(0) }"
                 />
               </div>
             </div>
@@ -167,7 +167,7 @@ export default {
     name: '', // 商品名称
     category: [],
     categoryList: [], // 商品分类
-    num: 1, // 商品数量
+    quantity: 1, // 商品数量
     price: '0.00', // 二手价
     originalPrice: '0.00', // 入手价
     checked: false, // 是否选择入手价

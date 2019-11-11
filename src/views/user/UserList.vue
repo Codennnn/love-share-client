@@ -51,10 +51,7 @@
               <vs-dropdown>
                 <i class="el-icon-more-outline"></i>
                 <vs-dropdown-menu class="w-24">
-                  <vs-dropdown-item
-                    class="text-center"
-                    @click="$router.push({ path: '/user-detail' })"
-                  >
+                  <vs-dropdown-item class="text-center">
                     <i class="el-icon-chat-round mr-2"></i>
                     <span>联系</span>
                   </vs-dropdown-item>

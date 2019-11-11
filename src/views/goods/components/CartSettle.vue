@@ -52,17 +52,17 @@
       <div class="p-5 rounded-lg shadow">
         <p class="mb-4 text-lg font-bold">价格明细</p>
         <div class="mb-1 flex justify-between items-center text-sm">
-          <span class="text-gray-500">{{ '3' }} 件商品</span>
-          <span class="font-bold">￥{{  }}</span>
+          <span class="text-gray-500">{{ cartAmount }} 件商品</span>
+          <span class="font-bold">￥{{ amountPayable.toFixed(2) }}</span>
         </div>
         <div class="flex justify-between items-center text-sm">
           <span class="text-gray-500">运费</span>
-          <span class="text-success">免费</span>
+          <span class="text-success">{{ deliveryCharges }}</span>
         </div>
         <vs-divider />
         <div class="flex justify-between items-center text-sm">
           <span class="text-gray-500">应付金额</span>
-          <span class="font-bold">￥{{  }}</span>
+          <span class="font-bold">￥{{ amountPayable.toFixed(2) }}</span>
         </div>
       </div>
     </div>
@@ -88,7 +88,16 @@ export default {
   mounted() {
   },
 
-  methods: {
+  computed: {
+    cartAmount() {
+      return this.$store.getters['cart/cartAmount']
+    },
+    deliveryCharges() {
+      return this.$store.getters['cart/deliveryCharges']
+    },
+    amountPayable() {
+      return this.$store.getters['cart/amountPayable']
+    },
   },
 }
 </script>

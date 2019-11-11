@@ -64,7 +64,7 @@ const CartSettle = Vue.component(
 )
 
 export default {
-  name: 'goods-cart',
+  name: 'GoodsCart',
   data: () => ({
     currentStep: 1,
     activeStep: ['CartList'], // 已被激活的步骤

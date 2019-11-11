@@ -10,7 +10,7 @@
             <div class="w-1/2 ">
               <el-carousel :autoplay="false">
                 <el-carousel-item
-                  v-for="(image, i) in goods.imgs"
+                  v-for="(image, i) in goods.img_list"
                   :key="i"
                 >
                   <img
@@ -23,7 +23,7 @@
               <vs-images hover="zoom">
                 <vs-image
                   class=""
-                  v-for="(image, i) in goods.imgs"
+                  v-for="(image, i) in goods.img_list"
                   :key="i"
                   :src="image"
                   @click.native="showViewer = true"
@@ -45,9 +45,6 @@
                     ></vs-button>
 
                     <vs-dropdown-menu>
-                      <vs-dropdown-item>
-                        啊啊
-                      </vs-dropdown-item>
                       <vs-dropdown-item @click="isDismount ?
                        cancelDismountGoods()
                        : dismountGoods()">
@@ -104,7 +101,7 @@
               </div>
               <div class="info-item">
                 <vs-chip class="mr-2">数 量</vs-chip>
-                <span style="margin-bottom: 2px;">{{ goods.num }}</span>
+                <span style="margin-bottom: 2px;">{{ goods.quantity }}</span>
               </div>
               <div class="info-item">
                 <vs-chip class="mr-2">配 送</vs-chip>
@@ -123,13 +120,13 @@
               </div>
               <div class="flex items-center mt-6">
                 <vs-input-number
-                  v-model="num"
+                  v-model="amount"
                   :min="1"
-                  :max="goods.num"
+                  :max="goods.quantity"
                 />
                 <vs-button
                   class="ml-3 text-sm"
-                  @click="addCart()"
+                  @click="addCartItem()"
                 >加入购物车</vs-button>
               </div>
             </div>
@@ -257,14 +254,17 @@
           type="border"
           @click="popupActive = false"
         >暂不结算</vs-button>
-        <vs-button type="relief">立即结算</vs-button>
+        <vs-button
+          type="relief"
+          @click="onSettle()"
+        >立即结算</vs-button>
       </div>
     </vs-popup>
 
     <el-image-viewer
       v-show="showViewer"
       :on-close="() => showViewer = false"
-      :url-list="goods.imgs"
+      :url-list="goods.img_list"
     />
   </div>
 </template>
@@ -288,9 +288,9 @@ export default {
   data: () => ({
     timeDiff,
     showViewer: false,
-    goods: {},
-    seller: {},
-    num: 1, // 购买的数量
+    goods: {}, // 商品信息
+    seller: {}, // 卖家信息
+    amount: 1, // 购买的数量
     popupActive: false,
     isPopupActive: false,
     isCollect: false,
@@ -324,8 +324,12 @@ export default {
     },
 
     // 加入购物车
-    addCart() {
+    addCartItem() {
       this.popupActive = true
+      this.goods.seller_info = this.seller_info
+      this.goods.amount = this.amount
+      const item = this.goods
+      this.$store.dispatch('cart/addCartItem', item)
     },
 
     // 关注
@@ -423,6 +427,14 @@ export default {
       } catch {
         // TODO
       }
+    },
+
+    // 结算
+    onSettle() {
+      this.popupActive = false
+      setTimeout(() => {
+        this.$router.push({ path: '/goods-cart' })
+      }, 0)
     },
   },
 }

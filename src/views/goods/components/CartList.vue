@@ -12,7 +12,7 @@
             >
               <div class="w-1/3">
                 <el-image
-                  class="h-full"
+                  class="h-full w-full"
                   fit="cover"
                   :src="item.img_list[0]"
                 />
@@ -26,8 +26,8 @@
                 <div class="text-sm font-bold">数量</div>
                 <div class="flex">
                   <vs-input-number
-                    :max="item.num"
-                    v-model="item.quantity"
+                    :max="item.quantity"
+                    v-model="item.amount"
                   />
                 </div>
               </div>
@@ -79,7 +79,7 @@
           </div>
           <div class="item">
             <span class="item-label">总价</span>
-            <span class="item-value">￥{{ actuallyPaid.toFixed(2) }}</span>
+            <span class="item-value">￥{{ amountPayable.toFixed(2) }}</span>
           </div>
           <div class="item">
             <span class="item-label">折扣</span>
@@ -87,12 +87,12 @@
           </div>
           <div class="item">
             <span class="item-label">运费</span>
-            <span class="item-value">无</span>
+            <span class="item-value">{{ deliveryCharges }}</span>
           </div>
           <vs-divider />
           <div class="flex justify-between">
             <span class="label">实付</span>
-            <span class="label">￥{{ actuallyPaid.toFixed(2) }}</span>
+            <span class="label">￥{{ amountPayable.toFixed(2) }}</span>
           </div>
           <vs-button
             class="w-full mt-4"
@@ -132,11 +132,13 @@ export default {
 
   computed: {
     cartList() {
-      return this.$store.getters['cart/carts']
+      return this.$store.state.cart.cartList
     },
-
-    actuallyPaid() {
-      return this.cartList.reduce((acc, curr) => acc + curr.price, 0)
+    deliveryCharges() {
+      return this.$store.getters['cart/deliveryCharges']
+    },
+    amountPayable() {
+      return this.$store.getters['cart/amountPayable']
     },
   },
 
