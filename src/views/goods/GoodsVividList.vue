@@ -74,22 +74,36 @@
               <div class="flex md:flex-col lg:flex-col xl:flex-row">
                 <div
                   class="xl:w-1/2 p-2 flex justify-center items-center cursor-pointer"
-                  style="background: rgb(246, 246, 246);font-size: 15px;"
+                  style="background: rgb(246, 246, 246);font-size: 14px;"
+                  v-if="goods.is_collected"
+                  @click="uncollectGoods(goods.goods_id, i)"
                 >
-                  <i
-                    v-if="goods.is_collected"
-                    class="el-icon-star-on text-xl mr-1 text-warning"
-                  ></i>
-                  <i
-                    v-else
-                    class="el-icon-star-off mr-1"
-                  ></i>
+                  <i class="el-icon-star-on text-xl mr-1 text-warning"></i>
+                  取消收藏
+                </div>
+                <div
+                  class="xl:w-1/2 p-2 flex justify-center items-center cursor-pointer"
+                  style="background: rgb(246, 246, 246);font-size: 14px;"
+                  v-else
+                  @click="collectGoods(goods.goods_id, i)"
+                >
+                  <i class="el-icon-star-off mr-1"></i>
                   收藏
+                </div>
+                <div
+                  class="xl:w-1/2 p-2 flex justify-center items-center
+                  bg-success text-white cursor-pointer"
+                  style="font-size: 14px;"
+                  v-if="isInCart(goods.goods_id)"
+                  @click="$router.push('/goods-cart')"
+                >
+                  购物车中查看
                 </div>
                 <div
                   class="xl:w-1/2 p-2 flex justify-center items-center
                   bg-primary text-white cursor-pointer"
                   style="font-size: 14px;"
+                  v-else
                   @click="addCartItem(goods)"
                 >
                   <i class="el-icon-shopping-cart-2 mr-2 text-lg"></i>
@@ -113,7 +127,12 @@
 </template>
 
 <script>
-import { getGoodsCategory, getStoredGoods } from '@/request/api/goods'
+import {
+  getGoodsCategory,
+  getStoredGoods,
+  collectGoods,
+  uncollectGoods,
+} from '@/request/api/goods'
 
 export default {
   name: 'GoodsVividList',
@@ -138,6 +157,12 @@ export default {
     },
   },
 
+  computed: {
+    isInCart() {
+      return id => this.$store.getters['cart/isInCart'](id)
+    },
+  },
+
   methods: {
     async getStoredGoods() {
       try {
@@ -158,6 +183,32 @@ export default {
         if (code === 2000) {
           this.categoryList = data.category_list
           this.category = this.categoryList[0].value
+        }
+      } catch {
+        // TODO
+      }
+    },
+
+    // 收藏商品
+    async collectGoods(id, i) {
+      try {
+        const { code } = await collectGoods(id)
+        if (code === 2000) {
+          console.log(this.goodsList[i])
+          this.goodsList[i].is_collected = true
+        }
+      } catch {
+        // TODO
+      }
+    },
+
+    // 取消收藏商品
+    async uncollectGoods(id, i) {
+      try {
+        const { code } = await uncollectGoods(id)
+        if (code === 2000) {
+          console.log(this.goodsList[i])
+          this.goodsList[i].is_collected = false
         }
       } catch {
         // TODO
@@ -208,6 +259,9 @@ export default {
   grid-template-columns: 1fr 1fr 1fr;
   grid-column-gap: 24px;
   grid-row-gap: 26px;
+  @media (min-width: 1620px) {
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+  }
 }
 
 .goods-item {
@@ -224,11 +278,5 @@ export default {
     justify-content: center;
     align-items: center;
   }
-}
-
-.text-overflow {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
 }
 </style>

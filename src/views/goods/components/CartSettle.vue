@@ -65,6 +65,7 @@
           <span class="font-bold">￥{{ amountPayable.toFixed(2) }}</span>
         </div>
       </div>
+      <vs-button class="w-full mt-5">确认付款</vs-button>
     </div>
   </div>
 </template>
