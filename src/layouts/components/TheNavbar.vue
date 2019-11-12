@@ -60,16 +60,84 @@
               ></i>
             </el-tooltip>
 
-            <el-tooltip
-              :open-delay="100"
-              content="购物车"
-              effect="light"
+            <!-- 购物车图标 -->
+            <vs-dropdown
+              vs-custom-content
+              vs-trigger-click
             >
-              <i
-                class="nav-icon el-icon-shopping-cart-2 mr-3"
-                @click="$router.push('/goods-cart')"
-              ></i>
-            </el-tooltip>
+              <el-badge
+                class="mr-3"
+                :value="this.cartAmount > 0 ? this.cartAmount : ''"
+              >
+                <i class="nav-icon el-icon-shopping-cart-2"></i>
+              </el-badge>
+              <vs-dropdown-menu class="menu-box">
+                <div class="w-full py-4 text-center text-white bg-primary cursor-pointer">
+                  <p class="text-xl">共有 {{ this.cartAmount }} 件商品</p>
+                </div>
+                <VuePerfectScrollbar
+                  style="height: 350px;"
+                  :settings="settings"
+                >
+                  <ul
+                    class="w-full"
+                    v-if="this.cartList.length > 0"
+                  >
+                    <li
+                      class="flex p-2
+                    cursor-pointer hover:bg-gray-200"
+                      style="transition: all 0.3s;"
+                      v-for="(item, i) in cartList"
+                      :key="i"
+                    >
+                      <el-image
+                        class="mr-2 rounded-lg"
+                        style="width: 80px; height: 80px"
+                        fit="cover"
+                        :src="item.img_list[0]"
+                      ></el-image>
+                      <div class="flex-1 overflow-hidden">
+                        <div class="text-overflow">
+                          {{ item.name }}
+                        </div>
+                        <div class="mt-2 flex justify-between items-center">
+                          <small
+                            class="whitespace-no-wrap"
+                            style="color: #989898;"
+                          >
+                            ￥{{ item.price.toFixed(2) }}
+                            <span style="margin: 0 0.1rem;">x</span>
+                            {{ item.amount }}</small>
+                          <i
+                            class="el-icon-close text-danger"
+                            @click="$store.dispatch('cart/removeCartItem', item.goods_id)"
+                          ></i>
+                        </div>
+                      </div>
+                    </li>
+                  </ul>
+                  <div
+                    class="h-full flex flex-col items-center justify-center"
+                    v-else
+                  >
+                    <vs-icon
+                      size="80px"
+                      icon="blur_on"
+                      color="#718096"
+                    ></vs-icon>
+                    <div class="mt-4 text-gray-600 text-sm">购物车空空如也</div>
+                  </div>
+                </VuePerfectScrollbar>
+                <div
+                  class="w-full p-2 text-center text-primary
+                cursor-pointer font-semibold bg-gray-100 hover:bg-gray-200"
+                  style="transition: all 0.3s;"
+                  @click="$router.push('/goods-cart')"
+                >
+                  <span>进入购物车</span>
+                </div>
+              </vs-dropdown-menu>
+            </vs-dropdown>
 
             <!-- 通知图标 -->
             <vs-dropdown
@@ -85,7 +153,7 @@
               </el-badge>
               <vs-dropdown-menu
                 id="div-with-loading"
-                class="notice-box"
+                class="menu-box"
               >
                 <div
                   class="w-full table text-center text-white bg-primary cursor-pointer"
@@ -114,7 +182,7 @@
                     v-if="this.notices.length > 0"
                   >
                     <li
-                      class="notice flex justify-between px-4 py-4
+                      class="notice flex justify-between p-4
                     cursor-pointer hover:bg-gray-200"
                       style="transition: all 0.3s;"
                       v-for="(nt, i) in notices"
@@ -213,7 +281,7 @@
 
 <script>
 import screenfull from 'screenfull'
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 import VuePerfectScrollbar from 'vue-perfect-scrollbar'
 
 import { timeDiff } from '@/utils/util'
@@ -275,6 +343,8 @@ export default {
   computed: {
     ...mapState(['sidebarCollapse']),
     ...mapState('user', ['nickname', 'roles']),
+    ...mapState('cart', ['cartList']),
+    ...mapGetters('cart', ['cartAmount']),
   },
 
   methods: {
@@ -400,7 +470,7 @@ export default {
 }
 
 // 通知菜单
-.vs-dropdown-menu.notice-box {
+.vs-dropdown-menu.menu-box {
   width: 365px;
 
   .vs-dropdown--menu {
