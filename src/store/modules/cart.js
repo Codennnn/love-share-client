@@ -60,5 +60,6 @@ export default {
       return charge.toFixed(2)
     },
     amountPayable: state => state.cartList.reduce((acc, curr) => acc + curr.price, 0),
+    isInCart: state => id => state.cartList.some(item => item.goods_id === id),
   },
 }

@@ -126,6 +126,13 @@
                 />
                 <vs-button
                   class="ml-3 text-sm"
+                  color="danger"
+                  v-if="isInCart(goods.goods_id)"
+                  @click="$store.dispatch('cart/removeCartItem', goods.goods_id)"
+                >移出购物车</vs-button>
+                <vs-button
+                  class="ml-3 text-sm"
+                  v-else
                   @click="addCartItem()"
                 >加入购物车</vs-button>
               </div>
@@ -242,6 +249,7 @@
         >确认删除</vs-button>
       </div>
     </vs-popup>
+
     <vs-popup
       title="已加入购物车"
       :active.sync="popupActive"
@@ -306,6 +314,12 @@ export default {
     this.getGoodsDetail()
   },
 
+  computed: {
+    isInCart() {
+      return id => this.$store.getters['cart/isInCart'](id)
+    },
+  },
+
   methods: {
     async getGoodsDetail() {
       const { code, data } = await getGoodsDetail()
@@ -325,11 +339,13 @@ export default {
 
     // 加入购物车
     addCartItem() {
-      this.popupActive = true
-      this.goods.seller_info = this.seller_info
-      this.goods.amount = this.amount
-      const item = this.goods
-      this.$store.dispatch('cart/addCartItem', item)
+      if (!this.isInCart(this.goods.goods_id)) {
+        this.popupActive = true
+        this.goods.seller_info = this.seller_info
+        this.goods.amount = this.amount
+        const item = this.goods
+        this.$store.dispatch('cart/addCartItem', item)
+      }
     },
 
     // 关注
