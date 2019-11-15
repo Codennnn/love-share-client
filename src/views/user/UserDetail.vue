@@ -30,7 +30,7 @@
           </div>
           <div class="flex flex-col items-center justify-center">
             <div>收藏夹</div>
-            <div class="mt-4 text-2xl font-bold">{{ `2` }}</div>
+            <div class="mt-4 text-2xl font-bold">{{ userDetail.collect_num }}</div>
           </div>
         </div>
       </div>
