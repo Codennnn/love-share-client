@@ -15,10 +15,11 @@
       height: 100vh;
       width: 100vw;
       display: flex;
-      align-items: center;
+      flex-direction: column;
       justify-content: center;
+      align-items: center;
       overflow: hidden;
-      background: rgb(209, 196, 255);
+      background: white;
     }
   </style>
 </head>
@@ -30,8 +31,10 @@
   <!-- Vue示例挂载后，此处会被置换 -->
   <div id="app">
     <div class="screen-loading">
-      <img src="./loading.gif" />
-      <h2 style="color: white;">正在前往目的地</h2>
+      <h3 style="color: gray;">正在前往目的地...</h3>
+      <div>
+        <img src="./loading.gif" />
+      </div>
     </div>
   </div>
 </body>
