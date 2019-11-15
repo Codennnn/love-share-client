@@ -97,7 +97,7 @@ export function deleteAddress() {
 
 export function modifyAddress() {
   return request({
-    url: '/user/address/modify',
+    url: '/user/address/update',
     method: 'put',
   })
 }

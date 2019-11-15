@@ -71,6 +71,7 @@ export default {
         introduction: '我有一只小毛驴我从来都不骑，有一天我心血来潮骑它去赶集',
         fans_num: 54,
         follow_num: 12,
+        collect_num: 2,
       },
     },
   },
