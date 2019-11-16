@@ -69,7 +69,7 @@
       <span
         class="text-sm text-gray-500 cursor-pointer hover:text-blue-600"
         style="transition: 0.4s;"
-        @click="() => { $emit('switchComponent', 'SignIn') }"
+        @click="switchToSignIn()"
       >已有账号，立即登录</span>
     </div>
   </div>
@@ -233,6 +233,11 @@ export default {
       } catch {
         // TODO
       }
+    },
+
+    switchToSignIn() {
+      this.$emit('switchComponent', 'SignIn')
+      document.title = '登录 - 乐享校园'
     },
   },
 }

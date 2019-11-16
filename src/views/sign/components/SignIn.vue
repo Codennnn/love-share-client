@@ -40,7 +40,7 @@
       <span
         class="text-sm text-gray-500 cursor-pointer hover:text-blue-600"
         style="transition: 0.4s;"
-        @click="() => { $emit('switchComponent', 'SignUp') }"
+        @click="switchToSignUp()"
       >还没有账号，去注册</span>
     </div>
   </div>
@@ -143,6 +143,11 @@ export default {
           }, 1000)
         }
       }
+    },
+
+    switchToSignUp() {
+      this.$emit('switchComponent', 'SignUp')
+      document.title = '注册 - 乐享校园'
     },
   },
 }
