@@ -7,22 +7,24 @@
       class="w-full pb-1"
       val-icon-warning="warning"
       color="rgb(91, 143, 255)"
-      v-model.trim="item.value"
       v-for="(item, i) in signInInput"
       :key="i"
       :type="item.type"
       :label-placeholder="item.placeholder"
       :warning="item.isWarnng"
       :warning-text="item.warningText"
-      @focus="() => { signInInput[i].isWarnng = false }"
+      :danger="item.isError"
+      :danger-text="item.errorText"
+      v-model.trim="item.value"
+      @focus="item.isWarnng = false"
       @keyup.enter="login"
     />
     <vs-alert
       closable
       close-icon="close"
       color='danger'
-      :active.sync="signInError"
-    >{{ signInErrorText }}</vs-alert>
+      :active.sync="signInAlert"
+    >{{ signInAlertText }}</vs-alert>
     <span
       class="text-sm text-gray-500 cursor-pointer hover:text-blue-600"
       style="transition: 0.4s;"
@@ -34,7 +36,7 @@
       gradient-color-secondary="rgb(91, 143, 255)"
       type="gradient"
       :disabled="signInDisable"
-      @click="login"
+      @click="onSignIn()"
     >登 录</vs-button>
     <div class="text-right">
       <span
@@ -53,14 +55,22 @@ const signInInput = [
     value: '',
     type: 'text',
     isWarnng: false,
+    isError: false,
     warningText: '',
+    errorText: '',
+    noneEmptyText: '账号不能为空，请输入账号',
+    noneCheckText: '该账号尚未注册',
   },
   {
     placeholder: '密码',
     value: '',
     type: 'password',
     isWarnng: false,
+    isError: false,
     warningText: '',
+    errorText: '',
+    noneEmptyText: '密码不能为空，请输入密码',
+    noneCheckText: '密码有误，请重新输入',
   },
 ]
 
@@ -68,19 +78,14 @@ export default {
   name: 'SignIn',
   data: () => ({
     signInInput,
-    signInError: false,
-    signInErrorText: '账号或密码有误，请重新输入',
+    signInAlert: false,
+    signInAlertText: '登录失败',
     signInDisable: false,
-    codeError: false,
-    code: '', // 验证码
-    codeText: '获取验证码',
-    codeWarningText: '',
-    timer: null,
   }),
 
   methods: {
-    async login() {
-      if (!this.validate('signIn')) {
+    async onSignIn() {
+      if (!this.validate()) {
         // 非空验证不通过，退出程序
         return
       }
@@ -96,53 +101,35 @@ export default {
 
       const [username, password] = [this.signInInput[0].value, this.signInInput[1].value]
 
-      const code = await this.$store.dispatch('user/login', { username, password })
-
-      if (code === 2000) {
-        this.$router.replace('/')
-      } else if (code === 3000 || code === 4004) {
-        // 3000 - 账号错误，4004 - 密码错误
-        this.signInError = true
+      try {
+        const code = await this.$store.dispatch('user/login', { username, password })
+        if (code === 2000) {
+          this.$router.replace('/')
+        } else if (code === 3000) {
+          // 3000 - 账号错误，4004 - 密码错误
+        } else if (code === 4004) {
+          //
+        }
+      } catch (err) {
+        this.signInAlert = true
+        this.signInAlertText = err
+      } finally {
+        // 关闭按钮的加载动画
+        this.$vs.loading.close('#signInBtn > .con-vs-loading')
+        this.signInDisable = false
       }
-      // 关闭按钮的加载动画
-      this.$vs.loading.close('#signInBtn > .con-vs-loading')
-      this.signInDisable = false
     },
 
     // 输入框非空验证
-    validate(flag) {
-      if (flag === 'signIn') {
-        for (let i = 0; i < 2; i += 1) {
-          if (this.signInInput[i].value.length === 0) {
-            this.signInInput[i].isWarnng = true
-            this.signInInput[i].warningText = (i === 0 ? '请输入账号' : '请输入密码')
-            return false
-          }
+    validate() {
+      return this.signInInput.every((input) => {
+        if (input.value.length <= 0) {
+          input.isWarnng = true
+          input.warningText = input.noneEmptyText
+          return false
         }
         return true
-      }
-      return true
-    },
-
-    // 获取验证码
-    getCode() {
-      if (this.validate('signUp') && this.registerCheck()) {
-        if (!this.timer) {
-          let count = 60
-          this.codeText = `${count}s`
-          this.timer = setInterval(() => {
-            if (count > 0) {
-              count -= 1
-              this.codeText = `${count}s`
-            } else {
-              clearInterval(this.timer)
-              this.timer = null
-              count = 60
-              this.codeText = '重新发送'
-            }
-          }, 1000)
-        }
-      }
+      })
     },
 
     switchToSignUp() {

@@ -10,7 +10,10 @@
         label="您的学校"
         placeholder="请选择您的学校"
         width="100%"
+        :warning="selectWarning"
+        warning-text="请选择您的学校"
         v-model="school"
+        @focus="selectWarning = false"
       >
         <vs-select-item
           v-for="(item, i) in schoolList"
@@ -23,6 +26,8 @@
 
     <vs-input
       class="w-full"
+      val-icon-warning="report_problem"
+      val-icon-danger="clear"
       v-for="(item, i) in signUpInput"
       :key="i"
       :type="item.type"
@@ -30,19 +35,20 @@
       :description-text="item.description"
       :warning="item.isWarnng"
       :warning-text="item.warningText"
-      val-icon-warning="warning"
-      @focus="() => { signUpInput[i].isWarnng = false }"
+      :danger="item.isError"
+      :danger-text="item.errorText"
       v-model.trim="item.value"
+      @focus="item.isWarnng = false, item.isError = false"
     />
     <div class="flex items-center mt-2 py-2">
       <vs-input
         class="w-7/12 mr-2"
         placeholder="验证码"
-        :warning="codeError"
-        :warning-text="codeWarningText"
-        val-icon-warning="warning"
-        @focus="codeError = false"
+        val-icon-danger="clear"
         v-model.trim="code"
+        :danger="codeError"
+        :danger-text="codeErrorText"
+        @focus="codeError = false"
       />
       <vs-button
         class="w-5/12 text-sm"
@@ -54,8 +60,8 @@
       closable
       close-icon="close"
       color='danger'
-      :active.sync="signUpError"
-    >{{ signUpErrorText }}</vs-alert>
+      :active.sync="signUpAlert"
+    >{{ signUpAlertText }}</vs-alert>
     <vs-button
       id="signUpBtn"
       class="w-full mt-2 mb-1 vs-con-loading__container"
@@ -63,7 +69,7 @@
       gradient-color-secondary="rgb(var(--vs-primary), 1)"
       type="gradient"
       :disabled="signUpDisable"
-      @click="register"
+      @click="onSignUp()"
     >立即注册</vs-button>
     <div class="text-right">
       <span
@@ -87,7 +93,11 @@ const signUpInput = [
     description: '只能是中文、字母、数字',
     reg: /^[0-9a-zA-Z_]{1,}$/,
     isWarnng: false,
+    isError: false,
     warningText: '',
+    errorText: '',
+    noneEmptyText: '请输入您的昵称',
+    noneCheckText: '昵称不合规范，请重新填写',
   },
   {
     placeholder: '密码',
@@ -96,15 +106,24 @@ const signUpInput = [
     description: '6-16个字符，只能是字母、数字和下划线',
     reg: /^[\w]{6,16}$/,
     isWarnng: false,
+    isError: false,
     warningText: '',
+    errorText: '',
+    noneEmptyText: '请输入您的密码',
+    noneCheckText: '密码不合规范，请重新填写',
   },
   {
     placeholder: '确认密码',
     value: '',
     type: 'password',
     description: '再次确认密码，请输入相同的密码',
+    reg: /^[\w]{6,16}$/,
     isWarnng: false,
+    isError: false,
     warningText: '',
+    errorText: '',
+    noneEmptyText: '请输入二次确认密码',
+    noneCheckText: '密码不合规范，请重新填写',
   },
   {
     placeholder: '手机号码',
@@ -113,7 +132,11 @@ const signUpInput = [
     description: '',
     reg: /^[1]([3-9])[0-9]{9}$/,
     isWarnng: false,
+    isError: false,
     warningText: '',
+    errorText: '',
+    noneEmptyText: '手机号不能为空哦',
+    noneCheckText: '手机号格式不正确',
   },
 ]
 
@@ -121,15 +144,16 @@ export default {
   name: 'SignIn',
   data: () => ({
     signUpInput,
-    signUpError: false,
-    signUpErrorText: '注册失败',
+    signUpAlert: false,
+    signUpAlertText: '注册失败',
     signUpDisable: false,
+    selectWarning: false,
     school: '',
     schoolList: [],
     codeError: false,
     code: '', // 验证码
     codeText: '获取验证码',
-    codeWarningText: '',
+    codeErrorText: '',
     timer: null,
   }),
 
@@ -138,74 +162,75 @@ export default {
   },
 
   methods: {
-    async register() {
-      if (!this.validate('signUp')) {
-        // 非空验证不通过，退出程序
-        return
-      }
+    async onSignUp() {
+      if (this.validate() && this.signUpCheck()) {
+        if (this.code.length <= 0) {
+          this.codeError = true
+          this.codeErrorText = '请填入验证码'
+          return
+        }
 
-      // 如果注册校验不通过，终止
-      if (!this.registerCheck()) {
-        return
-      }
+        this.$vs.loading({
+          background: 'primary',
+          color: '#fff',
+          container: '#signUpBtn',
+          scale: 0.45,
+        })
+        this.signUpDisable = true
 
-      if (this.code.length <= 0) {
-        this.codeError = true
-        this.codeWarningText = '请填入验证码'
-        return
-      }
-
-      this.$vs.loading({
-        background: 'primary',
-        color: '#fff',
-        container: '#signUpBtn',
-        scale: 0.45,
-      })
-      this.signUpDisable = true
-
-      try {
-        await register()
-      } catch (err) {
-        console.log(err)
-        this.signUpError = true
-      } finally {
-        this.$vs.loading.close('#signUpBtn > .con-vs-loading')
-        this.signInDisable = false
+        try {
+          const code = await register()
+          if (code === 2000) {
+            // TODO
+          }
+        } catch (err) {
+          this.signUpAlert = true
+          this.signUpAlertText = err
+        } finally {
+          this.$vs.loading.close('#signUpBtn > .con-vs-loading')
+          this.signUpDisable = false
+        }
       }
     },
 
     // 输入框非空验证
-    validate(flag) {
-      if (flag === 'signIn') {
-        for (let i = 0; i < 2; i += 1) {
-          if (this.signInInput[i].value.length === 0) {
-            this.signInInput[i].isWarnng = true
-            this.signInInput[i].warningText = (i === 0 ? '请输入账号' : '请输入密码')
-            return false
-          }
+    validate() {
+      return this.signUpInput.every((input) => {
+        if (this.school.length <= 0) {
+          this.selectWarning = true
+          return false
+        }
+        if (input.value.length <= 0) {
+          input.isWarnng = true
+          input.warningText = input.noneEmptyText
+          return false
         }
         return true
-      }
-      return true
+      })
     },
 
-    registerCheck() {
-      const isValidated = (i) => {
-        if (this.signUpInput[i].reg.test(this.signUpInput[i].value)) {
+    // 检查输入的数据格式
+    signUpCheck() {
+      const flags = this.signUpInput.map((input) => {
+        if (input.reg.test(input.value)) {
           return true
         }
-        this.signUpInput[i].isWarnng = true
-        this.signUpInput[i].warningText = `请确认${this.signUpInput[i].placeholder}填写正确`
+        input.isError = true
+        input.errorText = input.noneCheckText
+        return false
+      })
+      if (this.signUpInput[1].value !== this.signUpInput[2].value) {
+        this.signUpInput[2].isError = true
+        this.signUpInput[2].errorText = '二次密码与前一次不相同'
         return false
       }
-      const flags = [0, 1, 2].map(isValidated) // 记录三个输入框的正则状态
       const flag = flags.every(Boolean)
       return flag
     },
 
     // 获取验证码
     getCode() {
-      if (this.validate('signUp') && this.registerCheck()) {
+      if (this.validate() && this.signUpCheck()) {
         if (!this.timer) {
           let count = 60
           this.codeText = `${count}s`
@@ -224,6 +249,7 @@ export default {
       }
     },
 
+    // 获取选择学校列表
     async getSchoolList() {
       try {
         const { code, data } = await getSchoolList()
@@ -250,7 +276,7 @@ export default {
   }
 }
 
-.con-select {
+.con-select:not(.input-select-validate-warning) {
   &::v-deep .vs-select--input {
     border: 1px solid rgba(0, 0, 0, 0.2);
   }
