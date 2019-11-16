@@ -8,8 +8,8 @@ import service from './service'
 import common from './common'
 
 // 用户
-Mock.mock('/api/user/login', 'post', user.login)
-Mock.mock('/api/user/register', 'post', user.register)
+Mock.mock('/api/user/sign_in', 'post', user.signIn)
+Mock.mock('/api/user/sign_up', 'post', user.signUp)
 Mock.mock('/api/user/info', 'get', user.userInfo)
 Mock.mock('/api/user/list', 'get', user.user_list)
 Mock.mock('/api/user/manager_list', 'get', user.manager_list)

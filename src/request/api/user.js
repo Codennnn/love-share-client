@@ -1,16 +1,16 @@
 import request from '../request'
 
-export function login(data) {
+export function signIn(data) {
   return request({
-    url: '/user/login',
+    url: '/user/sign_in',
     method: 'post',
     data,
   })
 }
 
-export function register(query) {
+export function signUp(query) {
   return request({
-    url: '/user/register',
+    url: '/user/sign_up',
     method: 'post',
     params: query,
   })

@@ -3,18 +3,15 @@ import Mock from 'mockjs'
 const { Random } = Mock
 
 export default {
-  login: {
+  signIn: {
     code: 2000,
     data: {
-      token: 'login',
+      token: 'signIn',
     },
   },
 
-  register: {
+  signUp: {
     code: 2000,
-    data: {
-      token: 'login',
-    },
   },
 
   userInfo: {
