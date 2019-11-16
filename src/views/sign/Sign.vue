@@ -47,14 +47,14 @@ const SignUp = Vue.component(
 export default {
   name: 'Sign',
   data: () => ({
-    currentComponent: 'SignUp',
+    currentComponent: 'SignIn', // 默认加载 “登录” 表单
   }),
 
   components: { SignIn, SignUp },
 
   methods: {
-    switchCom(com) {
-      this.currentComponent = com
+    switchCom(component) {
+      this.currentComponent = component
     },
   },
 }
