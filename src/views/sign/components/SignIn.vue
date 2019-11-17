@@ -102,7 +102,7 @@ export default {
       const [username, password] = [this.signInInput[0].value, this.signInInput[1].value]
 
       try {
-        const code = await this.$store.dispatch('user/login', { username, password })
+        const code = await this.$store.dispatch('user/signIn', { username, password })
         if (code === 2000) {
           this.$router.replace('/')
         } else if (code === 3000) {
@@ -139,11 +139,3 @@ export default {
   },
 }
 </script>
-
-<style lang="scss" scoped>
-#signInBtn {
-  &:hover {
-    color: #fff !important; // 修正样式
-  }
-}
-</style>

@@ -82,7 +82,7 @@
 </template>
 
 <script>
-import { register } from '@/request/api/user'
+import { signUp } from '@/request/api/user'
 import { getSchoolList } from '@/request/api/common'
 
 const signUpInput = [
@@ -179,7 +179,7 @@ export default {
         this.signUpDisable = true
 
         try {
-          const code = await register()
+          const code = await signUp()
           if (code === 2000) {
             // TODO
           }
@@ -270,12 +270,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-#signInBtn {
-  &:hover {
-    color: #fff !important; // 修正样式
-  }
-}
-
 .con-select:not(.input-select-validate-warning) {
   &::v-deep .vs-select--input {
     border: 1px solid rgba(0, 0, 0, 0.2);
