@@ -16,7 +16,7 @@ export function signUp(query) {
   })
 }
 
-export function logout() { }
+export function signOut() { }
 
 export function getUserInfo() {
   return request({
