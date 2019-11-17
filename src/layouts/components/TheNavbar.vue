@@ -1,10 +1,7 @@
 <template>
   <div class="relative">
-    <div
-      class="nav-wrapper"
-      :class="{ collapse: sidebarCollapse }"
-    >
-      <div class="nav-bar rounded-lg">
+    <div class="nav-wrapper">
+      <div class="nav-bar">
         <div>
           <router-link
             v-for="(item, index) in navIcons"
@@ -418,18 +415,13 @@ export default {
 </script>
 
 <style lang="scss">
+$navIcon: #686868; // 顶部导航栏图标颜色
+
 .nav-wrapper {
   position: fixed;
-  z-index: 999;
-  width: calc(100% - #{$side-bar-width});
-  min-width: 900px;
-  padding: 1.4rem;
-  padding-top: 1.2rem;
+  z-index: 9999;
+  width: 100%;
   box-sizing: border-box;
-  transition: width 0.5s;
-  &.collapse {
-    width: calc(100% - #{$side-bar-width} + 178px);
-  }
 }
 
 .nav-bar {
