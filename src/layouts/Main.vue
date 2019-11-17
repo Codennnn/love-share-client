@@ -2,9 +2,9 @@
   <div id="layout-main">
     <div id="content-area">
       <!-- 头部 -->
-      <TheNavbar />
+      <TheNavbar id="the-navbar" />
 
-      <div class="router-view px-6">
+      <div id="router-view">
         <div class="router-content pt-24">
           <!-- 面包屑导航 -->
           <transition
@@ -75,13 +75,34 @@ $footer-height: 65px;
 
 #layout-main {
   position: relative;
+  width: 100%;
   min-width: 900px;
+  padding: 0 30px;
   background: rgb(248, 248, 248);
 }
 
-.router-view {
+#content-area {
+  display: flex;
+  justify-content: center;
+}
+
+#the-navbar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 999;
+  width: 100%;
+  min-width: 900px;
+  box-sizing: border-box;
+}
+
+#router-view {
   position: relative;
   min-height: 100vh;
+  min-width: 1200px;
+  @media (max-width: 1260px) {
+    min-width: 100%;
+  }
   .router-content {
     min-height: calc(100vh - #{$footer-height});
   }
