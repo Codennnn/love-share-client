@@ -8,11 +8,11 @@ export function signIn(data) {
   })
 }
 
-export function signUp(query) {
+export function signUp(data) {
   return request({
     url: '/user/sign_up',
     method: 'post',
-    params: query,
+    data,
   })
 }
 

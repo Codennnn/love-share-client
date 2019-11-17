@@ -53,7 +53,7 @@
       <vs-button
         class="w-5/12 text-sm"
         type="border"
-        @click="getCode"
+        @click="getCode()"
       >{{ codeText }}</vs-button>
     </div>
     <vs-alert
@@ -83,7 +83,7 @@
 
 <script>
 import { signUp } from '@/request/api/user'
-import { getSchoolList } from '@/request/api/common'
+import { getSchoolList, getVerificationCode } from '@/request/api/common'
 
 const signUpInput = [
   {
@@ -229,11 +229,12 @@ export default {
     },
 
     // 获取验证码
-    getCode() {
+    async getCode() {
       if (this.validate() && this.signUpCheck()) {
         if (!this.timer) {
           let count = 60
           this.codeText = `${count}s`
+          this.getVerificationCode()
           this.timer = setInterval(() => {
             if (count > 0) {
               count -= 1
@@ -246,6 +247,20 @@ export default {
             }
           }, 1000)
         }
+      }
+    },
+
+    async getVerificationCode() {
+      try {
+        const { code, data } = await getVerificationCode({ phone: this.signUpInput[3].value })
+        if (code === 2000) {
+          this.code = data.code
+        } else if (code === 4003) {
+          this.signUpInput[3].isError = true
+          this.signUpInput[3].errorText = '手机号已被注册'
+        }
+      } catch {
+        //
       }
     },
 

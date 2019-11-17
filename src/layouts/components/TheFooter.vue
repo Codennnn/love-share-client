@@ -1,6 +1,6 @@
 <template>
   <div class="footer-main text-center">
-    <p>MADE@ 2019 Jack</p>
+    <p>LOVE-SHARE-CLIENT @2019-2020 MADE_BY_JACK</p>
   </div>
 </template>
 

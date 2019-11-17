@@ -99,7 +99,7 @@ $footer-height: 65px;
 #router-view {
   position: relative;
   min-height: 100vh;
-  min-width: 1200px;
+  width: 1200px;
   @media (max-width: 1260px) {
     min-width: 100%;
   }

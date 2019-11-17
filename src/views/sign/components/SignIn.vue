@@ -6,6 +6,7 @@
     <vs-input
       class="w-full pb-1"
       val-icon-warning="warning"
+      val-icon-danger="clear"
       color="rgb(91, 143, 255)"
       v-for="(item, i) in signInInput"
       :key="i"
@@ -16,7 +17,7 @@
       :danger="item.isError"
       :danger-text="item.errorText"
       v-model.trim="item.value"
-      @focus="item.isWarnng = false"
+      @focus="item.isWarnng = false, item.isError = false"
       @keyup.enter="login"
     />
     <vs-alert
@@ -99,16 +100,21 @@ export default {
       })
       this.signInDisable = true
 
-      const [username, password] = [this.signInInput[0].value, this.signInInput[1].value]
+      const [account, password] = [this.signInInput[0].value, this.signInInput[1].value]
 
       try {
-        const code = await this.$store.dispatch('user/signIn', { username, password })
+        const code = await this.$store.dispatch('user/signIn', { account, password })
         if (code === 2000) {
+          await this.$store.dispatch('user/getUserInfo')
           this.$router.replace('/')
-        } else if (code === 3000) {
-          // 3000 - 账号错误，4004 - 密码错误
-        } else if (code === 4004) {
-          //
+        } else if (code === 4001) {
+          // 4001 - 账号未注册
+          this.signInInput[0].isError = true
+          this.signInInput[0].errorText = this.signInInput[0].noneCheckText
+        } else if (code === 4003) {
+          // 4003 - 密码错误
+          this.signInInput[1].isError = true
+          this.signInInput[1].errorText = this.signInInput[1].noneCheckText
         }
       } catch (err) {
         this.signInAlert = true

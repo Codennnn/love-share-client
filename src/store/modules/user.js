@@ -36,8 +36,7 @@ const actions = {
   async getUserInfo({ commit }) {
     try {
       const { data } = await getUserInfo()
-      commit('SET_ROLES', data.roles)
-      commit('SET_INFO', data.info)
+      commit('SET_INFO', data.user_info)
       return data
     } catch (err) {
       removeToken()

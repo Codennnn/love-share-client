@@ -7,9 +7,17 @@ export function getNotices() {
   })
 }
 
+export function getVerificationCode(data) {
+  return request({
+    url: '/common/verification_code',
+    method: 'post',
+    data,
+  })
+}
+
 export function getSchoolList() {
   return request({
-    url: '/common/school_list',
+    url: '/school/list',
     method: 'get',
   })
 }

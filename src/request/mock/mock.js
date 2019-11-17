@@ -4,6 +4,7 @@ import notice from './notice'
 import goods from './goods'
 import order from './order'
 import buying from './buying'
+import school from './school'
 import service from './service'
 import common from './common'
 
@@ -61,8 +62,11 @@ Mock.mock('/api/buying/add', 'post', buying.add_buying)
 Mock.mock('/api/buying/delete', 'delete', buying.delete_buying)
 Mock.mock('/api/buying/update', 'put', buying.update_buying)
 
+// 学校
+Mock.mock('/api/school/list', 'get', school.school_list)
+
 // 通用
-Mock.mock('/api/common/school_list', 'get', common.schools)
+Mock.mock('/api/common/verification_code', 'post', user.verification_code)
 
 Mock.mock(/\/article/, 'get', service.article)
 
