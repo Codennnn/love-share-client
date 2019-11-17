@@ -56,12 +56,6 @@
         @click="getCode()"
       >{{ codeText }}</vs-button>
     </div>
-    <vs-alert
-      closable
-      close-icon="close"
-      color='danger'
-      :active.sync="signUpAlert"
-    >{{ signUpAlertText }}</vs-alert>
     <vs-button
       id="signUpBtn"
       class="w-full mt-2 mb-1 vs-con-loading__container"
@@ -83,15 +77,28 @@
 
 <script>
 import { signUp } from '@/request/api/user'
-import { getSchoolList, getVerificationCode } from '@/request/api/common'
+import { getSchoolList, checkPhoneNumber, getVerificationCode } from '@/request/api/common'
 
 const signUpInput = [
+  {
+    placeholder: '真实姓名',
+    value: '',
+    type: 'text',
+    description: '',
+    reg: /^[\d\w\u4e00-\u9fa5,.;:"'?!-]{2,8}$/,
+    isWarnng: false,
+    isError: false,
+    warningText: '',
+    errorText: '',
+    noneEmptyText: '请输入您的真实姓名',
+    noneCheckText: '姓名不合规范，请重新填写',
+  },
   {
     placeholder: '昵称',
     value: '',
     type: 'text',
     description: '只能是中文、字母、数字',
-    reg: /^[0-9a-zA-Z_]{1,}$/,
+    reg: /^[\d\w\u4e00-\u9fa5,.;:"'?!-]{2,8}$/,
     isWarnng: false,
     isError: false,
     warningText: '',
@@ -144,8 +151,6 @@ export default {
   name: 'SignIn',
   data: () => ({
     signUpInput,
-    signUpAlert: false,
-    signUpAlertText: '注册失败',
     signUpDisable: false,
     selectWarning: false,
     school: '',
@@ -179,13 +184,31 @@ export default {
         this.signUpDisable = true
 
         try {
-          const code = await signUp()
-          if (code === 2000) {
-            // TODO
+          const { code } = await signUp({
+            school: this.school,
+            real_name: this.signUpInput[0].value,
+            nickname: this.signUpInput[1].value,
+            password: this.signUpInput[2].value,
+            phone: this.signUpInput[4].value,
+          })
+          if (code === 2001) {
+            const status = await this.$store.dispatch('user/signIn', {
+              account: this.signUpInput[4].value,
+              password: this.signUpInput[2].value,
+            })
+            if (status === 2000) {
+              await this.$store.dispatch('user/getUserInfo')
+              this.$router.replace('/')
+            }
+          } else if (code === 4002) {
+            this.signUpInput[4].isError = true
+            this.signUpInput[4].errorText = '手机号已被注册'
+          } else if (code === 4003) {
+            this.signUpInput[1].isError = true
+            this.signUpInput[1].errorText = '昵称已被使用'
           }
-        } catch (err) {
-          this.signUpAlert = true
-          this.signUpAlertText = err
+        } catch {
+          // TODO
         } finally {
           this.$vs.loading.close('#signUpBtn > .con-vs-loading')
           this.signUpDisable = false
@@ -219,9 +242,9 @@ export default {
         input.errorText = input.noneCheckText
         return false
       })
-      if (this.signUpInput[1].value !== this.signUpInput[2].value) {
-        this.signUpInput[2].isError = true
-        this.signUpInput[2].errorText = '二次密码与前一次不相同'
+      if (this.signUpInput[2].value !== this.signUpInput[3].value) {
+        this.signUpInput[3].isError = true
+        this.signUpInput[3].errorText = '二次密码与前一次不相同'
         return false
       }
       const flag = flags.every(Boolean)
@@ -232,35 +255,34 @@ export default {
     async getCode() {
       if (this.validate() && this.signUpCheck()) {
         if (!this.timer) {
-          let count = 60
-          this.codeText = `${count}s`
-          this.getVerificationCode()
-          this.timer = setInterval(() => {
-            if (count > 0) {
-              count -= 1
-              this.codeText = `${count}s`
-            } else {
-              clearInterval(this.timer)
-              this.timer = null
-              count = 60
-              this.codeText = '重新发送'
-            }
-          }, 1000)
+          const { code } = await checkPhoneNumber({ phone: this.signUpInput[3].value })
+          if (code === 2000) {
+            let count = 60
+            this.codeText = `${count}s`
+            this.getVerificationCode()
+            this.timer = setInterval(() => {
+              if (count > 0) {
+                count -= 1
+                this.codeText = `${count}s`
+              } else {
+                clearInterval(this.timer)
+                this.timer = null
+                count = 60
+                this.codeText = '重新发送'
+              }
+            }, 1000)
+          } else if (code === 4003) {
+            this.signUpInput[4].isError = true
+            this.signUpInput[4].errorText = '手机号已被注册'
+          }
         }
       }
     },
 
     async getVerificationCode() {
-      try {
-        const { code, data } = await getVerificationCode({ phone: this.signUpInput[3].value })
-        if (code === 2000) {
-          this.code = data.code
-        } else if (code === 4003) {
-          this.signUpInput[3].isError = true
-          this.signUpInput[3].errorText = '手机号已被注册'
-        }
-      } catch {
-        //
+      const { code, data } = await getVerificationCode({ phone: this.signUpInput[3].value })
+      if (code === 2000) {
+        this.code = data.code
       }
     },
 
