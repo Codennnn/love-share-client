@@ -66,7 +66,8 @@ Mock.mock('/api/buying/update', 'put', buying.update_buying)
 Mock.mock('/api/school/list', 'get', school.school_list)
 
 // 通用
-Mock.mock('/api/common/verification_code', 'post', user.verification_code)
+Mock.mock('/api/common/check_phone_number', 'post', common.check_phone_number)
+Mock.mock('/api/common/verification_code', 'post', common.verification_code)
 
 Mock.mock(/\/article/, 'get', service.article)
 
