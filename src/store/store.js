@@ -10,7 +10,6 @@ import user from './modules/user'
 import todo from './modules/todo'
 import cart from './modules/cart'
 import chat from './modules/chat'
-import permission from './modules/permission'
 
 Vue.use(Vuex)
 
@@ -20,7 +19,6 @@ export default new Vuex.Store({
     todo,
     cart,
     chat,
-    permission,
   },
 
   state,

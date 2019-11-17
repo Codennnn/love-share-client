@@ -1,12 +1,10 @@
 import { setToken, getToken, removeToken } from '@/permission/token'
-import { login, logout, getUserInfo } from '@/request/api/user'
-import { resetRouter } from '@/router/router'
+import { signIn, signOut, getUserInfo } from '@/request/api/user'
 
 const state = {
   token: getToken(),
   roles: [],
-  nickname: '',
-  detail: {},
+  info: {},
 }
 
 const mutations = {
@@ -16,21 +14,18 @@ const mutations = {
   SET_ROLES(state, roles) {
     state.roles = roles
   },
-  SET_NICKNAME(state, nickname) {
-    state.nickname = nickname
-  },
-  SET_DETAIL(state, detail) {
-    state.detail = detail
+  SET_INFO(state, info) {
+    state.info = info
   },
 }
 
 const actions = {
-  async login({ commit }, loginInfo) {
+  async signIn({ commit }, info) {
     try {
-      const { code, data } = await login(loginInfo)
+      const { code, data } = await signIn(info)
       if (code === 2000) {
-        commit('SET_TOKEN', data.token) // 将token存储到vuex
-        setToken(data.token) // 将token缓存到cookie
+        commit('SET_TOKEN', data.token) // 将 token 存储到 vuex
+        setToken(data.token) // 将 token 缓存到 cookie
       }
       return code
     } catch (err) {
@@ -41,10 +36,8 @@ const actions = {
   async getUserInfo({ commit }) {
     try {
       const { data } = await getUserInfo()
-      const { roles, nickname } = data
-      commit('SET_ROLES', roles)
-      commit('SET_NICKNAME', nickname)
-      commit('SET_DETAIL', data)
+      commit('SET_ROLES', data.roles)
+      commit('SET_INFO', data.info)
       return data
     } catch (err) {
       removeToken()
@@ -52,12 +45,11 @@ const actions = {
     }
   },
 
-  async logout({ commit, state }) {
-    await logout(state.token)
+  async signOut({ commit, state }) {
+    await signOut(state.token)
     commit('SET_TOKEN', '')
     commit('SET_ROLES', [])
     removeToken() // 移除本地token缓存
-    resetRouter() // 重置路由，不然会出现路由重复的情况
   },
 }
 
