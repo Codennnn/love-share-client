@@ -4,7 +4,6 @@ import notice from './notice'
 import goods from './goods'
 import order from './order'
 import buying from './buying'
-import school from './school'
 import service from './service'
 import common from './common'
 
@@ -12,8 +11,6 @@ import common from './common'
 Mock.mock('/api/user/sign_in', 'post', user.sign_in)
 Mock.mock('/api/user/sign_up', 'post', user.sign_up)
 Mock.mock('/api/user/info', 'get', user.info)
-Mock.mock('/api/user/list', 'get', user.user_list)
-Mock.mock('/api/user/manager_list', 'get', user.manager_list)
 Mock.mock('/api/user/detail', 'get', user.user_detail)
 Mock.mock('/api/user/reset_password', 'put', user.reset_password)
 Mock.mock('/api/user/recent_contacts', 'get', user.recent_contacts)
@@ -37,9 +34,6 @@ Mock.mock('/api/goods/list_info', 'get', goods.list_info)
 Mock.mock('/api/goods/published', 'get', goods.published)
 Mock.mock('/api/goods/bought', 'get', goods.bought)
 Mock.mock('/api/goods/detail', 'get', goods.goods_detail)
-Mock.mock('/api/goods/category_list', 'get', goods.category_list)
-Mock.mock('/api/goods/category/add', 'post', goods.add_category)
-Mock.mock('/api/goods/category/delete', 'delete', goods.delete_category)
 Mock.mock('/api/goods/delete', 'delete', goods.delete)
 Mock.mock('/api/goods/collect', 'post', goods.collect)
 Mock.mock('/api/goods/uncollect', 'delete', goods.uncollect)
@@ -50,7 +44,6 @@ Mock.mock('/api/goods/cart_item/add', 'post', goods.add_cart_item)
 Mock.mock('/api/goods/cart_item/remove', 'delete', goods.remove_cart_item)
 
 // 订单
-Mock.mock('/api/order/list', 'get', order.order_list)
 Mock.mock('/api/order/detail', 'get', order.detail)
 Mock.mock('/api/order/order_transaction_amount', 'get', order.order_transaction_amount)
 Mock.mock('/api/order/order_volume', 'get', order.order_volume)
@@ -62,8 +55,11 @@ Mock.mock('/api/buying/add', 'post', buying.add_buying)
 Mock.mock('/api/buying/delete', 'delete', buying.delete_buying)
 Mock.mock('/api/buying/update', 'put', buying.update_buying)
 
+// 分类
+Mock.mock('/api/category/list', 'get', common.category_list)
+
 // 学校
-Mock.mock('/api/school/list', 'get', school.school_list)
+Mock.mock('/api/school/list', 'get', common.school_list)
 
 // 通用
 Mock.mock('/api/common/check_phone_number', 'post', common.check_phone_number)

@@ -49,27 +49,6 @@ export function getGoodsDetail() {
   })
 }
 
-export function getGoodsCategory() {
-  return request({
-    url: '/goods/category_list',
-    method: 'get',
-  })
-}
-
-export function addGoodsCategory() {
-  return request({
-    url: '/goods/category/add',
-    method: 'post',
-  })
-}
-
-export function deleteGoodsCategory() {
-  return request({
-    url: '/goods/category/delete',
-    method: 'delete',
-  })
-}
-
 export function deleteGoods() {
   return request({
     url: '/goods/delete',

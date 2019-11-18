@@ -23,6 +23,13 @@ export function getVerificationCode(data) {
   })
 }
 
+export function getCategoryList() {
+  return request({
+    url: '/category/list',
+    method: 'get',
+  })
+}
+
 export function getSchoolList() {
   return request({
     url: '/school/list',
