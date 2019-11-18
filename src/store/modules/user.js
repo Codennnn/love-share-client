@@ -1,18 +1,14 @@
-import { setToken, getToken, removeToken } from '@/permission/token'
+import { setToken, getToken, removeToken } from '@/utils/token'
 import { signIn, signOut, getUserInfo } from '@/request/api/user'
 
 const state = {
   token: getToken(),
-  roles: [],
   info: {},
 }
 
 const mutations = {
   SET_TOKEN(state, token) {
     state.token = token
-  },
-  SET_ROLES(state, roles) {
-    state.roles = roles
   },
   SET_INFO(state, info) {
     state.info = info
@@ -47,7 +43,7 @@ const actions = {
   async signOut({ commit, state }) {
     await signOut(state.token)
     commit('SET_TOKEN', '')
-    commit('SET_ROLES', [])
+    commit('SET_INFO', {})
     removeToken() // 移除本地token缓存
   },
 }
