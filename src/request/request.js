@@ -1,6 +1,6 @@
 import Axios from 'axios'
 import { Notification } from 'element-ui'
-import { getToken } from '@/permission/token'
+import { getToken } from '@/utils/token'
 
 const service = Axios.create({
   baseURL: '/api',

@@ -10,7 +10,7 @@ import 'dayjs/locale/zh-cn' // dayjs 语言包
 import './router/control' // 路由控制
 import '@/layouts/theme' // 网站主题，样式
 
-// import '@/request/mock/mock' // 本地 mock 模拟请求数据
+import '@/request/mock/mock' // 本地 mock 模拟请求数据
 
 Vue.use(animated)
 Vue.use(VueClipboard)
