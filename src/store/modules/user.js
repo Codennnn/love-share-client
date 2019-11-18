@@ -17,26 +17,24 @@ const mutations = {
 
 const actions = {
   async signIn({ commit }, info) {
-    try {
-      const { code, data } = await signIn(info)
-      if (code === 2000) {
-        commit('SET_TOKEN', data.token) // 将 token 存储到 vuex
-        setToken(data.token) // 将 token 缓存到 cookie
-      }
-      return code
-    } catch (err) {
-      return err
+    const { code, data } = await signIn(info)
+    if (code === 2000) {
+      commit('SET_TOKEN', data.token) // 将 token 存储到 vuex
+      setToken(data.token) // 将 token 缓存到 cookie
     }
+    return code
   },
 
   async getUserInfo({ commit }) {
     try {
-      const { data } = await getUserInfo()
-      commit('SET_INFO', data.user_info)
+      const { code, data } = await getUserInfo()
+      if (code === 2000) {
+        commit('SET_INFO', data.user_info)
+      }
       return data
     } catch (err) {
       removeToken()
-      return Promise.reject(err)
+      return err
     }
   },
 
