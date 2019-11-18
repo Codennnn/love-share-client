@@ -237,44 +237,58 @@
 
         </div>
 
-        <!-- 用户名称 -->
-        <div class="info">
-          <div class="text-right text-lg">{{ info.nickname }}</div>
-          <small style="color: #919191;">{{ info.school }}</small>
-        </div>
+        <template v-if="$login()">
+          <!-- 用户名称 -->
+          <div class="ml-3 text-right">
+            <div class="text-lg">{{ info.nickname }}</div>
+            <small style="color: #919191;">{{ info.school }}</small>
+          </div>
 
-        <!-- 头像 -->
-        <vs-dropdown
-          class="ml-4"
-          vs-custom-content
-        >
-          <div class="flex items-center justify-center">
+          <!-- 头像 -->
+          <vs-dropdown
+            class="ml-4"
+            vs-custom-content
+          >
+            <div class="flex items-center justify-center">
+              <vs-avatar
+                size="40px"
+                :src="info.avatar_url"
+              />
+            </div>
+            <vs-dropdown-menu>
+              <vs-dropdown-item
+                class="w-32"
+                v-for="(pop, index) in popItems"
+                :key="index"
+              >
+                <router-link
+                  tag="div"
+                  class="flex items-center"
+                  :to="pop.route || ''"
+                  @click.native="!pop.route && signOut()"
+                >
+                  <i
+                    class="inner-icon text-base font-medium"
+                    :class="pop.icon"
+                  ></i>
+                  <span class="inner-text ml-3">{{ pop.text }}</span>
+                </router-link>
+              </vs-dropdown-item>
+            </vs-dropdown-menu>
+          </vs-dropdown>
+        </template>
+        <template v-else>
+          <div class="flex items-center">
+            <div class="ml-3 text-right">
+              <div class="text-right text-lg">您好</div>
+              <small style="color: #919191;">请登录</small>
+            </div>
             <vs-avatar
+              text="Login"
               size="40px"
-              :src="info.avatar_url"
             />
           </div>
-          <vs-dropdown-menu>
-            <vs-dropdown-item
-              class="w-32"
-              v-for="(pop, index) in popItems"
-              :key="index"
-            >
-              <router-link
-                tag="div"
-                class="flex items-center"
-                :to="pop.route || ''"
-                @click.native="!pop.route && signOut()"
-              >
-                <i
-                  class="inner-icon text-base font-medium"
-                  :class="pop.icon"
-                ></i>
-                <span class="inner-text ml-3">{{ pop.text }}</span>
-              </router-link>
-            </vs-dropdown-item>
-          </vs-dropdown-menu>
-        </vs-dropdown>
+        </template>
       </div>
     </div>
   </div>
@@ -465,10 +479,5 @@ $navIcon: #686868; // 顶部导航栏图标颜色
     -webkit-box-orient: vertical;
     color: #989898;
   }
-}
-
-.info {
-  margin-left: 15px;
-  text-align: right;
 }
 </style>
