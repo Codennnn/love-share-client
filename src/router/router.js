@@ -45,10 +45,14 @@ export const routes = [
     meta: { title: '首页' },
   },
   {
-    path: '*',
-    redirect: '/not-found',
+    path: '/not-found',
+    name: 'NotFound',
     component: () => import('@/views/error-page/NotFound.vue'),
     meta: { title: '404 not found' },
+  },
+  {
+    path: '*',
+    redirect: '/not-found',
   },
 ]
 
