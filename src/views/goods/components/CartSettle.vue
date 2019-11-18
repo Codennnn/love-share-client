@@ -14,8 +14,8 @@
                 <div class="flex items-center">
                   <span class="mx-2 text-sm">余额支付</span>
                   <img
-                    class="w-6"
-                    src="@/assets/images/pages/cart/huabei.svg"
+                    class="w-8"
+                    src="@/assets/images/pages/cart/pal_pay.svg"
                   >
                 </div>
               </vs-radio>
@@ -33,7 +33,7 @@
                 <div class="flex items-center">
                   <span class="mx-2 text-sm">{{ item.label }}</span>
                   <img
-                    class="w-6"
+                    class="w-8"
                     :src="item.icon"
                   >
                 </div>
@@ -71,9 +71,9 @@
 </template>
 
 <script>
-import icon1 from '@/assets/images/pages/cart/weixin.svg'
-import icon2 from '@/assets/images/pages/cart/zhifubao.svg'
-import icon3 from '@/assets/images/pages/cart/yinlian.svg'
+import icon1 from '@/assets/images/pages/cart/wechat_pay.svg'
+import icon2 from '@/assets/images/pages/cart/ali_pay.svg'
+import icon3 from '@/assets/images/pages/cart/union_pay.svg'
 
 export default {
   name: 'CartSettle',
