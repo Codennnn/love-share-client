@@ -74,3 +74,10 @@ body {
     }
   }
 }
+
+// 修改 vuesax 中等按钮的字体大小
+.vs-button:not(.medium, .large) {
+  & .vs-button-text {
+    font-size: 0.875rem;
+  }
+}
