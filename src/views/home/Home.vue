@@ -30,7 +30,7 @@
       <div class="ml-4 py-6 px-4 bg-white rounded-lg text-gray-600 shadow">
         <div class="grid">
           <div
-            class="px-3 text-center cursor-pointer"
+            class="grid-item px-3 text-center cursor-pointer"
             v-for="(item, index) in grids"
             :key="index"
           >
@@ -51,6 +51,8 @@
 import { getCategoryList } from '@/request/api/common'
 import icon1 from '@/assets/images/pages/home/grid1.svg'
 import icon2 from '@/assets/images/pages/home/grid2.svg'
+import icon3 from '@/assets/images/pages/home/grid3.svg'
+import icon4 from '@/assets/images/pages/home/grid4.svg'
 
 const categoryIcons = {
   电子数码: 'el-icon-headset',
@@ -60,14 +62,10 @@ const categoryIcons = {
   服饰鞋包: 'el-icon-brush',
 }
 const grids = [
-  {
-    icon: icon1,
-    label: '逛同校',
-  },
-  {
-    icon: icon2,
-    label: '租借区',
-  },
+  { icon: icon1, label: '逛同校' },
+  { icon: icon2, label: '签到领币' },
+  { icon: icon3, label: '旧物回收' },
+  { icon: icon4, label: '物品租借' },
 ]
 
 export default {
@@ -106,6 +104,12 @@ export default {
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-row-gap: 1rem;
+  .grid-item {
+    transition: 0.4s;
+    &:hover {
+      transform: translateY(-0.25rem);
+    }
+  }
 }
 
 .title {

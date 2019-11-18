@@ -18,7 +18,7 @@
       :danger-text="item.errorText"
       v-model.trim="item.value"
       @focus="item.isWarnng = false, item.isError = false"
-      @keyup.enter="login"
+      @keyup.enter="onSignIn()"
     />
     <vs-alert
       closable
@@ -86,8 +86,15 @@ export default {
 
   methods: {
     async onSignIn() {
+      // 非空验证不通过，退出
       if (!this.validate()) {
-        // 非空验证不通过，退出程序
+        return
+      }
+
+      // 手机号码格式不正确，退出
+      if (!/^[1]([3-9])[0-9]{9}$/.test(this.signInInput[0].value)) {
+        this.signInInput[0].isError = true
+        this.signInInput[0].errorText = '请确认手机号的格式是否填写正确'
         return
       }
 
@@ -118,7 +125,7 @@ export default {
         }
       } catch (err) {
         this.signInAlert = true
-        this.signInAlertText = err
+        this.signInAlertText = `登录失败 - ${err}`
       } finally {
         // 关闭按钮的加载动画
         this.$vs.loading.close('#signInBtn > .con-vs-loading')
