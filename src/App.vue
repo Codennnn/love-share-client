@@ -5,7 +5,24 @@
 </template>
 
 <script>
-export default { name: 'App' }
+import { getToken } from '@/utils/token'
+
+export default {
+  name: 'App',
+
+  mounted() {
+    this.getUserInfo()
+  },
+
+  methods: {
+    async getUserInfo() {
+      const token = getToken()
+      if (token) {
+        await this.$store.dispatch('user/getUserInfo')
+      }
+    },
+  },
+}
 </script>
 
 <style lang="scss">
