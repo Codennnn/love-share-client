@@ -11,11 +11,11 @@ export default {
   name: 'App',
 
   mounted() {
-    this.getUserInfo()
+    this.init()
   },
 
   methods: {
-    async getUserInfo() {
+    async init() {
       const token = getToken()
       if (token) {
         await this.$store.dispatch('user/getUserInfo')
