@@ -31,19 +31,18 @@ service.interceptors.request.use(
 
 const errorHandler = {
   errorNotify({
-    title = '哎呀！', message = '请求出错啦！',
+    title = '哎呀！', message = '请求出错啦！', duration = 0,
   } = {}) {
-    Notification.error({
-      title,
-      message,
-      duration: 0,
-    })
+    Notification.error({ title, message, duration })
   },
   401(status, statusText) {
     this.errorNotify({ title: `${status}`, message: `抱歉，您没有权限访问 - ${statusText}` })
   },
   404(status, statusText) {
     this.errorNotify({ title: `${status}`, message: `找不到资源 - ${statusText}` })
+  },
+  418(status) {
+    this.errorNotify({ title: `${status}`, message: '登录过期，请重新登录~', duration: '2500' })
   },
   500(status, statusText) {
     this.errorNotify({ title: `${status}`, message: `服务器出问题了 - ${statusText}` })
