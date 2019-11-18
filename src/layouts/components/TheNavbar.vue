@@ -304,7 +304,7 @@ const noticeType = {
 }
 
 export default {
-  name: 'TheNavBar',
+  name: 'TheNavbar',
   data: () => ({
     timeDiff,
     popItems,

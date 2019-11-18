@@ -3,24 +3,27 @@ import Mock from 'mockjs'
 const { Random } = Mock
 
 export default {
-  signIn: {
+  sign_in: {
     code: 2000,
     data: {
       token: 'signIn',
     },
   },
 
-  signUp: {
+  sign_up: {
     code: 2000,
   },
 
-  userInfo: {
+  info: {
     code: 2000,
     data: {
-      nickname: '令狐少侠',
-      real_name: '陈梓聪',
-      school: '广州大学华软软件学院',
-      roles: ['super_admin'],
+      user_info: {
+        avatar_url: 'https://gitee.com/chinesee/images/raw/master/img/img_012.jpg',
+        nickname: '令狐少侠',
+        real_name: '陈梓聪',
+        school: '广州大学华软软件学院',
+        roles: ['user'],
+      },
     },
   },
 
