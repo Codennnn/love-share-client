@@ -9,9 +9,9 @@ import service from './service'
 import common from './common'
 
 // 用户
-Mock.mock('/api/user/sign_in', 'post', user.signIn)
-Mock.mock('/api/user/sign_up', 'post', user.signUp)
-Mock.mock('/api/user/info', 'get', user.userInfo)
+Mock.mock('/api/user/sign_in', 'post', user.sign_in)
+Mock.mock('/api/user/sign_up', 'post', user.sign_up)
+Mock.mock('/api/user/info', 'get', user.info)
 Mock.mock('/api/user/list', 'get', user.user_list)
 Mock.mock('/api/user/manager_list', 'get', user.manager_list)
 Mock.mock('/api/user/detail', 'get', user.user_detail)
