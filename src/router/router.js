@@ -10,7 +10,7 @@ export const routes = [
     path: '/sign',
     name: 'Sign',
     component: () => import('@/views/sign/Sign.vue'),
-    meta: { title: '登录注册' },
+    meta: { title: '登录' },
   },
   {
     path: '/',

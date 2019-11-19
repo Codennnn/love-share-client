@@ -286,6 +286,7 @@
             <vs-avatar
               text="Login"
               size="40px"
+              @click="$router.push('/sign')"
             />
           </div>
         </template>
