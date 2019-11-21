@@ -4,9 +4,7 @@
       <div class="flex items-center">
         <img
           src="@/assets/images/logo.png"
-          width="45px"
-          style="margin-right: 3rem; user-select: none;"
-          draggable="false"
+          class="mr-8 w-12"
           alt="LOGO"
         >
         <router-link
@@ -278,17 +276,15 @@
           </vs-dropdown>
         </template>
         <template v-else>
-          <div class="flex items-center">
-            <div class="ml-3 text-right">
-              <div class="text-right text-lg">您好</div>
-              <small style="color: #919191;">请登录</small>
-            </div>
-            <vs-avatar
-              text="Login"
-              size="40px"
-              @click="$router.push('/sign')"
-            />
+          <div class="ml-3 text-right">
+            <div class="text-right text-lg">您好</div>
+            <small style="color: #919191;">请登录</small>
           </div>
+          <vs-avatar
+            text="Login"
+            size="40px"
+            @click="$router.push('/sign')"
+          />
         </template>
       </div>
     </div>

@@ -1,8 +1,22 @@
 <template>
   <div
-    class="h-screen py-40 flex justify-center items-center"
+    class="relative h-screen py-40 flex justify-center items-center"
     style="background: rgb(239, 242, 247);"
   >
+    <div
+      class="absolute flex items-center"
+      style="top: 2rem; left: 4rem;"
+    >
+      <img
+        class="w-12 mr-6"
+        src="@/assets/images/logo.png"
+      >
+      <router-link
+        class="text-xl font-bold text-gray-600"
+        to="/home"
+      >Home</router-link>
+    </div>
+
     <div
       class="relative flex justify-end bg-white rounded-lg overflow-hidden"
       style="min-width: 1000px;"
@@ -27,8 +41,6 @@
 
       <img
         class="w-2/3"
-        style="user-select: none;"
-        draggable="false"
         src="@/assets/images/pages/login/bg.png"
       >
     </div>
