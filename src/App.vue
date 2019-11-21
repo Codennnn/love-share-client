@@ -5,23 +5,8 @@
 </template>
 
 <script>
-import { getToken } from '@/utils/token'
-
 export default {
   name: 'App',
-
-  mounted() {
-    this.init()
-  },
-
-  methods: {
-    async init() {
-      const token = getToken()
-      if (token) {
-        await this.$store.dispatch('user/getUserInfo')
-      }
-    },
-  },
 }
 </script>
 
