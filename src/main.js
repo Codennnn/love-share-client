@@ -17,7 +17,6 @@ import { getToken } from '@/utils/token'
 Vue.use(animated)
 Vue.use(VueClipboard)
 Vue.prototype.$dayjs = dayjs
-dayjs.locale('zh-cn')
 
 Vue.directive('login', {
   inserted(el) {

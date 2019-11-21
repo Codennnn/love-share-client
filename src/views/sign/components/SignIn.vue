@@ -18,7 +18,7 @@
       :danger-text="item.errorText"
       v-model.trim="item.value"
       @focus="item.isWarnng = false, item.isError = false"
-      @keyup.enter="onSignIn()"
+      @keyup.enter="i === 1 ? onSignIn() : ''"
     />
     <vs-alert
       closable
