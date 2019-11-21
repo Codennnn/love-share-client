@@ -10,6 +10,7 @@ import actions from './actions'
 import user from './modules/user'
 import todo from './modules/todo'
 import cart from './modules/cart'
+import notice from './modules/notice'
 import chat from './modules/chat'
 
 Vue.use(Vuex)
@@ -19,6 +20,7 @@ export default new Vuex.Store({
     user,
     todo,
     cart,
+    notice,
     chat,
   },
 
