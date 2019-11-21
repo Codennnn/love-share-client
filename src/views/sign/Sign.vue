@@ -14,7 +14,7 @@
       <router-link
         class="text-xl font-bold text-gray-600"
         to="/home"
-      >Home1</router-link>
+      >Home</router-link>
     </div>
 
     <div
