@@ -59,6 +59,10 @@ const SignUp = Vue.component(
   'SignUp',
   () => import('./components/SignUp.vue'),
 )
+const SignReset = Vue.component(
+  'SignReset',
+  () => import('./components/SignReset.vue'),
+)
 
 export default {
   name: 'Sign',
@@ -66,7 +70,7 @@ export default {
     currentComponent: 'SignIn', // 默认加载 “登录” 表单
   }),
 
-  components: { SignIn, SignUp },
+  components: { SignIn, SignUp, SignReset },
 
   methods: {
     switchCom(component) {

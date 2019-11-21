@@ -162,7 +162,7 @@ export default {
     timer: null,
   }),
 
-  mounted() {
+  created() {
     this.getSchoolList()
   },
 
@@ -244,7 +244,7 @@ export default {
       })
       if (this.signUpInput[2].value !== this.signUpInput[3].value) {
         this.signUpInput[3].isError = true
-        this.signUpInput[3].errorText = '二次密码与前一次不相同'
+        this.signUpInput[3].errorText = '与前一次不相同，请确保两次密码输入已知'
         return false
       }
       const flag = flags.every(Boolean)

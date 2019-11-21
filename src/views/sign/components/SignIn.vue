@@ -29,6 +29,7 @@
     <span
       class="text-sm text-gray-500 cursor-pointer hover:text-blue-600"
       style="transition: 0.4s;"
+      @click="switchTo('SignReset', '重置密码')"
     >忘记密码？</span>
     <vs-button
       id="signInBtn"
@@ -43,7 +44,7 @@
       <span
         class="text-sm text-gray-500 cursor-pointer hover:text-blue-600"
         style="transition: 0.4s;"
-        @click="switchToSignUp()"
+        @click="switchTo('SignUp', '注册')"
       >还没有账号，去注册</span>
     </div>
   </div>
@@ -145,9 +146,9 @@ export default {
       })
     },
 
-    switchToSignUp() {
-      this.$emit('switchComponent', 'SignUp')
-      document.title = '注册 - 乐享校园'
+    switchTo(name, title) {
+      this.$emit('switchComponent', name)
+      document.title = `${title} - 乐享校园`
     },
   },
 }
