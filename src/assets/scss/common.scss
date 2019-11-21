@@ -53,3 +53,8 @@
 .shadow {
   box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.1) !important; // 基础投影
 }
+
+img {
+  user-select: none;
+  -webkit-user-drag: none;
+}
