@@ -12,9 +12,13 @@
         src="@/assets/images/logo.png"
       >
       <router-link
-        class="text-xl font-bold text-gray-600"
+        class="mr-4 text-lg font-semibold text-gray-600"
         to="/home"
       >Home</router-link>
+      <router-link
+        class="mr-4 text-lg font-semibold text-gray-600"
+        to="/home"
+      >Help</router-link>
     </div>
 
     <div
