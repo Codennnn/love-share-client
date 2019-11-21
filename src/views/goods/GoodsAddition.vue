@@ -1,16 +1,15 @@
 <template>
   <div class="pt-3 flex flex-wrap">
-    <div class="md:w-full md:mb-5 lg:pr-3 lg:w-4/12">
+    <div class="md:w-full md:mb-6 lg:pr-3 lg:w-4/12">
       <div class="p-5 bg-white rounded-lg">
-        <div class="text-xl text-gray-600">图片上传</div>
+        <div class="mb-2 text-xl text-gray-600">图片上传</div>
         <vs-upload
-          class="img-upload text-center"
           multiple
           automatic
-          :limit="6"
           text="图片格式（JPG、PNG）"
-          action="https://jsonplaceholder.typicode.com/posts/"
-          @on-success="successUpload"
+          action="http://localhost:7001/"
+          :limit="6"
+          @on-success="successUpload()"
         />
       </div>
     </div>
@@ -85,7 +84,7 @@
                   :min="1"
                   color="success"
                   v-model="quantity"
-                  @input="(e) => { quantity = Number(e).toFixed(0) }"
+                  @input="(v) => { quantity = Number(v).toFixed(0) }"
                 />
               </div>
             </div>
@@ -144,12 +143,13 @@
             class="mr-4"
             color="#646464"
             type="border"
-            @click="storage"
+            @click="onStorage()"
           >暂存为草稿</vs-button>
           <vs-button
-            id="publishButton"
+            id="publishBtn"
             class="vs-con-loading__container"
-            @click="publish"
+            :disabled="isPublishing"
+            @click="onPublish()"
           >确认发布该商品</vs-button>
         </div>
       </div>
@@ -159,10 +159,12 @@
 
 <script>
 import { VueEditor } from 'vue2-editor'
-import { getGoodsCategory } from '@/request/api/goods'
+import { getCategoryList } from '@/request/api/common'
 
 export default {
   name: 'GoodsAddition',
+  components: { VueEditor },
+
   data: () => ({
     name: '', // 商品名称
     category: [],
@@ -175,55 +177,51 @@ export default {
     bargain: '', // 议价设置
     returnable: false, // 退货设置
     description: '', // 商品描述
-    loading: false,
+    isPublishing: false, // 是否正在发布中
   }),
 
-  components: { VueEditor },
-
-  mounted() {
-    this.getGoodsCategory()
+  async created() {
+    const { code, data } = await getCategoryList()
+    if (code === 2000) {
+      this.categoryList = data.category_list
+    }
     this.description = localStorage.getItem('goods_editor')
   },
 
   methods: {
-    async getGoodsCategory() {
-      const { code, data } = await getGoodsCategory()
-      if (code === 2000) {
-        this.categoryList = data.category_list
-      }
-    },
-
     successUpload() {
       this.$vs.notify({ color: 'success', title: 'Upload Success', text: 'Lorem ipsum dolor sit amet, consectetur' })
     },
 
-    storage() {
+    onStorage() {
       localStorage.setItem('goods_editor', this.description)
       this.$message({ showClose: true, message: '已保存到本地草稿箱 ✔️' })
     },
 
-    publish() {
-      this.$vs.loading({
-        background: 'primary',
-        color: '#fff',
-        container: '#publishButton',
-        scale: 0.45,
-      })
-      setTimeout(() => {
-        this.$vs.loading.close('#publishButton > .con-vs-loading')
-      }, 2000)
+    onCheck() {
+      return true
+    },
+
+    onPublish() {
+      if (this.onCheck()) {
+        this.isPublishing = true
+        this.$vs.loading({
+          background: 'primary',
+          color: '#fff',
+          container: '#publishBtn',
+          scale: 0.45,
+        })
+        setTimeout(() => {
+          this.isPublishing = false
+          this.$vs.loading.close('#publishBtn > .con-vs-loading')
+        }, 2000)
+      }
     },
   },
 }
 </script>
 
 <style lang="scss" scoped>
-.img-upload {
-  &::v-deep .con-img-upload {
-    background: transparent;
-  }
-}
-
 .el-select {
   &::v-deep .el-input__inner {
     border: 1px solid rgba(0, 0, 0, 0.2);
@@ -233,8 +231,8 @@ export default {
   }
 }
 
-.con-upload {
-  &::v-deep .con-input-upload.disabled-upload {
+.con-upload::v-deep {
+  .con-input-upload.disabled-upload {
     display: none;
   }
 }

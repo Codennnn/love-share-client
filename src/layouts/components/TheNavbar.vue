@@ -62,15 +62,15 @@
               @click="screenfull"
             ></i>
           </el-tooltip>
+        </div>
 
+        <template v-if="$login()">
           <!-- 购物车图标 -->
           <Cart class="mr-3" />
 
           <!-- 通知图标 -->
           <Notice class="mr-2" />
-        </div>
 
-        <template v-if="$login()">
           <!-- 用户名称 -->
           <div class="ml-3 text-right">
             <div class="text-lg">{{ info.nickname }}</div>
@@ -111,15 +111,21 @@
           </vs-dropdown>
         </template>
         <template v-else>
-          <div class="ml-3 text-right">
-            <div class="text-right text-lg">您好</div>
-            <small style="color: #919191;">请登录</small>
-          </div>
-          <vs-avatar
-            text="Login"
-            size="40px"
-            @click="$router.push('/sign')"
-          />
+          <vs-button
+            class="mx-3"
+            size="small"
+            type="line"
+            @click="$router.push({ path: '/sign', query: { sign: 'signIn' } })"
+          >
+            登 录
+          </vs-button>
+          <vs-button
+            size="small"
+            type="relief"
+            @click="$router.push({ path: '/sign', query: { sign: 'signUp' } })"
+          >
+            注 册
+          </vs-button>
         </template>
       </div>
     </div>
@@ -127,22 +133,33 @@
 </template>
 
 <script>
+import Vue from 'vue'
 import { mapState } from 'vuex'
 import screenfull from 'screenfull'
-import Cart from './the-navbar/Cart.vue'
-import Notice from './the-navbar/Notice.vue'
 
+const Cart = Vue.component(
+  'Cart',
+  () => import('./the-navbar/Cart.vue'),
+)
+const Notice = Vue.component(
+  'Notice',
+  () => import('./the-navbar/Notice.vue'),
+)
 const popItems = [
   { icon: 'el-icon-user', text: '个人中心', route: '/user-center' },
   { icon: 'el-icon-message', text: '我的消息', route: '/message' },
   { icon: 'el-icon-switch-button', text: '退出登录' },
 ]
 const navIcons = [
-  { tip: '首页', icon: 'el-icon-house', route: '/home' },
+  { tip: '首页', icon: 'el-icon-monitor', route: '/home' },
+  { tip: '个人中心', icon: 'el-icon-user', route: '/user-center' },
+  { tip: '发布我的闲置', icon: 'el-icon-sell', route: '/goods-addition' },
 ]
 
 export default {
   name: 'TheNavbar',
+  components: { Cart, Notice },
+
   data: () => ({
     popItems,
     navIcons,
@@ -150,8 +167,6 @@ export default {
     showSearchInput: false,
     isFullScreen: false, // 是否全屏,
   }),
-
-  components: { Cart, Notice },
 
   mounted() {
     if (screenfull.enabled) {

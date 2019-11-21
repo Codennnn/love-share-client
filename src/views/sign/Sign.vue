@@ -66,11 +66,15 @@ const SignReset = Vue.component(
 
 export default {
   name: 'Sign',
+  components: { SignIn, SignUp, SignReset },
+
   data: () => ({
     currentComponent: 'SignIn', // 默认加载 “登录” 表单
   }),
 
-  components: { SignIn, SignUp, SignReset },
+  mounted() {
+    this.currentComponent = this.$route?.query?.sign || 'SignIn'
+  },
 
   methods: {
     switchCom(component) {

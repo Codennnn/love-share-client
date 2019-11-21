@@ -12,23 +12,19 @@ import '@/layouts/theme' // 网站主题，样式
 
 import '@/request/mock/mock' // 本地 mock 模拟请求数据
 
-import { getToken } from '@/utils/token'
-
 Vue.use(animated)
 Vue.use(VueClipboard)
 Vue.prototype.$dayjs = dayjs
 
 Vue.directive('login', {
   inserted(el) {
-    const token = getToken()
-    if (!token) {
+    if (!store.state.user.token) {
       el.parentNode.removeChild(el) // 如果没有权限，则移除节点
     }
   },
 })
 Vue.prototype.$login = () => {
-  const token = getToken()
-  if (token) {
+  if (store.state.user.token) {
     return true
   }
   return false
