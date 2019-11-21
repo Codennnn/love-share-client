@@ -25,7 +25,7 @@ Mock.mock('/api/user/subscribe', 'post', user.subscribe)
 Mock.mock('/api/user/unsubscribe', 'post', user.unsubscribe)
 
 // 通知
-Mock.mock(/\/notices/, 'get', notice.notices)
+Mock.mock('/api/notice/list', 'get', notice.notice_list)
 
 // 商品
 Mock.mock('/api/goods/stored', 'get', goods.stored_goods)

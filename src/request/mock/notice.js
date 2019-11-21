@@ -1,8 +1,8 @@
 export default {
-  notices: {
+  notice_list: {
     code: 2000,
     data: {
-      notices: [
+      notice_list: [
         {
           title: '优惠券即将到期', content: '您有一张八折优惠券即将到期，请及时使用您有一张八折优惠券即将到期，请及时使用您有一张八折优惠券即将到期，请及时使用您有一张八折优惠券即将到期，请及时使用', type: 0, time: 1569600000,
         },
