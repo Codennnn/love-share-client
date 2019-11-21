@@ -1,6 +1,7 @@
 <template>
   <div class="nav-wrapper">
     <div class="nav-bar">
+      <!-- 导航栏左侧 -->
       <div class="flex items-center">
         <img
           src="@/assets/images/logo.png"
@@ -24,9 +25,10 @@
           </el-tooltip>
         </router-link>
       </div>
-      <div class="nav-right">
-        <div class="flex items-center">
 
+      <!-- 导航栏右侧 -->
+      <div class="flex items-center">
+        <div class="flex items-center">
           <!-- 搜索图标 -->
           <el-tooltip
             :open-delay="100"
@@ -62,177 +64,10 @@
           </el-tooltip>
 
           <!-- 购物车图标 -->
-          <vs-dropdown
-            vs-custom-content
-            vs-trigger-click
-          >
-            <el-badge
-              class="mr-3"
-              :value="this.cartAmount > 0 ? this.cartAmount : ''"
-            >
-              <i class="nav-icon el-icon-shopping-cart-2"></i>
-            </el-badge>
-            <vs-dropdown-menu class="menu-box">
-              <div class="w-full py-4 text-center text-white bg-primary cursor-pointer">
-                <p class="text-xl">共有 {{ this.cartAmount }} 件商品</p>
-              </div>
-              <VuePerfectScrollbar
-                style="height: 350px;"
-                :settings="settings"
-              >
-                <ul
-                  class="w-full"
-                  v-if="this.cartList.length > 0"
-                >
-                  <li
-                    class="flex p-2
-                    cursor-pointer hover:bg-gray-200"
-                    style="transition: all 0.3s;"
-                    v-for="(item, i) in cartList"
-                    :key="i"
-                  >
-                    <el-image
-                      class="mr-2 rounded-lg"
-                      style="width: 80px; height: 80px"
-                      fit="cover"
-                      :src="item.img_list[0]"
-                    ></el-image>
-                    <div class="flex-1 overflow-hidden">
-                      <div class="text-overflow">
-                        {{ item.name }}
-                      </div>
-                      <div class="mt-2 flex justify-between items-center">
-                        <small
-                          class="whitespace-no-wrap"
-                          style="color: #989898;"
-                        >
-                          ￥{{ item.price.toFixed(2) }}
-                          <span style="margin: 0 0.1rem;">x</span>
-                          {{ item.amount }}</small>
-                        <i
-                          class="el-icon-close text-danger"
-                          @click="$store.dispatch('cart/removeCartItem', item.goods_id)"
-                        ></i>
-                      </div>
-                    </div>
-                  </li>
-                </ul>
-                <div
-                  class="h-full flex flex-col items-center justify-center"
-                  v-else
-                >
-                  <vs-icon
-                    size="80px"
-                    icon="blur_on"
-                    color="#718096"
-                  ></vs-icon>
-                  <div class="mt-4 text-gray-600 text-sm">购物车空空如也</div>
-                </div>
-              </VuePerfectScrollbar>
-              <div
-                class="w-full p-2 text-center text-primary
-                cursor-pointer font-semibold bg-gray-100 hover:bg-gray-200"
-                style="transition: all 0.3s;"
-                @click="$router.push('/goods-cart')"
-              >
-                <span>进入购物车</span>
-              </div>
-            </vs-dropdown-menu>
-          </vs-dropdown>
+          <Cart class="mr-3" />
 
           <!-- 通知图标 -->
-          <vs-dropdown
-            vs-custom-content
-            vs-trigger-click
-          >
-            <el-badge
-              class="mr-2"
-              :value="this.notices.length > 0 ? this.notices.length : ''"
-              @click="getNotices"
-            >
-              <i class="nav-icon el-icon-bell"></i>
-            </el-badge>
-            <vs-dropdown-menu
-              id="div-with-loading"
-              class="menu-box"
-            >
-              <div
-                class="w-full table text-center text-white bg-primary cursor-pointer"
-                style="height: 65px;"
-                @mouseover="showRefresh = true"
-                @mouseout="showRefresh = false"
-              >
-                <div
-                  class="table-cell"
-                  style="vertical-align: middle;"
-                  @click="noticesRefresh"
-                >
-                  <div class="text-xl">收到 {{ this.notices.length }} 条新通知</div>
-                  <div
-                    class="text-sm text-gray-300"
-                    v-show="showRefresh"
-                  >点击刷新</div>
-                </div>
-              </div>
-              <VuePerfectScrollbar
-                style="height: 350px;"
-                :settings="settings"
-              >
-                <ul
-                  class="vs-con-loading__container"
-                  v-if="this.notices.length > 0"
-                >
-                  <li
-                    class="notice flex justify-between p-4
-                    cursor-pointer hover:bg-gray-200"
-                    style="transition: all 0.3s;"
-                    v-for="(nt, i) in notices"
-                    :key="i"
-                  >
-                    <div class="flex items-start">
-                      <vs-icon
-                        size="small"
-                        :icon="noticeType[nt.type].icon"
-                        :color="noticeType[nt.type].color"
-                      ></vs-icon>
-                      <div class="mx-2">
-                        <div>
-                          <span
-                            class="font-medium block"
-                            :class="[`text-${noticeType[nt.type].color}`]"
-                          >{{ nt.title }}</span>
-                          <small class="notice-content">{{ nt.content }}</small>
-                        </div>
-                      </div>
-                    </div>
-                    <small
-                      class="whitespace-no-wrap"
-                      style="color: #989898;"
-                    >{{ timeDiff(nt.time) }}</small>
-                  </li>
-                </ul>
-                <div
-                  class="h-full flex flex-col items-center justify-center"
-                  v-else
-                >
-                  <vs-icon
-                    size="80px"
-                    icon="blur_on"
-                    color="#718096"
-                  ></vs-icon>
-                  <div class="mt-4 text-gray-600 text-sm">暂无更多新的通知</div>
-                </div>
-              </VuePerfectScrollbar>
-              <div
-                class="w-full p-2 text-center text-primary
-                cursor-pointer font-semibold bg-gray-100 hover:bg-gray-200"
-                style="transition: all 0.3s;"
-              >
-                <span>查看全部通知</span>
-              </div>
-            </vs-dropdown-menu>
-          </vs-dropdown>
-
+          <Notice class="mr-2" />
         </div>
 
         <template v-if="$login()">
@@ -292,12 +127,10 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import screenfull from 'screenfull'
-import { mapState, mapGetters } from 'vuex'
-import VuePerfectScrollbar from 'vue-perfect-scrollbar'
-
-import { timeDiff } from '@/utils/util'
-import { getNotices } from '@/request/api/notice'
+import Cart from './the-navbar/Cart.vue'
+import Notice from './the-navbar/Notice.vue'
 
 const popItems = [
   { icon: 'el-icon-user', text: '个人中心', route: '/user-center' },
@@ -307,40 +140,23 @@ const popItems = [
 const navIcons = [
   { tip: '首页', icon: 'el-icon-house', route: '/home' },
 ]
-const noticeType = {
-  0: { icon: 'chat_bubble_outline', color: 'primary' },
-  1: { icon: 'done_outline', color: 'success' },
-  2: { icon: 'help_outline', color: 'warning' },
-  3: { icon: 'error_outline', color: 'danger' },
-}
 
 export default {
   name: 'TheNavbar',
   data: () => ({
-    timeDiff,
     popItems,
     navIcons,
-    noticeType,
-    notices: [],
-    showRefresh: false,
     searchText: '',
     showSearchInput: false,
     isFullScreen: false, // 是否全屏,
-    settings: {
-      maxScrollbarLength: 160,
-      wheelSpeed: 0.60,
-    },
   }),
 
-  components: { VuePerfectScrollbar },
+  components: { Cart, Notice },
 
   mounted() {
     if (screenfull.enabled) {
       screenfull.on('change', this.screenChange)
     }
-
-    this.getCartList()
-    this.getNotices()
   },
 
   beforeDestroy() {
@@ -350,9 +166,7 @@ export default {
   },
 
   computed: {
-    ...mapState('cart', ['cartList']),
     ...mapState('user', ['info']),
-    ...mapGetters('cart', ['cartAmount']),
   },
 
   methods: {
@@ -383,34 +197,6 @@ export default {
     search() {
       console.log(this.searchText)
     },
-
-    // 获取购物车
-    getCartList() {
-      this.$store.dispatch('cart/getCartList')
-    },
-
-    // 获取通知
-    async getNotices() {
-      try {
-        const { code, data } = await getNotices()
-        if (code === 2000) {
-          this.notices = data.notices
-        }
-      } catch (err) {
-        console.log(err)
-      }
-    },
-
-    // 刷新通知
-    async noticesRefresh() {
-      this.$vs.loading({
-        type: 'point',
-        container: '#div-with-loading',
-        scale: 1,
-      })
-      await this.getNotices()
-      this.$vs.loading.close('#div-with-loading > .con-vs-loading')
-    },
   },
 }
 </script>
@@ -433,11 +219,6 @@ $navIcon: #686868; // 顶部导航栏图标颜色
     font-weight: 500;
     color: $navIcon;
   }
-}
-
-.nav-right {
-  display: flex;
-  align-items: center;
 }
 
 // 搜索框
