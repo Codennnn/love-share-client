@@ -44,38 +44,36 @@
                 class="text-sm"
                 color="dark"
                 type="line"
-                icon-pack="el-icon"
-                icon="el-icon-chat-line-square"
               >个人简介</vs-button>
               <div class="text-gray-600">
-                {{ userDetail.introduction }}
+                {{ userDetail.introduction || '未填写' }}
               </div>
             </vs-collapse-item>
           </vs-collapse>
         </div>
         <div class="flex justify-end w-2/3">
           <vs-button
-            class="mr-4"
+            class="mr-4 text-gray-700"
             color="#646464"
-            type="flat"
+            :type="setButtonType('UserBaseInfo')"
             @click="currentComponent = 'UserBaseInfo'"
           >概 况</vs-button>
           <vs-button
-            class="mr-4"
+            class="mr-4 text-gray-700"
             color="#646464"
-            type="flat"
+            :type="setButtonType('UserDetailInfo')"
             @click="currentComponent = 'UserDetailInfo'"
           >详细资料</vs-button>
           <vs-button
-            class="mr-4"
+            class="mr-4 text-gray-700"
             color="#646464"
-            type="flat"
+            :type="setButtonType('UserProfit')"
             @click="currentComponent = 'UserProfit'"
           >财富收益</vs-button>
           <vs-button
-            v-if="$auth()"
+            class="text-gray-700"
             color="#646464"
-            type="flat"
+            :type="setButtonType('UserChangePassword')"
             @click="currentComponent = 'UserChangePassword'"
           >修改密码</vs-button>
         </div>
@@ -114,7 +112,7 @@ const UserChangePassword = Vue.component(
 )
 
 export default {
-  name: 'UserDetail',
+  name: 'UserCenter',
   data: () => ({
     currentComponent: 'UserBaseInfo',
     userDetail: {},
@@ -127,7 +125,7 @@ export default {
     UserChangePassword,
   },
 
-  mounted() {
+  created() {
     this.getUserDetail()
   },
 
@@ -141,6 +139,13 @@ export default {
       } catch {
         // TODO
       }
+    },
+
+    setButtonType(current) {
+      if (this.currentComponent === current) {
+        return 'line'
+      }
+      return ''
     },
   },
 }

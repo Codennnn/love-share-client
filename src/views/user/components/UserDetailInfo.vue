@@ -49,7 +49,6 @@
           :value="detailInfo.school"
         />
         <vs-button
-          v-auth
           class="w-24 mt-6"
           style="margin-left: 6.5rem;"
           type="border"
