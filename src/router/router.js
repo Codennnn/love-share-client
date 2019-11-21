@@ -30,6 +30,12 @@ export const routes = [
         meta: { title: '购物车' },
       },
       {
+        path: '/goods-addition',
+        name: 'GoodsAddition',
+        component: () => import('@/views/goods/GoodsAddition.vue'),
+        meta: { title: '发布闲置' },
+      },
+      {
         path: '/message',
         name: 'Message',
         component: () => import('@/views/message/Message.vue'),
