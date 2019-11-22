@@ -7,9 +7,13 @@
           multiple
           automatic
           text="图片格式（JPG、PNG）"
-          action="http://localhost:7001/"
+          action="/api/goods/upload_img"
+          accept="image/jpeg,image/jpg,image/png"
           :limit="6"
-          @on-success="successUpload()"
+          :headers="headers"
+          @on-success="onUploadSuccess()"
+          @on-delete="onUploadDelete()"
+          @on-error="onUploadError()"
         />
       </div>
     </div>
@@ -160,12 +164,14 @@
 <script>
 import { VueEditor } from 'vue2-editor'
 import { getCategoryList } from '@/request/api/common'
+import { getToken } from '@/utils/token'
 
 export default {
   name: 'GoodsAddition',
   components: { VueEditor },
 
   data: () => ({
+    headers: {},
     name: '', // 商品名称
     category: [],
     categoryList: [], // 商品分类
@@ -188,9 +194,36 @@ export default {
     this.description = localStorage.getItem('goods_editor')
   },
 
+  mounted() {
+    this.headers = {
+      Authorization: `Bearer ${getToken()}`,
+    }
+    console.log(this.headers)
+  },
+
   methods: {
-    successUpload() {
-      this.$vs.notify({ color: 'success', title: 'Upload Success', text: 'Lorem ipsum dolor sit amet, consectetur' })
+    onUploadSuccess() {
+      this.$vs.notify({
+        color: 'success',
+        title: '上传成功',
+        text: '已上传一张图片 ：）',
+      })
+    },
+
+    onUploadDelete() {
+      this.$vs.notify({
+        color: 'danger',
+        title: '删除成功',
+        text: '已删除一张图片 ：（',
+      })
+    },
+
+    onUploadError() {
+      this.$vs.notify({
+        color: 'danger',
+        title: '上传失败',
+        text: '图片上传失败，请尝试重新上传！',
+      })
     },
 
     onStorage() {
