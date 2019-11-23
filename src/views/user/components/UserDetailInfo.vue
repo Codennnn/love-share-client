@@ -5,48 +5,45 @@
     <div class="flex">
       <!-- 乐享信用 -->
       <div class="w-1/3">
-        <vs-chip :color="setCreditColor(detailInfo.credit_value)">
-          乐享信用值：{{ detailInfo.credit_value }} / 1000
+        <vs-chip :color="setCreditColor(detail.credit_value)">
+          乐享信用值：{{ detail.credit_value }} / 1000
         </vs-chip>
         <vs-progress
           :height="8"
-          :percent="(detailInfo.credit_value / 1000) * 100"
-          :color="setCreditColor(detailInfo.credit_value)"
+          :percent="(detail.credit_value / 1000) * 100"
+          :color="setCreditColor(detail.credit_value)"
         ></vs-progress>
       </div>
 
       <!-- 用户资料 -->
-      <div
-        class="w-1/3"
-        style="font-size: 14px;"
-      >
+      <div class="w-1/3 pl-4 text-sm">
         <InfoItem
           label="昵称"
-          :value="detailInfo.nickname"
+          :value="detail.nickname"
         />
         <InfoItem
           label="真实姓名"
-          :value="detailInfo.real_name"
+          :value="detail.real_name"
         />
         <InfoItem
           label="手机号码"
-          :value="detailInfo.phone"
+          :value="detail.phone"
         />
         <InfoItem
           label="性别"
-          :value="detailInfo.gender === '0' ? '女' : detailInfo.gender === '1' ? '男' : '未填写'"
+          :value="detail.gender === '1' ? '男' : detail.gender === '2' ? '女' : '未填写'"
         />
         <InfoItem
           label="QQ"
-          :value="detailInfo.qq"
+          :value="detail.qq || '未填写'"
         />
         <InfoItem
           label="微信"
-          :value="detailInfo.wechat"
+          :value="detail.wechat || '未填写'"
         />
         <InfoItem
           label="学校"
-          :value="detailInfo.school"
+          :value="detail.school"
         />
         <vs-button
           class="w-24 mt-6"
@@ -178,7 +175,7 @@
     </div>
 
     <EditUserInfo
-      :info="detailInfo"
+      :info="detail"
       :isSidebarActive="showSidebar"
       @closeSidebar="showSidebar = false"
     />
@@ -188,11 +185,11 @@
 <script>
 import Vue from 'vue'
 import _cloneDeepWith from 'lodash/cloneDeepWith'
-import InfoItem from './InfoItem.vue'
-
+import InfoItem from './user-detail-info/InfoItem.vue'
 import { setCreditColor } from '@/utils/util'
+
 import {
-  getUserDetailInfo,
+  getUserDetail,
   getAddressList,
   setDefaultAddress,
   addAddress,
@@ -202,15 +199,17 @@ import {
 
 const EditUserInfo = Vue.component(
   'EditUserInfo',
-  () => import('./EditUserInfo.vue'),
+  () => import('./user-detail-info/EditUserInfo.vue'),
 )
 
 export default {
   name: 'UserDetailInfo',
+  components: { InfoItem, EditUserInfo },
+
   data: () => ({
     setCreditColor,
     showSidebar: false,
-    detailInfo: {},
+    detail: {},
     addressList: [], // 地址列表
     defaultAddress: null,
     showForm: false,
@@ -230,35 +229,25 @@ export default {
     addressTypeWarning: false,
   }),
 
-  components: { InfoItem, EditUserInfo },
-
-  mounted() {
-    this.getUserDetailInfo()
+  created() {
+    this.getUserDetail()
     this.getAddressList()
   },
 
   methods: {
-    async getUserDetailInfo() {
-      try {
-        const { code, data } = await getUserDetailInfo()
-        if (code === 2000) {
-          this.detailInfo = data.detail_info
-        }
-      } catch {
-        // TODO
+    async getUserDetail() {
+      const { code, data } = await getUserDetail()
+      if (code === 2000) {
+        this.detail = data.user_detail
       }
     },
 
     // 获取收货地址
     async getAddressList() {
-      try {
-        const { code, data } = await getAddressList()
-        if (code === 2000) {
-          this.defaultAddress = data.default_address
-          this.addressList = data.address_list
-        }
-      } catch {
-        // TODO
+      const { code, data } = await getAddressList()
+      if (code === 2000) {
+        this.defaultAddress = data.default_address
+        this.addressList = data.address_list
       }
     },
 
