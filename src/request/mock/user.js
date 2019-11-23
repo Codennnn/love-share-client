@@ -88,7 +88,6 @@ export default {
   // 重置密码
   reset_password: {
     code: 2000,
-    msg: '成功重置密码',
   },
 
   // 最近联系人

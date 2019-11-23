@@ -25,10 +25,11 @@ export function getUserInfo() {
   })
 }
 
-export function resetPassword() {
+export function resetPassword(data) {
   return request({
     url: '/user/reset_password',
     method: 'put',
+    data,
   })
 }
 
