@@ -7,6 +7,7 @@
         <vs-input
           class="w-full py-2"
           val-icon-warning="warning"
+          val-icon-danger="clear"
           v-for="(item, i) in inputs"
           :key="i"
           :type="item.type"
@@ -14,11 +15,13 @@
           :placeholder="item.placeholder"
           :warning="item.isWarnng"
           :warning-text="item.warningText"
+          :danger="item.isError"
+          :danger-text="item.errorText"
           :description-text="item.description"
           v-model.trim="item.value"
-          @focus="() => { inputs[i].isWarnng = false }"
+          @focus="() => { item.isWarnng = false, item.isError = false }"
         />
-        <div class="flex items-center mt-2 py-2">
+        <div class="flex items-center py-2">
           <vs-input
             class="w-7/12 mr-2"
             placeholder="验证码"
@@ -37,7 +40,7 @@
         </div>
         <vs-button
           id="resetBtn"
-          class="w-full mt-2 vs-con-loading__container"
+          class="w-full mt-3 vs-con-loading__container"
           type="relief"
           @click="onReset()"
         >重置密码</vs-button>
@@ -48,6 +51,7 @@
 
 <script>
 import { resetPassword } from '@/request/api/user'
+import { getVerificationCode } from '@/request/api/common'
 
 const inputs = [
   {
@@ -56,7 +60,9 @@ const inputs = [
     value: '',
     type: 'password',
     isWarnng: false,
+    isError: false,
     warningText: '',
+    errorText: '',
     description: '6-16个字符，只能是字母、数字和下划线的组合',
     reg: /^[\w]{6,16}$/,
   },
@@ -66,17 +72,22 @@ const inputs = [
     value: '',
     type: 'password',
     isWarnng: false,
+    isError: false,
     warningText: '',
+    errorText: '',
     description: '',
+    reg: /^[\w]{6,16}$/,
   },
   {
     label: '手机号码',
-    placeholder: '请输入已绑定的手机号码',
+    placeholder: '请输入手机号码',
     value: '',
     type: 'text',
     isWarnng: false,
+    isError: false,
     warningText: '',
-    description: '',
+    errorText: '',
+    description: '注册时绑定的手机号码',
     reg: /^[1]([3-9])[0-9]{9}$/,
   },
 ]
@@ -95,27 +106,26 @@ export default {
 
   methods: {
     async onReset() {
-      if (!this.validate()) {
-        // 非空验证不通过，退出程序
-        return
-      }
-      if (this.code.length <= 0) {
-        this.codeError = true
-        this.codeWarningText = '验证码不能为空'
-        return
-      }
+      if (this.validate() && this.check()) {
+        if (this.code.length <= 0) {
+          this.codeError = true
+          this.codeWarningText = '验证码不能为空'
+          return
+        }
 
-      // 显示登录按钮的加载动画
-      this.$vs.loading({
-        background: 'primary',
-        color: '#fff',
-        container: '#resetBtn',
-        scale: 0.45,
-      })
-      this.resetBtnDisable = true
+        // 显示登录按钮的加载动画
+        this.$vs.loading({
+          background: 'primary',
+          color: '#fff',
+          container: '#resetBtn',
+          scale: 0.45,
+        })
+        this.resetBtnDisable = true
 
-      try {
-        const { code } = await resetPassword()
+        const { code } = await resetPassword({
+          phone: this.inputs[2].value,
+          password: this.inputs[0].value,
+        })
         if (code === 2000) {
           this.$vs.notify({
             fixed: true,
@@ -126,61 +136,51 @@ export default {
             icon: 'check_box',
           })
           // 重新登录
-          await this.$store.dispatch('user/logout')
-          this.$router.replace('/login')
+          await this.$store.dispatch('user/signOut')
+          this.$router.replace('/sign')
         }
-      } catch {
-        // TODO
-      }
 
-      // 关闭按钮的加载动画
-      this.$vs.loading.close('#resetBtn > .con-vs-loading')
-      this.resetBtnDisable = false
+        // 关闭按钮的加载动画
+        this.$vs.loading.close('#resetBtn > .con-vs-loading')
+        this.resetBtnDisable = false
+      }
     },
 
-    // 输入框非空验证
+    // 非空校验
     validate() {
-      const warningText = {
-        0: '请输入密码',
-        1: '请确认密码',
-        2: '请输入手机号码',
-      }
-      for (let i = 0; i <= 2; i += 1) {
-        if (this.inputs[i].value.length === 0) {
-          this.inputs[i].isWarnng = true
-          this.inputs[i].warningText = warningText[i]
+      return this.inputs.every((el) => {
+        if (el.value.length <= 0) {
+          el.isWarnng = true
+          el.warningText = '此项不能为空'
           return false
         }
-      }
-      return true
+        return true
+      })
     },
 
+    // 格式校验
     check() {
-      const isValidated = (i) => {
-        if (i === 1) {
-          if (this.inputs[0].value === this.inputs[1].value) {
-            return true
-          }
-          this.inputs[1].isWarnng = true
-          this.inputs[1].warningText = '请确认与新密码一致'
-          return false
-        }
-        if (this.inputs[i].reg.test(this.inputs[i].value)) {
-          return true
-        }
-        this.inputs[i].isWarnng = true
-        this.inputs[i].warningText = `请确认${this.inputs[i].placeholder}填写正确`
+      if (this.inputs[0].value !== this.inputs[1].value) {
+        this.inputs[1].isError = true
+        this.inputs[1].errorText = '二次密码与前一次不一致'
         return false
       }
-      const flags = [0, 1, 2].map(isValidated) // 记录三个输入框的正则状态
-      const flag = flags.every(Boolean)
-      return flag
+
+      return this.inputs.every((el) => {
+        if (!el.reg.test(el.value)) {
+          el.isError = true
+          el.errorText = '格式不正确'
+          return false
+        }
+        return true
+      })
     },
 
     // 获取验证码
     getCode() {
       if (this.validate() && this.check()) {
         if (!this.timer) {
+          this.getVerificationCode()
           let count = 60
           this.codeText = `${count}s`
           this.timer = setInterval(() => {
@@ -195,6 +195,13 @@ export default {
             }
           }, 1000)
         }
+      }
+    },
+
+    async getVerificationCode() {
+      const { code, data } = await getVerificationCode()
+      if (code === 2000) {
+        this.code = data.code
       }
     },
   },
