@@ -81,3 +81,8 @@ body {
     font-size: 0.875rem;
   }
 }
+
+// 修改输入框的占位符
+.vs-con-input .vs-input--placeholder {
+  top: 3px;
+}
