@@ -18,8 +18,8 @@
         <vs-select-item
           v-for="(item, i) in schoolList"
           :key="i"
-          :value="item"
-          :text="item"
+          :value="item._id"
+          :text="item.name"
         />
       </vs-select>
     </div>

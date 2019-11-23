@@ -10,9 +10,9 @@
           >
             <i
               class="mr-3 text-xl"
-              :class="categoryIcons[item]"
+              :class="categoryIcons[item.name]"
             ></i>
-            <span>{{ item }}</span>
+            <span>{{ item.name }}</span>
           </li>
         </ul>
       </div>

@@ -7,12 +7,13 @@
           multiple
           automatic
           text="图片格式（JPG、PNG）"
-          action="/api/goods/upload_img"
+          action="/api/goods/img/upload"
           accept="image/jpeg,image/jpg,image/png"
+          fileName="img"
           :limit="6"
           :headers="headers"
           @on-success="onUploadSuccess()"
-          @on-delete="onUploadDelete()"
+          @on-delete="onUploadDelete"
           @on-error="onUploadError()"
         />
       </div>
@@ -163,6 +164,7 @@
 
 <script>
 import { VueEditor } from 'vue2-editor'
+import { deleteGoodsImg } from '@/request/api/goods'
 import { getCategoryList } from '@/request/api/common'
 import { getToken } from '@/utils/token'
 
@@ -198,7 +200,6 @@ export default {
     this.headers = {
       Authorization: `Bearer ${getToken()}`,
     }
-    console.log(this.headers)
   },
 
   methods: {
@@ -210,12 +211,18 @@ export default {
       })
     },
 
-    onUploadDelete() {
-      this.$vs.notify({
-        color: 'danger',
-        title: '删除成功',
-        text: '已删除一张图片 ：（',
+    async onUploadDelete(e) {
+      const { code } = await deleteGoodsImg({
+        img_list: [`${e.name}`],
+        img_with_id: false,
       })
+      if (code !== 2000) {
+        this.$vs.notify({
+          color: 'danger',
+          title: '删除失败',
+          text: '删除图片不成功，请重试 ：（',
+        })
+      }
     },
 
     onUploadError() {

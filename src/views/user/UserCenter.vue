@@ -6,31 +6,31 @@
           <vs-avatar
             class="mr-6"
             size="100px"
-            :src="userDetail.avatar_url"
+            :src="info.avatar_url"
           />
           <div>
             <div class="mb-4">
-              <span class="font-bold text-2xl">{{ userDetail.nickname }}</span>
-              <span>（{{ userDetail.real_name }}）</span>
+              <span class="font-bold text-2xl">{{ info.nickname }}</span>
+              <span>（{{ info.real_name }}）</span>
             </div>
             <span
               class="my-2 py-1 px-3 text-center text-sm text-white"
               style="border-radius: 0.3rem;background: rgba(var(--vs-primary), 0.9)"
-            >{{ userDetail.school }}</span>
+            >{{ info.school }}</span>
           </div>
         </div>
         <div class="w-1/2 flex justify-around">
           <div class="flex flex-col items-center justify-center">
             <div>关注的人</div>
-            <div class="mt-4 text-2xl font-bold">{{ userDetail.follow_num }}</div>
+            <div class="mt-4 text-2xl font-bold">{{ infoNum.follow_num }}</div>
           </div>
           <div class="flex flex-col items-center justify-center">
             <div>粉丝数</div>
-            <div class="mt-4 text-2xl font-bold">{{ userDetail.fans_num }}</div>
+            <div class="mt-4 text-2xl font-bold">{{ infoNum.fans_num }}</div>
           </div>
           <div class="flex flex-col items-center justify-center">
             <div>收藏夹</div>
-            <div class="mt-4 text-2xl font-bold">{{ userDetail.collect_num }}</div>
+            <div class="mt-4 text-2xl font-bold">{{ infoNum.collect_num }}</div>
           </div>
         </div>
       </div>
@@ -46,7 +46,7 @@
                 type="line"
               >个人简介</vs-button>
               <div class="text-gray-600">
-                {{ userDetail.introduction || '未填写' }}
+                {{ info.introduction || '未填写' }}
               </div>
             </vs-collapse-item>
           </vs-collapse>
@@ -96,7 +96,7 @@
 import Vue from 'vue'
 import UserBaseInfo from './components/UserBaseInfo.vue'
 
-import { getUserDetail } from '@/request/api/user'
+import { getUserInfoNum } from '@/request/api/user'
 
 const UserDetailInfo = Vue.component(
   'UserDetailInfo',
@@ -113,11 +113,6 @@ const UserChangePassword = Vue.component(
 
 export default {
   name: 'UserCenter',
-  data: () => ({
-    currentComponent: 'UserBaseInfo',
-    userDetail: {},
-  }),
-
   components: {
     UserBaseInfo,
     UserDetailInfo,
@@ -125,22 +120,30 @@ export default {
     UserChangePassword,
   },
 
+  data: () => ({
+    currentComponent: 'UserBaseInfo',
+    infoNum: {},
+  }),
+
+  computed: {
+    info() {
+      return this.$store.state.user.info
+    },
+  },
+
   created() {
-    this.getUserDetail()
+    getUserInfoNum().then(({ code, data }) => {
+      if (code === 2000) {
+        this.infoNum = data.info_num
+      }
+    })
+  },
+
+  mounted() {
+    this.currentComponent = this.$route.query.component || 'UserBaseInfo'
   },
 
   methods: {
-    async getUserDetail() {
-      try {
-        const { code, data } = await getUserDetail()
-        if (code === 2000) {
-          this.userDetail = data.user_detail
-        }
-      } catch {
-        // TODO
-      }
-    },
-
     setButtonType(current) {
       if (this.currentComponent === current) {
         return 'line'
