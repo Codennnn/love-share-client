@@ -73,8 +73,8 @@
           <vs-button
             class="text-gray-700"
             color="#646464"
-            :type="setButtonType('UserChangePassword')"
-            @click="currentComponent = 'UserChangePassword'"
+            :type="setButtonType('UserResetPassword')"
+            @click="currentComponent = 'UserResetPassword'"
           >修改密码</vs-button>
         </div>
       </div>
@@ -106,9 +106,9 @@ const UserProfit = Vue.component(
   'UserProfit',
   () => import('./components/UserProfit.vue'),
 )
-const UserChangePassword = Vue.component(
-  'UserChangePassword',
-  () => import('./components/UserChangePassword.vue'),
+const UserResetPassword = Vue.component(
+  'UserResetPassword',
+  () => import('./components/UserResetPassword.vue'),
 )
 
 export default {
@@ -117,7 +117,7 @@ export default {
     UserBaseInfo,
     UserDetailInfo,
     UserProfit,
-    UserChangePassword,
+    UserResetPassword,
   },
 
   data: () => ({

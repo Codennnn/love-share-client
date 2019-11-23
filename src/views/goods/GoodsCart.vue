@@ -65,13 +65,13 @@ const CartSettle = Vue.component(
 
 export default {
   name: 'GoodsCart',
+  components: { CartList, CartAddress, CartSettle },
+
   data: () => ({
     currentStep: 1,
     activeStep: ['CartList'], // 已被激活的步骤
     currentComponent: 'CartList',
   }),
-
-  components: { CartList, CartAddress, CartSettle },
 
   methods: {
     changeComponent({ currentStep, currentComponent, isActive = false }) {
