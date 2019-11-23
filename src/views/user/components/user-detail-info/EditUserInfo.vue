@@ -21,7 +21,10 @@
     <VuePerfectScrollbar
       class="scroll-area pt-4 pb-6"
       v-if="data"
-      :settings="settings"
+      :settings="{
+        maxScrollbarLength: 180,
+        wheelSpeed: 0.60,
+      }"
     >
       <div class="p-6">
         <!-- 昵称 -->
@@ -52,10 +55,10 @@
           v-model="data.school"
         >
           <vs-select-item
-            v-for="item in schoolList"
-            :key="item"
-            :value="item"
-            :text="item"
+            v-for="(item, i) in schoolList"
+            :key="i"
+            :value="item._id"
+            :text="item.name"
           />
         </vs-select>
 
@@ -72,7 +75,7 @@
             >男</vs-radio>
             <vs-radio
               v-model="data.gender"
-              vs-value="0"
+              vs-value="2"
             >女</vs-radio>
           </div>
         </div>
@@ -127,13 +130,15 @@
 
 <script>
 import VuePerfectScrollbar from 'vue-perfect-scrollbar'
-
 import _isEqual from 'lodash/isEqual'
 import _cloneDeepWith from 'lodash/cloneDeepWith'
+
 import { getSchoolList } from '@/request/api/common'
 
 export default {
   name: 'EditUserInfo',
+  components: { VuePerfectScrollbar },
+
   props: {
     isSidebarActive: {
       type: Boolean,
@@ -149,15 +154,9 @@ export default {
     data: null,
     schoolList: [],
     showPopover: false,
-    settings: {
-      maxScrollbarLength: 180,
-      wheelSpeed: 0.60,
-    },
   }),
 
-  components: { VuePerfectScrollbar },
-
-  mounted() {
+  created() {
     this.getSchoolList()
   },
 
@@ -169,33 +168,29 @@ export default {
       set(val) {
         if (!val) {
           this.$emit('closeSidebar')
-          this.initValues()
         }
       },
     },
   },
 
   watch: {
-    isSidebarActive(val) {
-      if (val) {
+    isSidebarActive(active) {
+      if (active) {
         this.data = _cloneDeepWith(this.info)
+        this.schoolList.forEach((it) => {
+          if (it.name === this.data.school) {
+            this.data.school = it._id
+          }
+        })
       }
     },
   },
 
   methods: {
-    initValues() {
-      // this.$refs.fileUpload.srcs = []
-    },
-
     async getSchoolList() {
-      try {
-        const { code, data } = await getSchoolList()
-        if (code === 2000) {
-          this.schoolList = data.school_list
-        }
-      } catch {
-        // TODO
+      const { code, data } = await getSchoolList()
+      if (code === 2000) {
+        this.schoolList = data.school_list
       }
     },
 
@@ -251,7 +246,7 @@ export default {
 }
 </style>
 
-<style lang="scss">
+<style>
 .vs-select--options,
 .el-popover {
   z-index: 52012 !important;
