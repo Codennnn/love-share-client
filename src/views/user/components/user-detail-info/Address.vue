@@ -15,13 +15,13 @@
           <div class="flex items-center">
             <vs-chip
               color="primary"
-              v-if="item.address_id === defaultAddress"
+              v-if="item._id === defaultAddress"
             >默认</vs-chip>
             <vs-dropdown vs-trigger-click>
               <i class="el-icon-more ml-2 cursor-pointer"></i>
               <vs-dropdown-menu class="w-24">
                 <vs-dropdown-item
-                  v-if="!(item.address_id === defaultAddress)"
+                  v-if="!(item._id === defaultAddress)"
                   class="text-center"
                   @click="setDefaultAddress(item._id)"
                 >
@@ -87,9 +87,9 @@
           class="address-select mt-2"
           label="地址类型"
           placeholder="请选择地址"
-          v-model="addressData.address_type"
-          :warning="addressTypeWarning"
-          @focus="() => { addressTypeWarning = false }"
+          v-model="addressData.type"
+          :warning="typeWarning"
+          @focus="() => { typeWarning = false }"
         >
           <vs-select-item
             v-for="(item, i) in ['学校', '家庭', '公司']"
@@ -105,7 +105,7 @@
           v-if="showForm"
           type="border"
           icon="done"
-          @click="editForm ? onModifyAddress() : onAddAddress()"
+          @click="editForm ? onUpdateAddress() : onAddAddress()"
         ></vs-button>
         <vs-button
           class="text-xl"
@@ -127,30 +127,28 @@ import {
   setDefaultAddress,
   addAddress,
   deleteAddress,
-  modifyAddress,
+  updateAddress,
 } from '@/request/api/user'
 
 export default {
   name: 'Address',
   data: () => ({
-    detail: {},
     addressList: [], // 地址列表
     defaultAddress: null,
     showForm: false,
     editForm: false,
 
     addressData: {
-      address_id: '', // 地址 ID
       receiver: '', // 收货人
       phone: '', // 联系电话
       address: '', // 地址
-      address_type: '', // 地址类型
+      type: '', // 地址类型
     },
 
     receiverWarning: false,
     phoneWarning: false,
     addressWarning: false,
-    addressTypeWarning: false,
+    typeWarning: false,
   }),
 
   created() {
@@ -178,14 +176,14 @@ export default {
       if (this.addressData.address.length <= 0) {
         this.addressWarning = true
       }
-      if (this.addressData.address_type.length <= 0) {
-        this.addressTypeWarning = true
+      if (this.addressData.type.length <= 0) {
+        this.typeWarning = true
       }
       if (
         this.addressData.receiver.length > 0
         && this.addressData.phone.length > 0
         && this.addressData.address.length > 0
-        && this.addressData.address_type.length > 0
+        && this.addressData.type.length > 0
       ) {
         return true
       }
@@ -204,15 +202,16 @@ export default {
     onHideForm() {
       this.showForm = false
 
-      this.addressData.address_id = ''
+      this.addressData._id = ''
       this.addressData.receiver = ''
       this.addressData.phone = ''
       this.addressData.address = ''
-      this.addressData.address_type = ''
+      this.addressData.type = ''
+
       this.receiverWarning = false
       this.phoneWarning = false
       this.addressWarning = false
-      this.addressTypeWarning = false
+      this.typeWarning = false
       this.editForm = false
     },
 
@@ -226,7 +225,7 @@ export default {
         try {
           const { code } = await addAddress(this.addressData)
           if (code === 2000) {
-            this.getAddressList()
+            await this.getAddressList()
             this.onHideForm()
           }
         } finally {
@@ -244,7 +243,8 @@ export default {
       try {
         const { code } = await deleteAddress({ address_id })
         if (code === 2000) {
-          this.getAddressList()
+          await this.getAddressList()
+          this.onHideForm()
         }
       } finally {
         this.$vs.loading.close('#address-container > .con-vs-loading')
@@ -252,25 +252,38 @@ export default {
     },
 
     // 修改地址
-    async onModifyAddress() {
+    async onUpdateAddress() {
       if (this.verification()) {
-        this.addressList.forEach((el, i, _) => {
-          if (el.address_id === this.addressData.address_id) {
-            _.splice(i, 1, _cloneDeepWith(this.addressData))
-          }
+        this.$vs.loading({
+          container: '#address-container',
         })
-        this.onHideForm()
-        const { code } = await modifyAddress()
-        if (code === 2000) {
-          // TODO
+
+        try {
+          const { code } = await updateAddress(this.addressData)
+          if (code === 2000) {
+            await this.getAddressList()
+            this.onHideForm()
+          }
+        } finally {
+          this.$vs.loading.close('#address-container > .con-vs-loading')
         }
       }
     },
 
     // 设置默认地址
-    async setDefaultAddress(id) {
-      this.defaultAddress = id
-      await setDefaultAddress()
+    async setDefaultAddress(address_id) {
+      this.$vs.loading({
+        container: '#address-container',
+      })
+
+      try {
+        const { code } = await setDefaultAddress({ address_id })
+        if (code === 2000) {
+          this.defaultAddress = address_id
+        }
+      } finally {
+        this.$vs.loading.close('#address-container > .con-vs-loading')
+      }
     },
   },
 }

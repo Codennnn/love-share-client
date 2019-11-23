@@ -35,10 +35,10 @@
             </el-form-item>
             <el-form-item
               label="地址类型"
-              prop="address_type"
+              prop="type"
             >
               <el-select
-                v-model="newAddress.address_type"
+                v-model="newAddress.type"
                 placeholder="请选择地址类型"
               >
                 <el-option
@@ -75,7 +75,7 @@
           >选择其它地址</span>
         </div>
         <div class="my-3 flex flex-wrap items-center">
-          <vs-chip>{{ current.address_type }}</vs-chip>
+          <vs-chip>{{ current.type }}</vs-chip>
           <span
             class="ml-2"
             style="color: #666;"
@@ -100,7 +100,7 @@
           v-for="(item, i) in addressList"
           :key="i"
         >
-          <vs-chip>{{ item.address_type }}</vs-chip>
+          <vs-chip>{{ item.type }}</vs-chip>
           <div>
             <span class="mx-3 text-lg">{{ item.receiver }}</span>
             <span>{{ item.phone }}</span>
@@ -148,9 +148,9 @@ const validatePhone = (rule, value, callback) => {
 export default {
   name: 'CartAddress',
   data: () => ({
+    current: {}, // 当前默认显示的地址
     addressList: [],
-    defaultAddress: '',
-    current: {},
+    defaultAddress: null,
     showPopup: false,
     addressCheck: null,
 
@@ -164,7 +164,7 @@ export default {
       phone: [
         { validator: validatePhone, trigger: 'blur' },
       ],
-      address_type: [
+      type: [
         { required: true, message: '请填写地址类型' },
       ],
     },
@@ -172,11 +172,11 @@ export default {
       receiver: '',
       address: '',
       phone: '',
-      address_type: '',
+      type: '',
     },
   }),
 
-  mounted() {
+  created() {
     this.getAddressList()
   },
 
@@ -188,11 +188,17 @@ export default {
         if (code === 2000) {
           this.defaultAddress = data.default_address
           this.addressList = data.address_list
-          this.addressList.forEach((el) => {
-            if (el.address_id) {
-              this.current = el
-            }
-          })
+
+          if (this.defaultAddress) {
+            this.addressList.forEach((el) => {
+              if (el._id === this.defaultAddress) {
+                this.current = el
+              }
+            })
+          } else {
+            const [curren] = this.addressList
+            this.current = curren
+          }
         }
       } catch {
         // TODO
