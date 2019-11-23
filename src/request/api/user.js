@@ -74,31 +74,35 @@ export function getAddressList() {
   })
 }
 
-export function setDefaultAddress() {
-  return request({
-    url: '/user/default_address',
-    method: 'post',
-  })
-}
-
-export function addAddress() {
+export function addAddress(data) {
   return request({
     url: '/user/address/add',
     method: 'post',
+    data,
   })
 }
 
-export function deleteAddress() {
+export function deleteAddress(data) {
   return request({
     url: '/user/address/delete',
     method: 'delete',
+    data,
   })
 }
 
-export function modifyAddress() {
+export function updateAddress(data) {
   return request({
     url: '/user/address/update',
     method: 'put',
+    data,
+  })
+}
+
+export function setDefaultAddress(data) {
+  return request({
+    url: '/user/address/default',
+    method: 'put',
+    data,
   })
 }
 

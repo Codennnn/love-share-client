@@ -133,14 +133,14 @@ export default {
           receiver: '陈梓聪',
           phone: '13724540846',
           address: '广东省东莞市厚街镇桥头南丰苑',
-          'address_type|1': ['学校', '家庭', '公司'],
+          'type|1': ['学校', '家庭', '公司'],
         },
         {
           address_id: () => Random.id(),
           receiver: '曾通',
           phone: '13650022398',
           address: '广东省佛山市陶瓷镇海南',
-          'address_type|1': ['学校', '家庭', '公司'],
+          'type|1': ['学校', '家庭', '公司'],
         },
       ],
     },
@@ -161,7 +161,7 @@ export default {
     code: 2000,
   },
 
-  modify_address: {
+  update_address: {
     code: 2000,
   },
 
