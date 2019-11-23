@@ -53,9 +53,9 @@ export function getUserDetail() {
   })
 }
 
-export function getUserDetailInfo() {
+export function getUserInfoNum() {
   return request({
-    url: '/user/detail_info',
+    url: '/user/info_num',
     method: 'get',
   })
 }

@@ -27,6 +27,15 @@ export default {
     },
   },
 
+  info_num: {
+    code: 2000,
+    info_num: {
+      fans_num: 24,
+      collect_num: 2,
+      follow_num: 12,
+    },
+  },
+
   user_list: {
     code: 2000,
     data: {
@@ -97,7 +106,7 @@ export default {
   },
 
   // 详细资料
-  detail_info: {
+  detail: {
     code: 2000,
     data: {
       detail_info: {
