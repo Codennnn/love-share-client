@@ -90,27 +90,30 @@
       </div>
     </div>
 
+    <!-- 弹出框 -->
     <vs-popup
       title="选择收货地址"
       :active.sync="showPopup"
     >
       <ul>
         <li
-          class="mb-3 px-12 flex justify-between items-center"
+          class="mb-3 px-10"
           v-for="(item, i) in addressList"
           :key="i"
         >
-          <vs-chip>{{ item.type }}</vs-chip>
-          <div>
-            <span class="mx-3 text-lg">{{ item.receiver }}</span>
-            <span>{{ item.phone }}</span>
-            <p class="text-gray-600">{{ item.address }}</p>
+          <div class="px-2 flex justify-between items-start">
+            <vs-chip>{{ item.type }}</vs-chip>
+            <div class="flex-1 ml-2">
+              <span class="mr-3 text-lg">{{ item.receiver }}</span>
+              <span>{{ item.phone }}</span>
+              <p class="text-gray-600">{{ item.address }}</p>
+            </div>
+            <vs-radio
+              v-model="addressCheck"
+              :vs-value="item"
+            ></vs-radio>
           </div>
-          <vs-radio
-            v-model="addressCheck"
-            vs-name="radios1"
-            :vs-value="item"
-          ></vs-radio>
+          <vs-divider v-if="addressList.length !== (i + 1)" />
         </li>
       </ul>
 
@@ -122,9 +125,7 @@
 </template>
 
 <script>
-import {
-  getAddressList, addAddress,
-} from '@/request/api/user'
+import { getAddressList, addAddress } from '@/request/api/user'
 
 const validateReceiver = (rule, value, callback) => {
   if (value.length <= 0) {
@@ -139,7 +140,7 @@ const validatePhone = (rule, value, callback) => {
   if (value.length <= 0) {
     callback(new Error('请填写联系电话'))
   } else if (!/^(((13|14|15|18|17)\d{9}))$/.test(value)) {
-    callback(new Error('电话格式不正确'))
+    callback(new Error('电话号码格式不正确'))
   } else {
     callback()
   }
@@ -183,28 +184,25 @@ export default {
   methods: {
     // 获取收货地址
     async getAddressList() {
-      try {
-        const { code, data } = await getAddressList()
-        if (code === 2000) {
-          this.defaultAddress = data.default_address
-          this.addressList = data.address_list
+      const { code, data } = await getAddressList()
+      if (code === 2000) {
+        this.defaultAddress = data.default_address
+        this.addressList = data.address_list
 
-          if (this.defaultAddress) {
-            this.addressList.forEach((el) => {
-              if (el._id === this.defaultAddress) {
-                this.current = el
-              }
-            })
-          } else {
-            const [curren] = this.addressList
-            this.current = curren
-          }
+        if (this.defaultAddress) {
+          this.addressList.forEach((el) => {
+            if (el._id === this.defaultAddress) {
+              this.current = el
+            }
+          })
+        } else {
+          const [curren] = this.addressList
+          this.current = curren
         }
-      } catch {
-        // TODO
       }
     },
 
+    // 激活弹出框
     activePopup() {
       this.showPopup = true
       this.addressCheck = this.current

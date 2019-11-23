@@ -40,9 +40,11 @@
               </vs-radio>
             </li>
             <vs-divider />
-            <li class="text-gray-600 cursor-pointer">
-              <i class="el-icon-plus"></i>
-              <span class="ml-1 text-sm">添加银行卡</span>
+            <li class="text-gray-600">
+              <span class="cursor-pointer">
+                <i class="el-icon-plus"></i>
+                <span class="ml-1 text-sm">添加银行卡</span>
+              </span>
             </li>
           </ul>
         </div>
