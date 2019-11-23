@@ -1,7 +1,7 @@
 <template>
   <div class="flex">
     <div
-      class="pr-3"
+      class="pr-4"
       :class="addressList.length > 0 ? 'w-2/3' : 'w-full'"
     >
       <div class="p-5 bg-white shadow rounded-lg">
@@ -240,23 +240,15 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.shadow {
-  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.1);
-}
-
-.con-vs-popup {
-  &::v-deep {
-    .vs-popup {
-      width: 450px;
-    }
+.con-vs-popup::v-deep {
+  .vs-popup {
+    width: 450px;
   }
 }
 
-.btn-group {
-  &::v-deep {
-    .el-form-item__content {
-      line-height: inherit;
-    }
+.btn-group::v-deep {
+  .el-form-item__content {
+    line-height: inherit;
   }
 }
 </style>

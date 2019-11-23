@@ -63,11 +63,8 @@
         </div>
       </div>
 
-      <div class="w-1/3 pl-4">
-        <div
-          class="p-4 bg-white rounded-lg"
-          style="box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.1);"
-        >
+      <div class="w-1/3 pl-5">
+        <div class="p-4 bg-white shadow rounded-lg">
           <p class="mb-1 text-sm text-gray-500">购物车账单总览</p>
           <div class="flex justify-between cursor-pointer">
             <span class="label">优惠券</span>
