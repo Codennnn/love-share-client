@@ -18,11 +18,10 @@
     "dayjs": "^1.8.16",
     "echarts": "^4.2.1",
     "element-ui": "^2.12.0",
-    "file-saver": "^2.0.2",
     "js-cookie": "^2.2.0",
     "lodash": "^4.17.14",
     "material-icons": "^0.3.1",
-    "mockjs": "^1.0.1-beta3",
+    "mockjs": "^1.1.0",
     "nprogress": "^0.2.0",
     "postcss": "^7.0.17",
     "sass-resources-loader": "^2.0.1",
@@ -36,10 +35,9 @@
     "vue-perfect-scrollbar": "^0.1.0",
     "vue-router": "^3.0.3",
     "vue2-editor": "^2.10.2",
-    "vuesax": "^3.9.0",
+    "vuesax": "^3.11.1",
     "vuex": "^3.0.1",
-    "vuex-persistedstate": "^2.7.0",
-    "xlsx": "^0.15.1"
+    "vuex-persistedstate": "^2.7.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.9.0",
