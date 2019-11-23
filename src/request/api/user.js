@@ -54,6 +54,14 @@ export function getUserDetail() {
   })
 }
 
+export function updateUser(data) {
+  return request({
+    url: '/user/update',
+    method: 'put',
+    data,
+  })
+}
+
 export function getUserInfoNum() {
   return request({
     url: '/user/info_num',

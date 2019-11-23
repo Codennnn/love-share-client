@@ -133,6 +133,7 @@ import VuePerfectScrollbar from 'vue-perfect-scrollbar'
 import _isEqual from 'lodash/isEqual'
 import _cloneDeepWith from 'lodash/cloneDeepWith'
 
+import { updateUser } from '@/request/api/user'
 import { getSchoolList } from '@/request/api/common'
 
 export default {
@@ -194,8 +195,9 @@ export default {
       }
     },
 
-    onUpdate() {
+    async onUpdate() {
       console.log(this.data)
+      await updateUser(this.data)
     },
 
     onCancel() {
