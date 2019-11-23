@@ -104,3 +104,11 @@ export function removeCartItem() {
     method: 'delete',
   })
 }
+
+export function deleteGoodsImg(data) {
+  return request({
+    url: '/goods/img/delete',
+    method: 'delete',
+    data,
+  })
+}
