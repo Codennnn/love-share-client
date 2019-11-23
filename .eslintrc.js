@@ -16,6 +16,7 @@ module.exports = {
     'no-param-reassign': ['error', { props: false }],
     'no-shadow': ['error', { allow: ['state'] }],
     'no-underscore-dangle': ['error', { allow: ['_id'] }],
+    camelcase: 'off',
     semi: ['error', 'never'],
   },
 
