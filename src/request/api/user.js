@@ -54,9 +54,9 @@ export function getUserDetail() {
   })
 }
 
-export function updateUser(data) {
+export function modifyUser(data) {
   return request({
-    url: '/user/update',
+    url: '/user/modify',
     method: 'put',
     data,
   })

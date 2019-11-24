@@ -36,37 +36,6 @@ export default {
     },
   },
 
-  user_list: {
-    code: 2000,
-    data: {
-      'user_list|15-20': [
-        {
-          user_id: () => Random.id(),
-          avatar_url: 'https://randomuser.me/api/portraits/women/0.jpg',
-          nickname: () => Random.cname(),
-          'credit_value|200-1000': 500,
-          share_value: () => Random.integer(60, 200),
-          register_time: () => Random.date('yyyy-MM-dd hh:mm'),
-        },
-      ],
-    },
-  },
-
-  manager_list: {
-    code: 2000,
-    data: {
-      'manager_list|15-20': [
-        {
-          user_id: () => Random.id(),
-          avatar_url: 'https://randomuser.me/api/portraits/women/0.jpg',
-          nickname: () => Random.cname(),
-          roles: ['super_admin'],
-          register_time: () => Random.date('yyyy-MM-dd hh:mm'),
-        },
-      ],
-    },
-  },
-
   user_detail: {
     code: 2000,
     data: {
@@ -83,6 +52,10 @@ export default {
         collect_num: 2,
       },
     },
+  },
+
+  modify: {
+    code: 2000,
   },
 
   // 重置密码
