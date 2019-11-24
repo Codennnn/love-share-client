@@ -202,11 +202,12 @@ export default {
     onHideForm() {
       this.showForm = false
 
-      this.addressData._id = ''
-      this.addressData.receiver = ''
-      this.addressData.phone = ''
-      this.addressData.address = ''
-      this.addressData.type = ''
+      this.addressData = {
+        receiver: '',
+        phone: '',
+        address: '',
+        type: '',
+      }
 
       this.receiverWarning = false
       this.phoneWarning = false
