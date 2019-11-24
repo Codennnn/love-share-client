@@ -168,7 +168,7 @@ export default {
 
   methods: {
     async onSignUp() {
-      if (this.validate() && this.signUpCheck()) {
+      if (this.validate() && this.check()) {
         if (this.code.length <= 0) {
           this.codeError = true
           this.codeErrorText = '请填入验证码'
@@ -233,7 +233,7 @@ export default {
     },
 
     // 检查输入的数据格式
-    signUpCheck() {
+    check() {
       const flags = this.signUpInput.map((input) => {
         if (input.reg.test(input.value)) {
           return true
@@ -253,7 +253,7 @@ export default {
 
     // 获取验证码
     async getCode() {
-      if (this.validate() && this.signUpCheck()) {
+      if (this.validate() && this.check()) {
         if (!this.timer) {
           const { code } = await checkPhoneNumber({ phone: this.signUpInput[3].value })
           if (code === 2000) {
