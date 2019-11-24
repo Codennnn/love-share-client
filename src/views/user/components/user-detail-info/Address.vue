@@ -9,7 +9,7 @@
         <vs-list-item
           v-for="(item, i) in addressList"
           :key="i"
-          :title="`${item.receiver} ${item.phone}`"
+          :title="`[${item.type}] ${item.receiver} - ${item.phone}`"
           :subtitle="item.address"
         >
           <div class="flex items-center">
