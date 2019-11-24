@@ -72,8 +72,8 @@
 import Vue from 'vue'
 import InfoItem from './user-detail-info/InfoItem.vue'
 import Address from './user-detail-info/Address.vue'
-import { setCreditColor } from '@/utils/util'
 
+import { setCreditColor } from '@/utils/util'
 import { getUserDetail } from '@/request/api/user'
 
 const EditUserInfo = Vue.component(

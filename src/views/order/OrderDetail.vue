@@ -1,7 +1,7 @@
 <template>
   <div
-    class="main vs-con-loading__container"
     id="div-with-loading"
+    class="main vs-con-loading__container"
   >
     <div v-if="detail">
       <div class="card">
@@ -223,11 +223,9 @@ export default {
           this.detail = data.detail
           this.infos = data.detail.goods
         }
-      } catch {
-        //
+      } finally {
+        this.$vs.loading.close('#div-with-loading > .con-vs-loading')
       }
-
-      this.$vs.loading.close('#div-with-loading > .con-vs-loading')
     },
 
     onCopy(e) {
