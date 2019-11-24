@@ -98,36 +98,15 @@
         slot="footer"
       >
         <vs-button
-          class="mr-6"
+          class="mr-4"
           @click="onModify()"
         >确认更新</vs-button>
-        <el-popover
-          width="220"
-          trigger="manual"
-          v-model="showPopover"
-        >
-          <p>确定要放弃您已更改的内容吗?</p>
-          <div class="mt-3 text-right">
-            <vs-button
-              type="flat"
-              color="dark"
-              size="small"
-              @click="showPopover = false"
-            >取消</vs-button>
-            <vs-button
-              type="flat"
-              color="danger"
-              size="small"
-              @click="showPopover = false, isSidebarActiveLocal = false"
-            >确定</vs-button>
-          </div>
-          <vs-button
-            slot="reference"
-            type="border"
-            color="danger"
-            @click="onCancel()"
-          >取消操作</vs-button>
-        </el-popover>
+        <vs-button
+          slot="reference"
+          type="border"
+          color="danger"
+          @click="onCancel()"
+        >取消操作</vs-button>
       </div>
     </div>
   </vs-sidebar>
@@ -135,7 +114,6 @@
 
 <script>
 import VuePerfectScrollbar from 'vue-perfect-scrollbar'
-import _isEqual from 'lodash/isEqual'
 import _cloneDeepWith from 'lodash/cloneDeepWith'
 
 import { modifyUser } from '@/request/api/user'
@@ -159,7 +137,6 @@ export default {
   data: () => ({
     data: null,
     schoolList: [],
-    showPopover: false,
   }),
 
   created() {
@@ -209,7 +186,7 @@ export default {
       try {
         const { code } = await modifyUser(this.data)
         if (code === 2000) {
-          this.onCancel()
+          this.isSidebarActiveLocal = false
         }
       } finally {
         this.$vs.loading.close('#sidebar-container > .con-vs-loading')
@@ -217,12 +194,7 @@ export default {
     },
 
     onCancel() {
-      if (_isEqual(this.data, this.info)) {
-        this.showPopover = false
-        this.isSidebarActiveLocal = false
-      } else {
-        this.showPopover = true
-      }
+      this.isSidebarActiveLocal = false
     },
   },
 }
