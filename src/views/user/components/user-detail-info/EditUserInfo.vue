@@ -34,8 +34,12 @@
           <!-- 昵称 -->
           <vs-input
             class="mt-5 w-full"
+            val-icon-danger="clear"
             label="昵称"
             v-model="data.nickname"
+            :danger="error"
+            :danger-text="errorText"
+            @focus="error = false"
           />
 
           <!-- QQ -->
@@ -47,24 +51,29 @@
 
           <!-- 微信 -->
           <vs-input
-            class="mt-5 w-full"
+            class="my-5 w-full"
             label="微信"
             v-model="data.wechat"
           />
 
           <!-- 学校 -->
-          <vs-select
-            class="mt-5 w-full"
-            label="学校"
+          <span
+            class="ml-1 text-sm"
+            style="color: rgba(0, 0, 0, .7)"
+          >学校</span>
+          <el-select
+            class="w-full"
             v-model="data.school"
+            popper-class="el-options"
           >
-            <vs-select-item
+            <el-option
               v-for="(item, i) in schoolList"
               :key="i"
+              :label="item.name"
               :value="item._id"
-              :text="item.name"
-            />
-          </vs-select>
+            >
+            </el-option>
+          </el-select>
 
           <div class="mt-6 pl-1">
             <div
@@ -83,13 +92,6 @@
               >女</vs-radio>
             </div>
           </div>
-
-          <!-- IMG -->
-          <vs-upload
-            class="img-upload"
-            text="Upload Image"
-            ref="fileUpload"
-          />
         </div>
       </VuePerfectScrollbar>
 
@@ -137,6 +139,8 @@ export default {
   data: () => ({
     data: null,
     schoolList: [],
+    error: false,
+    errorText: '',
   }),
 
   created() {
@@ -178,6 +182,12 @@ export default {
     },
 
     async onModify() {
+      if (!/^[\d\w\u4e00-\u9fa5,.;:"'?!-]{2,8}$/.test(this.data.nickname)) {
+        this.error = true
+        this.errorText = '昵称格式只能是中文、字母、数字组成'
+        return
+      }
+
       this.$vs.loading({
         container: '#sidebar-container',
         scale: 1,
@@ -186,7 +196,11 @@ export default {
       try {
         const { code } = await modifyUser(this.data)
         if (code === 2000) {
-          this.isSidebarActiveLocal = false
+          await this.$store.dispatch('user/getUserInfo')
+          this.onCancel()
+        } else if (code === 4003) {
+          this.error = true
+          this.errorText = '昵称已被使用'
         }
       } finally {
         this.$vs.loading.close('#sidebar-container > .con-vs-loading')
@@ -213,18 +227,8 @@ export default {
     z-index: 52010;
     width: 400px;
     max-width: 90vw;
-    .vs-select--input {
+    .el-input__inner {
       border-color: rgba(0, 0, 0, 0.2);
-    }
-    .img-upload {
-      margin-top: 2rem;
-      .con-img-upload {
-        padding: 0;
-      }
-      .con-input-upload {
-        width: 100%;
-        margin: 0;
-      }
     }
   }
 }
@@ -234,9 +238,11 @@ export default {
 }
 </style>
 
-<style>
-.vs-select--options,
-.el-popover {
+<style lang="scss">
+.el-options {
   z-index: 52012 !important;
+  .el-scrollbar__bar.is-horizontal {
+    display: none !important;
+  }
 }
 </style>

@@ -31,10 +31,8 @@ const actions = {
       if (code === 2000) {
         commit('SET_INFO', data.user_info)
       }
-      return data
-    } catch (err) {
+    } catch {
       removeToken()
-      return err
     }
   },
 

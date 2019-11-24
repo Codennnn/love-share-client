@@ -57,7 +57,7 @@
           :value="info.school"
         />
         <vs-button
-          class="w-24 mt-6"
+          class="w-24 mt-4"
           style="margin-left: 6.5rem;"
           type="border"
           size="small"
@@ -72,7 +72,7 @@
     </div>
 
     <EditUserInfo
-      :info="detail"
+      :info="info"
       :isSidebarActive="showSidebar"
       @closeSidebar="showSidebar = false"
     />
