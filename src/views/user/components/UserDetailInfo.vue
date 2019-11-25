@@ -41,6 +41,10 @@
           :value="info.phone"
         />
         <InfoItem
+          label="邮箱"
+          :value="info.email || '未绑定'"
+        />
+        <InfoItem
           label="性别"
           :value="info.gender === '1' ? '男' : info.gender === '2' ? '女' : '未填写'"
         />

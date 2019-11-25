@@ -42,10 +42,19 @@
             @focus="error = false"
           />
 
+          <!-- 邮箱 -->
+          <vs-input
+            class="mt-5 w-full"
+            label="邮箱"
+            placeholder="请填写邮箱"
+            v-model="data.email"
+          />
+
           <!-- QQ -->
           <vs-input
             class="mt-5 w-full"
             label="QQ"
+            placeholder="请填写QQ"
             v-model="data.qq"
           />
 
@@ -53,6 +62,7 @@
           <vs-input
             class="my-5 w-full"
             label="微信"
+            placeholder="请填写微信"
             v-model="data.wechat"
           />
 

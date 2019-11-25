@@ -93,9 +93,10 @@ export default {
       }
 
       // 手机号码格式不正确，退出
-      if (!/^[1]([3-9])[0-9]{9}$/.test(this.signInInput[0].value)) {
+      const accountReg = /(^[\w.-]+@(?:[a-z0-9]+(?:-[a-z0-9]+)*\.)+[a-z]{2,3}$)|(^1[3|4|5|8]\d{9}$)/
+      if (!accountReg.test(this.signInInput[0].value)) {
         this.signInInput[0].isError = true
-        this.signInInput[0].errorText = '请确认手机号的格式是否填写正确'
+        this.signInInput[0].errorText = '请确认手机号或邮箱的格式是否填写正确'
         return
       }
 
