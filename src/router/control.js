@@ -16,11 +16,9 @@ router.beforeEach(async (to, from, next) => {
   const title = to.meta ?.title
   document.title = title ? `${title} - 乐享校园` : '校园闲置物品交易平台'
 
-  const hasToken = !!getToken()
-
-  if (hasToken) {
+  if (getToken()) {
     if (to.path === '/sign') {
-      next({ path: '/' })
+      next({ path: from.path })
     } else {
       next()
     }
