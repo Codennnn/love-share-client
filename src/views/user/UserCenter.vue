@@ -3,11 +3,31 @@
     <div class="mb-6 bg-white rounded-lg p-5">
       <div class="mb-3 flex items-center">
         <div class="w-1/2 flex items-center">
-          <vs-avatar
-            class="mr-6"
-            size="100px"
-            :src="info.avatar_url"
-          />
+          <vs-dropdown vs-custom-content>
+            <vs-avatar
+              class="mr-6 avatar"
+              size="100px"
+              :src="info.avatar_url"
+            />
+            <vs-dropdown-menu>
+              <div class="p-3">
+                <el-upload
+                  drag
+                  class="avatar-upload"
+                  action=""
+                  accept="image/jpeg,image/jpg,image/png"
+                  :auto-upload="false"
+                  :show-file-list="false"
+                  :on-change='onSelect'
+                >
+                  <i class="el-icon-upload"></i>
+                  <div class="el-upload__text">更换头像</div>
+                  <div class="el-upload__tip"><em>点击上传图片（jpg、jpeg、png）</em></div>
+                </el-upload>
+              </div>
+            </vs-dropdown-menu>
+          </vs-dropdown>
+
           <div>
             <div class="mb-4">
               <span class="font-bold text-2xl">{{ info.nickname }}</span>
@@ -89,6 +109,12 @@
         <component :is="currentComponent" />
       </keep-alive>
     </transition>
+
+    <ReplaceAvatar
+      :popupActive="showAvatarPopup"
+      :img="avatarImage"
+      @closePopup="showAvatarPopup = false"
+    />
   </div>
 </template>
 
@@ -110,6 +136,10 @@ const UserResetPassword = Vue.component(
   'UserResetPassword',
   () => import('./components/UserResetPassword.vue'),
 )
+const ReplaceAvatar = Vue.component(
+  'ReplaceAvatar',
+  () => import('./components/ReplaceAvatar.vue'),
+)
 
 export default {
   name: 'UserCenter',
@@ -118,11 +148,15 @@ export default {
     UserDetailInfo,
     UserProfit,
     UserResetPassword,
+    ReplaceAvatar,
   },
 
   data: () => ({
     currentComponent: 'UserBaseInfo',
     infoNum: {},
+
+    showAvatarPopup: false,
+    avatarImage: '',
   }),
 
   computed: {
@@ -150,6 +184,21 @@ export default {
       }
       return ''
     },
+
+    onSelect(file) {
+      const isLt4M = ((file.size / 1024 / 1024) < 2)
+      if (!isLt4M) {
+        this.$message.error('上传文件大小不能超过 2MB!')
+        return
+      }
+
+      const reader = new FileReader()
+      reader.readAsDataURL(file.raw)
+      reader.onload = (e) => {
+        this.showAvatarPopup = true
+        this.avatarImage = e.target.result
+      }
+    },
   },
 }
 </script>
@@ -157,5 +206,23 @@ export default {
 <style lang="scss" scoped>
 .quickly {
   animation-duration: 0.2s;
+}
+
+.avatar-upload::v-deep {
+  width: 14rem;
+  height: 8rem;
+  .el-upload,
+  .el-upload-dragger {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+  }
+  .el-icon-upload {
+    margin: 0;
+    margin-bottom: 0.6rem;
+  }
 }
 </style>

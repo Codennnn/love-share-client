@@ -40,10 +40,10 @@
             :multiple-limit="2"
           >
             <el-option
-              v-for="item in categoryList"
-              :key="item"
-              :label="item"
-              :value="item"
+              v-for="(item, i) in categoryList"
+              :key="i"
+              :label="item.name"
+              :value="item._id"
             >
             </el-option>
           </el-select>
