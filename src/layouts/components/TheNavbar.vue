@@ -85,7 +85,7 @@
             <div class="flex items-center justify-center">
               <vs-avatar
                 size="40px"
-                :src="info.avatar_url"
+                :src="`${info.avatar_url}?imageView2/2/w/40`"
               />
             </div>
             <vs-dropdown-menu>
