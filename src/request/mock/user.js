@@ -29,10 +29,12 @@ export default {
 
   info_num: {
     code: 2000,
-    info_num: {
-      fans_num: 24,
-      collect_num: 2,
-      follow_num: 12,
+    data: {
+      info_num: {
+        fans_num: 24,
+        collect_num: 2,
+        follow_num: 12,
+      },
     },
   },
 
