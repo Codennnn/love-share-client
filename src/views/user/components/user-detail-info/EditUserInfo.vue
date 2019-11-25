@@ -192,7 +192,8 @@ export default {
     },
 
     async onModify() {
-      if (!/^[\d\w\u4e00-\u9fa5,.;:"'?!-]{2,8}$/.test(this.data.nickname)) {
+      const nicknameReg = /^[\d\w\u4e00-\u9fa5,.;:"'?!-]{2,8}$/
+      if (!nicknameReg.test(this.data.nickname)) {
         this.error = true
         this.errorText = '昵称格式只能是中文、字母、数字组成'
         return
