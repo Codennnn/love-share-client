@@ -115,6 +115,15 @@ export function setDefaultAddress(data) {
   })
 }
 
+export function replaceAvatar(data) {
+  return request({
+    headers: { 'Content-Type': 'multipart/form-data' },
+    url: '/user/replace_avatar',
+    method: 'put',
+    data,
+  })
+}
+
 export function getContactList() {
   return request({
     url: '/user/contact_list',
