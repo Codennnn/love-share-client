@@ -5,6 +5,7 @@
   "vetur.format.defaultFormatterOptions": {
     "wrap_attributes": "force-aligned"
   },
+  "editor.formatOnSave": true,
   "eslint.autoFixOnSave": true,
   "eslint.validate": [
     {
