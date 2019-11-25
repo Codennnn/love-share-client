@@ -3,7 +3,10 @@
     <div class="mb-6 bg-white rounded-lg p-5">
       <div class="mb-3 flex items-center">
         <div class="w-1/2 flex items-center">
-          <vs-dropdown vs-custom-content>
+          <vs-dropdown
+            class="avatar-drop"
+            vs-custom-content
+          >
             <vs-avatar
               class="mr-6 avatar"
               size="100px"
@@ -208,8 +211,36 @@ export default {
   animation-duration: 0.2s;
 }
 
+.avatar-drop::v-deep {
+  &:hover {
+    .vs-avatar--con-img {
+      &::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        transition: background 0.5s;
+      }
+      &::after {
+        content: "更换头像";
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: 100%;
+        font-size: 1.1rem;
+        color: white;
+        transform: translate(-50%, -50%);
+        transition: all 0.5s;
+      }
+    }
+  }
+}
+
 .avatar-upload::v-deep {
-  width: 14rem;
+  width: 16rem;
   height: 8rem;
   .el-upload,
   .el-upload-dragger {
