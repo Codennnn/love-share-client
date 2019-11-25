@@ -222,7 +222,6 @@ export default {
         width: 100%;
         height: 100%;
         background: rgba(0, 0, 0, 0.5);
-        transition: background 0.5s;
       }
       &::after {
         content: "更换头像";
@@ -233,7 +232,6 @@ export default {
         font-size: 1.1rem;
         color: white;
         transform: translate(-50%, -50%);
-        transition: all 0.5s;
       }
     }
   }
