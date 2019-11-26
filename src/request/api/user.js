@@ -144,3 +144,17 @@ export function unsubscribe() {
     method: 'post',
   })
 }
+
+export function getPublishedGoods() {
+  return request({
+    url: '/user/published_goods',
+    method: 'get',
+  })
+}
+
+export function getPurchasedGoods() {
+  return request({
+    url: '/user/purchased_goods',
+    method: 'get',
+  })
+}

@@ -28,20 +28,6 @@ export function getGoodsListInfo() {
   })
 }
 
-export function getPublished() {
-  return request({
-    url: '/goods/published',
-    method: 'get',
-  })
-}
-
-export function getBought() {
-  return request({
-    url: '/goods/bought',
-    method: 'get',
-  })
-}
-
 export function getGoodsDetail() {
   return request({
     url: '/goods/detail',
