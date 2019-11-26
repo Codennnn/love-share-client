@@ -128,7 +128,6 @@
 
 <script>
 import {
-  getGoodsCategory,
   getStoredGoods,
   collectGoods,
   uncollectGoods,
@@ -148,7 +147,6 @@ export default {
 
   mounted() {
     this.getStoredGoods()
-    this.getGoodsCategory()
   },
 
   watch: {
@@ -165,27 +163,11 @@ export default {
 
   methods: {
     async getStoredGoods() {
-      try {
-        const { code, data } = await getStoredGoods()
-        if (code === 2000) {
-          this.total = data.total
-          this.goodsList = data.goods_list
-          this.pagination = data.pagination
-        }
-      } catch {
-        // TODO
-      }
-    },
-
-    async getGoodsCategory() {
-      try {
-        const { code, data } = await getGoodsCategory()
-        if (code === 2000) {
-          this.categoryList = data.category_list
-          this.category = this.categoryList[0].value
-        }
-      } catch {
-        // TODO
+      const { code, data } = await getStoredGoods()
+      if (code === 2000) {
+        this.total = data.total
+        this.goodsList = data.goods_list
+        this.pagination = data.pagination
       }
     },
 
