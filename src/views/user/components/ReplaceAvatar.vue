@@ -20,6 +20,19 @@
           :infoTrue="true"
           :img="img"
         ></vueCropper>
+
+        <!-- 警告框 -->
+        <div class="w-full">
+          <vs-alert
+            closable
+            close-icon="close"
+            color="danger"
+            :active.sync="showAlert"
+          >
+            图片上传失败，请重试！
+          </vs-alert>
+        </div>
+
         <vs-button
           id="replaceBtn"
           class="w-full mt-4 vs-con-loading__container"
@@ -75,6 +88,7 @@ export default {
 
   data: () => ({
     btnDisable: false,
+    showAlert: false,
   }),
 
   methods: {
@@ -103,12 +117,10 @@ export default {
             })
             this.showPopup = false
           } else if (code === 3000 || code === 4003 || code === 5000) {
-            this.$vs.notify({
-              title: '图片上传失败',
-              text: '请尝试重新更换头像',
-              color: 'danger',
-            })
+            this.showAlert = true
           }
+        } catch {
+          this.showAlert = true
         } finally {
           this.$vs.loading.close('#replaceBtn > .con-vs-loading')
           this.btnDisable = false
