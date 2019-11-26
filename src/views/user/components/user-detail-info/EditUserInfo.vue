@@ -102,6 +102,14 @@
               >女</vs-radio>
             </div>
           </div>
+
+          <vs-textarea
+            class="mt-8"
+            counter="50"
+            label="个人简介"
+            :counter-danger.sync="counterDanger"
+            v-model="data.introduction"
+          />
         </div>
       </VuePerfectScrollbar>
 
@@ -149,8 +157,9 @@ export default {
   data: () => ({
     data: null,
     schoolList: [],
-    error: false,
-    errorText: '',
+    error: false, // 昵称错误
+    errorText: '', // 昵称错误信息
+    counterDanger: true,
   }),
 
   created() {

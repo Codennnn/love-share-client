@@ -165,7 +165,6 @@
 <script>
 import { VueEditor } from 'vue2-editor'
 import { deleteGoodsImg } from '@/request/api/goods'
-import { getCategoryList } from '@/request/api/common'
 import { getToken } from '@/utils/token'
 
 export default {
@@ -175,8 +174,7 @@ export default {
   data: () => ({
     headers: {},
     name: '', // 商品名称
-    category: [],
-    categoryList: [], // 商品分类
+    category: [], // 所选分类
     quantity: 1, // 商品数量
     price: '0.00', // 二手价
     originalPrice: '0.00', // 入手价
@@ -188,11 +186,13 @@ export default {
     isPublishing: false, // 是否正在发布中
   }),
 
-  async created() {
-    const { code, data } = await getCategoryList()
-    if (code === 2000) {
-      this.categoryList = data.category_list
-    }
+  computed: {
+    categoryList() {
+      return this.$store.state.categoryList
+    },
+  },
+
+  created() {
     this.description = localStorage.getItem('goods_editor')
   },
 

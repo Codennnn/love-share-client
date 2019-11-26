@@ -48,7 +48,6 @@
 </template>
 
 <script>
-import { getCategoryList } from '@/request/api/common'
 import icon1 from '@/assets/images/pages/home/grid1.svg'
 import icon2 from '@/assets/images/pages/home/grid2.svg'
 import icon3 from '@/assets/images/pages/home/grid3.svg'
@@ -73,19 +72,11 @@ export default {
   data: () => ({
     categoryIcons,
     grids,
-    categoryList: [],
   }),
 
-  mounted() {
-    this.getCategoryList()
-  },
-
-  methods: {
-    async getCategoryList() {
-      const { code, data } = await getCategoryList()
-      if (code === 2000) {
-        this.categoryList = data.category_list
-      }
+  computed: {
+    categoryList() {
+      return this.$store.state.categoryList
     },
   },
 }
