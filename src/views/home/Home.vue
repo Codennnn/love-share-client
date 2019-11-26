@@ -1,6 +1,7 @@
 <template>
   <div>
     <div class="flex w-full">
+      <!-- 商品分类 -->
       <div class="mr-4 pt-6 px-8 bg-white rounded-lg text-gray-600">
         <ul>
           <li
@@ -16,19 +17,26 @@
           </li>
         </ul>
       </div>
+      <!-- 幻灯片 -->
       <el-carousel
+        :autoplay="false"
         class="flex-1"
-        indicator-position="outside"
       >
         <el-carousel-item
-          v-for="item in 4"
-          :key="item"
+          class="h-full"
+          v-for="(item, i) in ['https://ws1.sinaimg.cn/large/775017f8gy1g9blp5artdj20xn0ea44u.jpg', 'https://ws1.sinaimg.cn/large/775017f8gy1g9blx9s6n9j20xk0ebjwc.jpg']"
+          :key="i"
         >
-          <h3>{{ item }}</h3>
+          <el-image
+            class="h-full"
+            fit="cover"
+            :src="item"
+          ></el-image>
         </el-carousel-item>
       </el-carousel>
+      <!-- 功能区 -->
       <div class="ml-4 py-6 px-4 bg-white rounded-lg text-gray-600 shadow">
-        <div class="grid">
+        <div class="grid-block">
           <div
             class="grid-item px-3 text-center cursor-pointer"
             v-for="(item, index) in grids"
@@ -43,7 +51,34 @@
         </div>
       </div>
     </div>
-    <h3 class="title">为你推荐</h3>
+    <h3 class="title-divider">为你推荐</h3>
+
+    <div class="grid-list">
+      <div
+        class="goods-item"
+        v-for="(goods, i) in goodsList"
+        :key="i"
+      >
+        <div
+          class="img-wrapper p-8 cursor-pointer"
+          @click="viewGoodsDetail(goods.goods_id)"
+        >
+          <el-image
+            class="w-full h-full"
+            fit="cover"
+            :src="goods.img_list[0]"
+          ></el-image>
+        </div>
+        <div class="p-3">
+          <p class="mb-3 text-sm text-gray-700 text-overflow-multi">
+            {{ goods.name }}
+          </p>
+          <div class="flex justify-between items-center">
+            <div class="text-lg text-primary font-bold">￥{{ goods.price }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -52,6 +87,10 @@ import icon1 from '@/assets/images/pages/home/grid1.svg'
 import icon2 from '@/assets/images/pages/home/grid2.svg'
 import icon3 from '@/assets/images/pages/home/grid3.svg'
 import icon4 from '@/assets/images/pages/home/grid4.svg'
+
+import {
+  getStoredGoods,
+} from '@/request/api/goods'
 
 const categoryIcons = {
   电子数码: 'el-icon-headset',
@@ -72,11 +111,35 @@ export default {
   data: () => ({
     categoryIcons,
     grids,
+    goodsList: [],
   }),
 
   computed: {
     categoryList() {
       return this.$store.state.categoryList
+    },
+  },
+
+  created() {
+    this.getStoredGoods()
+  },
+
+  methods: {
+    async getStoredGoods() {
+      const { code, data } = await getStoredGoods()
+      if (code === 2000) {
+        this.total = data.total
+        this.goodsList = data.goods_list
+        this.pagination = data.pagination
+      }
+    },
+
+    viewGoodsDetail(id) {
+      const { href } = this.$router.resolve({
+        path: '/goods-detail',
+        query: { id },
+      })
+      window.open(href, '_blank')
     },
   },
 }
@@ -87,11 +150,11 @@ export default {
   font-size: 0.95rem;
   transition: 0.4s;
   &:hover {
-    transform: translateX(0.4rem);
+    transform: translateX(0.25rem);
   }
 }
 
-.grid {
+.grid-block {
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-row-gap: 1rem;
@@ -103,12 +166,49 @@ export default {
   }
 }
 
-.title {
+.grid-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  grid-column-gap: 24px;
+  grid-row-gap: 26px;
+  @media (max-width: 1125px) {
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+  }
+  .goods-item {
+    border-radius: 10px;
+    background: #fff;
+    overflow: hidden;
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.1);
+    transition: all 0.4s;
+    &:hover {
+      box-shadow: 0 0 25px 10px rgba(var(--vs-primary), 0.2);
+    }
+    .img-wrapper {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+}
+
+.text-overflow-multi {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  /* autoprefixer: off */
+  -webkit-box-orient: vertical;
+  /* autoprefixer: on */
+  word-break: break-all;
+  word-wrap: break-word;
+}
+
+.title-divider {
   position: relative;
   width: 200px;
   height: 45px;
   padding: 0 30px;
-  margin: 0 auto 20px;
+  margin: 20px auto;
   font-size: 28px;
   font-weight: 700;
   text-align: center;
