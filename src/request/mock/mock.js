@@ -40,7 +40,7 @@ Mock.mock('/api/goods/collect', 'post', goods.collect)
 Mock.mock('/api/goods/uncollect', 'delete', goods.uncollect)
 Mock.mock('/api/goods/dismount', 'post', goods.dismount)
 Mock.mock('/api/goods/cancel_dismount', 'post', goods.cancel_dismount)
-Mock.mock('/api/goods/cart_list', 'get', goods.cart_list)
+Mock.mock('/api/goods/cart/list', 'get', goods.cart_list)
 Mock.mock('/api/goods/cart_item/add', 'post', goods.add_cart_item)
 Mock.mock('/api/goods/cart_item/remove', 'delete', goods.remove_cart_item)
 

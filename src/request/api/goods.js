@@ -72,7 +72,7 @@ export function cancelDismountGoods() {
 
 export function getCartList() {
   return request({
-    url: '/goods/cart_list',
+    url: '/goods/cart/list',
     method: 'get',
   })
 }
