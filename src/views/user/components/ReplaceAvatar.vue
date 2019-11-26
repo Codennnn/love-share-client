@@ -95,7 +95,7 @@ export default {
         try {
           const { code, data } = await replaceAvatar(formData)
           if (code === 2000) {
-            this.$store.state.user.info.avatar_url = data.avatar_url
+            this.$store.commit('user/SET_AVATAR', data.avatar_url)
             this.$vs.notify({
               title: '图片上传成功',
               text: '头像已更换',
