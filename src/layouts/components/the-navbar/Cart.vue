@@ -37,7 +37,7 @@
               </div>
               <div class="mt-2 flex justify-between items-center">
                 <div class="whitespace-no-wrap text-sm text-gray-500">
-                  <span class="font-bold">￥{{ item.price.toFixed(2) }}</span>
+                  <span class="font-bold">￥{{ item.price }}</span>
                   <span> x {{ item.amount }}</span>
                 </div>
                 <i
