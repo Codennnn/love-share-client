@@ -76,7 +76,7 @@
           </div>
           <div class="item">
             <span class="item-label">总价</span>
-            <span class="item-value">￥{{ amountPayable.toFixed(2) }}</span>
+            <span class="item-value">￥{{ amountPayable }}</span>
           </div>
           <div class="item">
             <span class="item-label">折扣</span>
@@ -89,7 +89,7 @@
           <vs-divider />
           <div class="flex justify-between">
             <span class="label">实付</span>
-            <span class="label">￥{{ amountPayable.toFixed(2) }}</span>
+            <span class="label">￥{{ amountPayable }}</span>
           </div>
           <vs-button
             class="w-full mt-4"
@@ -114,6 +114,8 @@
 </template>
 
 <script>
+import { mapState, mapGetters } from 'vuex'
+
 import { collectGoods, uncollectGoods } from '@/request/api/goods'
 
 export default {
@@ -128,15 +130,8 @@ export default {
   }),
 
   computed: {
-    cartList() {
-      return this.$store.state.cart.cartList
-    },
-    deliveryCharges() {
-      return this.$store.getters['cart/deliveryCharges']
-    },
-    amountPayable() {
-      return this.$store.getters['cart/amountPayable']
-    },
+    ...mapState('cart', ['cartList']),
+    ...mapGetters('cart', ['deliveryCharges', 'amountPayable']),
   },
 
   methods: {
