@@ -67,7 +67,7 @@
             pagination
             max-items="3"
             noDataText="暂无数据"
-            :data="boughtGoods"
+            :data="purchasedGoods"
           >
             <template slot="thead">
               <vs-th>图片</vs-th>
@@ -172,8 +172,11 @@
 import ElImageViewer from 'element-ui/packages/image/src/image-viewer.vue'
 
 import { timeDiff } from '@/utils/util'
-import { getRecentContacts } from '@/request/api/user'
-import { getPublished, getBought } from '@/request/api/goods'
+import {
+  getPublishedGoods,
+  getPurchasedGoods,
+  getRecentContacts,
+} from '@/request/api/user'
 
 export default {
   name: 'UserBaseInfo',
@@ -182,9 +185,9 @@ export default {
     userID: '',
     showViewer: false,
     imgUrls: [],
-    publishedGoods: [],
-    boughtGoods: [],
-    recentContacts: [],
+    publishedGoods: [], // 已发布商品
+    purchasedGoods: [], // 已购买商品
+    recentContacts: [], // 最近联系人
     status: {
       0: {
         color: 'warning',
@@ -199,26 +202,28 @@ export default {
 
   components: { ElImageViewer },
 
+  created() {
+    this.getPublishedGoods()
+    this.getPurchasedGoods()
+  },
+
   mounted() {
     this.userID = this.$route.query.id
-    console.log('user id:', this.userID)
-    this.getPublished()
-    this.getBought()
-    this.getRecentContacts()
+    // this.getRecentContacts()
   },
 
   methods: {
-    async getPublished() {
-      const { code, data } = await getPublished()
+    async getPublishedGoods() {
+      const { code, data } = await getPublishedGoods()
       if (code === 2000) {
-        this.publishedGoods = data.goods
+        this.publishedGoods = data.published_goods
       }
     },
 
-    async getBought() {
-      const { code, data } = await getBought()
+    async getPurchasedGoods() {
+      const { code, data } = await getPurchasedGoods()
       if (code === 2000) {
-        this.boughtGoods = data.goods
+        this.purchasedGoods = data.purchased_goods
       }
     },
 
@@ -244,20 +249,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.vs-con-table {
-  &::v-deep {
-    .vs-table--thead {
-      color: rgb(150, 150, 150);
-    }
-    .vs-table-text {
-      justify-content: center;
-    }
+.vs-con-table::v-deep {
+  .vs-table--thead {
+    color: rgb(150, 150, 150);
   }
-}
-
-.el-image-viewer__wrapper {
-  &::v-deep .el-image-viewer__close {
-    color: #ececec;
+  .vs-table-text {
+    justify-content: center;
   }
 }
 </style>

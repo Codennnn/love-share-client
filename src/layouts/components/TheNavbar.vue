@@ -4,9 +4,10 @@
       <!-- 导航栏左侧 -->
       <div class="flex items-center">
         <img
+          class="ml-2 mr-8 w-12 cursor-pointer"
           src="@/assets/images/logo.png"
-          class="mr-8 w-12"
           alt="LOGO"
+          @click="$router.push('/')"
         >
         <router-link
           v-for="(item, index) in navIcons"
@@ -14,9 +15,9 @@
           :to="item.route"
         >
           <el-tooltip
+            effect="light"
             :open-delay="100"
             :content="item.tip"
-            effect="light"
           >
             <i
               class="nav-icon mr-3"
@@ -31,9 +32,9 @@
         <div class="flex items-center">
           <!-- 搜索图标 -->
           <el-tooltip
+            effect="light"
             :open-delay="100"
             :content="showSearchInput ? '关闭搜索' : '全站搜索'"
-            effect="light"
           >
             <i
               class="nav-icon ml-3"
@@ -52,9 +53,9 @@
 
           <!-- 全屏图标 -->
           <el-tooltip
-            :open-delay="100"
             content="切换全屏"
             effect="light"
+            :open-delay="100"
           >
             <i
               class="nav-icon mx-3"
