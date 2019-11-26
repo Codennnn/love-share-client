@@ -27,6 +27,7 @@
 html {
   min-height: 100%;
   width: 100%;
+  overflow-y: overlay; // 让滚动条不占页面宽度
 }
 
 body {
@@ -38,6 +39,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+// 修正图标大小
 .material-icons {
   font-size: inherit;
 }
