@@ -6,7 +6,7 @@
     >
       <div class="p-5 bg-white shadow rounded-lg">
         <p class="text-lg font-bold">设置新的收货地址</p>
-        <p class="text-sm text-gray-500">填写完成时，请确认地址无误</p>
+        <p class="text-sm text-gray-500">填写完成时，请确认信息无误</p>
         <div class="w-2/3 my-8">
           <el-form
             ref="form"
@@ -19,19 +19,28 @@
               label="收货人姓名"
               prop="receiver"
             >
-              <el-input v-model="newAddress.receiver"></el-input>
+              <el-input
+                placeholder="收货人姓名"
+                v-model="newAddress.receiver"
+              ></el-input>
             </el-form-item>
             <el-form-item
               label="收货地址"
               prop="address"
             >
-              <el-input v-model="newAddress.address"></el-input>
+              <el-input
+                placeholder="省份 - 地区 - 具体位置"
+                v-model="newAddress.address"
+              ></el-input>
             </el-form-item>
             <el-form-item
               label="联系电话"
               prop="phone"
             >
-              <el-input v-model="newAddress.phone"></el-input>
+              <el-input
+                placeholder="收货人的联系方式"
+                v-model="newAddress.phone"
+              ></el-input>
             </el-form-item>
             <el-form-item
               label="地址类型"
@@ -51,7 +60,7 @@
             </el-form-item>
             <el-form-item class="btn-group">
               <vs-button
-                class="mr-4"
+                class="w-24 mr-4"
                 type="border"
                 @click="onResetForm()"
               >重新填写</vs-button>
@@ -125,7 +134,7 @@
 </template>
 
 <script>
-import { getAddressList, addAddress } from '@/request/api/user'
+import { mapState } from 'vuex'
 
 const validateReceiver = (rule, value, callback) => {
   if (value.length <= 0) {
@@ -149,11 +158,9 @@ const validatePhone = (rule, value, callback) => {
 export default {
   name: 'CartAddress',
   data: () => ({
-    current: {}, // 当前默认显示的地址
-    addressList: [],
-    defaultAddress: null,
+    current: {}, // 当前选择的地址
+    addressCheck: null, // 弹框中选择的地址
     showPopup: false,
-    addressCheck: null,
 
     rules: {
       receiver: [
@@ -166,7 +173,7 @@ export default {
         { validator: validatePhone, trigger: 'blur' },
       ],
       type: [
-        { required: true, message: '请填写地址类型' },
+        { required: true, message: '请选择地址类型' },
       ],
     },
     newAddress: {
@@ -177,19 +184,14 @@ export default {
     },
   }),
 
-  created() {
-    this.getAddressList()
+  computed: {
+    ...mapState('user', ['defaultAddress', 'addressList']),
   },
 
-  methods: {
-    // 获取收货地址
-    async getAddressList() {
-      const { code, data } = await getAddressList()
-      if (code === 2000) {
-        this.defaultAddress = data.default_address
-        this.addressList = data.address_list
-
-        if (this.defaultAddress) {
+  watch: {
+    defaultAddress: {
+      handler(newVal) {
+        if (newVal) {
           this.addressList.forEach((el) => {
             if (el._id === this.defaultAddress) {
               this.current = el
@@ -199,9 +201,12 @@ export default {
           const [curren] = this.addressList
           this.current = curren
         }
-      }
+      },
+      immediate: true,
     },
+  },
 
+  methods: {
     // 激活弹出框
     activePopup() {
       this.showPopup = true
@@ -215,10 +220,15 @@ export default {
 
     onSetAddress() {
       this.$refs.form.validate(async (valid) => {
+        console.log(valid)
         if (valid) {
-          this.onSettle()
-          await addAddress()
-          return true
+          try {
+            await this.$store.dispatch('user/addAddress', this.newAddress)
+            this.onSettle()
+            return true
+          } catch {
+            return false
+          }
         }
         return false
       })

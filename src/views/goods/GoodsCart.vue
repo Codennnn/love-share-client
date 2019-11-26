@@ -92,11 +92,9 @@ export default {
   animation-duration: 0.1s;
 }
 
-.el-steps {
-  &::v-deep {
-    .el-step__icon-inner {
-      font-size: 1.6rem !important;
-    }
+.el-steps::v-deep {
+  .el-step__icon-inner {
+    font-size: 1.6rem !important;
   }
 }
 </style>

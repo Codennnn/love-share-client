@@ -146,41 +146,35 @@ export default {
         container: `#li-loading${id}`,
         scale: 1,
       })
-      await this.$store.dispatch('cart/removeCartItem', id)
-      this.$nextTick(() => {
+
+      try {
+        await this.$store.dispatch('cart/removeCartItem', id)
+      } finally {
         this.$vs.loading.close(`#li-loading${id} > .con-vs-loading`)
-      })
+      }
     },
 
     // 收藏商品
     async collectGoods(id) {
-      try {
-        const { code } = await collectGoods()
-        if (code === 2000) {
-          this.cartList.forEach((el, i, _) => {
-            if (el.goods_id === id) {
-              _[i].is_collected = true
-            }
-          })
-        }
-      } catch {
-        // TODO
+      const { code } = await collectGoods()
+      if (code === 2000) {
+        this.cartList.forEach((el, i, _) => {
+          if (el.goods_id === id) {
+            _[i].is_collected = true
+          }
+        })
       }
     },
 
     // 取消收藏商品
     async uncollectGoods(id) {
-      try {
-        const { code } = await uncollectGoods()
-        if (code === 2000) {
-          this.cartList.forEach((el, i, _) => {
-            if (el.goods_id === id) {
-              _[i].is_collected = false
-            }
-          })
-        }
-      } catch {
-        // TODO
+      const { code } = await uncollectGoods()
+      if (code === 2000) {
+        this.cartList.forEach((el, i, _) => {
+          if (el.goods_id === id) {
+            _[i].is_collected = false
+          }
+        })
       }
     },
 

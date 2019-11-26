@@ -120,21 +120,12 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import _cloneDeepWith from 'lodash/cloneDeepWith'
-
-import {
-  getAddressList,
-  setDefaultAddress,
-  addAddress,
-  deleteAddress,
-  updateAddress,
-} from '@/request/api/user'
 
 export default {
   name: 'Address',
   data: () => ({
-    addressList: [], // 地址列表
-    defaultAddress: null,
     showForm: false,
     editForm: false,
 
@@ -151,20 +142,11 @@ export default {
     typeWarning: false,
   }),
 
-  created() {
-    this.getAddressList()
+  computed: {
+    ...mapState('user', ['defaultAddress', 'addressList']),
   },
 
   methods: {
-    // 获取收货地址
-    async getAddressList() {
-      const { code, data } = await getAddressList()
-      if (code === 2000) {
-        this.defaultAddress = data.default_address
-        this.addressList = data.address_list
-      }
-    },
-
     // 验证
     verification() {
       if (this.addressData.receiver.length <= 0) {
@@ -219,87 +201,69 @@ export default {
     // 添加地址
     async onAddAddress() {
       if (this.verification()) {
-        this.$vs.loading({
-          container: '#address-container',
-        })
-
+        this.openLoading()
         try {
-          const { code } = await addAddress(this.addressData)
-          if (code === 2000) {
-            await this.getAddressList()
-            this.onHideForm()
-          }
+          await this.$store.dispatch('user/addAddress', this.addressData)
+          this.onHideForm()
         } finally {
-          this.$vs.loading.close('#address-container > .con-vs-loading')
+          this.closeLoading()
         }
       }
     },
 
     // 删除地址
-    async onDeleteAddress(address_id) {
-      this.$vs.loading({
-        container: '#address-container',
-      })
-
+    async onDeleteAddress(id) {
+      this.openLoading()
       try {
-        const { code } = await deleteAddress({ address_id })
-        if (code === 2000) {
-          await this.getAddressList()
-          this.onHideForm()
-        }
+        await this.$store.dispatch('user/deleteAddress', id)
+        this.onHideForm()
       } finally {
-        this.$vs.loading.close('#address-container > .con-vs-loading')
+        this.closeLoading()
       }
     },
 
     // 修改地址
     async onUpdateAddress() {
       if (this.verification()) {
-        this.$vs.loading({
-          container: '#address-container',
-        })
-
+        this.openLoading()
         try {
-          const { code } = await updateAddress(this.addressData)
-          if (code === 2000) {
-            await this.getAddressList()
-            this.onHideForm()
-          }
+          await this.$store.dispatch('user/updateAddress', this.addressData)
+          this.onHideForm()
         } finally {
-          this.$vs.loading.close('#address-container > .con-vs-loading')
+          this.closeLoading()
         }
       }
     },
 
     // 设置默认地址
-    async setDefaultAddress(address_id) {
-      this.$vs.loading({
-        container: '#address-container',
-      })
-
+    async setDefaultAddress(id) {
+      this.openLoading()
       try {
-        const { code } = await setDefaultAddress({ address_id })
-        if (code === 2000) {
-          this.defaultAddress = address_id
-        }
+        await this.$store.dispatch('user/setDefaultAddress', id)
       } finally {
-        this.$vs.loading.close('#address-container > .con-vs-loading')
+        this.closeLoading()
       }
+    },
+
+    openLoading() {
+      this.$vs.loading({ container: '#address-container' })
+    },
+
+    closeLoading() {
+      this.$vs.loading.close('#address-container > .con-vs-loading')
     },
   },
 }
 </script>
 
 <style lang="scss" scoped>
-.address-select {
-  &::v-deep {
-    .vs-select--input {
-      border: 1px solid rgba(0, 0, 0, 0.2);
-      font-size: 88%;
-    }
-    &.input-select-validate-warning .input-select {
-      border-color: rgba(var(--vs-warning), 1);
-    }
+.address-select::v-deep {
+  .vs-select--input {
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    font-size: 88%;
+  }
+  .input-select-validate-warning .input-select {
+    border-color: rgba(var(--vs-warning), 1);
   }
 }
 </style>

@@ -10,6 +10,7 @@ export default {
 
   created() {
     this.$store.dispatch('getCategoryList')
+    this.$store.dispatch('user/getAddressList')
   },
 }
 </script>
