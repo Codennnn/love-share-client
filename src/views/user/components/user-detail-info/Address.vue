@@ -54,52 +54,53 @@
       class="mt-2 p-3 rounded-lg"
       style="background: rgba(150, 150, 150, 0.1);"
     >
-      <div
-        class="my-3"
-        v-if="showForm"
-      >
-        <div class="flex pb-1">
+      <CollapseTransition>
+        <div v-if="showForm">
+          <div class="flex pb-1">
+            <vs-input
+              class="mr-2"
+              label-placeholder="收货人"
+              v-model="addressData.receiver"
+              val-icon-warning="warning"
+              :warning="receiverWarning"
+              @focus="() => { receiverWarning = false }"
+            />
+            <vs-input
+              label-placeholder="联系电话"
+              val-icon-warning="warning"
+              v-model="addressData.phone"
+              :warning="phoneWarning"
+              @focus="() => { phoneWarning = false }"
+            />
+          </div>
           <vs-input
-            class="mr-2"
-            label-placeholder="收货人"
-            v-model="addressData.receiver"
+            class="w-full"
+            label-placeholder="地址"
             val-icon-warning="warning"
-            :warning="receiverWarning"
-            @focus="() => { receiverWarning = false }"
+            v-model="addressData.address"
+            :warning="addressWarning"
+            @focus="() => { addressWarning = false }"
           />
-          <vs-input
-            label-placeholder="联系电话"
-            val-icon-warning="warning"
-            v-model="addressData.phone"
-            :warning="phoneWarning"
-            @focus="() => { phoneWarning = false }"
-          />
+          <vs-select
+            class="address-select mt-2"
+            label="地址类型"
+            placeholder="请选择地址"
+            v-model="addressData.type"
+            :warning="typeWarning"
+            @focus="() => { typeWarning = false }"
+          >
+            <vs-select-item
+              v-for="(item, i) in ['学校', '家庭', '公司']"
+              :key="i"
+              :value="item"
+              :text="item"
+            />
+          </vs-select>
         </div>
-        <vs-input
-          class="w-full"
-          label-placeholder="地址"
-          val-icon-warning="warning"
-          v-model="addressData.address"
-          :warning="addressWarning"
-          @focus="() => { addressWarning = false }"
-        />
-        <vs-select
-          class="address-select mt-2"
-          label="地址类型"
-          placeholder="请选择地址"
-          v-model="addressData.type"
-          :warning="typeWarning"
-          @focus="() => { typeWarning = false }"
-        >
-          <vs-select-item
-            v-for="(item, i) in ['学校', '家庭', '公司']"
-            :key="i"
-            :value="item"
-            :text="item"
-          />
-        </vs-select>
-      </div>
-      <div class="flex items-center justify-end">
+      </CollapseTransition>
+
+      <!-- 操作按钮 -->
+      <div class="mt-3 flex items-center justify-end">
         <vs-button
           class="mr-2 text-xl"
           v-if="showForm"
@@ -122,12 +123,15 @@
 <script>
 import { mapState } from 'vuex'
 import _cloneDeepWith from 'lodash/cloneDeepWith'
+import CollapseTransition from 'element-ui/lib/transitions/collapse-transition'
 
 export default {
   name: 'Address',
+  components: { CollapseTransition },
+
   data: () => ({
     showForm: false,
-    editForm: false,
+    editForm: false, // 是否为编辑模式
 
     addressData: {
       receiver: '', // 收货人
