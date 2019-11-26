@@ -36,6 +36,12 @@ export const routes = [
         meta: { title: '发布闲置' },
       },
       {
+        path: '/goods-detail',
+        name: 'GoodsDetail',
+        component: () => import('@/views/goods/GoodsDetail.vue'),
+        meta: { title: '商品详情' },
+      },
+      {
         path: '/message',
         name: 'Message',
         component: () => import('@/views/message/Message.vue'),
