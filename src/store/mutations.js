@@ -1,6 +1,6 @@
 const mutations = {
-  SWITCH_SIDEBAR_COLLAPSE(state, status) {
-    state.sidebarCollapse = status
+  SET_CATEGORY_LIST(state, list) {
+    state.categoryList = list
   },
 }
 
