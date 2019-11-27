@@ -28,6 +28,7 @@
           :key="i"
         >
           <el-image
+            lazy
             class="h-full"
             fit="cover"
             :src="item"
