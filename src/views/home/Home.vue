@@ -63,16 +63,17 @@
           class="img-wrapper p-8 cursor-pointer"
           @click="viewGoodsDetail(goods.goods_id)"
         >
-          <div
-            slot="placeholder"
-            style="width: 156px; heigth: 156px;"
-          >123456</div>
           <el-image
             lazy
             class="w-full h-full"
             fit="cover"
             :src="goods.img_list[0]"
-          ></el-image>
+          >
+            <div
+              slot="placeholder"
+              style="width: 156px; heigth: 156px;"
+            >123456</div>
+          </el-image>
         </div>
         <div class="p-3">
           <p class="mb-3 text-sm text-gray-700 text-overflow-multi">

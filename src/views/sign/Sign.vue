@@ -69,7 +69,7 @@ export default {
   components: { SignIn, SignUp, SignReset },
 
   data: () => ({
-    currentComponent: 'SignIn', // 默认加载 “登录” 表单
+    currentComponent: '',
   }),
 
   mounted() {

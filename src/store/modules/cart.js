@@ -57,9 +57,12 @@ export default {
       if (charge === 0) {
         return '免费'
       }
-      return charge.toFixed(2)
+      return Number(charge).toFixed(2)
     },
-    amountPayable: state => state.cartList.reduce((acc, curr) => acc + curr.price, 0),
+    amountPayable: (state) => {
+      const amount = state.cartList.reduce((acc, curr) => acc + curr.price, 0)
+      return Number(amount).toFixed(2)
+    },
     isInCart: state => id => state.cartList.some(item => item.goods_id === id),
   },
 }
