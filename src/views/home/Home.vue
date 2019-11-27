@@ -27,6 +27,10 @@
           v-for="(item, i) in ['https://ws1.sinaimg.cn/large/775017f8gy1g9blp5artdj20xn0ea44u.jpg', 'https://ws1.sinaimg.cn/large/775017f8gy1g9blx9s6n9j20xk0ebjwc.jpg']"
           :key="i"
         >
+          <div
+            slot="placeholder"
+            style="width: 156px; heigth: 156px;"
+          >123456</div>
           <el-image
             lazy
             class="h-full"
