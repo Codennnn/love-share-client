@@ -219,7 +219,7 @@
 
     <el-image-viewer
       v-show="showViewer"
-      :on-close="showViewer = false"
+      :on-close="() => { showViewer = false }"
       :url-list="goods.img_list"
     />
   </div>
@@ -238,6 +238,8 @@ import {
 
 export default {
   name: 'GoodsDetail',
+  components: { ElImageViewer },
+
   data: () => ({
     timeDiff,
     showViewer: false,
@@ -245,14 +247,11 @@ export default {
     seller: {}, // 卖家信息
     amount: 1, // 购买的数量
     popupActive: false,
-    isPopupActive: false,
     isCollect: false,
     isDismount: false,
     isSubscribe: false,
     isSubscribeLoading: false,
   }),
-
-  components: { ElImageViewer },
 
   created() {
     this.getGoodsDetail()
@@ -341,9 +340,7 @@ export default {
     // 结算
     onSettle() {
       this.popupActive = false
-      setTimeout(() => {
-        this.$router.push({ path: '/goods-cart' })
-      }, 0)
+      this.$router.push({ path: '/goods-cart' })
     },
   },
 }
