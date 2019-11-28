@@ -31,36 +31,7 @@
               </vs-images>
             </div>
             <div class="w-1/2 px-5">
-              <div class="flex items-start text-lg font-semibold">
-                <p>{{ goods.name }}</p>
-                <div>
-                  <vs-dropdown>
-                    <vs-button
-                      class="ml-2"
-                      radius
-                      size="small"
-                      type="flat"
-                      icon-pack="el-icon"
-                      icon="el-icon-more"
-                    ></vs-button>
-
-                    <vs-dropdown-menu>
-                      <vs-dropdown-item @click="isDismount ?
-                       cancelDismountGoods()
-                       : dismountGoods()">
-                        {{ isDismount ? '重新上架' : '下架该商品' }}
-                      </vs-dropdown-item>
-                      <vs-dropdown-item
-                        class="text-danger"
-                        divider
-                        @click="isPopupActive = true"
-                      >
-                        删除该商品
-                      </vs-dropdown-item>
-                    </vs-dropdown-menu>
-                  </vs-dropdown>
-                </div>
-              </div>
+              <p class="text-lg font-semibold">{{ goods.name }}</p>
               <div class="my-2 flex items-center text-gray-500 text-sm">
                 <p>发布于 {{ timeDiff(goods.time) }}</p>
                 <vs-button
@@ -76,9 +47,9 @@
                 </vs-button>
               </div>
               <div class="info-item">
-                <vs-chip class="mr-2">类 别</vs-chip>
+                <vs-chip>类 别</vs-chip>
                 <span
-                  style="margin: 0 5px 4px 0;font-size: 15px;"
+                  style="margin: 0 5px 4px 0; font-size: 15px;"
                   v-for="(item, i) in goods.category"
                   :key="i"
                 >
@@ -86,7 +57,7 @@
                 </span>
               </div>
               <div class="info-item">
-                <vs-chip class="mr-2">价 格</vs-chip>
+                <vs-chip>价 格</vs-chip>
                 <div>
                   <span class="text-2xl text-primary font-semibold">
                     ￥{{ goods.price || '--' }}
@@ -100,11 +71,11 @@
                 </div>
               </div>
               <div class="info-item">
-                <vs-chip class="mr-2">数 量</vs-chip>
+                <vs-chip>数 量</vs-chip>
                 <span style="margin-bottom: 2px;">{{ goods.quantity }}</span>
               </div>
               <div class="info-item">
-                <vs-chip class="mr-2">配 送</vs-chip>
+                <vs-chip>配 送</vs-chip>
                 <span style="margin-bottom: 4px;font-size: 15px;">
                   {{ goods.delivery === '1' ? '包邮' : goods.delivery === '2' ? '自费' : '自提' }}
                 </span>
@@ -113,8 +84,8 @@
                 class="info-item"
                 v-if="goods.returnable"
               >
-                <vs-chip class="mr-2">保 障</vs-chip>
-                <span style="margin-bottom: 4px;font-size: 15px;">
+                <vs-chip>保 障</vs-chip>
+                <span style="margin-bottom: 4px; font-size: 15px;">
                   7天无理由退换货
                 </span>
               </div>
@@ -191,7 +162,7 @@
             <span
               class="px-5 py-2 flex items-center justify-center text-white
               text-sm bg-primary cursor-pointer"
-              style="height: 34px;border-radius: 17px;"
+              style="height: 34px; border-radius: 17px;"
               color="primary"
               @click="isSubscribe ? unsubscribe() : subscribe()"
             >
@@ -228,29 +199,6 @@
     </vs-row>
 
     <vs-popup
-      style="color: white;"
-      title="是否删除该商品"
-      background-color="rgba(255, 255, 255, .6)"
-      background-color-popup="rgba(var(--vs-danger), 1)"
-      :active.sync="isPopupActive"
-    >
-      <p>删除后将无法恢复, 请谨慎操作! </p>
-      <div class="flex justify-end">
-        <vs-button
-          class="mr-3 text-sm text-white"
-          type="border"
-          color="rgb(255, 255, 255)"
-        >取消操作</vs-button>
-        <vs-button
-          class="text-danger text-sm"
-          type="relief"
-          color="rgb(255, 255, 255)"
-          @click="deleteGoods()"
-        >确认删除</vs-button>
-      </div>
-    </vs-popup>
-
-    <vs-popup
       title="已加入购物车"
       :active.sync="popupActive"
     >
@@ -271,7 +219,7 @@
 
     <el-image-viewer
       v-show="showViewer"
-      :on-close="() => showViewer = false"
+      :on-close="showViewer = false"
       :url-list="goods.img_list"
     />
   </div>
@@ -284,11 +232,8 @@ import { timeDiff } from '@/utils/util'
 import { subscribe, unsubscribe } from '@/request/api/user'
 import {
   getGoodsDetail,
-  deleteGoods,
   collectGoods,
   uncollectGoods,
-  dismountGoods,
-  cancelDismountGoods,
 } from '@/request/api/goods'
 
 export default {
@@ -309,9 +254,12 @@ export default {
 
   components: { ElImageViewer },
 
+  created() {
+    this.getGoodsDetail()
+  },
+
   mounted() {
     console.log('商品 ID', this.$route.query.id)
-    this.getGoodsDetail()
   },
 
   computed: {
@@ -356,10 +304,9 @@ export default {
         if (code === 2000) {
           this.isSubscribe = true
         }
-      } catch {
-        // TODO
+      } finally {
+        this.isSubscribeLoading = false
       }
-      this.isSubscribeLoading = false
     },
 
     // 取消关注
@@ -370,78 +317,24 @@ export default {
         if (code === 2000) {
           this.isSubscribe = false
         }
-      } catch {
-        // TODO
-      }
-      this.isSubscribeLoading = false
-    },
-
-    // 删除商品
-    async deleteGoods() {
-      this.isPopupActive = false
-      try {
-        const { code } = await deleteGoods()
-        if (code === 2000) {
-          // TODO
-        }
-      } catch {
-        // TODO
+      } finally {
+        this.isSubscribeLoading = false
       }
     },
 
     // 收藏商品
     async collectGoods() {
-      try {
-        const { code } = await collectGoods()
-        if (code === 2000) {
-          this.isCollect = true
-        }
-      } catch {
-        // TODO
+      const { code } = await collectGoods()
+      if (code === 2000) {
+        this.isCollect = true
       }
     },
 
     // 取消收藏商品
     async uncollectGoods() {
-      try {
-        const { code } = await uncollectGoods()
-        if (code === 2000) {
-          this.isCollect = false
-        }
-      } catch {
-        // TODO
-      }
-    },
-
-    // 下架商品
-    async dismountGoods() {
-      try {
-        const { code } = await dismountGoods()
-        if (code === 2000) {
-          this.isDismount = true
-          this.$message({
-            message: '该商品已被下架',
-            type: 'warning',
-          })
-        }
-      } catch {
-        // TODO
-      }
-    },
-
-    // 取消下架
-    async cancelDismountGoods() {
-      try {
-        const { code } = await cancelDismountGoods()
-        if (code === 2000) {
-          this.isDismount = false
-          this.$message({
-            message: '该商品已重新上架',
-            type: 'success',
-          })
-        }
-      } catch {
-        // TODO
+      const { code } = await uncollectGoods()
+      if (code === 2000) {
+        this.isCollect = false
       }
     },
 
@@ -462,11 +355,15 @@ export default {
   display: flex;
   align-items: center;
   cursor: default;
+  .con-vs-chip {
+    margin-right: 0.5rem;
+  }
 }
 
 // 按钮闪光闪烁
 .hover-light {
   position: relative;
+  overflow: hidden;
   .light {
     position: absolute;
     display: none;
