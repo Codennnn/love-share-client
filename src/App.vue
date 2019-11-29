@@ -10,7 +10,10 @@ export default {
 
   created() {
     this.$store.dispatch('getCategoryList')
-    this.$store.dispatch('user/getAddressList')
+    if (this.$login()) {
+      this.$store.dispatch('user/getAddressList')
+      this.$store.dispatch('user/getUserInfo')
+    }
   },
 }
 </script>

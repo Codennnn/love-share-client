@@ -2,33 +2,32 @@
   <div class="data-list mt-4">
     <vs-table
       search
-      multiple
       pagination
       noDataText="暂无数据"
       :max-items="itemsPerPage"
       :data="buyingList"
-      v-model="selected"
     >
       <div
         slot="header"
         class="flex flex-wrap-reverse items-center flex-grow justify-between"
       >
         <vs-button
-          v-auth
-          style="padding: 7px 10px;"
+          v-login
           color="primary"
           type="border"
           size="small"
           @click="addNewDataSidebar = true, sidebarTitle = '添加求购信息'"
         >
-          <i class="el-icon-plus mr-1 font-semibold"></i>
-          <span>添加求购信息</span>
+          <div class="px-1">
+            <i class="el-icon-plus mr-1 font-semibold"></i>
+            <span>添加求购信息</span>
+          </div>
         </vs-button>
       </div>
 
       <template slot="thead">
-        <vs-th sort-key="name">商品标题</vs-th>
-        <vs-th sort-key="category">分类</vs-th>
+        <vs-th sort-key="name">求购标题</vs-th>
+        <vs-th sort-key="category">分类信息</vs-th>
         <vs-th sort-key="price">求购价</vs-th>
         <vs-th sort-key="time">发布时间</vs-th>
       </template>
@@ -37,7 +36,6 @@
         <vs-tr
           v-for="(tr, i) in data"
           :key="i"
-          :data="tr"
         >
           <vs-td>{{ tr.name }}</vs-td>
           <vs-td>
@@ -55,31 +53,8 @@
           <vs-td>
             <p class="text-gray-600">{{ tr.time }}</p>
           </vs-td>
-          <vs-td v-if="$auth()">
-            <div class="text-center">
-              <vs-dropdown>
-                <i class="el-icon-more-outline"></i>
-                <vs-dropdown-menu class="w-24">
-                  <vs-dropdown-item
-                    v-auth
-                    class="text-center"
-                    @click="addNewDataSidebar = true, sidebarTitle = '编辑更新信息', sidebarData = tr"
-                  >
-                    <i class="el-icon-edit mr-2"></i>
-                    <span>编辑</span>
-                  </vs-dropdown-item>
-                  <vs-dropdown-item
-                    v-auth
-                    divider
-                    class="text-center text-danger"
-                    @click="deleteData(tr.buying_id)"
-                  >
-                    <i class="el-icon-delete mr-2"></i>
-                    <span>删除</span>
-                  </vs-dropdown-item>
-                </vs-dropdown-menu>
-              </vs-dropdown>
-            </div>
+          <vs-td>
+            <i class="el-icon-more-outline"></i>
           </vs-td>
         </vs-tr>
       </template>
@@ -91,7 +66,6 @@
       :isSidebarActive="addNewDataSidebar"
       :data="sidebarData"
       @addListData="addData"
-      @updateListData="updateData"
       @closeSidebar="addNewDataSidebar = false"
     />
   </div>
@@ -103,11 +77,12 @@ import AddNewDataSidebar from './components/AddNewDataSidebar.vue'
 import {
   getBuyingList,
   addBuying,
-  deleteBuying,
-  updateBuying,
 } from '@/request/api/buying'
 
 export default {
+  name: 'BuyingList',
+  components: { AddNewDataSidebar },
+
   data: () => ({
     selected: [],
     itemsPerPage: 6,
@@ -117,9 +92,7 @@ export default {
     addNewDataSidebar: false,
   }),
 
-  components: { AddNewDataSidebar },
-
-  mounted() {
+  created() {
     this.getBuyingList()
   },
 
@@ -147,128 +120,97 @@ export default {
         this.notify({ title: '添加成功', text: '成功添加一条求购商品信息' })
       }
     },
-
-    async deleteData(id) {
-      this.buyingList.forEach((el, i, _this) => {
-        if (el.buying_id === id) {
-          _this.splice(i, 1)
-        }
-      })
-      const { code } = await deleteBuying()
-      if (code === 2000) {
-        this.notify({
-          title: '删除成功',
-          text: '成功删除一条求购商品信息',
-          color: 'danger',
-          time: 5000,
-        })
-      }
-    },
-
-    async updateData(data) {
-      this.buyingList.forEach((el, i, _this) => {
-        if (el.buying_id === data.buying_id) {
-          _this.splice(i, 1, data)
-        }
-      })
-      const { code } = await updateBuying()
-      if (code === 2000) {
-        this.notify({ title: '更新成功', text: '成功更新一条求购商品信息' })
-      }
-    },
   },
 }
 </script>
 
 <style lang="scss" scoped>
 .data-list {
-  .vs-con-table {
+  .vs-con-table::v-deep {
     background: transparent;
-    &::v-deep {
-      .vs-table--header {
-        height: 45px;
+    .vs-table--header {
+      height: 45px;
+      display: flex;
+      flex-wrap: wrap-reverse;
+      margin-left: 1.5rem;
+      margin-right: 1.5rem;
+      > span {
         display: flex;
-        flex-wrap: wrap-reverse;
-        margin-left: 1.5rem;
-        margin-right: 1.5rem;
-        > span {
-          display: flex;
-          flex-grow: 1;
-        }
-
-        .vs-table--search {
-          .vs-table--search-input {
-            padding: 0.5rem 2.5rem;
-            border: 1px solid rgba(0, 0, 0, 0.1);
-            font-size: 1rem;
-            & + i {
-              left: 1rem;
-            }
-            &:focus + i {
-              left: 1rem;
-            }
-          }
-          .vs-icon {
-            font-size: 1.4rem;
-          }
-        }
+        flex-grow: 1;
       }
 
-      .vs-table {
-        border-collapse: separate;
-        border-spacing: 0 1.3rem;
-        padding: 0 1rem;
-        & .is-selected {
-          border: none;
-          border-radius: 5px;
-          box-shadow: 0 0 10px 0 rgba(var(--vs-primary), 0.2) !important;
-          overflow: hidden;
+      .vs-table--search {
+        .vs-table--search-input {
+          padding: 0.5rem 2.5rem;
+          border: 1px solid rgba(0, 0, 0, 0.1);
+          font-size: 1rem;
+          & + i {
+            left: 1rem;
+          }
+          &:focus + i {
+            left: 1rem;
+          }
         }
-        tr {
-          box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.05);
-          td {
-            padding: 20px;
-            &:first-child {
-              border-top-left-radius: 0.5rem;
-              border-bottom-left-radius: 0.5rem;
-            }
-            &:last-child {
-              border-top-right-radius: 0.5rem;
-              border-bottom-right-radius: 0.5rem;
-            }
-          }
-          td.td-check {
-            padding: 20px !important;
-          }
+        .vs-icon {
+          font-size: 1.4rem;
         }
       }
+    }
 
-      .vs-table--thead {
-        th {
-          padding-top: 0;
-          padding-bottom: 0;
-          .vs-table-text {
-            text-transform: uppercase;
-            font-weight: 600;
-            color: #6e6e6e;
+    .vs-table {
+      border-collapse: separate;
+      border-spacing: 0 1.3rem;
+      padding: 0 1rem;
+      & .is-selected {
+        border: none;
+        border-radius: 5px;
+        box-shadow: 0 0 10px 0 rgba(var(--vs-primary), 0.2) !important;
+        overflow: hidden;
+      }
+      tr {
+        box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.05);
+        td {
+          padding: 20px;
+          &:first-child {
+            border-top-left-radius: 0.5rem;
+            border-bottom-left-radius: 0.5rem;
+          }
+          &:last-child {
+            border-top-right-radius: 0.5rem;
+            border-bottom-right-radius: 0.5rem;
           }
         }
-        th.td-check {
-          padding: 0 15px !important;
-          .con-td-check {
-            background: transparent;
-            box-shadow: none;
-          }
+        td.td-check {
+          padding: 20px !important;
         }
-        tr {
-          background: none;
+      }
+    }
+
+    .vs-table--thead {
+      th {
+        padding-top: 0;
+        padding-bottom: 0;
+        .vs-table-text {
+          text-transform: uppercase;
+          font-weight: 600;
+          color: #6e6e6e;
+        }
+      }
+      th.td-check {
+        padding: 0 15px !important;
+        .con-td-check {
+          background: transparent;
           box-shadow: none;
         }
       }
-
-      .vs-table--pagination {
-        justify-content: center;
+      tr {
+        background: none;
+        box-shadow: none;
       }
+    }
+
+    .vs-table--pagination {
+      justify-content: center;
     }
   }
 }

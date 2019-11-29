@@ -6,34 +6,18 @@
 
       <div id="router-view">
         <div class="router-content pt-24">
-          <!-- 面包屑导航 -->
-          <transition
-            enter-active-class="animated zoomIn faster"
-            leave-active-class="animated zoomOut faster"
-            mode="out-in"
-          >
-            <div
-              class="flex items-center mt-1 ml-1 mb-3"
-              v-if="$route.meta.breadcrumb"
-            >
-              <i
-                class="iconfont icon-back"
-                @click="$router.go(-1)"
-              ></i>
-              <vs-breadcrumb
-                separator="chevron_right"
-                :items="$route.meta.breadcrumb"
-              ></vs-breadcrumb>
-            </div>
-          </transition>
-
           <!-- 主区域 -->
           <transition
             enter-active-class="animated fadeIn faster"
             leave-active-class="animated fadeOut faster"
             mode="out-in"
           >
-            <router-view />
+            <keep-alive
+              :include="alivePages"
+              :max="5"
+            >
+              <router-view />
+            </keep-alive>
           </transition>
         </div>
 
@@ -67,6 +51,10 @@ export default {
     TheFooter,
     BackToTop,
   },
+
+  data: () => ({
+    alivePages: ['Home', 'UserCenter'],
+  }),
 }
 </script>
 
