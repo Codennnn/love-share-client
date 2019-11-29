@@ -10,6 +10,7 @@
           ref="cropper"
           style="width: 300px; height: 300px;"
           outputType="jpeg"
+          :info="false"
           :outputSize="0.8"
           :canMove="false"
           :canMoveBox="true"

@@ -11,12 +11,13 @@
           >
             <i
               class="mr-3 text-xl"
-              :class="categoryIcons[item.name]"
+              :class="categoryIcons[item.name] || 'el-icon-bangzhu'"
             ></i>
             <span>{{ item.name }}</span>
           </li>
         </ul>
       </div>
+
       <!-- 幻灯片 -->
       <el-carousel
         :autoplay="false"
@@ -34,6 +35,7 @@
           ></el-image>
         </el-carousel-item>
       </el-carousel>
+
       <!-- 功能区 -->
       <div class="ml-4 py-6 px-4 bg-white rounded-lg text-gray-600 shadow">
         <div class="grid-block">
