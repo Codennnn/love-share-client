@@ -262,8 +262,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.el-select {
-  &::v-deep .el-input__inner {
+.el-select::v-deep {
+  .el-input__inner {
     border: 1px solid rgba(0, 0, 0, 0.2);
     &::placeholder {
       color: rgba(0, 0, 0, 0.8);

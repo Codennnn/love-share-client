@@ -23,7 +23,10 @@
 
     <VuePerfectScrollbar
       class="scroll-area pt-4 pb-6"
-      :settings="settings"
+      :settings="{
+        maxScrollbarLength: 180,
+        wheelSpeed: 0.60,
+      }"
     >
       <div class="p-6">
         <!-- 标题 -->
@@ -39,17 +42,17 @@
           style="font-size: 0.85rem;color: rgba(0, 0, 0, .7);"
         >商品分类</div>
         <el-select
-          class="w-full"
           multiple
+          class="w-full"
           placeholder="请选择分类"
-          :multiple-limit="2"
           v-model="category"
+          :multiple-limit="2"
         >
           <el-option
             v-for="(item, i) in categoryList"
             :key="i"
-            :label="item"
-            :value="item"
+            :label="item.name"
+            :value="item._id"
           >
           </el-option>
         </el-select>
@@ -98,10 +101,10 @@
 <script>
 import VuePerfectScrollbar from 'vue-perfect-scrollbar'
 
-import { getGoodsCategory } from '@/request/api/goods'
-
 export default {
   name: 'AddNewDataSidebar',
+  components: { VuePerfectScrollbar },
+
   props: {
     isSidebarActive: {
       type: Boolean,
@@ -122,18 +125,7 @@ export default {
     name: '',
     category: [],
     price: '',
-    categoryList: [], // 所有商品分类
-    settings: {
-      maxScrollbarLength: 180,
-      wheelSpeed: 0.60,
-    },
   }),
-
-  components: { VuePerfectScrollbar },
-
-  mounted() {
-    this.getGoodsCategory()
-  },
 
   computed: {
     isSidebarActiveLocal: {
@@ -145,6 +137,10 @@ export default {
           this.$emit('closeSidebar')
         }
       },
+    },
+
+    categoryList() {
+      return this.$store.state.categoryList
     },
   },
 
@@ -168,17 +164,6 @@ export default {
       this.category = this.data.category
       this.price = this.data.price
       this.$refs.fileUpload.srcs = []
-    },
-
-    async getGoodsCategory() {
-      try {
-        const { code, data } = await getGoodsCategory()
-        if (code === 2000) {
-          this.categoryList = data.category_list
-        }
-      } catch {
-        //
-      }
     },
 
     verification() {

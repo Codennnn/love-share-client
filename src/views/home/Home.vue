@@ -23,7 +23,7 @@
         class="flex-1"
       >
         <el-carousel-item
-          class="h-full"
+          class="h-full rounded-lg"
           v-for="(item, i) in ['https://ws1.sinaimg.cn/large/775017f8gy1g9blp5artdj20xn0ea44u.jpg', 'https://ws1.sinaimg.cn/large/775017f8gy1g9blx9s6n9j20xk0ebjwc.jpg']"
           :key="i"
         >
