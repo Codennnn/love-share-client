@@ -25,6 +25,28 @@
         <TheFooter class="router-footer" />
       </div>
 
+      <vs-button
+        v-show="!showChatbox"
+        class="fixed w-24"
+        style="left: 30px; bottom: 30px; z-index: 99999;"
+        size="small"
+        icon="el-icon-chat-dot-round"
+        icon-pack="el-icon"
+        @click="$store.commit('chat/SET_CHAT_OPEN')"
+      >联系人</vs-button>
+      <transition
+        enter-active-class="animated zoomIn faster"
+        leave-active-class="animated zoomOutLeft faster"
+        mode="out-in"
+      >
+        <div
+          id="chat-container"
+          v-show="showChatbox"
+        >
+          <Chat />
+        </div>
+      </transition>
+
       <!-- 回到顶部按钮 -->
       <BackToTop
         bottom="5%"
@@ -43,6 +65,7 @@
 import BackToTop from 'vue-backtotop'
 import TheNavbar from './components/TheNavbar.vue'
 import TheFooter from './components/TheFooter.vue'
+import Chat from '@/views/chat/Chat.vue'
 
 export default {
   name: 'Main',
@@ -50,11 +73,18 @@ export default {
     TheNavbar,
     TheFooter,
     BackToTop,
+    Chat,
   },
 
   data: () => ({
-    alivePages: ['Home', 'UserCenter'],
+    alivePages: ['Home', 'UserCenter'], // 允许缓存的路由
   }),
+
+  computed: {
+    showChatbox() {
+      return this.$store.state.chat.showChatbox
+    },
+  },
 }
 </script>
 
@@ -70,6 +100,7 @@ $footer-height: 65px;
 }
 
 #content-area {
+  position: relative;
   display: flex;
   justify-content: center;
 }
@@ -98,5 +129,12 @@ $footer-height: 65px;
     height: $footer-height;
     line-height: $footer-height;
   }
+}
+
+#chat-container {
+  position: fixed;
+  left: 30px;
+  bottom: 30px;
+  z-index: 9999;
 }
 </style>
