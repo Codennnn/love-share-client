@@ -105,6 +105,7 @@ const grids = [
   { icon: 'guolvqi', label: '旧物回收', to: '/' },
   { icon: 'yingbi', label: '物品租借', to: '/' },
   { icon: 'gouwu', label: '求购物品', to: '/buying-list' },
+  { icon: 'lubiao', label: '帮助中心', to: '/help-center' },
 ]
 
 export default {
@@ -197,9 +198,8 @@ export default {
   text-overflow: ellipsis;
   display: -webkit-box;
   -webkit-line-clamp: 2;
-  /* autoprefixer: off */
+  /* autoprefixer: ignore next */
   -webkit-box-orient: vertical;
-  /* autoprefixer: on */
   word-break: break-all;
   word-wrap: break-word;
 }

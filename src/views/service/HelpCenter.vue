@@ -1,11 +1,12 @@
 <template>
   <div class="mt-4 flex items-start">
+    <!-- 菜单 -->
     <div class="w-1/5 bg-white rounded-lg">
       <vs-collapse>
         <vs-collapse-item
           open
-          v-for="(menu, index) in menus"
-          :key="index"
+          v-for="(menu, i) in menus"
+          :key="i"
         >
           <div slot="header">
             {{ menu.title }}
@@ -13,8 +14,8 @@
           <ul class="ml-2 text-gray-600">
             <li
               class="mb-2"
-              v-for="(submenu, index) in menu.submenus"
-              :key="index"
+              v-for="(submenu, i) in menu.submenus"
+              :key="i"
               @click="getArticle()"
             >
               {{ submenu.title }}
@@ -24,56 +25,23 @@
       </vs-collapse>
     </div>
 
+    <!-- 内容 -->
     <div
       id="artical-loading"
       class="vs-con-loading__container w-4/5 pl-6"
     >
       <div class="p-4 bg-white rounded-lg">
         <div class="flex items-center justify-between">
-          <div
-            v-if="!showEditor"
-            class="text-xl font-bold"
-          >{{ article.title }}</div>
-          <div v-else>
-            <vs-input
-              label="标题"
-              v-model="title"
-            />
-          </div>
-          <div v-if="!showEditor">
-            <vs-button
-              class="text-sm"
-              @click="showEditor = true,title = article.title,content = article.content"
-            >编辑</vs-button>
-          </div>
-          <div v-else>
-            <vs-button
-              class="mr-4 text-sm"
-              type="border"
-              color="danger"
-              @click="showEditor = false"
-            >取消编辑</vs-button>
-            <vs-button
-              class="text-sm"
-              color="success"
-            >完成编辑</vs-button>
-          </div>
+          <div class="text-xl font-bold">{{ article.title }}</div>
         </div>
         <vs-divider />
-        <div
-          v-if="!showEditor"
-          v-html="article.content"
-        ></div>
-        <div v-else>
-          <vue-editor v-model="content" />
-        </div>
+        <div v-html="article.content"></div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { VueEditor } from 'vue2-editor'
 import { getArticle } from '@/request/api/service'
 
 const menus = [
@@ -115,13 +83,8 @@ export default {
   name: 'HelpCenter',
   data: () => ({
     menus,
-    showEditor: false,
-    title: '',
-    content: '',
     article: {},
   }),
-
-  components: { VueEditor },
 
   mounted() {
     this.getArticle()
@@ -139,11 +102,9 @@ export default {
         if (code === 2000) {
           this.article = data.article
         }
-      } catch {
-        // TODO
+      } finally {
+        this.$vs.loading.close('#artical-loading > .con-vs-loading')
       }
-
-      this.$vs.loading.close('#artical-loading > .con-vs-loading')
     },
   },
 }
