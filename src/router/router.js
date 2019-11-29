@@ -48,10 +48,16 @@ export const routes = [
         meta: { title: '商品详情' },
       },
       {
+        path: '/help-center',
+        name: 'HelpCenter',
+        component: () => import('@/views/service/HelpCenter.vue'),
+        meta: { title: '帮助中心' },
+      },
+      {
         path: '/message',
         name: 'Message',
         component: () => import('@/views/message/Message.vue'),
-        meta: { title: '购物车' },
+        meta: { title: '我的消息' },
       },
       {
         path: '/user-center',
