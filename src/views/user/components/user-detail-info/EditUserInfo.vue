@@ -218,6 +218,13 @@ export default {
         if (code === 2000) {
           await this.$store.dispatch('user/getUserInfo')
           this.onCancel()
+          this.$vs.notify({
+            time: 3000,
+            title: '操作成功',
+            text: '已更新您的个人信息',
+            color: 'success',
+            icon: 'check_box',
+          })
         } else if (code === 4003) {
           this.error = true
           this.errorText = '昵称已被使用'
