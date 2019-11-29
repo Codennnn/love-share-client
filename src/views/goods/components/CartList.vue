@@ -84,12 +84,12 @@
           </div>
           <div class="item">
             <span class="item-label">运费</span>
-            <span class="item-value">{{ deliveryCharges }}</span>
+            <span class="item-value">{{ Number(tweenedDelivery).toFixed(2) }}</span>
           </div>
           <vs-divider />
           <div class="flex justify-between">
             <span class="label">实付</span>
-            <span class="label">￥{{ amountPayable }}</span>
+            <span class="label">￥{{ Number(tweenedAmount).toFixed(2) }}</span>
           </div>
           <vs-button
             class="w-full mt-4"
@@ -115,6 +115,7 @@
 
 <script>
 import { mapState, mapGetters } from 'vuex'
+import { TweenLite } from 'gsap'
 
 import { collectGoods, uncollectGoods } from '@/request/api/goods'
 
@@ -127,11 +128,30 @@ export default {
       2: '自 费',
       3: '自 提',
     },
+    tweenedDelivery: 0,
+    tweenedAmount: 0,
   }),
 
   computed: {
+    // 购物车列表
     ...mapState('cart', ['cartList']),
+    // 运费、总价
     ...mapGetters('cart', ['deliveryCharges', 'amountPayable']),
+  },
+
+  watch: {
+    deliveryCharges: {
+      handler(newValue) {
+        TweenLite.to(this.$data, 0.8, { tweenedDelivery: newValue })
+      },
+      immediate: true,
+    },
+    amountPayable: {
+      handler(newValue) {
+        TweenLite.to(this.$data, 0.8, { tweenedAmount: newValue })
+      },
+      immediate: true,
+    },
   },
 
   methods: {
