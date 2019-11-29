@@ -13,10 +13,9 @@
               >
                 <div class="flex items-center">
                   <span class="mx-2 text-sm">余额支付</span>
-                  <img
-                    class="w-8"
-                    src="@/assets/images/pages/cart/pal_pay.svg"
-                  >
+                  <svg class="w-8 h-8">
+                    <use xlink:href="#icon-paypal"></use>
+                  </svg>
                 </div>
               </vs-radio>
             </li>
@@ -32,10 +31,9 @@
               >
                 <div class="flex items-center">
                   <span class="mx-2 text-sm">{{ item.label }}</span>
-                  <img
-                    class="w-8"
-                    :src="item.icon"
-                  >
+                  <svg class="w-8 h-8">
+                    <use :xlink:href="`#icon-${item.icon}`"></use>
+                  </svg>
                 </div>
               </vs-radio>
             </li>
@@ -55,7 +53,7 @@
         <p class="mb-4 text-lg font-bold">价格明细</p>
         <div class="mb-1 flex justify-between items-center text-sm">
           <span class="text-gray-500">{{ cartAmount }} 件商品</span>
-          <span class="font-bold">￥{{ amountPayable.toFixed(2) }}</span>
+          <span class="font-bold">￥{{ Number(amountPayable).toFixed(2) }}</span>
         </div>
         <div class="flex justify-between items-center text-sm">
           <span class="text-gray-500">运费</span>
@@ -64,7 +62,7 @@
         <vs-divider />
         <div class="flex justify-between items-center text-sm">
           <span class="text-gray-500">应付金额</span>
-          <span class="font-bold">￥{{ amountPayable.toFixed(2) }}</span>
+          <span class="font-bold">￥{{ Number(amountPayable).toFixed(2) }}</span>
         </div>
       </div>
       <vs-button class="w-full mt-5">确认付款</vs-button>
@@ -73,23 +71,16 @@
 </template>
 
 <script>
-import icon1 from '@/assets/images/pages/cart/wechat_pay.svg'
-import icon2 from '@/assets/images/pages/cart/ali_pay.svg'
-import icon3 from '@/assets/images/pages/cart/union_pay.svg'
-
 export default {
   name: 'CartSettle',
   data: () => ({
     icons: [
-      { icon: icon1, label: '微信支付', value: 'weixin' },
-      { icon: icon2, label: '支付宝支付', value: 'zhifubao' },
-      { icon: icon3, label: '银行卡支付', value: 'yinlian' },
+      { icon: 'weixinzhifu', label: '微信支付', value: 'weixin' },
+      { icon: 'zhifubao', label: '支付宝支付', value: 'zhifubao' },
+      { icon: 'yinlian', label: '银行卡支付', value: 'yinlian' },
     ],
-    payment: 'huabei',
+    payment: 'huabei', // 支付方式
   }),
-
-  mounted() {
-  },
 
   computed: {
     cartAmount() {

@@ -39,22 +39,23 @@
       <!-- 功能区 -->
       <div class="ml-4 py-6 px-4 bg-white rounded-lg text-gray-600 shadow">
         <div class="grid-block">
-          <div
+
+          <router-link
             class="grid-item px-3 text-center cursor-pointer"
-            v-for="(item, index) in grids"
-            :key="index"
+            v-for="(item, i) in grids"
+            :key="i"
+            :to="item.to"
           >
-            <img
-              class="w-12"
-              :src="item.icon"
-            >
+            <svg class="w-12 h-12">
+              <use :xlink:href="`#icon-${item.icon}`"></use>
+            </svg>
             <p class="mt-2 text-sm">{{ item.label }}</p>
-          </div>
+          </router-link>
         </div>
       </div>
     </div>
-    <h3 class="title-divider">为你推荐</h3>
 
+    <h3 class="title-divider">为你推荐</h3>
     <div class="grid-list">
       <div
         class="goods-item"
@@ -71,10 +72,6 @@
             fit="cover"
             :src="goods.img_list[0]"
           >
-            <div
-              slot="placeholder"
-              style="width: 156px; heigth: 156px;"
-            >123456</div>
           </el-image>
         </div>
         <div class="p-3">
@@ -91,11 +88,6 @@
 </template>
 
 <script>
-import icon1 from '@/assets/images/pages/home/grid1.svg'
-import icon2 from '@/assets/images/pages/home/grid2.svg'
-import icon3 from '@/assets/images/pages/home/grid3.svg'
-import icon4 from '@/assets/images/pages/home/grid4.svg'
-
 import {
   getStoredGoods,
 } from '@/request/api/goods'
@@ -108,10 +100,11 @@ const categoryIcons = {
   服饰鞋包: 'el-icon-brush',
 }
 const grids = [
-  { icon: icon1, label: '逛同校' },
-  { icon: icon2, label: '签到领币' },
-  { icon: icon3, label: '旧物回收' },
-  { icon: icon4, label: '物品租借' },
+  { icon: 'xianlu', label: '逛同校', to: '/' },
+  { icon: 'qizhi', label: '签到领币', to: '/' },
+  { icon: 'guolvqi', label: '旧物回收', to: '/' },
+  { icon: 'yingbi', label: '物品租借', to: '/' },
+  { icon: 'gouwu', label: '求购物品', to: '/buying-list' },
 ]
 
 export default {
@@ -186,7 +179,7 @@ export default {
     border-radius: 10px;
     background: #fff;
     overflow: hidden;
-    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.01);
     transition: all 0.4s;
     &:hover {
       box-shadow: 0 0 25px 10px rgba(var(--vs-primary), 0.2);
