@@ -119,9 +119,8 @@ const state = {
       ],
     },
   },
+  showChatbox: false,
 }
-
-// const getters =
 
 const mutations = {
   SET_CONTACT_LIST(state, contactList) {
@@ -135,6 +134,13 @@ const mutations = {
       const chatId = payload.id
       Vue.set(state.chats, [chatId], { isPinned: payload.isPinned, msg: [payload.msg] })
     }
+  },
+
+  SET_CHAT_OPEN(state) {
+    state.showChatbox = true
+  },
+  SET_CHAT_CLOSE(state) {
+    state.showChatbox = false
   },
 }
 
