@@ -146,15 +146,16 @@ const Notice = Vue.component(
   'Notice',
   () => import('./the-navbar/Notice.vue'),
 )
-const popItems = [
-  { icon: 'el-icon-user', text: '个人中心', route: '/user-center' },
-  { icon: 'el-icon-message', text: '我的消息', route: '/message' },
-  { icon: 'el-icon-switch-button', text: '退出登录' },
-]
 const navIcons = [
   { tip: '首页', icon: 'el-icon-monitor', route: '/home' },
   { tip: '个人中心', icon: 'el-icon-user', route: '/user-center' },
   { tip: '发布我的闲置', icon: 'el-icon-sell', route: '/goods-addition' },
+  { tip: '聊天', icon: 'el-icon-chat-line-square', route: '/chat' },
+]
+const popItems = [
+  { icon: 'el-icon-user', text: '个人中心', route: '/user-center' },
+  { icon: 'el-icon-message', text: '我的消息', route: '/message' },
+  { icon: 'el-icon-switch-button', text: '退出登录' },
 ]
 
 export default {
