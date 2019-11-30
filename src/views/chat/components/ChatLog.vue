@@ -24,7 +24,7 @@
           </template>
         </template>
 
-        <template v-if="index == 0">
+        <template v-if="index === 0">
           <vs-avatar
             size="40px"
             class="mx-0 flex-no-shrink"
@@ -56,7 +56,7 @@
 <script>
 
 export default {
-  name: 'chat-log',
+  name: 'ChatLog',
   props: {
     userID: {
       type: String,
@@ -88,6 +88,3 @@ export default {
   },
 }
 </script>
-
-<style lang="scss" scoped>
-</style>

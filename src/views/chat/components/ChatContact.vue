@@ -3,7 +3,7 @@
     class="chat__contact flex items-center px-2 py-3"
     :class="{'bg-primary-gradient text-white shadow-lg': isActiveChatUser}"
   >
-    <div class="mr-3">
+    <div class="mr-3 flex items-center">
       <vs-avatar
         :src="'https://avatars2.githubusercontent.com/u/31676496?s=460&v=4'"
         size="42px"
@@ -12,13 +12,13 @@
     <div class="w-full flex items-center justify-between overflow-hidden">
       <div class="contact__info flex flex-col truncate w-5/6">
         <h5
-          class="font-semibold"
+          class="text-base text-gray-700"
           :class="{'text-white': isActiveChatUser}"
         >{{ contact.nickname }}</h5>
-        <span class="truncate">{{ 'contact.about' }}</span>
+        <span class="truncate text-sm text-gray-500">{{ 'contact.about' }}</span>
       </div>
 
-      <span class="whitespace-no-wrap text-sm">{{ '2019-12-11' }}</span>
+      <span class="whitespace-no-wrap text-xs text-gray-600">{{ '2019-12-11' }}</span>
     </div>
   </div>
 </template>

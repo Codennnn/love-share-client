@@ -1,8 +1,8 @@
 <template>
   <div
     id="chat-app"
-    class="relative mt-4 border border-solid rounded shadow-xl overflow-hidden"
-    style="border-color: #dae1e7;"
+    class="relative border border-solid shadow-xl overflow-hidden"
+    style="border-color: #dae1e7; border-radius: 1rem;"
   >
     <vs-sidebar
       id="chat-list-sidebar"
@@ -37,7 +37,7 @@
         }"
       >
         <div class="chat__chats-list mb-8">
-          <h3 class="text-primary mb-5 px-4">Chats</h3>
+          <h3 class="text-primary mb-5 px-4">联系人</h3>
           <ul class="chat__active-chats bordered-items">
             <li
               class="cursor-pointer"
@@ -62,7 +62,7 @@
       class="chat-bg relative"
       :class="{'sidebar-spacer--wide': clickNotClose}"
     >
-      <div class="absolute top-0 w-full z-50">
+      <div class="chat-navbar ">
         <ChatNavbar
           :isSidebarCollapsed="!clickNotClose"
           :user-id="activeChatUser"
@@ -70,9 +70,11 @@
           @openContactsSidebar="toggleChatSidebar(true)"
         />
       </div>
+
+      <!-- 聊天内容 -->
       <VuePerfectScrollbar
-        class="chat-content-scroll-area"
         ref="chatLogPS"
+        class="chat-content-scroll-area"
         :settings="{
           maxScrollbarLength: 60,
           wheelSpeed: 0.70,
@@ -82,7 +84,9 @@
           <ChatLog :userID="'1'" />
         </div>
       </VuePerfectScrollbar>
-      <div class="chat__input flex items-center p-4 bg-white">
+
+      <!-- 输入框 -->
+      <div class="chat-input flex items-center p-4 bg-white">
         <vs-input
           class="flex-1"
           placeholder="输入您的消息..."
@@ -226,7 +230,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-$sidebar-width: 350px;
+$sidebar-width: 310px;
 
 #chat-app::v-deep {
   #chat-list-sidebar,
@@ -261,7 +265,7 @@ $sidebar-width: 350px;
       .chat__contact {
         transition: background-color 0.1s;
         &:hover {
-          background-color: #eee;
+          background-color: rgba(0, 0, 0, 0.05);
         }
       }
     }
@@ -277,17 +281,20 @@ $sidebar-width: 350px;
   }
 }
 
-.chat-content-scroll-area {
+.chat-navbar {
   position: relative;
+  width: 100%;
+  z-index: 999;
+}
+.chat-content-scroll-area {
+  top: 0;
   margin: auto;
   width: 100%;
-  height: calc(100vh - 300px);
-
-  .chat__input {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-  }
+  height: calc(100vh - 350px);
+}
+.chat-input {
+  position: relative;
+  width: 100%;
 }
 </style>
 

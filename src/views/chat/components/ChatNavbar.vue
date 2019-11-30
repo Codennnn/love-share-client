@@ -21,7 +21,6 @@
 </template>
 
 <script>
-
 export default {
   name: 'ChatNavbar',
   props: {
@@ -38,9 +37,6 @@ export default {
       required: true,
     },
   },
-
-  data: () => ({
-  }),
 
 }
 </script>
