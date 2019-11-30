@@ -10,15 +10,15 @@
     >
       <div
         class="flex items-start"
-        :class="[{'flex-row-reverse' : msg.isSent}]"
+        :class="[{'flex-row-reverse' : msg.is_sent}]"
       >
         <template v-if="chatData.msg[index-1]">
-          <template v-if="(!hasSentPreviousMsg(chatData.msg[index-1].isSent,
-          msg.isSent) || !isSameDay(msg.time, chatData.msg[index-1].time))">
+          <template v-if="(!hasSentPreviousMsg(chatData.msg[index-1].is_sent,
+          msg.is_sent) || !isSameDay(msg.time, chatData.msg[index-1].time))">
             <vs-avatar
               size="40px"
               class="mx-0 flex-no-shrink"
-              :class="msg.isSent ? 'sm:ml-5 ml-3' : 'sm:mr-5 mr-3'"
+              :class="msg.is_sent ? 'sm:ml-5 ml-3' : 'sm:mr-5 mr-3'"
               :src="'https://avatars2.githubusercontent.com/u/31676496?s=460&v=4'"
             />
           </template>
@@ -28,7 +28,7 @@
           <vs-avatar
             size="40px"
             class="mx-0 flex-no-shrink"
-            :class="msg.isSent ? 'sm:ml-5 ml-3' : 'sm:mr-5 mr-3'"
+            :class="msg.is_sent ? 'sm:ml-5 ml-3' : 'sm:mr-5 mr-3'"
             :src="'https://avatars2.githubusercontent.com/u/31676496?s=460&v=4'"
           />
         </template>
@@ -36,17 +36,17 @@
         <template v-if="chatData.msg[index-1]">
           <div
             style="margin-right: 3.75rem;"
-            v-if="!(!hasSentPreviousMsg(chatData.msg[index-1].isSent, msg.isSent)
+            v-if="!(!hasSentPreviousMsg(chatData.msg[index-1].is_sent, msg.is_sent)
             || !isSameDay(msg.time, chatData.msg[index-1].time))"
           ></div>
         </template>
 
         <div
           class="msg break-words relative shadow-md rounded py-3 px-4 mb-2 rounded-lg max-w-sm"
-          :class="{'bg-primary-gradient text-white': msg.isSent,
-           'border border-solid border-grey-light bg-white': !msg.isSent}"
+          :class="{'bg-primary-gradient text-white': msg.is_sent,
+           'border border-solid border-grey-light bg-white': !msg.is_sent}"
         >
-          <span class="text-sm">{{ msg.textContent }}</span>
+          <span class="text-sm">{{ msg.text_content }}</span>
         </div>
       </div>
     </div>

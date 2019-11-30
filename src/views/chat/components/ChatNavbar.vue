@@ -14,7 +14,7 @@
       :src="'https://avatars2.githubusercontent.com/u/31676496?s=460&v=4'"
     />
     <i
-      class="el-icon-close ml-auto mr-4 text-2xl text-gray-700 cursor-pointer"
+      class="el-icon-close ml-auto mr-2 text-2xl text-gray-700 cursor-pointer"
       @click.stop="$store.commit('chat/SET_CHAT_CLOSE')"
     ></i>
   </div>

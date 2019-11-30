@@ -47,7 +47,7 @@
             >
               <ChatContact
                 :contact="contact"
-                :lastMessaged="chatLastMessaged(contact.id).textContent"
+                :lastMessaged="chatLastMessaged(contact.id).text_content"
                 :unseenMsg="chatUnseenMessages(contact.id)"
                 :isActiveChatUser="isActiveChatUser(contact.id)"
               />
@@ -132,6 +132,7 @@ export default {
 
   created() {
     this.$store.dispatch('chat/getContactList')
+    this.$store.dispatch('chat/getChatData')
   },
 
   mounted() {
@@ -195,10 +196,10 @@ export default {
       const payload = {
         isPinned: this.isChatPinned,
         msg: {
-          textContent: this.message,
+          text_content: this.message,
           time: String(new Date()),
-          isSent: true,
-          isSeen: false,
+          is_sent: true,
+          is_seen: false,
         },
         id: this.activeChatUser,
       }
