@@ -25,29 +25,29 @@
           placeholder="搜索或新建聊天"
           icon="el-icon-search"
           icon-pack="el-icon"
+          v-model="chatSearch"
         />
       </div>
       <vs-divider class="m-0" />
 
       <VuePerfectScrollbar
-        class="chat-scroll-area pt-4"
+        class="chat-scroll-area"
         :settings="{
           maxScrollbarLength: 60,
           wheelSpeed: 0.70,
         }"
       >
         <div class="chat__chats-list mb-8">
-          <h3 class="text-primary mb-5 px-4">联系人</h3>
           <ul class="chat__active-chats bordered-items">
             <li
               class="cursor-pointer"
-              v-for="(contact, i) in sorted"
+              v-for="(contact, i) in contactList"
               :key="i"
               @click="updateActiveChatUser(contact.id)"
             >
               <ChatContact
                 :contact="contact"
-                :lastMessaged="chatLastMessaged(contact.id).time"
+                :lastMessaged="chatLastMessaged(contact.id).textContent"
                 :unseenMsg="chatUnseenMessages(contact.id)"
                 :isActiveChatUser="isActiveChatUser(contact.id)"
               />
@@ -81,7 +81,7 @@
         }"
       >
         <div ref="chatLog">
-          <ChatLog :userID="'1'" />
+          <ChatLog :userId="activeChatUser" />
         </div>
       </VuePerfectScrollbar>
 
@@ -111,7 +111,7 @@ import ChatNavbar from './components/ChatNavbar.vue'
 import ChatLog from './components/ChatLog.vue'
 
 export default {
-  name: 'chat',
+  name: 'Chat',
   components: {
     VuePerfectScrollbar,
     ChatContact,
@@ -120,18 +120,21 @@ export default {
   },
 
   data: () => ({
+    // 侧边栏是否激活
     clickNotClose: true,
     isChatSidebarActive: true,
 
-    message: '',
-    isChatPinned: false,
-    activeChatUser: '1', // 当前聊天的用户
-    windowWidth: window.innerWidth,
+    chatSearch: '', // 搜索聊天
+    message: '', // 要发送的消息
+    isChatPinned: false, // 是否置顶
+    activeChatUser: '2', // 当前聊天的用户
   }),
 
-  mounted() {
+  created() {
     this.$store.dispatch('chat/getContactList')
+  },
 
+  mounted() {
     window.onresize = _debounce(() => {
       if (document.body.clientWidth <= 1000) {
         this.setSidebarActive(false)
@@ -146,47 +149,45 @@ export default {
   },
 
   computed: {
-    chats() {
-      console.log('=== chats ===', this.$store.getters['chat/chats'])
-      return this.$store.getters['chat/chats']
+    // 全部联系人
+    contactList() {
+      return this.$store.getters['chat/getContactList']
     },
-    sorted() {
-      return this.chats.slice().sort((x, y) => {
-        const xId = x.id
-        const yId = y.id
-        const chatDataX = this.$store.getters['chat/chatDataOfUser'](xId)
-        const chatDataY = this.$store.getters['chat/chatDataOfUser'](yId)
-        return (chatDataY.isPinned - chatDataX.isPinned)
-      })
-    },
+    // 最后一条发送的消息
     chatLastMessaged() {
-      return userID => this.$store.getters['chat/chatLastMessaged'](userID)
+      return userId => this.$store.getters['chat/chatLastMessaged'](userId)
     },
+    // 没读的消息条数
     chatUnseenMessages() {
-      return (userID) => {
-        const unseenMsg = this.$store.getters['chat/chatUnseenMessages'](userID)
+      return (userId) => {
+        const unseenMsg = this.$store.getters['chat/chatUnseenMessages'](userId)
         if (unseenMsg) {
           return unseenMsg
         }
         return 0
       }
     },
+    // 当前打开的聊天
     isActiveChatUser() {
-      return userID => userID === this.activeChatUser
+      return userId => userId === this.activeChatUser
     },
   },
 
   methods: {
     updateActiveChatUser(contactId) {
       this.activeChatUser = contactId
-      if (this.$store.getters['chat/chatDataOfUser'](this.activeChatUser)) {
-        this.$store.dispatch('chat/markSeenAllMessages', contactId)
+      this.$store.dispatch('chat/markSeenAllMessages', contactId)
+      const chatData = this.$store.getters['chat/chatDataOfUser'](contactId)
+      if (chatData) {
+        this.isChatPinned = chatData.isPinned
+      } else {
+        this.isChatPinned = false
       }
-      const chatData = this.$store.getters['chat/chatDataOfUser'](this.activeChatUser)
-      if (chatData) this.isChatPinned = chatData.isPinned
-      else this.isChatPinned = false
       this.toggleChatSidebar()
       this.message = ''
+      this.$nextTick(() => {
+        this.$refs.chatLogPS.$el.scrollTop = this.$refs.chatLog.scrollHeight
+      })
     },
 
     sendMessage() {
@@ -216,8 +217,8 @@ export default {
       this.isChatSidebarActive = value
     },
 
-    setSidebarActive(flag) {
-      if (flag) {
+    setSidebarActive(active) {
+      if (active) {
         this.clickNotClose = true
         this.isChatSidebarActive = true
       } else {
@@ -238,6 +239,10 @@ $sidebar-width: 310px;
     .vs-sidebar {
       max-width: $sidebar-width;
       border-right: 1px solid #dae1e7;
+    }
+    .vs-sidebar--background {
+      position: absolute;
+      background: rgba(0, 0, 0, 0.1);
     }
     .vs-sidebar--items {
       height: 100%;

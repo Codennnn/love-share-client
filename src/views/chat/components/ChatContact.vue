@@ -1,7 +1,7 @@
 <template>
   <div
     class="chat__contact flex items-center px-2 py-3"
-    :class="{'bg-primary-gradient text-white shadow-lg': isActiveChatUser}"
+    :class="{'bg-primary-gradient shadow-lg': isActiveChatUser}"
   >
     <div class="mr-3 flex items-center">
       <vs-avatar
@@ -12,13 +12,19 @@
     <div class="w-full flex items-center justify-between overflow-hidden">
       <div class="contact__info flex flex-col truncate w-5/6">
         <h5
-          class="text-base text-gray-700"
-          :class="{'text-white': isActiveChatUser}"
+          class="text-base"
+          :class="{'text-white': isActiveChatUser, 'text-gray-700': !isActiveChatUser}"
         >{{ contact.nickname }}</h5>
-        <span class="truncate text-sm text-gray-500">{{ 'contact.about' }}</span>
+        <span
+          class="truncate text-sm"
+          :class="{'text-white': isActiveChatUser, 'text-gray-500': !isActiveChatUser}"
+        >{{ lastMessaged }}</span>
       </div>
 
-      <span class="whitespace-no-wrap text-xs text-gray-600">{{ '2019-12-11' }}</span>
+      <span
+        class="whitespace-no-wrap text-xs"
+        :class="{'text-white': isActiveChatUser, 'text-gray-600': !isActiveChatUser}"
+      >{{ '2019-12-11' }}</span>
     </div>
   </div>
 </template>
