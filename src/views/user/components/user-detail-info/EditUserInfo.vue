@@ -105,10 +105,12 @@
 
           <vs-textarea
             class="mt-8"
-            counter="50"
+            rows="4"
+            counter="120"
+            maxlength="120"
             label="个人简介"
-            :counter-danger.sync="counterDanger"
             v-model="data.introduction"
+            :counter-danger.sync="counterDanger"
           />
         </div>
       </VuePerfectScrollbar>
