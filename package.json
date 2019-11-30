@@ -37,7 +37,7 @@
     "vue-perfect-scrollbar": "^0.1.0",
     "vue-router": "^3.0.3",
     "vue2-editor": "^2.10.2",
-    "vuesax": "^3.11.1",
+    "vuesax": "^3.9.0",
     "vuex": "^3.0.1",
     "vuex-persistedstate": "^2.7.0"
   },
