@@ -25,6 +25,18 @@
             ></i>
           </el-tooltip>
         </router-link>
+        <el-tooltip
+          effect="light"
+          content="在线聊"
+          :open-delay="100"
+        >
+          <i
+            class="nav-icon el-icon-chat-dot-round mr-3 mb-1"
+            @click="$store.state.chat.showChatbox
+            ? $store.commit('chat/SET_CHAT_CLOSE')
+            : $store.commit('chat/SET_CHAT_OPEN')"
+          ></i>
+        </el-tooltip>
       </div>
 
       <!-- 导航栏右侧 -->
@@ -150,7 +162,6 @@ const navIcons = [
   { tip: '首页', icon: 'el-icon-monitor', route: '/home' },
   { tip: '个人中心', icon: 'el-icon-user', route: '/user-center' },
   { tip: '发布我的闲置', icon: 'el-icon-sell', route: '/goods-addition' },
-  { tip: '聊天', icon: 'el-icon-chat-line-square', route: '/chat' },
 ]
 const popItems = [
   { icon: 'el-icon-user', text: '个人中心', route: '/user-center' },
