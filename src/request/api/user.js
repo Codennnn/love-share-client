@@ -131,6 +131,13 @@ export function getContactList() {
   })
 }
 
+export function getChatData() {
+  return request({
+    url: '/user/chat_data',
+    method: 'get',
+  })
+}
+
 export function subscribe() {
   return request({
     url: '/user/subscribe',
