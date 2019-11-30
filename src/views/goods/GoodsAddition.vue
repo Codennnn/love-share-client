@@ -5,16 +5,11 @@
         <div class="mb-2 text-xl text-gray-600">图片上传</div>
         <vs-upload
           multiple
-          automatic
+          ref="fileUpload"
           text="图片格式（JPG、PNG）"
-          action="/api/goods/img/upload"
           accept="image/jpeg,image/jpg,image/png"
-          fileName="img"
           :limit="6"
-          :headers="headers"
-          @on-success="onUploadSuccess()"
-          @on-delete="onUploadDelete"
-          @on-error="onUploadError()"
+          :show-upload-button="false"
         />
       </div>
     </div>
@@ -30,6 +25,7 @@
             v-model="name"
           />
         </div>
+
         <div class="py-3">
           <div class="mb-2 text-gray-500">商品分类</div>
           <el-select
@@ -48,6 +44,7 @@
             </el-option>
           </el-select>
         </div>
+
         <div class="py-3">
           <div class="mb-2 text-gray-500">价格设置</div>
           <div class="flex items-end">
@@ -57,7 +54,7 @@
                 <span class="mr-5 text-2xl text-primary font-bold">
                   ￥{{ Number(price).toFixed(2) }}
                 </span>
-                <vs-input-number v-model="price" />
+                <vs-input-number v-model.number="price" />
               </div>
             </div>
             <div class="mx-6">
@@ -76,9 +73,9 @@
                   ￥{{ Number(originalPrice).toFixed(2) }}
                 </span>
                 <vs-input-number
-                  :disabled="!checked"
                   color="warning"
-                  v-model="originalPrice"
+                  v-model.number="originalPrice"
+                  :disabled="!checked"
                 />
               </div>
             </div>
@@ -86,15 +83,16 @@
               <div class="text-sm text-gray-500">数量</div>
               <div class="flex items-center">
                 <vs-input-number
-                  :min="1"
                   color="success"
-                  v-model="quantity"
+                  v-model.number="quantity"
+                  :min="1"
                   @input="(v) => { quantity = Number(v).toFixed(0) }"
                 />
               </div>
             </div>
           </div>
         </div>
+
         <div class="py-3 flex lg:justify-between">
           <div class="md:w-1/3">
             <div class="mb-2 text-gray-500">配送方式</div>
@@ -153,7 +151,7 @@
           <vs-button
             id="publishBtn"
             class="vs-con-loading__container"
-            :disabled="isPublishing"
+            :disabled="publishBtnDisable"
             @click="onPublish()"
           >确认发布该商品</vs-button>
         </div>
@@ -164,26 +162,26 @@
 
 <script>
 import { VueEditor } from 'vue2-editor'
-import { deleteGoodsImg } from '@/request/api/goods'
-import { getToken } from '@/utils/token'
+import { dataURItoBlob } from '@/utils/util'
+
+import { uploadGoodsImg } from '@/request/api/goods'
 
 export default {
   name: 'GoodsAddition',
   components: { VueEditor },
 
   data: () => ({
-    headers: {},
     name: '', // 商品名称
     category: [], // 所选分类
     quantity: 1, // 商品数量
-    price: '0.00', // 二手价
-    originalPrice: '0.00', // 入手价
+    price: 0.00, // 二手价
+    originalPrice: 0.00, // 入手价
     checked: false, // 是否选择入手价
     delivery: '', // 运费设置
     bargain: '', // 议价设置
     returnable: false, // 退货设置
     description: '', // 商品描述
-    isPublishing: false, // 是否正在发布中
+    publishBtnDisable: false, // 是否禁用发布按钮
   }),
 
   computed: {
@@ -196,43 +194,8 @@ export default {
     this.description = localStorage.getItem('goods_editor')
   },
 
-  mounted() {
-    this.headers = {
-      Authorization: `Bearer ${getToken()}`,
-    }
-  },
-
   methods: {
-    onUploadSuccess() {
-      this.$vs.notify({
-        color: 'success',
-        title: '上传成功',
-        text: '已上传一张图片 ：）',
-      })
-    },
-
-    async onUploadDelete(e) {
-      const { code } = await deleteGoodsImg({
-        img_list: [`${e.name}`],
-        img_with_id: false,
-      })
-      if (code !== 2000) {
-        this.$vs.notify({
-          color: 'danger',
-          title: '删除失败',
-          text: '删除图片不成功，请重试 ：（',
-        })
-      }
-    },
-
-    onUploadError() {
-      this.$vs.notify({
-        color: 'danger',
-        title: '上传失败',
-        text: '图片上传失败，请尝试重新上传！',
-      })
-    },
-
+    // 保存商品描述草稿
     onStorage() {
       localStorage.setItem('goods_editor', this.description)
       this.$message({ showClose: true, message: '已保存到本地草稿箱 ✔️' })
@@ -242,17 +205,45 @@ export default {
       return true
     },
 
+    // 上传商品图片
+    async uploadGoodsImg() {
+      const blobArray = this.$refs.fileUpload.filesx.reduce((res, el, i) => {
+        if (!el.remove) {
+          res.push(dataURItoBlob(this.$refs.fileUpload.srcs[i].src))
+        }
+        return res
+      }, [])
+
+      if (blobArray.length > 0) {
+        const formData = new FormData()
+        blobArray.forEach((blob, i) => {
+          formData.append('img', blob, `${Date.now()}-${i}.${blob.type.split('/')[1]}`)
+        })
+        const { code } = await uploadGoodsImg(formData)
+        if (code === 2000) {
+          //
+        }
+      } else {
+        this.$vs.notify({
+          color: 'danger',
+          title: '请添加商品图片',
+          text: '赶紧给你的宝贝拍几张照片吧',
+        })
+      }
+    },
+
     onPublish() {
       if (this.onCheck()) {
-        this.isPublishing = true
         this.$vs.loading({
           background: 'primary',
           color: '#fff',
           container: '#publishBtn',
           scale: 0.45,
         })
+        this.uploadGoodsImg()
+        this.publishBtnDisable = true
         setTimeout(() => {
-          this.isPublishing = false
+          this.publishBtnDisable = false
           this.$vs.loading.close('#publishBtn > .con-vs-loading')
         }, 2000)
       }

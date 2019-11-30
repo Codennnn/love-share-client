@@ -67,9 +67,9 @@
 
         <!-- IMG -->
         <vs-upload
+          ref="fileUpload"
           class="img-upload"
           text="Upload Image"
-          ref="fileUpload"
         />
       </div>
     </VuePerfectScrollbar>
@@ -209,31 +209,29 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.sidebar-main {
-  &::v-deep {
-    .vs-sidebar--items {
-      padding: 0;
-      overflow: hidden;
+.sidebar-main::v-deep {
+  .vs-sidebar--items {
+    padding: 0;
+    overflow: hidden;
+  }
+  .vs-sidebar--background {
+    z-index: 52010;
+  }
+  .vs-sidebar {
+    z-index: 52010;
+    width: 400px;
+    max-width: 90vw;
+    .vs-select--input {
+      border-color: rgba(0, 0, 0, 0.2);
     }
-    .vs-sidebar--background {
-      z-index: 52010;
-    }
-    .vs-sidebar {
-      z-index: 52010;
-      width: 400px;
-      max-width: 90vw;
-      .vs-select--input {
-        border-color: rgba(0, 0, 0, 0.2);
+    .img-upload {
+      margin-top: 2rem;
+      .con-img-upload {
+        padding: 0;
       }
-      .img-upload {
-        margin-top: 2rem;
-        .con-img-upload {
-          padding: 0;
-        }
-        .con-input-upload {
-          width: 100%;
-          margin: 0;
-        }
+      .con-input-upload {
+        width: 100%;
+        margin: 0;
       }
     }
   }
@@ -243,13 +241,11 @@ export default {
   height: calc(100% - 4rem);
 }
 
-.el-select {
-  &::v-deep {
-    .el-input__inner {
-      border: 1px solid rgba(0, 0, 0, 0.2);
-      &::placeholder {
-        color: rgba(0, 0, 0, 0.8);
-      }
+.el-select::v-deep {
+  .el-input__inner {
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    &::placeholder {
+      color: rgba(0, 0, 0, 0.8);
     }
   }
 }
