@@ -91,6 +91,15 @@ export function removeCartItem() {
   })
 }
 
+export function uploadGoodsImg(data) {
+  return request({
+    headers: { 'Content-Type': 'multipart/form-data' },
+    url: '/goods/img/upload',
+    method: 'post',
+    data,
+  })
+}
+
 export function deleteGoodsImg(data) {
   return request({
     url: '/goods/img/delete',
