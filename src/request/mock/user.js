@@ -152,6 +152,11 @@ export default {
     data: {
       contact_list: [
         {
+          id: '1',
+          nickname: '蜘蛛侠',
+          avatar_url: 'https://avatars2.githubusercontent.com/u/31676496?s=460&v=4',
+        },
+        {
           id: '2',
           nickname: '令狐少侠',
           avatar_url: 'https://avatars2.githubusercontent.com/u/31676496?s=460&v=4',

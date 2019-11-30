@@ -7,7 +7,7 @@ const state = {
   chatSearchQuery: '',
   chats: {
     1: {
-      isPinned: true,
+      isPinned: false,
       msg: [
         {
           textContent: '我们能帮你什么吗？我们在这里为您服务！',
@@ -78,7 +78,7 @@ const state = {
       ],
     },
     2: {
-      isPinned: false,
+      isPinned: true,
       msg: [
         {
           textContent: 'Hi',
@@ -119,7 +119,7 @@ const state = {
       ],
     },
   },
-  showChatbox: false,
+  showChatbox: false, // 是否显示聊天框
 }
 
 const mutations = {
@@ -139,8 +139,15 @@ const mutations = {
   SET_CHAT_OPEN(state) {
     state.showChatbox = true
   },
+
   SET_CHAT_CLOSE(state) {
     state.showChatbox = false
+  },
+
+  MARK_SEEN_ALL_MESSAGES(state, payload) {
+    payload.chatData.msg.forEach((msg) => {
+      msg.isSeen = true
+    })
   },
 }
 
@@ -157,6 +164,12 @@ const actions = {
     console.log(getters.chatDataOfUser(payload.id))
     commit('SEND_CHAT_MESSAGE', payload)
   },
+
+  markSeenAllMessages({ getters, commit }, id) {
+    const payload = { id }
+    payload.chatData = getters.chatDataOfUser(payload.id)
+    commit('MARK_SEEN_ALL_MESSAGES', payload)
+  },
 }
 
 export default {
@@ -167,9 +180,8 @@ export default {
   getters: {
     chatDataOfUser: state => id => state.chats[Object.keys(state.chats).find(key => key === id)],
 
-    chats: (state, getters) => {
+    getContactList: (state, getters) => {
       const chatArray = state.contactList.filter((contact) => {
-        // console.log('====', getters.chatDataOfUser(contact.id))
         if (getters.chatDataOfUser(contact.id)) {
           return (
             contact.nickname.toLowerCase().includes(state.chatSearchQuery.toLowerCase())
@@ -178,16 +190,20 @@ export default {
         }
         return []
       })
-      return chatArray.sort((x, y) => {
-        const timeX = getters.chatLastMessaged(x.id).time
-        const timeY = getters.chatLastMessaged(y.id).time
-        return (new Date(timeY) - new Date(timeX))
-      })
+      return chatArray
+        .sort((x, y) => {
+          const timeX = getters.chatLastMessaged(x.id).time
+          const timeY = getters.chatLastMessaged(y.id).time
+          return (new Date(timeY) - new Date(timeX))
+        })
+        .sort((x, y) => {
+          const chatDataX = getters.chatDataOfUser(x.id)
+          const chatDataY = getters.chatDataOfUser(y.id)
+          return (chatDataY.isPinned - chatDataX.isPinned)
+        })
     },
 
     chatLastMessaged: (state, getters) => (id) => {
-      console.log('!!!!!!!!!!!!')
-
       if (getters.chatDataOfUser(id)) {
         return getters.chatDataOfUser(id).msg.slice(-1)[0]
       }

@@ -58,18 +58,15 @@
 export default {
   name: 'ChatLog',
   props: {
-    userID: {
+    userId: {
       type: String,
       required: true,
     },
   },
 
-  data: () => ({
-  }),
-
   computed: {
     chatData() {
-      return this.$store.getters['chat/chatDataOfUser'](this.userID)
+      return this.$store.getters['chat/chatDataOfUser'](this.userId)
     },
 
     hasSentPreviousMsg() {
