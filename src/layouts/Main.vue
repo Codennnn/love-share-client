@@ -25,15 +25,6 @@
         <TheFooter class="router-footer" />
       </div>
 
-      <vs-button
-        v-show="!showChatbox"
-        class="fixed w-24"
-        style="left: 25px; bottom: 30px; z-index: 99999;"
-        size="small"
-        icon="el-icon-chat-dot-round"
-        icon-pack="el-icon"
-        @click="$store.commit('chat/SET_CHAT_OPEN')"
-      >在线聊</vs-button>
       <transition
         enter-active-class="animated zoomIn quickly"
         leave-active-class="animated zoomOutLeft faster"
