@@ -22,7 +22,11 @@
           <vs-input
             class="w-7/12"
             placeholder="请输入商品名称"
-            v-model="name"
+            val-icon-warning="warning"
+            v-model="goods.name"
+            warning-text="不能为空"
+            :warning="warning"
+            @focus="warning = false"
           />
         </div>
 
@@ -32,7 +36,7 @@
             class="w-5/12"
             multiple
             placeholder="请选择"
-            v-model="category"
+            v-model="goods.category"
             :multiple-limit="2"
           >
             <el-option
@@ -52,30 +56,30 @@
               <div class="text-sm text-gray-500">二手价（单价）</div>
               <div class="flex items-center">
                 <span class="mr-5 text-2xl text-primary font-bold">
-                  ￥{{ Number(price).toFixed(2) }}
+                  ￥{{ Number(goods.price).toFixed(2) }}
                 </span>
-                <vs-input-number v-model.number="price" />
+                <vs-input-number v-model.number="goods.price" />
               </div>
             </div>
             <div class="mx-6">
               <vs-checkbox
                 class="justify-start"
                 color="warning"
-                v-model="checked"
+                v-model="goods.checked"
               >
                 <span class="text-sm text-gray-500">入手价（可选）</span>
               </vs-checkbox>
               <div class="flex items-center">
                 <span
                   class="mr-5 text-2xl font-bold"
-                  :class="checked ? 'text-warning' : 'text-gray-500'"
+                  :class="goods.checked ? 'text-warning' : 'text-gray-500'"
                 >
-                  ￥{{ Number(originalPrice).toFixed(2) }}
+                  ￥{{ Number(goods.originalPrice).toFixed(2) }}
                 </span>
                 <vs-input-number
                   color="warning"
-                  v-model.number="originalPrice"
-                  :disabled="!checked"
+                  v-model.number="goods.originalPrice"
+                  :disabled="!goods.checked"
                 />
               </div>
             </div>
@@ -84,9 +88,9 @@
               <div class="flex items-center">
                 <vs-input-number
                   color="success"
-                  v-model.number="quantity"
+                  v-model.number="goods.quantity"
                   :min="1"
-                  @input="(v) => { quantity = Number(v).toFixed(0) }"
+                  @input="(v) => { goods.quantity = Number(v).toFixed(0) }"
                 />
               </div>
             </div>
@@ -98,16 +102,16 @@
             <div class="mb-2 text-gray-500">配送方式</div>
             <div class="flex">
               <vs-radio
-                v-model="delivery"
+                v-model="goods.delivery"
                 vs-value="1"
               >包邮</vs-radio>
               <vs-radio
                 class="mx-4"
-                v-model="delivery"
+                v-model="goods.delivery"
                 vs-value="2"
               >自费</vs-radio>
               <vs-radio
-                v-model="delivery"
+                v-model="goods.delivery"
                 vs-value="3"
               >自提</vs-radio>
             </div>
@@ -117,12 +121,12 @@
             <div class="flex">
               <vs-radio
                 class="mr-4"
-                v-model="bargain"
-                vs-value="1"
+                v-model="goods.canBargain"
+                :vs-value="true"
               >可议价</vs-radio>
               <vs-radio
-                v-model="bargain"
-                vs-value="2"
+                v-model="goods.canBargain"
+                :vs-value="false"
               >一口价</vs-radio>
             </div>
           </div>
@@ -130,7 +134,7 @@
             <div class="mb-2 text-gray-500">退货设置</div>
             <div class="flex items-center">
               <div class="mr-2">7天无理由退换货</div>
-              <vs-switch v-model="returnable" />
+              <vs-switch v-model="goods.canReturn" />
             </div>
           </div>
         </div>
@@ -138,7 +142,7 @@
           <div class="mb-2 text-gray-500">更多描述</div>
           <vue-editor
             placeholder="请输入内容..."
-            v-model="description"
+            v-model="goods.description"
           />
         </div>
         <div class="flex justify-end text-sm">
@@ -171,17 +175,21 @@ export default {
   components: { VueEditor },
 
   data: () => ({
-    name: '', // 商品名称
-    category: [], // 所选分类
-    quantity: 1, // 商品数量
-    price: 0.00, // 二手价
-    originalPrice: 0.00, // 入手价
-    checked: false, // 是否选择入手价
-    delivery: '', // 运费设置
-    bargain: '', // 议价设置
-    returnable: false, // 退货设置
-    description: '', // 商品描述
+    goods: {
+      name: '', // 商品名称
+      category: [], // 所选分类
+      quantity: 1, // 商品数量
+      price: 0.00, // 二手价
+      originalPrice: 0.00, // 入手价
+      checked: false, // 是否选择入手价
+      delivery: '1', // 运费设置
+      canBargain: true, // 议价设置
+      canReturn: false, // 退货设置
+      description: '', // 商品描述
+    },
+    warning: false,
     publishBtnDisable: false, // 是否禁用发布按钮
+    imgList: [],
   }),
 
   computed: {
@@ -191,17 +199,29 @@ export default {
   },
 
   created() {
-    this.description = localStorage.getItem('goods_editor')
+    this.goods.description = localStorage.getItem('goods_editor')
   },
 
   methods: {
     // 保存商品描述草稿
     onStorage() {
-      localStorage.setItem('goods_editor', this.description)
+      localStorage.setItem('goods_editor', this.goods.description)
       this.$message({ showClose: true, message: '已保存到本地草稿箱 ✔️' })
     },
 
     onCheck() {
+      if (this.goods.name.length <= 0) {
+        this.warning = true
+        return false
+      }
+      if (this.goods.category.length <= 0) {
+        this.$vs.notify({
+          color: 'danger',
+          title: '商品分类不能为空',
+          text: '请添选择商品分类',
+        })
+        return false
+      }
       return true
     },
 
@@ -219,9 +239,9 @@ export default {
         blobArray.forEach((blob, i) => {
           formData.append('img', blob, `${Date.now()}-${i}.${blob.type.split('/')[1]}`)
         })
-        const { code } = await uploadGoodsImg(formData)
+        const { code, data } = await uploadGoodsImg(formData)
         if (code === 2000) {
-          //
+          this.imgList = data.img_list
         }
       } else {
         this.$vs.notify({
@@ -232,7 +252,7 @@ export default {
       }
     },
 
-    onPublish() {
+    async onPublish() {
       if (this.onCheck()) {
         this.$vs.loading({
           background: 'primary',
@@ -240,8 +260,13 @@ export default {
           container: '#publishBtn',
           scale: 0.45,
         })
-        this.uploadGoodsImg()
         this.publishBtnDisable = true
+
+        await this.uploadGoodsImg()
+        if (this.imgList.length > 0) {
+          this.goods.img_list = this.imgList
+          console.log(this.goods)
+        }
         setTimeout(() => {
           this.publishBtnDisable = false
           this.$vs.loading.close('#publishBtn > .con-vs-loading')
