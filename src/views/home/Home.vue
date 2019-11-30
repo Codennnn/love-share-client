@@ -75,7 +75,10 @@
           </el-image>
         </div>
         <div class="p-3">
-          <p class="mb-3 text-sm text-gray-700 text-overflow-multi">
+          <p
+            class="mb-3 text-sm text-gray-700 text-overflow-multi"
+            style="height: 2.7rem;"
+          >
             {{ goods.name }}
           </p>
           <div class="flex justify-between items-center">
