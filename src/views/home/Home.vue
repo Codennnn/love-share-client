@@ -64,7 +64,7 @@
       >
         <div
           class="img-wrapper p-8 cursor-pointer"
-          @click="viewGoodsDetail(goods.goods_id)"
+          @click="viewGoodsDetail(goods._id)"
         >
           <el-image
             lazy
@@ -140,11 +140,10 @@ export default {
     },
 
     viewGoodsDetail(goods_id) {
-      const { href } = this.$router.resolve({
+      this.$router.push({
         path: '/goods-detail',
         query: { goods_id },
       })
-      window.open(href, '_blank')
     },
   },
 }

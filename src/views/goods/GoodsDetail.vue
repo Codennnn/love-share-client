@@ -137,14 +137,14 @@
         <div class="p-3 text-center bg-white shadow-lg rounded-lg">
           <vs-avatar
             size="90px"
-            src="https://avatars2.githubusercontent.com/u/31676496?s=460&v=4"
-            @click="viewUserDetail(seller.user_id)"
+            :src="seller.avatar_url"
+            @click="viewUserDetail(seller._id)"
           />
           <div
             class="flex justify-center items-center text-lg cursor-pointer"
-            @click="viewUserDetail(seller.user_id)"
+            @click="viewUserDetail(seller._id)"
           >
-            <span>{{ seller.nickname }}</span>
+            <span>{{ seller.nickname || '----' }}</span>
             <i
               class="el-icon-male ml-1"
               style="color: rgb(31, 116, 255);"
@@ -152,11 +152,11 @@
             ></i>
             <i
               class="el-icon-female ml-1 text-red-500"
-              v-else-if="seller.gender === 0"
+              v-else-if="seller.gender === 2"
             ></i>
           </div>
           <div class="my-1 text-sm text-gray-500">
-            {{ seller.school }}
+            {{ seller.school || '---' }}
           </div>
           <div class="flex justify-center overflow-hidden">
             <span
@@ -183,8 +183,8 @@
               <div class="text-gray-600 text-sm">已获赞</div>
             </div>
             <div>
-              <div class="font-semibold">{{ seller.follower_num || '0' }}</div>
-              <div class="text-gray-600 text-sm">关注者</div>
+              <div class="font-semibold">{{ seller.credit_value || '0' }}</div>
+              <div class="text-gray-600 text-sm">信用值</div>
             </div>
           </div>
         </div>
@@ -229,7 +229,7 @@
 import ElImageViewer from 'element-ui/packages/image/src/image-viewer.vue'
 
 import { timeDiff } from '@/utils/util'
-import { subscribe, unsubscribe } from '@/request/api/user'
+import { getSellerInfo, subscribe, unsubscribe } from '@/request/api/user'
 import {
   getGoodsDetail,
   collectGoods,
@@ -253,12 +253,8 @@ export default {
     isSubscribeLoading: false,
   }),
 
-  created() {
-    this.getGoodsDetail()
-  },
-
   mounted() {
-    console.log('商品 ID', this.$route.query.id)
+    this.initValues(this.$route.query.goods_id)
   },
 
   computed: {
@@ -268,19 +264,22 @@ export default {
   },
 
   methods: {
-    async getGoodsDetail() {
-      const { code, data } = await getGoodsDetail()
+    async initValues(goods_id) {
+      const { code, data: { goods_detail } } = await getGoodsDetail({ goods_id })
       if (code === 2000) {
-        this.goods = data.goods_detail
-        this.seller = data.seller_info
+        this.goods = goods_detail
+        const { code: code1, data: data1 } = await getSellerInfo({ user_id: goods_detail.seller })
+        if (code1 === 2000) {
+          this.seller = data1.seller_info
+        }
       }
     },
 
     // 查看用户详情
-    viewUserDetail(id) {
+    viewUserDetail(user_id) {
       this.$router.push({
         path: '/user-detail',
-        query: { id },
+        query: { user_id },
       })
     },
 
