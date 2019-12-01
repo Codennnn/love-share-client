@@ -92,7 +92,7 @@
 
 <script>
 import {
-  getStoredGoods,
+  getRecommendGoodsList,
 } from '@/request/api/goods'
 
 const categoryIcons = {
@@ -117,6 +117,7 @@ export default {
     categoryIcons,
     grids,
     goodsList: [],
+    pagination: null,
   }),
 
   computed: {
@@ -126,23 +127,22 @@ export default {
   },
 
   created() {
-    this.getStoredGoods()
+    this.getRecommendGoodsList()
   },
 
   methods: {
-    async getStoredGoods() {
-      const { code, data } = await getStoredGoods()
+    async getRecommendGoodsList() {
+      const { code, data } = await getRecommendGoodsList({ page: 1, page_size: 10 })
       if (code === 2000) {
-        this.total = data.total
         this.goodsList = data.goods_list
         this.pagination = data.pagination
       }
     },
 
-    viewGoodsDetail(id) {
+    viewGoodsDetail(goods_id) {
       const { href } = this.$router.resolve({
         path: '/goods-detail',
-        query: { id },
+        query: { goods_id },
       })
       window.open(href, '_blank')
     },
