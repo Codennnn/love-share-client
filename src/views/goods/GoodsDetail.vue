@@ -49,18 +49,19 @@
               <div class="info-item">
                 <vs-chip>类 别</vs-chip>
                 <span
+                  class="text-gray-600"
                   style="margin: 0 5px 4px 0; font-size: 15px;"
                   v-for="(item, i) in goods.category"
                   :key="i"
                 >
-                  {{ item }}
+                  {{ item.name }}
                 </span>
               </div>
               <div class="info-item">
                 <vs-chip>价 格</vs-chip>
                 <div>
                   <span class="text-2xl text-primary font-semibold">
-                    ￥{{ goods.price || '--' }}
+                    ￥{{ Number(goods.price).toFixed(2) }}
                   </span>
                   <span
                     class="text-gray-500"
@@ -156,7 +157,7 @@
             ></i>
           </div>
           <div class="my-1 text-sm text-gray-500">
-            {{ seller.school || '---' }}
+            {{ seller.school ? seller.school.name : '---' }}
           </div>
           <div class="flex justify-center overflow-hidden">
             <span
@@ -229,7 +230,7 @@
 import ElImageViewer from 'element-ui/packages/image/src/image-viewer.vue'
 
 import { timeDiff } from '@/utils/util'
-import { getSellerInfo, subscribe, unsubscribe } from '@/request/api/user'
+import { subscribe, unsubscribe } from '@/request/api/user'
 import {
   getGoodsDetail,
   collectGoods,
@@ -268,10 +269,7 @@ export default {
       const { code, data: { goods_detail } } = await getGoodsDetail({ goods_id })
       if (code === 2000) {
         this.goods = goods_detail
-        const { code: code1, data: data1 } = await getSellerInfo({ user_id: goods_detail.seller })
-        if (code1 === 2000) {
-          this.seller = data1.seller_info
-        }
+        this.seller = goods_detail.seller
       }
     },
 
