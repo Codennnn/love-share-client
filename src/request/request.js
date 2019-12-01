@@ -38,6 +38,9 @@ const errorHandler = {
   } = {}) {
     Notification.error({ title, message, duration })
   },
+  400(status, statusText) {
+    this.errorNotify({ title: `${status}`, message: `请求的参数错误 - ${statusText}` })
+  },
   401(status, statusText) {
     this.errorNotify({ title: `${status}`, message: `抱歉，您没有权限访问 - ${statusText}` })
   },
@@ -45,7 +48,7 @@ const errorHandler = {
     this.errorNotify({ title: `${status}`, message: `找不到资源 - ${statusText}` })
   },
   418(status) {
-    this.errorNotify({ title: `${status}`, message: '登录过期，请重新登录~', duration: '2500' })
+    this.errorNotify({ title: `${status}`, message: '登录过期，请重新登录~', duration: '3000' })
   },
   500(status, statusText) {
     this.errorNotify({ title: `${status}`, message: `服务器出问题了 - ${statusText}` })

@@ -1,5 +1,13 @@
 import request from '../request'
 
+export function createGoods(data) {
+  return request({
+    url: '/goods/create',
+    method: 'post',
+    data,
+  })
+}
+
 export function getGoods() {
   return request({
     url: '/goods/list',

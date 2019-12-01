@@ -32,6 +32,7 @@ Mock.mock('/api/user/purchased_goods', 'get', user.purchased_goods)
 Mock.mock('/api/notice/list', 'get', notice.notice_list)
 
 // 商品
+Mock.mock('/api/goods/create', 'post', goods.create_goods)
 Mock.mock('/api/goods/stored', 'get', goods.stored_goods)
 Mock.mock('/api/goods/dismounted', 'get', goods.dismounted_goods)
 Mock.mock('/api/goods/list_info', 'get', goods.list_info)

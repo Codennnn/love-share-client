@@ -3,6 +3,10 @@ import Mock from 'mockjs'
 const { Random } = Mock
 
 export default {
+  create_goods: {
+    code: 2000,
+  },
+
   stored_goods: {
     code: 2000,
     data: {
