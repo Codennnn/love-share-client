@@ -74,11 +74,11 @@
                   class="mr-5 text-2xl font-bold"
                   :class="goods.checked ? 'text-warning' : 'text-gray-500'"
                 >
-                  ￥{{ Number(goods.originalPrice).toFixed(2) }}
+                  ￥{{ Number(goods.original_price).toFixed(2) }}
                 </span>
                 <vs-input-number
                   color="warning"
-                  v-model.number="goods.originalPrice"
+                  v-model.number="goods.original_price"
                   :disabled="!goods.checked"
                 />
               </div>
@@ -121,27 +121,27 @@
             <div class="flex">
               <vs-radio
                 class="mr-4"
-                v-model="goods.canBargain"
-                :vs-value="true"
-              >可议价</vs-radio>
-              <vs-radio
-                v-model="goods.canBargain"
+                v-model="goods.can_bargain"
                 :vs-value="false"
               >一口价</vs-radio>
+              <vs-radio
+                v-model="goods.can_bargain"
+                :vs-value="true"
+              >可议价</vs-radio>
             </div>
           </div>
           <div class="md:w-1/3">
             <div class="mb-2 text-gray-500">退货设置</div>
             <div class="flex items-center">
               <div class="mr-2">7天无理由退换货</div>
-              <vs-switch v-model="goods.canReturn" />
+              <vs-switch v-model="goods.can_return" />
             </div>
           </div>
         </div>
         <div class="mt-5 mb-6">
           <div class="mb-2 text-gray-500">更多描述</div>
           <vue-editor
-            placeholder="请输入内容..."
+            placeholder="请输入内容(400字以内)..."
             v-model="goods.description"
           />
         </div>
@@ -168,7 +168,7 @@
 import { VueEditor } from 'vue2-editor'
 import { dataURItoBlob } from '@/utils/util'
 
-import { uploadGoodsImg } from '@/request/api/goods'
+import { createGoods, uploadGoodsImg, deleteGoodsImg } from '@/request/api/goods'
 
 export default {
   name: 'GoodsAddition',
@@ -180,11 +180,11 @@ export default {
       category: [], // 所选分类
       quantity: 1, // 商品数量
       price: 0.00, // 二手价
-      originalPrice: 0.00, // 入手价
+      original_price: 0.00, // 入手价
       checked: false, // 是否选择入手价
       delivery: '1', // 运费设置
-      canBargain: true, // 议价设置
-      canReturn: false, // 退货设置
+      can_bargain: false, // 议价设置
+      can_return: false, // 退货设置
       description: '', // 商品描述
     },
     warning: false,
@@ -199,13 +199,16 @@ export default {
   },
 
   created() {
-    this.goods.description = localStorage.getItem('goods_editor')
+    const goods = JSON.parse(localStorage.getItem('goods'))
+    if (goods) {
+      this.goods = goods
+    }
   },
 
   methods: {
     // 保存商品描述草稿
     onStorage() {
-      localStorage.setItem('goods_editor', this.goods.description)
+      localStorage.setItem('goods', JSON.stringify(this.goods))
       this.$message({ showClose: true, message: '已保存到本地草稿箱 ✔️' })
     },
 
@@ -262,15 +265,32 @@ export default {
         })
         this.publishBtnDisable = true
 
-        await this.uploadGoodsImg()
-        if (this.imgList.length > 0) {
-          this.goods.img_list = this.imgList
-          console.log(this.goods)
-        }
-        setTimeout(() => {
+        try {
+          await this.uploadGoodsImg()
+          if (this.imgList.length > 0) {
+            this.goods.img_list = this.imgList
+            createGoods(this.goods)
+              .then(({ code }) => {
+                if (code === 2000) {
+                  localStorage.removeItem('goods')
+                  this.$vs.notify({
+                    color: 'success',
+                    title: '成功',
+                    text: '已发布一件闲置物品',
+                  })
+                  this.$router.push('/')
+                } else {
+                  throw new Error()
+                }
+              })
+              .catch(() => {
+                deleteGoodsImg({ img_list: this.imgList })
+              })
+          }
+        } finally {
           this.publishBtnDisable = false
           this.$vs.loading.close('#publishBtn > .con-vs-loading')
-        }, 2000)
+        }
       }
     },
   },
