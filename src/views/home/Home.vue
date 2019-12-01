@@ -49,7 +49,7 @@
             <svg class="w-12 h-12">
               <use :xlink:href="`#icon-${item.icon}`"></use>
             </svg>
-            <p class="mt-2 text-sm">{{ item.label }}</p>
+            <p class="mt-1 text-sm">{{ item.label }}</p>
           </router-link>
         </div>
       </div>
