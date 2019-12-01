@@ -8,11 +8,11 @@ export function createGoods(data) {
   })
 }
 
-export function getRecommendGoodsList(query) {
+export function getRecommendGoodsList(params) {
   return request({
     url: '/goods/list/recommend',
     method: 'get',
-    params: query,
+    params,
   })
 }
 
@@ -44,10 +44,11 @@ export function getGoodsListInfo() {
   })
 }
 
-export function getGoodsDetail() {
+export function getGoodsDetail(params) {
   return request({
     url: '/goods/detail',
     method: 'get',
+    params,
   })
 }
 

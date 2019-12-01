@@ -33,20 +33,6 @@ export function resetPassword(data) {
   })
 }
 
-export function getUserList() {
-  return request({
-    url: '/user/list',
-    method: 'get',
-  })
-}
-
-export function getManagerList() {
-  return request({
-    url: '/user/manager_list',
-    method: 'get',
-  })
-}
-
 export function getUserDetail() {
   return request({
     url: '/user/detail',
@@ -163,5 +149,13 @@ export function getPurchasedGoods() {
   return request({
     url: '/user/purchased_goods',
     method: 'get',
+  })
+}
+
+export function getSellerInfo(params) {
+  return request({
+    url: '/user/seller_info',
+    method: 'get',
+    params,
   })
 }
