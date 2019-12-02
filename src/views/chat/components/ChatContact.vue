@@ -11,10 +11,10 @@
     </div>
     <div class="w-full flex items-center justify-between overflow-hidden">
       <div class="contact__info flex flex-col truncate w-5/6">
-        <h5
+        <div
           class="text-base"
           :class="{'text-white': isActiveChatUser, 'text-gray-700': !isActiveChatUser}"
-        >{{ contact.nickname }}</h5>
+        >{{ contact.nickname }}</div>
         <span
           class="truncate text-sm"
           :class="{'text-white': isActiveChatUser, 'text-gray-500': !isActiveChatUser}"
