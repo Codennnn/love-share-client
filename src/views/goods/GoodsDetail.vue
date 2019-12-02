@@ -118,15 +118,6 @@
               v-html="goods.description"
             ></div>
           </div>
-
-          <!-- 下架标志 -->
-          <div
-            class="absolute z-50 cursor-default"
-            style="transform: rotateZ(-45deg);top: 1.5rem; left: -3.5rem;"
-            v-if="isDismount"
-          >
-            <div class="w-48 py-1 text-center text-white text-xl bg-danger">已下架</div>
-          </div>
         </div>
       </vs-col>
 
@@ -145,19 +136,18 @@
             class="flex justify-center items-center text-lg cursor-pointer"
             @click="viewUserDetail(seller._id)"
           >
-            <span>{{ seller.nickname || '----' }}</span>
+            <span>{{ seller.nickname }}</span>
             <i
-              class="el-icon-male ml-1"
-              style="color: rgb(31, 116, 255);"
-              v-if="seller.gender === 1"
+              class="el-icon-male ml-1 text-primary"
+              v-if="seller.gender === '1'"
             ></i>
             <i
-              class="el-icon-female ml-1 text-red-500"
-              v-else-if="seller.gender === 2"
+              class="el-icon-female ml-1 text-danger"
+              v-else-if="seller.gender === '2'"
             ></i>
           </div>
           <div class="my-1 text-sm text-gray-500">
-            {{ seller.school ? seller.school.name : '---' }}
+            {{ seller.school.name }}
           </div>
           <div class="flex justify-center overflow-hidden">
             <span
@@ -176,15 +166,15 @@
           </div>
           <div class="flex justify-around mt-3">
             <div>
-              <div class="font-semibold">{{ seller.published_num || '0' }}</div>
+              <div class="font-semibold">{{ seller.published_goods.length }}</div>
               <div class="text-gray-600 text-sm">已发布</div>
             </div>
             <div>
-              <div class="font-semibold">{{ seller.published_num || '0' }}</div>
-              <div class="text-gray-600 text-sm">已获赞</div>
+              <div class="font-semibold">{{ seller.fans.length }}</div>
+              <div class="text-gray-600 text-sm">关注者</div>
             </div>
             <div>
-              <div class="font-semibold">{{ seller.credit_value || '0' }}</div>
+              <div class="font-semibold">{{ seller.credit_value }}</div>
               <div class="text-gray-600 text-sm">信用值</div>
             </div>
           </div>
@@ -245,11 +235,19 @@ export default {
     timeDiff,
     showViewer: false,
     goods: {}, // 商品信息
-    seller: {}, // 卖家信息
+    seller: {
+      avatar_url: '',
+      nickname: '----',
+      school: { name: '-----' },
+      gender: '',
+      credit_value: 0,
+      fans: [],
+      published_goods: [],
+    }, // 卖家信息
+
     amount: 1, // 购买的数量
     popupActive: false,
     isCollect: false,
-    isDismount: false,
     isSubscribe: false,
     isSubscribeLoading: false,
   }),
