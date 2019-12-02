@@ -151,11 +151,3 @@ export function getPurchasedGoods() {
     method: 'get',
   })
 }
-
-export function getSellerInfo(params) {
-  return request({
-    url: '/user/seller_info',
-    method: 'get',
-    params,
-  })
-}

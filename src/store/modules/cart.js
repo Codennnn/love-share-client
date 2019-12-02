@@ -63,6 +63,6 @@ export default {
       const amount = state.cartList.reduce((acc, curr) => acc + curr.price, 0)
       return Number(amount).toFixed(2)
     },
-    isInCart: state => id => state.cartList.some(item => item.goods_id === id),
+    isInCart: state => id => state.cartList.some(item => item._id === id),
   },
 }
