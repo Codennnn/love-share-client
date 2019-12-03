@@ -30,12 +30,14 @@
         leave-active-class="animated zoomOutLeft faster"
         mode="out-in"
       >
-        <div
-          id="chat-container"
-          v-show="showChatbox"
-        >
-          <Chat />
-        </div>
+        <template v-if="$login()">
+          <div
+            id="chat-container"
+            v-show="showChatbox"
+          >
+            <Chat />
+          </div>
+        </template>
       </transition>
 
       <!-- 回到顶部按钮 -->
@@ -65,6 +67,12 @@ export default {
     TheFooter,
     BackToTop,
     Chat,
+  },
+
+  sockets: {
+    connect() {
+      this.$socket.emit('setOnline')
+    },
   },
 
   data: () => ({

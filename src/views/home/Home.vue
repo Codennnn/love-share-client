@@ -55,7 +55,7 @@
       </div>
     </div>
 
-    <h3 class="title-divider">为你推荐</h3>
+    <p class="title-divider">为你推荐</p>
     <div class="grid-list">
       <div
         class="goods-item"

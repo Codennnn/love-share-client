@@ -11,8 +11,9 @@
     <vs-avatar
       class="m-0"
       size="40px"
-      :src="'https://avatars2.githubusercontent.com/u/31676496?s=460&v=4'"
+      :src="avatar"
     />
+    <div class="text-gray-600">{{ nickname }}</div>
     <i
       class="el-icon-close ml-auto mr-2 text-2xl text-gray-700 cursor-pointer"
       @click.stop="$store.commit('chat/SET_CHAT_CLOSE')"
@@ -24,13 +25,13 @@
 export default {
   name: 'ChatNavbar',
   props: {
-    userId: {
+    avatar: {
       type: String,
-      required: true,
+      default: '',
     },
-    isPinnedProp: {
-      type: Boolean,
-      required: true,
+    nickname: {
+      type: String,
+      default: '',
     },
     isSidebarCollapsed: {
       type: Boolean,

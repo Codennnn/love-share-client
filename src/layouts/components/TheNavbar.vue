@@ -9,34 +9,37 @@
           alt="LOGO"
           @click="$router.push('/')"
         >
-        <router-link
-          v-for="(item, index) in navIcons"
-          :key="index"
-          :to="item.route"
-        >
+        <template v-if="$login()">
+          <router-link
+            v-login
+            v-for="(item, index) in navIcons"
+            :key="index"
+            :to="item.route"
+          >
+            <el-tooltip
+              effect="light"
+              :open-delay="100"
+              :content="item.tip"
+            >
+              <i
+                class="nav-icon mr-3"
+                :class="item.icon"
+              ></i>
+            </el-tooltip>
+          </router-link>
           <el-tooltip
             effect="light"
+            content="在线聊"
             :open-delay="100"
-            :content="item.tip"
           >
             <i
-              class="nav-icon mr-3"
-              :class="item.icon"
+              class="nav-icon el-icon-chat-dot-round mr-3 mb-1"
+              @click="$store.state.chat.showChatbox
+              ? $store.commit('chat/SET_CHAT_CLOSE')
+              : $store.commit('chat/SET_CHAT_OPEN')"
             ></i>
           </el-tooltip>
-        </router-link>
-        <el-tooltip
-          effect="light"
-          content="在线聊"
-          :open-delay="100"
-        >
-          <i
-            class="nav-icon el-icon-chat-dot-round mr-3 mb-1"
-            @click="$store.state.chat.showChatbox
-            ? $store.commit('chat/SET_CHAT_CLOSE')
-            : $store.commit('chat/SET_CHAT_OPEN')"
-          ></i>
-        </el-tooltip>
+        </template>
       </div>
 
       <!-- 导航栏右侧 -->
@@ -87,7 +90,7 @@
           <!-- 用户名称 -->
           <div class="ml-3 text-right">
             <div class="text-lg">{{ info.nickname }}</div>
-            <small style="color: #919191;">{{ info.school }}</small>
+            <small style="color: #919191;">{{ info.school.name }}</small>
           </div>
 
           <!-- 头像 -->
@@ -159,7 +162,6 @@ const Notice = Vue.component(
   () => import('./the-navbar/Notice.vue'),
 )
 const navIcons = [
-  { tip: '首页', icon: 'el-icon-monitor', route: '/home' },
   { tip: '个人中心', icon: 'el-icon-user', route: '/user-center' },
   { tip: '发布我的闲置', icon: 'el-icon-sell', route: '/goods-addition' },
 ]
