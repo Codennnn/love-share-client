@@ -99,4 +99,9 @@ export default {
   state,
   mutations,
   actions,
+  getters: {
+    getUserId(state) {
+      return state.info._id
+    },
+  },
 }
