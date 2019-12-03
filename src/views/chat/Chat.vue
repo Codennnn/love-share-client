@@ -8,7 +8,7 @@
       id="chat-list-sidebar"
       parent="#chat-app"
       v-model="isChatSidebarActive"
-      :click-not-close="clickNotClose"
+      :click-not-close="true"
       :hidden-background="clickNotClose"
     >
       <div class="flex items-center px-4 py-3">
@@ -16,7 +16,7 @@
           <vs-avatar
             class="m-0"
             size="40px"
-            :src="'https://avatars2.githubusercontent.com/u/31676496?s=460&v=4'"
+            :src="`${$store.state.user.info.avatar_url}?imageView2/2/w/40`"
           />
         </div>
         <vs-input
@@ -27,6 +27,11 @@
           icon-pack="el-icon"
           v-model="chatSearch"
         />
+        <i
+          class="el-icon-d-arrow-left text-xl text-gray-700 cursor-pointer"
+          v-if="!clickNotClose"
+          @click.stop="isChatSidebarActive = false"
+        ></i>
       </div>
       <vs-divider class="m-0" />
 
@@ -38,7 +43,10 @@
         }"
       >
         <div class="chat__chats-list mb-8">
-          <ul class="chat__active-chats bordered-items">
+          <ul
+            v-if="contactList.length > 0"
+            class="chat__active-chats bordered-items"
+          >
             <li
               class="cursor-pointer"
               v-for="(contact, i) in contactList"
@@ -53,6 +61,13 @@
               />
             </li>
           </ul>
+          <div
+            v-else
+            class="h-full py-40 flex flex-col items-center justify-center text-gray-500"
+          >
+            <i class="el-icon-chat-dot-round mb-4 text-4xl"></i>
+            <p class="text-sm">暂无联系人</p>
+          </div>
         </div>
       </VuePerfectScrollbar>
     </vs-sidebar>
@@ -65,9 +80,7 @@
       <div class="chat-navbar ">
         <ChatNavbar
           :isSidebarCollapsed="!clickNotClose"
-          :user-id="activeChatUser"
-          :isPinnedProp="isChatPinned"
-          @openContactsSidebar="toggleChatSidebar(true)"
+          @openContactsSidebar="isChatSidebarActive = true"
         />
       </div>
 
@@ -119,6 +132,12 @@ export default {
     ChatLog,
   },
 
+  sockets: {
+    receiveMessage(data) {
+      console.log('接收消息：', data)
+    },
+  },
+
   data: () => ({
     // 侧边栏是否激活
     clickNotClose: true,
@@ -143,6 +162,10 @@ export default {
         this.setSidebarActive(true)
       }
     }, 400)
+
+    this.sockets.subscribe(this.userId, (data) => {
+      console.log('接收消息：', data)
+    })
   },
 
   beforeDestroy() {
@@ -150,6 +173,9 @@ export default {
   },
 
   computed: {
+    userId() {
+      return this.$store.getters['user/getUserId']
+    },
     // 全部联系人
     contactList() {
       return this.$store.getters['chat/getContactList']
@@ -193,29 +219,21 @@ export default {
 
     sendMessage() {
       if (this.message.length <= 0) return
-      const payload = {
-        isPinned: this.isChatPinned,
-        msg: {
-          text_content: this.message,
-          time: String(new Date()),
-          is_sent: true,
-          is_seen: false,
-        },
-        id: this.activeChatUser,
+
+      const message = {
+        is_sent: true,
+        type: 'text',
+        msg: this.message,
+        client: this.userId,
+        target: '5de61fe4480f842f1823d67e',
       }
-      this.$store.dispatch('chat/sendChatMessage', payload)
-      this.message = ''
+      this.$socket.emit('sendMessage', message)
+      // this.$store.dispatch('chat/sendChatMessage', payload)
+      // this.message = ''
       this.$nextTick(() => {
         // 发送消息后聊天框滚动到底部
         this.$refs.chatLogPS.$el.scrollTop = this.$refs.chatLog.scrollHeight
       })
-    },
-
-    toggleChatSidebar(value = false) {
-      if (!value && this.clickNotClose) {
-        return
-      }
-      this.isChatSidebarActive = value
     },
 
     setSidebarActive(active) {
