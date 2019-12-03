@@ -16,7 +16,7 @@ service.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencod
 
 service.interceptors.request.use(
   (config) => {
-    console.log('>>>>>>>>>>>>')
+    // console.log('>>>>>>>>>>>>')
 
     // 每次请求都带上token
     const token = getToken()
@@ -61,9 +61,9 @@ const errorHandler = {
 service.interceptors.response.use(
   (response) => {
     const res = response
-    console.log(`%c${res.config.url}`, 'color: green;')
-    console.log(res.data)
-    console.log('<<<<<<<<<<<<')
+    // console.log(`%c${res.config.url}`, 'color: green;')
+    // console.log(res.data)
+    // console.log('<<<<<<<<<<<<')
     return res.data
   },
   (error) => {
