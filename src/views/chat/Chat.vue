@@ -51,7 +51,7 @@
               class="cursor-pointer"
               v-for="(contact, i) in contactList"
               :key="i"
-              @click="updateActiveChatUser(contact._id)"
+              @click="updateActiveChatUser(contact._id), contactNickname = contact.nickname"
             >
               <ChatContact
                 :contact="contact"
@@ -78,6 +78,7 @@
     >
       <div class="chat-navbar ">
         <ChatNavbar
+          :nickname="contactNickname"
           :isSidebarCollapsed="!clickNotClose"
           @openContactsSidebar="isChatSidebarActive = true"
         />
@@ -146,6 +147,7 @@ export default {
     clickNotClose: true,
     isChatSidebarActive: true,
 
+    contactNickname: '',
     chatSearch: '', // 搜索聊天
     message: '', // 要发送的消息
     activeChatUser: '', // 当前聊天的用户

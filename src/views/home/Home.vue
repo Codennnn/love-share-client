@@ -66,13 +66,18 @@
           class="img-wrapper p-8 cursor-pointer"
           @click="viewGoodsDetail(goods._id)"
         >
-          <el-image
-            lazy
-            class="w-full h-full"
-            fit="cover"
-            :src="goods.img_list[0]"
+          <div
+            class="flex items-center"
+            style="height: 156px; width: 156px;"
           >
-          </el-image>
+            <el-image
+              lazy
+              class="w-full"
+              fit="cover"
+              :src="goods.img_list[0]"
+            >
+            </el-image>
+          </div>
         </div>
         <div class="p-3">
           <p
@@ -82,7 +87,7 @@
             {{ goods.name }}
           </p>
           <div class="flex justify-between items-center">
-            <div class="text-lg text-primary font-bold">￥{{ goods.price }}</div>
+            <div class="text-lg text-primary font-bold">￥{{ Number(goods.price).toFixed(2) }}</div>
           </div>
         </div>
       </div>
