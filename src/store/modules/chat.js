@@ -19,12 +19,7 @@ const mutations = {
   },
 
   SEND_CHAT_MESSAGE(state, message) {
-    // if (message.chatData) {
     state.chats[message.target].msg.push(message)
-    // } else {
-    //   Vue.set(state.chats, [message.target], { msg: [message] })
-    // }
-    console.log(state.chats)
   },
 
   SET_CHAT_OPEN(state) {
@@ -62,10 +57,6 @@ const actions = {
     }
   },
 
-  // sendChatMessage({ getters, commit }, payload) {
-  //   payload.chatData = getters.chatDataOfUser(payload.id)
-  //   commit('SEND_CHAT_MESSAGE', payload)
-  // },
   sendChatMessage({ commit }, message) {
     commit('SEND_CHAT_MESSAGE', message)
   },
