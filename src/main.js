@@ -2,6 +2,8 @@ import Vue from 'vue'
 import animated from 'animate.css' // css 动画库
 import VueClipboard from 'vue-clipboard2' // 粘贴板
 import dayjs from 'dayjs' // 日期格式化
+import VueSocketIO from 'vue-socket.io'
+
 import App from './App.vue'
 import store from './store/store'
 import router from './router/router'
@@ -10,7 +12,11 @@ import 'dayjs/locale/zh-cn' // dayjs 语言包
 import './router/control' // 路由控制
 import '@/layouts/theme' // 网站主题，样式
 
-import '@/request/mock/mock' // 本地 mock 模拟请求数据
+// import '@/request/mock/mock' // 本地 mock 模拟请求数据
+
+Vue.use(new VueSocketIO({
+  connection: 'http://127.0.0.1:7001',
+}))
 
 Vue.use(animated)
 Vue.use(VueClipboard)
