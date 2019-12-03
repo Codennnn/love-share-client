@@ -186,7 +186,7 @@ export default {
       if (active) {
         this.data = _cloneDeepWith(this.info)
         this.schoolList.forEach((it) => {
-          if (it.name === this.data.school) {
+          if (it.name === this.data.school.name) {
             this.data.school = it._id
           }
         })
@@ -216,7 +216,8 @@ export default {
       })
 
       try {
-        const { code } = await modifyUser(this.data)
+        const { code, msg } = await modifyUser(this.data)
+        console.log(msg)
         if (code === 2000) {
           await this.$store.dispatch('user/getUserInfo')
           this.onCancel()
