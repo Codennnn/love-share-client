@@ -152,12 +152,12 @@ export default {
     data: {
       contact_list: [
         {
-          id: '1',
+          _id: '1',
           nickname: '蜘蛛侠',
           avatar_url: 'https://avatars2.githubusercontent.com/u/31676496?s=460&v=4',
         },
         {
-          id: '2',
+          _id: '2',
           nickname: '令狐少侠',
           avatar_url: 'https://avatars2.githubusercontent.com/u/31676496?s=460&v=4',
         },
@@ -170,114 +170,18 @@ export default {
     data: {
       chat_data: {
         1: {
-          isPinned: false,
           msg: [
             {
-              text_content: '我们能帮你什么吗？我们在这里为您服务！',
-              time: 'Mon Dec 10 2018 07:45:00 GMT+0000 (GMT)',
-              is_sent: true,
-              is_seen: true,
-            },
-            {
-              text_content: 'Hey John, I am looking for the best admin template. Could you please help me to find it out?Hey John, I am looking for the best admin template. Could you please help me to find it out?Hey John, I am looking for the best admin template. Could you please help me to find it out?Hey John, I am looking for the best admin template. Could you please help me to find it out?',
-              time: 'Mon Dec 10 2018 07:45:23 GMT+0000 (GMT)',
-              is_sent: false,
-              is_seen: true,
-            },
-            {
-              text_content: 'It should be Bootstrap 4 compatible.',
-              time: 'Mon Dec 10 2018 07:45:55 GMT+0000 (GMT)',
-              is_sent: false,
-              is_seen: true,
-            },
-            {
-              text_content: 'Absolutely!',
-              time: 'Mon Dec 10 2018 07:46:00 GMT+0000 (GMT)',
-              is_sent: true,
-              is_seen: true,
-            },
-            {
-              text_content: 'Modern admin is the responsive bootstrap 4 admin template.!',
-              time: 'Mon Dec 10 2018 07:46:05 GMT+0000 (GMT)',
-              is_sent: true,
-              is_seen: true,
-            },
-            {
-              text_content: 'Looks clean and fresh UI.',
-              time: 'Mon Dec 10 2018 07:46:23 GMT+0000 (GMT)',
-              is_sent: false,
-              is_seen: true,
-            },
-            {
-              text_content: 'It\'s perfect for my next project.',
-              time: 'Mon Dec 10 2018 07:46:33 GMT+0000 (GMT)',
-              is_sent: false,
-              is_seen: true,
-            },
-            {
-              text_content: 'How can I purchase it?',
-              time: 'Mon Dec 10 2018 07:46:43 GMT+0000 (GMT)',
-              is_sent: false,
-              is_seen: true,
-            },
-            {
-              text_content: 'Thanks, from ThemeForest.',
-              time: 'Mon Dec 10 2018 07:46:53 GMT+0000 (GMT)',
-              is_sent: true,
-              is_seen: true,
-            },
-            {
-              text_content: 'I will purchase it for sure.',
-              time: 'Mon Dec 10 2018 07:47:00 GMT+0000 (GMT)',
-              is_sent: false,
-              is_seen: true,
-            },
-            {
-              text_content: 'Thanks',
-              time: 'Mon Dec 10 2018 07:47:05 GMT+0000 (GMT)',
-              is_sent: false,
-              is_seen: false,
+              type: 'text',
+              msg: '???',
             },
           ],
         },
         2: {
-          isPinned: true,
           msg: [
             {
-              text_content: 'Hi',
-              time: 'Mon Dec 10 2018 07:45:00 GMT+0000 (GMT)',
-              is_sent: true,
-              is_seen: true,
-            },
-            {
-              text_content: 'Hello. How can I help You?',
-              time: 'Mon Dec 11 2018 07:45:15 GMT+0000 (GMT)',
-              is_sent: false,
-              is_seen: true,
-            },
-            {
-              text_content: 'Can I get details of my last transaction I made last month?',
-              time: 'Mon Dec 11 2018 07:46:10 GMT+0000 (GMT)',
-              is_sent: true,
-              is_seen: true,
-            },
-            {
-              text_content: 'We need to check if we can provide you such information.',
-              time: 'Mon Dec 11 2018 07:45:15 GMT+0000 (GMT)',
-              is_sent: false,
-              is_seen: true,
-            },
-            {
-              text_content: 'I will inform you as I get update on this.',
-              time: 'Mon Dec 11 2018 07:46:15 GMT+0000 (GMT)',
-              is_sent: false,
-              is_seen: true,
-            },
-            {
-              text_content: 'Thank You',
-              time: 'Mon Dec 11 2018 07:46:20 GMT+0000 (GMT)',
-              is_sent: true,
-              is_seen: false,
+              type: 'text',
+              msg: '!!!',
             },
           ],
         },
