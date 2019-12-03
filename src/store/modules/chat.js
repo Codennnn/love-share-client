@@ -18,13 +18,13 @@ const mutations = {
     state.chats = data
   },
 
-  SEND_CHAT_MESSAGE(state, payload) {
-    if (payload.chatData) {
-      state.chats[payload.id].msg.push(payload.msg)
-    } else {
-      const chatId = payload.id
-      Vue.set(state.chats, [chatId], { isPinned: payload.isPinned, msg: [payload.msg] })
-    }
+  SEND_CHAT_MESSAGE(state, message) {
+    // if (message.chatData) {
+    state.chats[message.target].msg.push(message)
+    // } else {
+    //   Vue.set(state.chats, [message.target], { msg: [message] })
+    // }
+    console.log(state.chats)
   },
 
   SET_CHAT_OPEN(state) {
@@ -33,6 +33,11 @@ const mutations = {
 
   SET_CHAT_CLOSE(state) {
     state.showChatbox = false
+  },
+
+  ADD_CONTACT(state, contact) {
+    state.contactList.push(contact)
+    Vue.set(state.chats, contact._id, { msg: [] })
   },
 
   MARK_SEEN_ALL_MESSAGES(state, payload) {
@@ -57,10 +62,12 @@ const actions = {
     }
   },
 
-  sendChatMessage({ getters, commit }, payload) {
-    payload.chatData = getters.chatDataOfUser(payload.id)
-    console.log(getters.chatDataOfUser(payload.id))
-    commit('SEND_CHAT_MESSAGE', payload)
+  // sendChatMessage({ getters, commit }, payload) {
+  //   payload.chatData = getters.chatDataOfUser(payload.id)
+  //   commit('SEND_CHAT_MESSAGE', payload)
+  // },
+  sendChatMessage({ commit }, message) {
+    commit('SEND_CHAT_MESSAGE', message)
   },
 
   markSeenAllMessages({ getters, commit }, id) {
@@ -105,7 +112,7 @@ export default {
       if (getters.chatDataOfUser(id)) {
         return getters.chatDataOfUser(id).msg.slice(-1)[0]
       }
-      return false
+      return {}
     },
 
     chatUnseenMessages: (state, getters) => (id) => {
@@ -121,5 +128,7 @@ export default {
       }
       return unseenMsg
     },
+
+    isInChat: state => id => Object.prototype.hasOwnProperty.call(state.chats, id),
   },
 }
