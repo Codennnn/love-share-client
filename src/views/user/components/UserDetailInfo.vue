@@ -58,7 +58,7 @@
         />
         <InfoItem
           label="学校"
-          :value="info.school"
+          :value="info.school.name"
         />
         <vs-button
           class="w-24 mt-4"

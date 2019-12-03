@@ -33,7 +33,7 @@
             <div class="w-1/2 px-5">
               <p class="text-lg font-semibold">{{ goods.name }}</p>
               <div class="my-2 flex items-center text-gray-500 text-sm">
-                <p>发布于 {{ timeDiff(goods.time) }}</p>
+                <p>发布于 {{ timeDiff(goods.created_at) }}</p>
                 <vs-button
                   class="ml-6"
                   type="flat"
@@ -129,7 +129,7 @@
         <div class="p-3 text-center bg-white shadow-lg rounded-lg">
           <vs-avatar
             size="90px"
-            :src="seller.avatar_url"
+            :src="`${seller.avatar_url}?imageView2/2/w/100`"
             @click="viewUserDetail(seller._id)"
           />
           <div
@@ -180,8 +180,11 @@
           </div>
         </div>
         <div class="hover-light cursor-pointer">
-          <div class="mt-5 p-2 flex justify-center items-center text-center text-white
-          bg-primary-gradient rounded">
+          <div
+            class="mt-5 p-2 flex justify-center items-center text-center text-white
+          bg-primary-gradient rounded"
+            @click="contactSeller()"
+          >
             联系卖家
           </div>
           <div class="light"></div>
@@ -330,6 +333,15 @@ export default {
       if (code === 2000) {
         this.isCollect = false
       }
+    },
+
+    // 联系卖家
+    contactSeller() {
+      const { _id, nickname, avatar_url } = this.seller
+      if (!this.$store.getters['chat/isInChat'](_id)) {
+        this.$store.commit('chat/ADD_CONTACT', { _id, nickname, avatar_url })
+      }
+      this.$store.commit('chat/SET_CHAT_OPEN')
     },
 
     // 结算

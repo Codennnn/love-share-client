@@ -2,9 +2,9 @@
   <div
     id="component-chat-log"
     class="m-8"
+    v-if="chatData"
   >
     <div
-      class="msg-grp-container"
       v-for="(msg, index) in chatData.msg"
       :key="index"
     >
@@ -46,7 +46,7 @@
           :class="{'bg-primary-gradient text-white': msg.is_sent,
            'border border-solid border-grey-light bg-white': !msg.is_sent}"
         >
-          <span class="text-sm">{{ msg.text_content }}</span>
+          <span class="text-sm">{{ msg.msg }}</span>
         </div>
       </div>
     </div>
@@ -58,7 +58,7 @@
 export default {
   name: 'ChatLog',
   props: {
-    userId: {
+    contactId: {
       type: String,
       required: true,
     },
@@ -66,7 +66,7 @@ export default {
 
   computed: {
     chatData() {
-      return this.$store.getters['chat/chatDataOfUser'](this.userId)
+      return this.$store.getters['chat/chatDataOfUser'](this.contactId)
     },
 
     hasSentPreviousMsg() {

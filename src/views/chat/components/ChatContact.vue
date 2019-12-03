@@ -5,7 +5,7 @@
   >
     <div class="mr-3 flex items-center">
       <vs-avatar
-        :src="'https://avatars2.githubusercontent.com/u/31676496?s=460&v=4'"
+        :src="`${contact.avatar_url}?imageView2/2/w/60`"
         size="42px"
       ></vs-avatar>
     </div>
@@ -18,13 +18,13 @@
         <span
           class="truncate text-sm"
           :class="{'text-white': isActiveChatUser, 'text-gray-500': !isActiveChatUser}"
-        >{{ lastMessaged }}</span>
+        >{{ lastMessaged.msg || '' }}</span>
       </div>
 
       <span
         class="whitespace-no-wrap text-xs"
         :class="{'text-white': isActiveChatUser, 'text-gray-600': !isActiveChatUser}"
-      >{{ '2019-12-11' }}</span>
+      >{{ $dayjs(lastMessaged.time).format('YYYY-MM-DD') || '' }}</span>
     </div>
   </div>
 </template>
@@ -38,12 +38,8 @@ export default {
       required: true,
     },
     lastMessaged: {
-      type: String,
-      default: '',
-    },
-    unseenMsg: {
-      type: Number,
-      default: 0,
+      type: Object,
+      default: () => ({}),
     },
     isActiveChatUser: {
       type: Boolean,

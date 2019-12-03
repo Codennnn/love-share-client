@@ -16,7 +16,7 @@
           <vs-avatar
             class="m-0"
             size="40px"
-            :src="`${$store.state.user.info.avatar_url}?imageView2/2/w/40`"
+            :src="`${$store.state.user.info.avatar_url}?imageView2/2/w/60`"
           />
         </div>
         <vs-input
@@ -51,13 +51,12 @@
               class="cursor-pointer"
               v-for="(contact, i) in contactList"
               :key="i"
-              @click="updateActiveChatUser(contact.id)"
+              @click="updateActiveChatUser(contact._id)"
             >
               <ChatContact
                 :contact="contact"
-                :lastMessaged="chatLastMessaged(contact.id).text_content"
-                :unseenMsg="chatUnseenMessages(contact.id)"
-                :isActiveChatUser="isActiveChatUser(contact.id)"
+                :lastMessaged="chatLastMessaged(contact._id)"
+                :isActiveChatUser="isActiveChatUser(contact._id)"
               />
             </li>
           </ul>
@@ -88,18 +87,22 @@
       <VuePerfectScrollbar
         ref="chatLogPS"
         class="chat-content-scroll-area"
+        style="min-width: 400px;"
         :settings="{
           maxScrollbarLength: 60,
           wheelSpeed: 0.70,
         }"
       >
         <div ref="chatLog">
-          <ChatLog :userId="activeChatUser" />
+          <ChatLog :contactId="activeChatUser" />
         </div>
       </VuePerfectScrollbar>
 
       <!-- 输入框 -->
-      <div class="chat-input flex items-center p-4 bg-white">
+      <div
+        v-if="activeChatUser"
+        class="chat-input flex items-center p-4 bg-white"
+      >
         <vs-input
           class="flex-1"
           placeholder="输入您的消息..."
@@ -145,8 +148,7 @@ export default {
 
     chatSearch: '', // 搜索聊天
     message: '', // 要发送的消息
-    isChatPinned: false, // 是否置顶
-    activeChatUser: '2', // 当前聊天的用户
+    activeChatUser: '', // 当前聊天的用户
   }),
 
   created() {
@@ -182,12 +184,12 @@ export default {
     },
     // 最后一条发送的消息
     chatLastMessaged() {
-      return userId => this.$store.getters['chat/chatLastMessaged'](userId)
+      return contactId => this.$store.getters['chat/chatLastMessaged'](contactId)
     },
     // 没读的消息条数
     chatUnseenMessages() {
-      return (userId) => {
-        const unseenMsg = this.$store.getters['chat/chatUnseenMessages'](userId)
+      return (contactId) => {
+        const unseenMsg = this.$store.getters['chat/chatUnseenMessages'](contactId)
         if (unseenMsg) {
           return unseenMsg
         }
@@ -196,7 +198,7 @@ export default {
     },
     // 当前打开的聊天
     isActiveChatUser() {
-      return userId => userId === this.activeChatUser
+      return contactId => contactId === this.activeChatUser
     },
   },
 
@@ -204,13 +206,6 @@ export default {
     updateActiveChatUser(contactId) {
       this.activeChatUser = contactId
       this.$store.dispatch('chat/markSeenAllMessages', contactId)
-      const chatData = this.$store.getters['chat/chatDataOfUser'](contactId)
-      if (chatData) {
-        this.isChatPinned = chatData.isPinned
-      } else {
-        this.isChatPinned = false
-      }
-      this.toggleChatSidebar()
       this.message = ''
       this.$nextTick(() => {
         this.$refs.chatLogPS.$el.scrollTop = this.$refs.chatLog.scrollHeight
@@ -225,11 +220,12 @@ export default {
         type: 'text',
         msg: this.message,
         client: this.userId,
-        target: '5de61fe4480f842f1823d67e',
+        target: this.activeChatUser,
+        time: Date.now(),
       }
       this.$socket.emit('sendMessage', message)
-      // this.$store.dispatch('chat/sendChatMessage', payload)
-      // this.message = ''
+      this.$store.dispatch('chat/sendChatMessage', message)
+      this.message = ''
       this.$nextTick(() => {
         // 发送消息后聊天框滚动到底部
         this.$refs.chatLogPS.$el.scrollTop = this.$refs.chatLog.scrollHeight
