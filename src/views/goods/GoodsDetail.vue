@@ -114,7 +114,7 @@
           <div class="mt-4">
             <p class="text-gray-600">商品详细介绍</p>
             <div
-              class="mt-2 text-sm"
+              class="mt-2 text-sm goods-desc"
               v-html="goods.description"
             ></div>
           </div>
@@ -400,6 +400,44 @@ export default {
     to {
       left: 100%;
     }
+  }
+}
+
+.goods-desc::v-deep {
+  h1 {
+    font-size: 2em !important;
+    margin: 0.67em 0 !important;
+  }
+
+  h2 {
+    font-size: 1.5em;
+    margin: 0.75em 0 !important;
+  }
+
+  h3 {
+    font-size: 1.17em;
+    margin: 0.83em 0 !important;
+  }
+
+  h5 {
+    font-size: 0.83em;
+    margin: 1.5em 0 !important;
+  }
+
+  h6 {
+    font-size: 0.75em;
+    margin: 1.67em 0 !important;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  b,
+  strong {
+    font-weight: bolder !important;
   }
 }
 </style>
