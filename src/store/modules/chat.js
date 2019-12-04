@@ -4,6 +4,8 @@ import { getContactList, getChatData, getContactInfo } from '@/request/api/user'
 
 const state = {
   activeChatUser: '',
+  activeChatNickname: '',
+  activeChatAvatar: '',
   contactList: [],
   chatSearchQuery: '',
   chats: {},
@@ -11,8 +13,10 @@ const state = {
 }
 
 const mutations = {
-  SET_ACTIVE_CHAT_USER(state, id) {
-    state.activeChatUser = id
+  SET_ACTIVE_CHAT_USER(state, { _id, nickname, avatar_url }) {
+    state.activeChatUser = _id
+    state.activeChatNickname = nickname
+    state.activeChatAvatar = avatar_url
   },
 
   SET_CONTACT_LIST(state, contactList) {
