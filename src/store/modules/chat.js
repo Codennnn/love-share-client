@@ -1,8 +1,9 @@
 import Vue from 'vue'
 
-import { getContactList, getChatData } from '@/request/api/user'
+import { getContactList, getChatData, getContactInfo } from '@/request/api/user'
 
 const state = {
+  activeChatUser: '',
   contactList: [],
   chatSearchQuery: '',
   chats: {},
@@ -10,6 +11,10 @@ const state = {
 }
 
 const mutations = {
+  SET_ACTIVE_CHAT_USER(state, id) {
+    state.activeChatUser = id
+  },
+
   SET_CONTACT_LIST(state, contactList) {
     state.contactList = contactList
   },
@@ -18,8 +23,16 @@ const mutations = {
     state.chats = data
   },
 
-  SEND_CHAT_MESSAGE(state, message) {
-    state.chats[message.target].msg.push(message)
+  SEND_CHAT_MESSAGE(state, msg) {
+    state.chats[msg.target].msg.push(msg)
+  },
+
+  RECEIVE_CHAT_MESSAGE(state, msg) {
+    if (state.chats[msg.target]) {
+      state.chats[msg.target].msg.push(msg)
+    } else {
+      Vue.set(state.chats, msg.target, { msg: [msg] })
+    }
   },
 
   SET_CHAT_OPEN(state) {
@@ -57,8 +70,20 @@ const actions = {
     }
   },
 
-  sendChatMessage({ commit }, message) {
-    commit('SEND_CHAT_MESSAGE', message)
+  sendChatMessage({ commit }, msg) {
+    commit('SEND_CHAT_MESSAGE', msg)
+  },
+
+  async receiveMessage({ getters, commit }, msg) {
+    if (!getters.isInChat(msg.target)) {
+      const { code, data } = await getContactInfo({ user_id: msg.target })
+      if (code === 2000) {
+        commit('ADD_CONTACT', data.contact_info)
+        commit('RECEIVE_CHAT_MESSAGE', msg)
+      }
+    } else {
+      commit('RECEIVE_CHAT_MESSAGE', msg)
+    }
   },
 
   markSeenAllMessages({ getters, commit }, id) {
