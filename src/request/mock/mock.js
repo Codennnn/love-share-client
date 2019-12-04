@@ -1,6 +1,7 @@
 import Mock from 'mockjs'
 import user from './user'
 import notice from './notice'
+import chat from './chat'
 import goods from './goods'
 import order from './order'
 import buying from './buying'
@@ -21,12 +22,14 @@ Mock.mock('/api/user/address/default', 'put', user.default_address)
 Mock.mock('/api/user/address/add', 'post', user.add_address)
 Mock.mock('/api/user/address/delete', 'delete', user.delete_address)
 Mock.mock('/api/user/address/update', 'put', user.update_address)
-Mock.mock('/api/user/contact_list', 'get', user.contact_list)
-Mock.mock('/api/user/chat_data', 'get', user.chat_data)
 Mock.mock('/api/user/subscribe', 'post', user.subscribe)
 Mock.mock('/api/user/unsubscribe', 'post', user.unsubscribe)
 Mock.mock('/api/user/published_goods', 'get', user.published_goods)
 Mock.mock('/api/user/purchased_goods', 'get', user.purchased_goods)
+
+Mock.mock('/api/chat/contact_list', 'get', chat.contact_list)
+Mock.mock('/api/chat/chat_data', 'get', chat.chat_data)
+
 
 // 通知
 Mock.mock('/api/notice/list', 'get', notice.notice_list)

@@ -110,20 +110,6 @@ export function replaceAvatar(data) {
   })
 }
 
-export function getContactList() {
-  return request({
-    url: '/user/contact_list',
-    method: 'get',
-  })
-}
-
-export function getChatData() {
-  return request({
-    url: '/user/chat_data',
-    method: 'get',
-  })
-}
-
 export function subscribe() {
   return request({
     url: '/user/subscribe',
@@ -149,13 +135,5 @@ export function getPurchasedGoods() {
   return request({
     url: '/user/purchased_goods',
     method: 'get',
-  })
-}
-
-export function getContactInfo(params) {
-  return request({
-    url: '/user/contact_info',
-    method: 'get',
-    params,
   })
 }
