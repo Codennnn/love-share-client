@@ -51,7 +51,7 @@
               class="cursor-pointer"
               v-for="(contact, i) in contactList"
               :key="i"
-              @click="updateActiveChatUser(contact._id), contactNickname = contact.nickname"
+              @click="updateActiveChatUser(contact)"
             >
               <ChatContact
                 :contact="contact"
@@ -78,7 +78,7 @@
     >
       <div class="chat-navbar ">
         <ChatNavbar
-          :nickname="contactNickname"
+          :nickname="activeChatNickname"
           :isSidebarCollapsed="!clickNotClose"
           @openContactsSidebar="isChatSidebarActive = true"
         />
@@ -95,7 +95,10 @@
         }"
       >
         <div ref="chatLog">
-          <ChatLog :contactId="activeChatUser" />
+          <ChatLog
+            :contactId="activeChatUser"
+            :avatar="activeChatAvatar"
+          />
         </div>
       </VuePerfectScrollbar>
 
@@ -147,15 +150,15 @@ export default {
     clickNotClose: true,
     isChatSidebarActive: true,
 
-    contactNickname: '',
     chatSearch: '', // 搜索聊天
     message: '', // 要发送的消息
-    activeChatUser: '', // 当前聊天的用户
+    activeChatNickname: '',
+    activeChatAvatar: '',
   }),
 
   created() {
-    this.$store.dispatch('chat/getContactList')
-    this.$store.dispatch('chat/getChatData')
+    // this.$store.dispatch('chat/getContactList')
+    // this.$store.dispatch('chat/getChatData')
   },
 
   mounted() {
@@ -167,8 +170,9 @@ export default {
       }
     }, 400)
 
-    this.sockets.subscribe(this.userId, (data) => {
-      console.log('接收消息：', data)
+    // 监听自身 ID， 订阅消息
+    this.sockets.subscribe(this.userId, (msg) => {
+      this.$store.dispatch('chat/receiveMessage', msg)
     })
   },
 
@@ -179,6 +183,10 @@ export default {
   computed: {
     userId() {
       return this.$store.getters['user/getUserId']
+    },
+    // 当前聊天的用户
+    activeChatUser() {
+      return this.$store.state.chat.activeChatUser
     },
     // 全部联系人
     contactList() {
@@ -205,9 +213,11 @@ export default {
   },
 
   methods: {
-    updateActiveChatUser(contactId) {
-      this.activeChatUser = contactId
-      this.$store.dispatch('chat/markSeenAllMessages', contactId)
+    updateActiveChatUser({ _id, nickname, avatar_url }) {
+      this.$store.commit('chat/SET_ACTIVE_CHAT_USER', _id)
+      this.activeChatNickname = nickname
+      this.activeChatAvatar = avatar_url
+      this.$store.dispatch('chat/markSeenAllMessages', _id)
       this.message = ''
       this.$nextTick(() => {
         this.$refs.chatLogPS.$el.scrollTop = this.$refs.chatLog.scrollHeight

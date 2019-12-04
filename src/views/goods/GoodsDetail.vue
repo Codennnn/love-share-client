@@ -341,6 +341,7 @@ export default {
       if (!this.$store.getters['chat/isInChat'](_id)) {
         this.$store.commit('chat/ADD_CONTACT', { _id, nickname, avatar_url })
       }
+      this.$store.commit('chat/SET_ACTIVE_CHAT_USER', _id)
       this.$store.commit('chat/SET_CHAT_OPEN')
     },
 
