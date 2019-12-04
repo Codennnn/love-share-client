@@ -25,7 +25,7 @@
                   class=""
                   v-for="(image, i) in goods.img_list"
                   :key="i"
-                  :src="image"
+                  :src="`${image}?imageView2/2/w/100`"
                   @click.native="showViewer = true"
                 />
               </vs-images>
@@ -238,7 +238,7 @@ export default {
     timeDiff,
     showViewer: false,
     goods: {}, // 商品信息
-    seller: {
+    seller: { // 卖家信息
       avatar_url: '',
       nickname: '----',
       school: { name: '-----' },
@@ -246,7 +246,7 @@ export default {
       credit_value: 0,
       fans: [],
       published_goods: [],
-    }, // 卖家信息
+    },
 
     amount: 1, // 购买的数量
     popupActive: false,
@@ -284,9 +284,8 @@ export default {
 
     // 加入购物车
     addCartItem() {
-      if (!this.isInCart(this.goods.goods_id)) {
+      if (!this.isInCart(this.goods._id)) {
         this.popupActive = true
-        this.goods.seller_info = this.seller_info
         this.goods.amount = this.amount
         const item = this.goods
         this.$store.dispatch('cart/addCartItem', item)

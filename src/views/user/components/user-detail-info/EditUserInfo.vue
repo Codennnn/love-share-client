@@ -217,7 +217,6 @@ export default {
 
       try {
         const { code, msg } = await modifyUser(this.data)
-        console.log(msg)
         if (code === 2000) {
           await this.$store.dispatch('user/getUserInfo')
           this.onCancel()
@@ -231,7 +230,17 @@ export default {
         } else if (code === 4003) {
           this.error = true
           this.errorText = '昵称已被使用'
+        } else {
+          throw new Error(msg)
         }
+      } catch (err) {
+        this.onCancel()
+        this.$vs.notify({
+          time: 3000,
+          title: '操作失败',
+          color: 'danger',
+          text: err,
+        })
       } finally {
         this.$vs.loading.close('#sidebar-container > .con-vs-loading')
       }

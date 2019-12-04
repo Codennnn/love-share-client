@@ -68,9 +68,9 @@
                 color="dark"
                 type="line"
               >个人简介</vs-button>
-              <div class="text-gray-600">
+              <p class="text-gray-600 break-words">
                 {{ info.introduction || '未填写' }}
-              </div>
+              </p>
             </vs-collapse-item>
           </vs-collapse>
         </div>
