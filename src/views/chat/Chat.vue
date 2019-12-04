@@ -150,8 +150,8 @@ export default {
   }),
 
   created() {
-    // this.$store.dispatch('chat/getContactList')
-    // this.$store.dispatch('chat/getChatData')
+    this.$store.dispatch('chat/getContactList')
+    this.$store.dispatch('chat/getChatData')
   },
 
   mounted() {

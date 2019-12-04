@@ -12,32 +12,12 @@
         class="flex items-start"
         :class="[{'flex-row-reverse' : msg.is_sent}]"
       >
-        <!-- <template v-if="chatData.msg[index-1]"> -->
-        <!-- <template v-if="(!hasSentPreviousMsg(chatData.msg[index-1].is_sent,
-          msg.is_sent) || !isSameDay(msg.time, chatData.msg[index-1].time))"> -->
-        <!-- <vs-avatar
-            size="40px"
-            class="mx-0 flex-no-shrink"
-            :class="msg.is_sent ? 'sm:ml-5 ml-3' : 'sm:mr-5 mr-3'"
-            :src="`${avatar}?imageView2/2/w/60`"
-          /> -->
-        <!-- </template> -->
-        <!-- </template> -->
-
         <vs-avatar
           size="40px"
           class="mx-0 flex-no-shrink"
           :class="msg.is_sent ? 'sm:ml-5 ml-3' : 'sm:mr-5 mr-3'"
           :src="setAvatar(msg.is_sent)"
         />
-
-        <!-- <template v-if="chatData.msg[index-1]">
-          <div
-            style="margin-right: 3.75rem;"
-            v-if="!(!hasSentPreviousMsg(chatData.msg[index-1].is_sent, msg.is_sent)
-            || !isSameDay(msg.time, chatData.msg[index-1].time))"
-          ></div>
-        </template> -->
 
         <div
           class="msg break-words relative shadow-md rounded py-3 px-4 mb-2 rounded-lg max-w-sm"
@@ -70,21 +50,9 @@ export default {
     chatData() {
       return this.$store.getters['chat/chatDataOfUser'](this.contactId)
     },
-
-    hasSentPreviousMsg() {
-      return (lastSender, currentSender) => lastSender === currentSender
-    },
   },
 
   methods: {
-    isSameDay(timeTo, timeFrom) {
-      const dateTimeTo = new Date(Date.parse(timeTo))
-      const dateTimeFrom = new Date(Date.parse(timeFrom))
-      return dateTimeTo.getFullYear() === dateTimeFrom.getFullYear()
-                && dateTimeTo.getMonth() === dateTimeFrom.getMonth()
-                && dateTimeTo.getDate() === dateTimeFrom.getDate()
-    },
-
     setAvatar(isSent) {
       if (isSent) {
         return `${this.$store.state.user.info.avatar_url}?imageView2/2/w/60`

@@ -1,6 +1,6 @@
 import Vue from 'vue'
 
-import { getContactList, getChatData, getContactInfo } from '@/request/api/user'
+import { getContactList, getChatData, getContactInfo } from '@/request/api/chat'
 
 const state = {
   activeChatUser: '',
@@ -23,8 +23,8 @@ const mutations = {
     state.contactList = contactList
   },
 
-  SET_CHAT_DATA(state, data) {
-    state.chats = data
+  SET_CHAT_DATA(state, chats) {
+    state.chats = chats
   },
 
   SEND_CHAT_MESSAGE(state, msg) {
@@ -70,7 +70,7 @@ const actions = {
   async getChatData({ commit }) {
     const { code, data } = await getChatData()
     if (code === 2000) {
-      commit('SET_CHAT_DATA', data.chat_data)
+      commit('SET_CHAT_DATA', data.chats)
     }
   },
 
