@@ -124,6 +124,7 @@
 
 <script>
 import _debounce from 'lodash/debounce'
+import { mapState } from 'vuex'
 
 import VuePerfectScrollbar from 'vue-perfect-scrollbar'
 import ChatContact from './components/ChatContact.vue'
@@ -139,12 +140,6 @@ export default {
     ChatLog,
   },
 
-  sockets: {
-    receiveMessage(data) {
-      console.log('接收消息：', data)
-    },
-  },
-
   data: () => ({
     // 侧边栏是否激活
     clickNotClose: true,
@@ -152,8 +147,6 @@ export default {
 
     chatSearch: '', // 搜索聊天
     message: '', // 要发送的消息
-    activeChatNickname: '',
-    activeChatAvatar: '',
   }),
 
   created() {
@@ -181,12 +174,9 @@ export default {
   },
 
   computed: {
+    ...mapState('chat', ['activeChatUser', 'activeChatNickname', 'activeChatAvatar']),
     userId() {
       return this.$store.getters['user/getUserId']
-    },
-    // 当前聊天的用户
-    activeChatUser() {
-      return this.$store.state.chat.activeChatUser
     },
     // 全部联系人
     contactList() {
@@ -214,9 +204,7 @@ export default {
 
   methods: {
     updateActiveChatUser({ _id, nickname, avatar_url }) {
-      this.$store.commit('chat/SET_ACTIVE_CHAT_USER', _id)
-      this.activeChatNickname = nickname
-      this.activeChatAvatar = avatar_url
+      this.$store.commit('chat/SET_ACTIVE_CHAT_USER', { _id, nickname, avatar_url })
       this.$store.dispatch('chat/markSeenAllMessages', _id)
       this.message = ''
       this.$nextTick(() => {
