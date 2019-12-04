@@ -151,3 +151,11 @@ export function getPurchasedGoods() {
     method: 'get',
   })
 }
+
+export function getContactInfo(params) {
+  return request({
+    url: '/user/contact_info',
+    method: 'get',
+    params,
+  })
+}
