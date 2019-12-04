@@ -105,28 +105,12 @@ export default {
   getters: {
     chatDataOfUser: state => id => state.chats[id],
 
-    getContactList: (state, getters) => {
-      const chatArray = state.contactList.filter((contact) => {
-        if (getters.chatDataOfUser(contact.id)) {
-          return (
-            contact.nickname.toLowerCase().includes(state.chatSearchQuery.toLowerCase())
-            && (getters.chatDataOfUser(contact.id).msg.length > 0)
-          )
-        }
-        return []
-      })
-      return chatArray
-        .sort((x, y) => {
-          const timeX = getters.chatLastMessaged(x.id).time
-          const timeY = getters.chatLastMessaged(y.id).time
-          return (new Date(timeY) - new Date(timeX))
-        })
-        .sort((x, y) => {
-          const chatDataX = getters.chatDataOfUser(x.id)
-          const chatDataY = getters.chatDataOfUser(y.id)
-          return (chatDataY.isPinned - chatDataX.isPinned)
-        })
-    },
+    getContactList: (state, getters) => state.contactList
+      .sort((x, y) => {
+        const timeX = getters.chatLastMessaged(x._id) ?.time || 0
+        const timeY = getters.chatLastMessaged(y._id) ?.time || 0
+        return (timeY - timeX)
+      }),
 
     chatLastMessaged: (state, getters) => (id) => {
       if (getters.chatDataOfUser(id)) {
