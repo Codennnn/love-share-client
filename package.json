@@ -29,6 +29,7 @@
     "screenfull": "^4.2.0",
     "script-loader": "^0.7.2",
     "tailwindcss": "^1.0.5",
+    "v-contextmenu": "^2.8.1",
     "vue": "^2.6.10",
     "vue-apexcharts": "^1.4.0",
     "vue-backtotop": "^1.6.1",
