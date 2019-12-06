@@ -1,6 +1,8 @@
 import Vue from 'vue'
 
-import { getContactList, getChatData, getContactInfo } from '@/request/api/chat'
+import {
+  getContactList, getChatData, getContactInfo, addContact, deleteContact,
+} from '@/request/api/chat'
 
 const state = {
   activeChatUser: '',
@@ -13,7 +15,7 @@ const state = {
 }
 
 const mutations = {
-  SET_ACTIVE_CHAT_USER(state, { _id, nickname, avatar_url }) {
+  SET_ACTIVE_CHAT_USER(state, { _id = '', nickname = '', avatar_url = '' }) {
     state.activeChatUser = _id
     state.activeChatNickname = nickname
     state.activeChatAvatar = avatar_url
@@ -60,6 +62,18 @@ const mutations = {
 }
 
 const actions = {
+  async addContact({ commit }, { _id, nickname, avatar_url }) {
+    commit('ADD_CONTACT', { _id, nickname, avatar_url })
+    await addContact({ contact_id: _id })
+  },
+
+  async deleteContact({ state, commit }, contact_id) {
+    deleteContact({ contact_id })
+    Vue.delete(state.chats, contact_id)
+    commit('SET_CONTACT_LIST', state.contactList.filter(it => it._id !== contact_id))
+    commit('SET_ACTIVE_CHAT_USER', state.contactList[0])
+  },
+
   async getContactList({ commit }) {
     const { code, data } = await getContactList()
     if (code === 2000) {

@@ -1,8 +1,24 @@
 import request from '../request'
 
+export function addContact(data) {
+  return request({
+    url: '/chat/contact/add',
+    method: 'post',
+    data,
+  })
+}
+
+export function deleteContact(data) {
+  return request({
+    url: '/chat/contact/delete',
+    method: 'delete',
+    data,
+  })
+}
+
 export function getContactList() {
   return request({
-    url: '/chat/contact_list',
+    url: '/chat/contact/list',
     method: 'get',
   })
 }

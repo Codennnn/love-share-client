@@ -54,10 +54,18 @@
               @click="updateActiveChatUser(contact)"
             >
               <ChatContact
+                v-contextmenu:contextmenu
                 :contact="contact"
                 :lastMessaged="chatLastMessaged(contact._id)"
                 :isActiveChatUser="isActiveChatUser(contact._id)"
               />
+              <v-contextmenu
+                ref="contextmenu"
+                theme="bright"
+                @contextmenu="(e) => deleteContactId = e.componentOptions.propsData.contact._id"
+              >
+                <v-contextmenu-item @click="deleteContact()">删除联系人</v-contextmenu-item>
+              </v-contextmenu>
             </li>
           </ul>
           <div
@@ -145,6 +153,7 @@ export default {
     clickNotClose: true,
     isChatSidebarActive: true,
 
+    deleteContactId: '',
     chatSearch: '', // 搜索聊天
     message: '', // 要发送的消息
   }),
@@ -216,9 +225,10 @@ export default {
       if (this.message.length <= 0) return
 
       const message = {
-        is_sent: true,
         type: 'text',
         msg: this.message,
+        is_sent: true,
+        is_seen: false,
         client: this.userId,
         target: this.activeChatUser,
         time: Date.now(),
@@ -240,6 +250,10 @@ export default {
         this.clickNotClose = false
         this.isChatSidebarActive = false
       }
+    },
+
+    async deleteContact() {
+      await this.$store.dispatch('chat/deleteContact', this.deleteContactId)
     },
   },
 }
@@ -325,6 +339,24 @@ $sidebar-width: 310px;
     .con-img.vs-avatar--con-img {
       border: 2px solid white;
     }
+  }
+}
+
+.v-contextmenu {
+  z-index: 99999;
+  padding: 0;
+  border: none;
+  overflow: hidden;
+  transition: box-shadow 0.2s;
+  &:hover {
+    box-shadow: 0 0 10px 0 rgba(var(--vs-danger), 1);
+  }
+  .v-contextmenu-item {
+    padding: 12px 14px;
+    transition: all 0.2s;
+  }
+  .v-contextmenu-item--hover {
+    background-color: rgba(var(--vs-danger), 0.95);
   }
 }
 </style>
