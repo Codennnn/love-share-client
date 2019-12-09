@@ -109,7 +109,7 @@ const categoryIcons = {
 }
 const grids = [
   { icon: 'xianlu', label: '逛同校', to: '/' },
-  { icon: 'qizhi', label: '签到领币', to: '/' },
+  { icon: 'qizhi', label: '签到领币', to: '/check-in' },
   { icon: 'guolvqi', label: '旧物回收', to: '/' },
   { icon: 'yingbi', label: '物品租借', to: '/' },
   { icon: 'gouwu', label: '求购物品', to: '/buying-list' },
