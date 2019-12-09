@@ -35,6 +35,7 @@
     "vue-backtotop": "^1.6.1",
     "vue-clipboard2": "^0.3.0",
     "vue-cropper": "^0.4.9",
+    "vue-fullcalendar": "^1.0.9",
     "vue-perfect-scrollbar": "^0.1.0",
     "vue-router": "^3.0.3",
     "vue-socket.io": "^3.0.7",
