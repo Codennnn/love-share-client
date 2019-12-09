@@ -21,7 +21,9 @@ export default {
         avatar_url: 'https://gitee.com/chinesee/images/raw/master/img/img_012.jpg',
         nickname: '令狐少侠',
         real_name: '陈梓聪',
-        school: '广州大学华软软件学院',
+        school: {
+          name: '广州大学华软软件学院',
+        },
         phone: '13724540846',
         email: 'czc12580520@gmail.com',
         wechat: 'czc12580520',
@@ -55,7 +57,9 @@ export default {
         'credit_value|200-1000': 500,
         real_name: '陈梓聪',
         nickname: '令狐少侠',
-        school: '广州大学华软软件学院',
+        school: {
+          name: '广州大学华软软件学院',
+        },
         introduction: '我有一只小毛驴我从来都不骑，有一天我心血来潮骑它去赶集',
         fans_num: 54,
         follow_num: 12,
@@ -99,7 +103,9 @@ export default {
         credit_value: 750,
         qq: '1559162803',
         gender: '1',
-        school: '广州大学华软软件学院',
+        school: {
+          name: '广州大学华软软件学院',
+        },
       },
     },
   },
