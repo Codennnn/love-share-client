@@ -1,11 +1,17 @@
 <template>
   <div>
-    <full-calendar :events="events"></full-calendar>
+    <full-calendar
+      :events="events"
+      @eventClick="onCheckIn"
+      @dayClick="onCheckIn"
+    ></full-calendar>
   </div>
 </template>
 
 <script>
 import fullCalendar from 'vue-fullcalendar'
+
+import { getCheckIn, checkIn } from '@/request/api/user'
 
 export default {
   name: 'CheckIn',
@@ -14,12 +20,38 @@ export default {
   },
 
   data: () => ({
-    events: [{
-      title: 'Sunny Out of Office',
-      start: '2019-12-05',
-      end: '2019-12-07',
-    }],
+    events: [],
   }),
+
+  created() {
+    this.getCheckIn()
+  },
+
+  methods: {
+    async getCheckIn() {
+      const { code, data } = await getCheckIn()
+      if (code === 2000) {
+        this.events = data.check_in_list
+      }
+    },
+
+    async onCheckIn(day) {
+      const today = this.$dayjs(day).format('YYYY-MM-DD')
+      if (this.$dayjs().isSame(today, 'day')) {
+        if (this.events.every(el => el.start !== today)) {
+          const event = {
+            title: '已签到',
+            start: today,
+            end: today,
+          }
+          const { code } = await checkIn({ check_in: event })
+          if (code === 2000) {
+            this.events.push(event)
+          }
+        }
+      }
+    },
+  },
 }
 </script>
 
@@ -52,6 +84,7 @@ export default {
     }
 
     .event-box {
+      margin-top: 15px;
       .event-item {
         color: #fff !important;
         background: rgba(var(--vs-primary), 1) !important;
