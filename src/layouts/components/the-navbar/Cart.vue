@@ -24,6 +24,7 @@
             style="transition: all 0.3s;"
             v-for="(item, i) in cartList"
             :key="i"
+            @click="$router.push({path: 'goods-detail', query: { goods_id: item._id }})"
           >
             <el-image
               class="mr-2 rounded-lg"
@@ -42,8 +43,8 @@
                 </div>
                 <i
                   title="移出购物车"
-                  class="el-icon-close text-danger"
-                  @click="$store.dispatch('cart/removeCartItem', item._id)"
+                  class="el-icon-close text-danger m-1"
+                  @click.stop="$store.dispatch('cart/removeCartItem', item._id)"
                 ></i>
               </div>
             </div>
@@ -84,6 +85,13 @@ export default {
   created() {
     // 获取购物车
     this.$store.dispatch('cart/getCartList')
+    const a = {
+      b: [1, 2],
+    }
+    const b = JSON.parse(JSON.stringify(a.b))
+    b[0] = 3
+    b[1] = 4
+    console.log(a)
   },
 
   computed: {
