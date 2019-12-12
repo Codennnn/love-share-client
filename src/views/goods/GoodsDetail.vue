@@ -158,16 +158,18 @@
           >
             <span
               class="px-5 py-2 flex items-center justify-center text-white
-              text-sm bg-primary cursor-pointer"
+              text-sm cursor-pointer"
               style="height: 34px; border-radius: 17px;"
-              color="primary"
+              :class="isFollowed(seller._id)
+                      ? 'bg-gray-300 text-gray-600'
+                      : 'bg-primary text-white'"
               @click="isFollowed(seller._id) ? unsubscribe(seller._id) : subscribe(seller._id)"
             >
               <i
                 class="el-icon-loading mr-1"
                 v-if="isSubscribeLoading"
               ></i>
-              {{ isFollowed(seller._id) ? '取消关注' : '加关注' }}
+              {{ isFollowed(seller._id) ? '已关注' : '加关注' }}
             </span>
           </div>
           <div class="flex justify-around mt-3">

@@ -38,18 +38,18 @@
             </div>
             <span
               class="my-2 py-1 px-3 text-center text-sm text-white"
-              style="border-radius: 0.3rem;background: rgba(var(--vs-primary), 0.9)"
+              style="border-radius: 0.3rem; background: rgba(var(--vs-primary), 0.9)"
             >{{ info.school ? info.school.name : '' }}</span>
           </div>
         </div>
         <div class="w-1/2 flex justify-around">
           <div class="flex flex-col items-center justify-center">
             <div>关注的人</div>
-            <div class="mt-4 text-2xl font-bold">{{ infoNum.follow_num }}</div>
+            <div class="mt-4 text-2xl font-bold">{{ followsNum }}</div>
           </div>
           <div class="flex flex-col items-center justify-center">
             <div>粉丝数</div>
-            <div class="mt-4 text-2xl font-bold">{{ infoNum.fans_num }}</div>
+            <div class="mt-4 text-2xl font-bold">{{ fansNum }}</div>
           </div>
           <div class="flex flex-col items-center justify-center">
             <div>收藏夹</div>
@@ -165,6 +165,12 @@ export default {
   computed: {
     info() {
       return this.$store.state.user.info
+    },
+    followsNum() {
+      return this.$store.getters['user/getFollows'].length
+    },
+    fansNum() {
+      return this.$store.getters['user/getFans'].length
     },
   },
 
