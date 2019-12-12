@@ -29,7 +29,7 @@
               class="mr-2 rounded-lg"
               style="width: 80px; height: 80px"
               fit="cover"
-              :src="item.img_list[0]"
+              :src="`${item.img_list[0]}?imageView2/2/w/100`"
             ></el-image>
             <div class="flex-1 overflow-hidden">
               <div class="text-overflow">
@@ -37,13 +37,13 @@
               </div>
               <div class="mt-2 flex justify-between items-center">
                 <div class="whitespace-no-wrap text-sm text-gray-500">
-                  <span class="font-bold">￥{{ item.price }}</span>
+                  <span class="font-bold">￥{{ Number(item.price).toFixed(2) }}</span>
                   <span> x {{ item.amount }}</span>
                 </div>
                 <i
                   title="移出购物车"
                   class="el-icon-close text-danger"
-                  @click="$store.dispatch('cart/removeCartItem', item.goods_id)"
+                  @click="$store.dispatch('cart/removeCartItem', item._id)"
                 ></i>
               </div>
             </div>

@@ -1,14 +1,15 @@
 <template>
   <div v-if="cartList.length > 0">
     <div class="flex">
+      <!-- 左侧 -->
       <div class="w-2/3 pr-2">
         <div>
           <ul>
             <li
               class="list-item vs-con-loading__container mb-6"
               v-for="item in cartList"
-              :key="item.goods_id"
-              :id="`li-loading${item.goods_id}`"
+              :key="item._id"
+              :id="`li-loading${item._id}`"
             >
               <div class="w-1/3">
                 <el-image
@@ -22,8 +23,8 @@
                 class="w-1/3 py-4 px-5 flex-col"
                 style="border-right: 1px dashed #cfcfcf;"
               >
-                <div class="text-sm">{{ item.name }}</div>
-                <div class="text-sm font-bold">数量</div>
+                <div class="font-bold text-gray-700">{{ item.name }}</div>
+                <div class="text-sm">数量</div>
                 <div class="flex">
                   <vs-input-number
                     :max="item.quantity"
@@ -38,11 +39,13 @@
                     {{ delivery[item.delivery] }}
                   </vs-chip>
                 </div>
-                <div class="w-full mt-2 mb-4 text-center font-bold">￥{{ item.price }}</div>
+                <div class="w-full mt-2 mb-4 text-center font-bold">
+                  ￥{{ Number(item.price).toFixed(2) }}
+                </div>
                 <div
                   class="btn mb-2"
                   style="background: rgb(244, 244, 244);"
-                  @click="removeCartItem(item.goods_id)"
+                  @click="removeCartItem(item._id)"
                 >
                   <i class="el-icon-close mr-1 text-xl"></i>
                   移出购物车
@@ -51,8 +54,8 @@
                   class="btn text-white"
                   style="background: rgba(var(--vs-primary), 1);"
                   @click="item.is_collected
-                  ? uncollectGoods(item.goods_id)
-                  : collectGoods(item.goods_id)"
+                  ? uncollectGoods(item._id)
+                  : collectGoods(item._id)"
                 >
                   <i class="el-icon-star-off mr-1 text-lg"></i>
                   {{ item.is_collected ? '取消收藏' : '添加到收藏' }}
@@ -63,6 +66,7 @@
         </div>
       </div>
 
+      <!-- 右侧 -->
       <div class="w-1/3 pl-5">
         <div class="p-4 bg-white shadow rounded-lg">
           <p class="mb-1 text-sm text-gray-500">购物车账单总览</p>
@@ -174,7 +178,7 @@ export default {
       const { code } = await collectGoods()
       if (code === 2000) {
         this.cartList.forEach((el, i, _) => {
-          if (el.goods_id === id) {
+          if (el._id === id) {
             _[i].is_collected = true
           }
         })
@@ -186,7 +190,7 @@ export default {
       const { code } = await uncollectGoods()
       if (code === 2000) {
         this.cartList.forEach((el, i, _) => {
-          if (el.goods_id === id) {
+          if (el._id === id) {
             _[i].is_collected = false
           }
         })

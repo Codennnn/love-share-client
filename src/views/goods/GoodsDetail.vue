@@ -64,10 +64,11 @@
                     ￥{{ Number(goods.price).toFixed(2) }}
                   </span>
                   <span
+                    v-if="goods.original_price !== 0"
                     class="text-gray-500"
                     style="text-decoration: line-through;"
                   >
-                    ￥{{ goods.original_price }}
+                    ￥{{ Number(goods.original_price).toFixed(2) }}
                   </span>
                 </div>
               </div>
@@ -97,16 +98,18 @@
                   :max="goods.quantity"
                 />
                 <vs-button
-                  class="ml-3 text-sm"
-                  color="danger"
-                  v-if="isInCart(goods.goods_id)"
-                  @click="$store.dispatch('cart/removeCartItem', goods.goods_id)"
-                >移出购物车</vs-button>
-                <vs-button
-                  class="ml-3 text-sm"
-                  v-else
-                  @click="addCartItem()"
+                  v-if="!isInCart(goods._id)"
+                  id="addCartBtn"
+                  class="ml-3 text-sm vs-con-loading__container"
+                  :disabled="addCartDisable"
+                  @click="addCartItem(goods._id)"
                 >加入购物车</vs-button>
+                <vs-button
+                  v-else
+                  class="ml-3 text-sm"
+                  color="success"
+                  @click="$router.push('/goods-cart')"
+                >已加入购物车，立即结算</vs-button>
               </div>
             </div>
           </div>
@@ -192,25 +195,6 @@
       </vs-col>
     </vs-row>
 
-    <vs-popup
-      title="已加入购物车"
-      :active.sync="popupActive"
-    >
-      <p>该商品已加入您的购物车, 是否结算付款?</p>
-      <div class="mt-4 flex justify-end">
-        <vs-button
-          class="mr-4"
-          color="#a4a4a4"
-          type="border"
-          @click="popupActive = false"
-        >暂不结算</vs-button>
-        <vs-button
-          type="relief"
-          @click="onSettle()"
-        >立即结算</vs-button>
-      </div>
-    </vs-popup>
-
     <el-image-viewer
       v-show="showViewer"
       :on-close="() => { showViewer = false }"
@@ -237,6 +221,8 @@ export default {
   data: () => ({
     timeDiff,
     showViewer: false,
+    addCartDisable: false,
+
     goods: {}, // 商品信息
     seller: { // 卖家信息
       avatar_url: '',
@@ -249,7 +235,6 @@ export default {
     },
 
     amount: 1, // 购买的数量
-    popupActive: false,
     isCollect: false,
     isSubscribe: false,
     isSubscribeLoading: false,
@@ -283,12 +268,21 @@ export default {
     },
 
     // 加入购物车
-    addCartItem() {
-      if (!this.isInCart(this.goods._id)) {
-        this.popupActive = true
-        this.goods.amount = this.amount
-        const item = this.goods
-        this.$store.dispatch('cart/addCartItem', item)
+    async addCartItem(id) {
+      // 显示登录按钮的加载动画
+      this.$vs.loading({
+        background: 'primary',
+        color: '#fff',
+        container: '#addCartBtn',
+        scale: 0.45,
+      })
+      this.addCartDisable = true
+
+      try {
+        await this.$store.dispatch('cart/addCartItem', id)
+      } finally {
+        this.$vs.loading.close('#addCartBtn > .con-vs-loading')
+        this.addCartDisable = false
       }
     },
 
