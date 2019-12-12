@@ -21,6 +21,11 @@ Vue.use(animated)
 Vue.use(VueClipboard)
 Vue.prototype.$dayjs = dayjs
 
+Vue.directive('self', (el, binding) => {
+  if (store.getters['user/getUserId'] === binding.value) {
+    el.parentNode.removeChild(el) // 如果没有权限，则移除节点
+  }
+})
 Vue.directive('login', {
   inserted(el) {
     if (!store.state.user.token) {

@@ -110,17 +110,19 @@ export function replaceAvatar(data) {
   })
 }
 
-export function subscribe() {
+export function subscribe(data) {
   return request({
     url: '/user/subscribe',
     method: 'post',
+    data,
   })
 }
 
-export function unsubscribe() {
+export function unsubscribe(data) {
   return request({
     url: '/user/unsubscribe',
-    method: 'post',
+    method: 'delete',
+    data,
   })
 }
 
