@@ -1,4 +1,4 @@
-import { getCartList, addCartItem, removeCartItem } from '@/request/api/goods'
+import { getCartList, addCartItem, removeCartItem } from '@/request/api/cart'
 
 const state = {
   cartList: [],
