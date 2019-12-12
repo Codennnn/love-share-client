@@ -74,6 +74,7 @@
               <vs-th>成交价</vs-th>
               <vs-th>原主人</vs-th>
               <vs-th>购买日期</vs-th>
+              <vs-th>操作</vs-th>
             </template>
 
             <template slot-scope="{data}">
@@ -95,6 +96,20 @@
                 <vs-td>
                   {{ $dayjs(tr.created_at).format('YYYY-MM-DD') }}
                 </vs-td>
+                <vs-td>
+                  <vs-dropdown vs-trigger-click>
+                    <i class="el-icon-more text-lg text-gray-600 cursor-pointer"></i>
+
+                    <vs-dropdown-menu>
+                      <vs-dropdown-item>
+                        查看订单
+                      </vs-dropdown-item>
+                      <vs-dropdown-item>
+                        删除记录
+                      </vs-dropdown-item>
+                    </vs-dropdown-menu>
+                  </vs-dropdown>
+                </vs-td>
               </vs-tr>
             </template>
           </vs-table>
@@ -115,7 +130,7 @@
               <vs-avatar
                 class="mr-3"
                 size="40px"
-                :src="item.avatar_url"
+                :src="`${item.avatar_url}?imageView2/2/w/50`"
               />
               <div>
                 <div class="text-sm">{{ item.nickname }}</div>
@@ -158,7 +173,6 @@ import { timeDiff } from '@/utils/util'
 import {
   getPublishedGoods,
   getPurchasedGoods,
-  getRecentContacts,
 } from '@/request/api/user'
 
 export default {
@@ -168,7 +182,6 @@ export default {
     userID: '',
     publishedGoods: [], // 已发布商品
     purchasedGoods: [], // 已购买商品
-    recentContacts: [], // 最近联系人
     status: {
       0: {
         color: 'warning',
@@ -181,6 +194,13 @@ export default {
     },
   }),
 
+  computed: {
+    recentContacts() {
+      const { contactList } = this.$store.state.chat
+      return contactList.reverse().slice(0, 10)
+    },
+  },
+
   created() {
     this.getPublishedGoods()
     this.getPurchasedGoods()
@@ -188,7 +208,6 @@ export default {
 
   mounted() {
     this.userID = this.$route.query.id
-    // this.getRecentContacts()
   },
 
   methods: {
@@ -211,17 +230,6 @@ export default {
         path: '/goods-detail',
         query: { id },
       })
-    },
-
-    async getRecentContacts() {
-      try {
-        const { code, data } = await getRecentContacts()
-        if (code === 2000) {
-          this.recentContacts = data.recent_contacts
-        }
-      } catch {
-        // TODO
-      }
     },
   },
 }
