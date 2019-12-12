@@ -34,7 +34,7 @@ service.interceptors.request.use(
 
 const errorHandler = {
   errorNotify({
-    title = '哎呀！', message = '请求出错啦！', duration = 3000,
+    title = '哎呀！', message = '请求出错啦！', duration = 2000,
   } = {}) {
     Notification.error({ title, message, duration })
   },

@@ -7,16 +7,18 @@ export function getCartList() {
   })
 }
 
-export function addCartItem() {
+export function addCartItem(data) {
   return request({
     url: '/cart/add',
     method: 'post',
+    data,
   })
 }
 
-export function removeCartItem() {
+export function removeCartItem(data) {
   return request({
     url: '/cart/delete',
     method: 'delete',
+    data,
   })
 }
