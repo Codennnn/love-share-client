@@ -87,27 +87,6 @@ export function cancelDismountGoods() {
   })
 }
 
-export function getCartList() {
-  return request({
-    url: '/goods/cart/list',
-    method: 'get',
-  })
-}
-
-export function addCartItem() {
-  return request({
-    url: '/goods/cart_item/add',
-    method: 'post',
-  })
-}
-
-export function removeCartItem() {
-  return request({
-    url: '/goods/cart_item/remove',
-    method: 'delete',
-  })
-}
-
 export function uploadGoodsImg(data) {
   return request({
     headers: { 'Content-Type': 'multipart/form-data' },
