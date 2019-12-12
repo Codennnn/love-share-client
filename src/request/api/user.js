@@ -103,6 +103,21 @@ export function replaceAvatar(data) {
   })
 }
 
+export function getCheckIn() {
+  return request({
+    url: '/user/check_in_list',
+    method: 'get',
+  })
+}
+
+export function checkIn(data) {
+  return request({
+    url: '/user/check_in',
+    method: 'post',
+    data,
+  })
+}
+
 export function subscribe(data) {
   return request({
     url: '/user/subscribe',
