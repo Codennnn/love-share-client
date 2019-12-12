@@ -8,18 +8,6 @@ const mutations = {
   SET_CART_LIST(state, carts) {
     state.cartList = carts
   },
-
-  ADD_CART_ITEM(state, item) {
-    state.cartList.push(item)
-  },
-
-  REMOVE_CART_ITEM(state, id) {
-    state.cartList.forEach((el, i, _) => {
-      if (el.goods_id === id) {
-        _.splice(i, 1)
-      }
-    })
-  },
 }
 
 const actions = {
@@ -30,17 +18,17 @@ const actions = {
     }
   },
 
-  async addCartItem({ commit }, item) {
-    const { code } = await addCartItem(item.goods_id)
+  async addCartItem({ dispatch }, goods_id) {
+    const { code } = await addCartItem({ goods_id })
     if (code === 2000) {
-      commit('ADD_CART_ITEM', item)
+      dispatch('getCartList')
     }
   },
 
-  async removeCartItem({ commit }, id) {
-    const { code } = await removeCartItem(id)
+  async removeCartItem({ dispatch }, goods_id) {
+    const { code } = await removeCartItem({ goods_id })
     if (code === 2000) {
-      commit('REMOVE_CART_ITEM', id)
+      dispatch('getCartList')
     }
   },
 }
