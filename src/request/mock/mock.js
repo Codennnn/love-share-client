@@ -2,6 +2,7 @@ import Mock from 'mockjs'
 import user from './user'
 import notice from './notice'
 import chat from './chat'
+import cart from './cart'
 import goods from './goods'
 import order from './order'
 import buying from './buying'
@@ -27,16 +28,19 @@ Mock.mock('/api/user/unsubscribe', 'post', user.unsubscribe)
 Mock.mock('/api/user/published_goods', 'get', user.published_goods)
 Mock.mock('/api/user/purchased_goods', 'get', user.purchased_goods)
 
-Mock.mock('/api/chat/contact_list', 'get', chat.contact_list)
+Mock.mock('/api/chat/contact/list', 'get', chat.contact_list)
 Mock.mock('/api/chat/chat_data', 'get', chat.chat_data)
 
+Mock.mock('/api/cart/list', 'get', cart.cart_list)
+Mock.mock('/api/cart/add', 'post', cart.add_cart_item)
+Mock.mock('/api/cart/delete', 'delete', cart.remove_cart_item)
 
 // 通知
 Mock.mock('/api/notice/list', 'get', notice.notice_list)
 
 // 商品
 Mock.mock('/api/goods/create', 'post', goods.create_goods)
-Mock.mock('/api/goods/list/recommend', 'get', goods.stored_goods)
+Mock.mock(RegExp('/api/goods/list/recommend.*'), 'get', goods.stored_goods)
 Mock.mock('/api/goods/stored', 'get', goods.stored_goods)
 Mock.mock('/api/goods/dismounted', 'get', goods.dismounted_goods)
 Mock.mock('/api/goods/list_info', 'get', goods.list_info)
@@ -46,9 +50,6 @@ Mock.mock('/api/goods/collect', 'post', goods.collect)
 Mock.mock('/api/goods/uncollect', 'delete', goods.uncollect)
 Mock.mock('/api/goods/dismount', 'post', goods.dismount)
 Mock.mock('/api/goods/cancel_dismount', 'post', goods.cancel_dismount)
-Mock.mock('/api/goods/cart/list', 'get', goods.cart_list)
-Mock.mock('/api/goods/cart_item/add', 'post', goods.add_cart_item)
-Mock.mock('/api/goods/cart_item/remove', 'delete', goods.remove_cart_item)
 
 // 订单
 Mock.mock('/api/order/detail', 'get', order.detail)
