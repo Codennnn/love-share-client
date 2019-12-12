@@ -55,13 +55,6 @@ export function getUserInfoNum() {
   })
 }
 
-export function getRecentContacts() {
-  return request({
-    url: '/user/recent_contacts',
-    method: 'get',
-  })
-}
-
 export function getAddressList() {
   return request({
     url: '/user/address_list',
