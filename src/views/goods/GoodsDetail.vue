@@ -152,19 +152,22 @@
           <div class="my-1 text-sm text-gray-500">
             {{ seller.school.name }}
           </div>
-          <div class="flex justify-center overflow-hidden">
+          <div
+            v-self="seller._id"
+            class="flex justify-center overflow-hidden"
+          >
             <span
               class="px-5 py-2 flex items-center justify-center text-white
               text-sm bg-primary cursor-pointer"
               style="height: 34px; border-radius: 17px;"
               color="primary"
-              @click="isSubscribe ? unsubscribe() : subscribe()"
+              @click="isFollowed(seller._id) ? unsubscribe(seller._id) : subscribe(seller._id)"
             >
               <i
                 class="el-icon-loading mr-1"
                 v-if="isSubscribeLoading"
               ></i>
-              {{ isSubscribe ? '取消关注' : '加关注' }}
+              {{ isFollowed(seller._id) ? '取消关注' : '加关注' }}
             </span>
           </div>
           <div class="flex justify-around mt-3">
@@ -248,6 +251,10 @@ export default {
     isInCart() {
       return id => this.$store.getters['cart/isInCart'](id)
     },
+
+    isFollowed() {
+      return id => this.$store.getters['user/isFollowed'](id)
+    },
   },
 
   methods: {
@@ -287,12 +294,13 @@ export default {
     },
 
     // 关注
-    async subscribe() {
+    async subscribe(user_id) {
       this.isSubscribeLoading = true
       try {
-        const { code } = await subscribe()
+        const { code } = await subscribe({ user_id })
         if (code === 2000) {
           this.isSubscribe = true
+          this.$store.commit('user/ADD_FOLLOW', user_id)
         }
       } finally {
         this.isSubscribeLoading = false
@@ -300,12 +308,13 @@ export default {
     },
 
     // 取消关注
-    async unsubscribe() {
+    async unsubscribe(user_id) {
       this.isSubscribeLoading = true
       try {
-        const { code } = await unsubscribe()
+        const { code } = await unsubscribe({ user_id })
         if (code === 2000) {
           this.isSubscribe = false
+          this.$store.commit('user/REMOVE_FOLLOW', user_id)
         }
       } finally {
         this.isSubscribeLoading = false

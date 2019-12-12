@@ -3,7 +3,7 @@
     <div class="w-8/12">
       <!-- 我发布的 -->
       <div class="p-6 bg-white rounded-lg">
-        <div class="text-lg font-bold mb-4">TA发布的</div>
+        <div class="text-lg font-bold mb-4">我发布的</div>
         <div>
           <vs-table
             pagination
@@ -24,33 +24,32 @@
                 v-for="(tr, i) in data"
                 :key="i"
               >
-                <vs-td :data="data[i].img_urls">
+                <vs-td>
                   <vs-image
                     class="w-32 h-32 shadow"
-                    :src="data[i].img_urls[0]"
-                    @click.native.stop="showViewer = true, imgUrls = tr.img_urls"
+                    :src="`${tr.img_list[0]}?imageView2/2/w/100`"
                   ></vs-image>
                 </vs-td>
 
                 <vs-td>
                   <p
                     class="cursor-pointer"
-                    @click.native="viewGoodsDetail(tr.goods_id)"
+                    @click.native="viewGoodsDetail(tr._id)"
                   >{{ tr.name }}</p>
                 </vs-td>
 
-                <vs-td class="font-semibold">￥{{ tr.price }}</vs-td>
+                <vs-td class="font-semibold">￥{{ Number(tr.price).toFixed(2) }}</vs-td>
 
                 <vs-td>
-                  <div class="whitespace-no-wrap">{{ timeDiff(data[i].time) }}</div>
+                  <div class="whitespace-no-wrap">{{ timeDiff(tr.created_at) }}</div>
                 </vs-td>
 
                 <vs-td>
                   <div
+                    class="w-16 py-1 px-2 text-center whitespace-no-wrap"
                     style="border-radius: 0.4rem;"
-                    class="whitespace-no-wrap py-1 px-2"
-                    :style="`background: rgba(var(--vs-${status[tr.status].color}), 0.2);`"
                     :class="[`text-${status[tr.status].color}`]"
+                    :style="`background: rgba(var(--vs-${status[tr.status].color}), 0.2);`"
                   >{{ status[tr.status].text }}</div>
                 </vs-td>
               </vs-tr>
@@ -61,7 +60,7 @@
 
       <!-- 我购买的 -->
       <div class="mt-6 p-6 bg-white rounded-lg">
-        <div class="text-lg font-bold mb-4">TA购买的</div>
+        <div class="text-lg font-bold mb-4">我购买的</div>
         <div>
           <vs-table
             pagination
@@ -74,35 +73,27 @@
               <vs-th>商品名称</vs-th>
               <vs-th>成交价</vs-th>
               <vs-th>原主人</vs-th>
-              <vs-th>状态</vs-th>
+              <vs-th>购买日期</vs-th>
             </template>
 
             <template slot-scope="{data}">
               <vs-tr
                 v-for="(tr, i) in data"
                 :key="i"
-                :data="tr"
               >
                 <vs-td>
                   <vs-image
                     class="w-32 h-32 shadow"
-                    :src="tr.img_urls[0]"
-                    @click.native="showViewer = true, imgUrls = tr.img_urls"
+                    :src="`${tr.img_list[0]}?imageView2/2/w/100`"
                   ></vs-image>
                 </vs-td>
                 <vs-td>{{ tr.name }}</vs-td>
-                <vs-td class="font-semibold">￥{{ tr.price }}</vs-td>
+                <vs-td class="font-semibold">￥{{ Number(tr.price).toFixed(2) }}</vs-td>
                 <vs-td>
-                  <div class="whitespace-no-wrap">{{ timeDiff(tr.time) }}</div>
+                  {{ '' }}
                 </vs-td>
-
                 <vs-td>
-                  <div
-                    style="border-radius: 0.4rem;"
-                    class="whitespace-no-wrap py-1 px-2"
-                    :style="`background: rgba(var(--vs-${status[tr.status].color}), 0.2);`"
-                    :class="[`text-${status[tr.status].color}`]"
-                  >{{ status[tr.status].text }}</div>
+                  {{ $dayjs(tr.created_at).format('YYYY-MM-DD') }}
                 </vs-td>
               </vs-tr>
             </template>
@@ -159,18 +150,10 @@
         >暂无最近联系人</div>
       </div>
     </div>
-
-    <el-image-viewer
-      v-show="showViewer"
-      :on-close="() => showViewer = false"
-      :url-list="imgUrls"
-    />
   </div>
 </template>
 
 <script>
-import ElImageViewer from 'element-ui/packages/image/src/image-viewer.vue'
-
 import { timeDiff } from '@/utils/util'
 import {
   getPublishedGoods,
@@ -183,8 +166,6 @@ export default {
   data: () => ({
     timeDiff,
     userID: '',
-    showViewer: false,
-    imgUrls: [],
     publishedGoods: [], // 已发布商品
     purchasedGoods: [], // 已购买商品
     recentContacts: [], // 最近联系人
@@ -199,8 +180,6 @@ export default {
       },
     },
   }),
-
-  components: { ElImageViewer },
 
   created() {
     this.getPublishedGoods()
@@ -252,9 +231,6 @@ export default {
 .vs-con-table::v-deep {
   .vs-table--thead {
     color: rgb(150, 150, 150);
-  }
-  .vs-table-text {
-    justify-content: center;
   }
 }
 </style>
