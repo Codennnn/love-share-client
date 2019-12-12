@@ -7,6 +7,8 @@ import {
 const state = {
   token: getToken(),
   info: {},
+  fans: [],
+  follows: [],
   defaultAddress: '',
   addressList: [],
 }
@@ -17,6 +19,23 @@ const mutations = {
   },
   SET_INFO(state, info) {
     state.info = info
+  },
+  SET_FANS(state, fans) {
+    state.follows = fans
+  },
+  SET_FOLLOWS(state, follows) {
+    state.follows = follows
+  },
+  ADD_FOLLOW(state, id) {
+    state.follows.push(id)
+  },
+  REMOVE_FOLLOW(state, id) {
+    for (let i = 0; i < state.follows.length; i += 1) {
+      if (state.follows[i] === id) {
+        state.follows.splice(i, 1)
+        break
+      }
+    }
   },
   SET_AVATAR(state, url) {
     state.info.avatar_url = url
@@ -51,6 +70,8 @@ const actions = {
       const { code, data } = await getUserInfo()
       if (code === 2000) {
         commit('SET_INFO', data.user_info)
+        commit('SET_FANS', data.user_info.fans)
+        commit('SET_FOLLOWS', data.user_info.follows)
       }
     } catch {
       removeToken()
@@ -103,5 +124,15 @@ export default {
     getUserId(state) {
       return state.info._id
     },
+
+    getFollows(state) {
+      return state.follows
+    },
+
+    getFans(state) {
+      return state.fans
+    },
+
+    isFollowed: (state, getters) => id => getters.getFollows.includes(id),
   },
 }
