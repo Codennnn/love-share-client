@@ -131,6 +131,9 @@
 </template>
 
 <script>
+// import Vue from 'vue'
+// import VueSocketIO from 'vue-socket.io' // socket.io
+
 import _debounce from 'lodash/debounce'
 import { mapState } from 'vuex'
 
@@ -138,6 +141,10 @@ import VuePerfectScrollbar from 'vue-perfect-scrollbar'
 import ChatContact from './components/ChatContact.vue'
 import ChatNavbar from './components/ChatNavbar.vue'
 import ChatLog from './components/ChatLog.vue'
+
+// Vue.use(new VueSocketIO({
+//   connection: 'http://127.0.0.1:7001',
+// }))
 
 export default {
   name: 'Chat',
@@ -173,9 +180,9 @@ export default {
     }, 400)
 
     // 监听自身 ID， 订阅消息
-    this.sockets.subscribe(this.userId, (msg) => {
-      this.$store.dispatch('chat/receiveMessage', msg)
-    })
+    // this.sockets.subscribe(this.userId, (msg) => {
+    //   this.$store.dispatch('chat/receiveMessage', msg)
+    // })
   },
 
   beforeDestroy() {

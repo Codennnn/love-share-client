@@ -25,7 +25,8 @@
         <TheFooter class="router-footer" />
       </div>
 
-      <transition
+      <!-- 在线聊天 -->
+      <!-- <transition
         enter-active-class="animated zoomIn quickly"
         leave-active-class="animated zoomOutLeft faster"
         mode="out-in"
@@ -38,7 +39,7 @@
             <Chat />
           </div>
         </template>
-      </transition>
+      </transition> -->
 
       <!-- 回到顶部按钮 -->
       <BackToTop
