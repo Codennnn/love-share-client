@@ -85,13 +85,6 @@ export default {
   created() {
     // 获取购物车
     this.$store.dispatch('cart/getCartList')
-    const a = {
-      b: [1, 2],
-    }
-    const b = JSON.parse(JSON.stringify(a.b))
-    b[0] = 3
-    b[1] = 4
-    console.log(a)
   },
 
   computed: {
