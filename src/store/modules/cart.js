@@ -3,6 +3,7 @@ import { getCartList, addCartItem, removeCartItem } from '@/request/api/cart'
 const state = {
   cartList: [],
   address: {},
+  orderId: '',
 }
 
 const mutations = {
@@ -12,6 +13,10 @@ const mutations = {
 
   SET_ADDRESS(state, address) {
     state.address = address
+  },
+
+  SET_ORDER_ID(state, id) {
+    state.orderId = id
   },
 }
 
