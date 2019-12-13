@@ -2,6 +2,7 @@ import { getCartList, addCartItem, removeCartItem } from '@/request/api/cart'
 
 const state = {
   cartList: [],
+  address: {},
 }
 
 const mutations = {

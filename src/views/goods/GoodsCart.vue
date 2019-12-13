@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!-- 步骤条 -->
     <el-steps
       class="mb-8"
       simple
