@@ -115,6 +115,18 @@
                 vs-value="3"
               >自提</vs-radio>
             </div>
+            <div
+              v-if="goods.delivery === '2'"
+              class="mt-1 flex items-center"
+            >
+              <span class="mr-5 text-xl text-gray-600 font-bold">
+                ￥{{ Number(goods.delivery_charge).toFixed(2) }}
+              </span>
+              <vs-input-number
+                color="#718096"
+                v-model.number="goods.delivery_charge"
+              />
+            </div>
           </div>
           <div class="md:w-1/3">
             <div class="mb-2 text-gray-500">议价设置</div>
@@ -183,6 +195,7 @@ export default {
       original_price: 0.00, // 入手价
       checked: false, // 是否选择入手价
       delivery: '1', // 运费设置
+      delivery_charge: 0,
       can_bargain: false, // 议价设置
       can_return: false, // 退货设置
       description: '', // 商品描述
@@ -222,6 +235,14 @@ export default {
           color: 'danger',
           title: '商品分类不能为空',
           text: '请添选择商品分类',
+        })
+        return false
+      }
+      if (this.goods.delivery === '2' && this.goods.delivery_charge === 0) {
+        this.$vs.notify({
+          color: 'danger',
+          title: '运费输入有误',
+          text: '请正确设置运费',
         })
         return false
       }

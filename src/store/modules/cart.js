@@ -8,6 +8,10 @@ const mutations = {
   SET_CART_LIST(state, carts) {
     state.cartList = carts
   },
+
+  SET_ADDRESS(state, address) {
+    state.address = address
+  },
 }
 
 const actions = {
@@ -40,16 +44,18 @@ export default {
   actions,
   getters: {
     cartAmount: state => state.cartList.length,
+    // 总运费
     deliveryCharges: (state) => {
       const charge = state.cartList.reduce((acc, curr) => acc + curr.delivery_charge, 0)
       if (charge === 0) {
         return '免费'
       }
-      return Number(charge).toFixed(2)
+      return charge
     },
+    // 总付款
     amountPayable: (state) => {
       const amount = state.cartList.reduce((acc, curr) => acc + curr.price, 0)
-      return Number(amount).toFixed(2)
+      return amount
     },
     isInCart: state => id => state.cartList.some(item => item._id === id),
   },

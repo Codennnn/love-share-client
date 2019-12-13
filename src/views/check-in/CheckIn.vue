@@ -4,7 +4,13 @@
       :events="events"
       @eventClick="onCheckIn"
       @dayClick="onCheckIn"
-    ></full-calendar>
+    >
+      <div slot="fc-header-right">
+        <span>已连续签到</span>
+        <span class="mx-2 text-primary text-lg font-bold">{{ events.length }}</span>
+        <span>天</span>
+      </div>
+    </full-calendar>
   </div>
 </template>
 
@@ -15,9 +21,7 @@ import { getCheckIn, checkIn } from '@/request/api/user'
 
 export default {
   name: 'CheckIn',
-  components: {
-    fullCalendar,
-  },
+  components: { fullCalendar },
 
   data: () => ({
     events: [],

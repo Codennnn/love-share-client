@@ -6,7 +6,7 @@
         <div>
           <ul>
             <li
-              class="list-item vs-con-loading__container mb-6"
+              class="list-item base-shadow vs-con-loading__container mb-6"
               v-for="item in cartList"
               :key="item._id"
               :id="`li-loading${item._id}`"
@@ -27,8 +27,9 @@
                 <div class="text-sm">数量</div>
                 <div class="flex">
                   <vs-input-number
+                    :min="1"
                     :max="item.quantity"
-                    v-model="item.amount"
+                    v-model="item.quantity"
                   />
                 </div>
               </div>
@@ -80,7 +81,7 @@
           </div>
           <div class="item">
             <span class="item-label">总价</span>
-            <span class="item-value">￥{{ amountPayable }}</span>
+            <span class="item-value">￥{{ Number(amountPayable).toFixed(2) }}</span>
           </div>
           <div class="item">
             <span class="item-label">折扣</span>
@@ -88,7 +89,13 @@
           </div>
           <div class="item">
             <span class="item-label">运费</span>
-            <span class="item-value">{{ Number(tweenedDelivery).toFixed(2) }}</span>
+            <span class="item-value">
+              {{
+                typeof tweenedDelivery === 'number'
+                  ? Number(tweenedDelivery).toFixed(2)
+                  : tweenedDelivery
+              }}
+            </span>
           </div>
           <vs-divider />
           <div class="flex justify-between">
@@ -112,7 +119,7 @@
     <p class="mb-4 text-xl font-bold">您的购物车一件宝贝也有没哎~</p>
     <vs-button
       class="text-sm"
-      @click="$router.push('/goods-vivid-list')"
+      @click="$router.push('/')"
     >去商城逛一逛</vs-button>
   </div>
 </template>
@@ -214,7 +221,6 @@ export default {
   display: flex;
   background: white;
   border-radius: 0.5rem;
-  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.1);
   transition: 0.4s;
   &:hover {
     transform: translateY(-6px);

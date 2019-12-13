@@ -1,7 +1,12 @@
 <template>
   <div class="flex">
     <div class="w-2/3 pr-3">
-      <div class="p-5 rounded-lg shadow">
+      <div class="p-5 rounded-lg base-shadow">
+      </div>
+    </div>
+    <div class="w-1/3 pl-2">
+      <!-- 付款方式 -->
+      <div class="mb-5 p-5 rounded-lg base-shadow">
         <p class="text-lg font-bold">选择您的付款方式</p>
         <p class="mb-6 text-sm text-gray-500">请务必选择正确的付款方式</p>
         <div>
@@ -47,9 +52,9 @@
           </ul>
         </div>
       </div>
-    </div>
-    <div class="w-1/3 pl-2">
-      <div class="p-5 rounded-lg shadow">
+
+      <!-- 价格明细 -->
+      <div class="p-5 rounded-lg base-shadow">
         <p class="mb-4 text-lg font-bold">价格明细</p>
         <div class="mb-1 flex justify-between items-center text-sm">
           <span class="text-gray-500">{{ cartAmount }} 件商品</span>
@@ -57,7 +62,13 @@
         </div>
         <div class="flex justify-between items-center text-sm">
           <span class="text-gray-500">运费</span>
-          <span class="text-success">{{ deliveryCharges }}</span>
+          <span class="text-success">
+            {{
+              typeof deliveryCharges === 'number'
+                ? Number(deliveryCharges).toFixed(2)
+                : deliveryCharges
+            }}
+          </span>
         </div>
         <vs-divider />
         <div class="flex justify-between items-center text-sm">
@@ -71,6 +82,8 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
   name: 'CartSettle',
   data: () => ({
@@ -83,24 +96,12 @@ export default {
   }),
 
   computed: {
-    cartAmount() {
-      return this.$store.getters['cart/cartAmount']
-    },
-    deliveryCharges() {
-      return this.$store.getters['cart/deliveryCharges']
-    },
-    amountPayable() {
-      return this.$store.getters['cart/amountPayable']
-    },
+    ...mapGetters('cart', ['cartAmount', 'deliveryCharges', 'amountPayable']),
   },
 }
 </script>
 
 <style lang="scss" scoped>
-.shadow {
-  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.1);
-}
-
 .con-vs-radio {
   justify-content: start;
 }
