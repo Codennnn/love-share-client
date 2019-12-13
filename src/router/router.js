@@ -54,6 +54,12 @@ export const routes = [
         meta: { title: '每日签到' },
       },
       {
+        path: '/cart-success',
+        name: 'CartSuccess',
+        component: () => import('@/views/goods/components/CartSuccess.vue'),
+        meta: { title: '购买成功' },
+      },
+      {
         path: '/help-center',
         name: 'HelpCenter',
         component: () => import('@/views/service/HelpCenter.vue'),
