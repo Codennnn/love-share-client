@@ -1,36 +1,17 @@
 import request from '../request'
 
-export function getOrderList() {
+export function createOrder(data) {
   return request({
-    url: '/order/list',
-    method: 'get',
+    url: '/order/create',
+    method: 'post',
+    data,
   })
 }
 
-export function getOrderDetail() {
+export function getOrderDetail(params) {
   return request({
     url: '/order/detail',
     method: 'get',
-  })
-}
-
-export function getOrderTransactionAmount() {
-  return request({
-    url: '/order/order_transaction_amount',
-    method: 'get',
-  })
-}
-
-export function getOrderVolume() {
-  return request({
-    url: '/order/order_volume',
-    method: 'get',
-  })
-}
-
-export function getOrderNum() {
-  return request({
-    url: '/order/order_num',
-    method: 'get',
+    params,
   })
 }
