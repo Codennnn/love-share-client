@@ -1,7 +1,7 @@
 <template>
   <div class="flex">
     <div
-      class="pr-4"
+      class="main pr-4 vs-con-loading__container"
       :class="addressList.length > 0 ? 'w-2/3' : 'w-full'"
     >
       <div class="p-5 bg-white base-shadow rounded-lg">
@@ -221,12 +221,19 @@ export default {
     onSetAddress() {
       this.$refs.form.validate(async (valid) => {
         if (valid) {
+          this.$vs.loading({
+            container: '.main',
+            scale: 1,
+            text: '正在结算，请稍等...',
+          })
           try {
             await this.$store.dispatch('user/addAddress', this.newAddress)
             this.onSettle(this.newAddress)
             return true
           } catch {
             return false
+          } finally {
+            this.$vs.loading.close('.main > .con-vs-loading')
           }
         }
         return false

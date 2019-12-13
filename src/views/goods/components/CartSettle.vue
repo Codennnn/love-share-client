@@ -152,6 +152,7 @@ export default {
       })
       setTimeout(() => {
         this.$vs.loading.close('.main > .con-vs-loading')
+        this.$router.replace('/cart-success')
       }, 2500)
     },
   },
