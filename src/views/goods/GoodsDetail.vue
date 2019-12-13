@@ -153,7 +153,7 @@
             {{ seller.school.name }}
           </div>
           <div
-            v-self="seller._id"
+            v-if="!$self(seller._id)"
             class="flex justify-center overflow-hidden"
           >
             <span
@@ -245,10 +245,6 @@ export default {
     isSubscribeLoading: false,
   }),
 
-  mounted() {
-    this.initValues(this.$route.query.goods_id)
-  },
-
   computed: {
     isInCart() {
       return id => this.$store.getters['cart/isInCart'](id)
@@ -256,6 +252,15 @@ export default {
 
     isFollowed() {
       return id => this.$store.getters['user/isFollowed'](id)
+    },
+  },
+
+  watch: {
+    '$route.query': {
+      handler(query) {
+        this.initValues(query.goods_id)
+      },
+      immediate: true,
     },
   },
 
