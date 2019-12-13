@@ -6,7 +6,7 @@
       @dayClick="onCheckIn"
     >
       <div slot="fc-header-right">
-        <span>已连续签到</span>
+        <span>累计签到</span>
         <span class="mx-2 text-primary text-lg font-bold">{{ events.length }}</span>
         <span>天</span>
       </div>
@@ -51,6 +51,11 @@ export default {
           const { code } = await checkIn({ check_in: event })
           if (code === 2000) {
             this.events.push(event)
+            this.$vs.notify({
+              title: '恭喜你，签到成功',
+              text: '坚持才是胜利哦',
+              color: 'success',
+            })
           }
         }
       }

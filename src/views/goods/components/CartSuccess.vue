@@ -5,17 +5,20 @@
         class="el-icon-success text-success"
         style="font-size: 80px;"
       ></i>
-      <p class="mt-2 mb-6 text-2xl">付款成功</p>
+      <p class="mt-2 text-2xl">付款成功</p>
+      <p class="mb-6 text-gray-600">获得乐享豆 {{ 20 }} 颗</p>
       <div>
         <vs-button
           class="mr-4"
           size="small"
-          color="#999"
+          color="#a0aec0"
           type="border"
+          @click="$router.replace('/')"
         >返回首页</vs-button>
         <vs-button
-          color="#999"
           size="small"
+          color="#a0aec0"
+          @click="$router.replace({path: '/order-detail', query: { order_id }})"
         >查看订单</vs-button>
       </div>
     </div>
@@ -25,5 +28,8 @@
 <script>
 export default {
   name: 'CartSuccess',
+  data: () => ({
+    order_id: '',
+  }),
 }
 </script>

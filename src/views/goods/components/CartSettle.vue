@@ -127,6 +127,8 @@
 <script>
 import { mapState, mapGetters } from 'vuex'
 
+import { createOrder } from '@/request/api/order'
+
 export default {
   name: 'CartSettle',
   data: () => ({
@@ -144,16 +146,27 @@ export default {
   },
 
   methods: {
-    onPay() {
+    async onPay() {
       this.$vs.loading({
         container: '.main',
         scale: 1,
         text: '正在结算，请稍等...',
       })
-      setTimeout(() => {
+
+      try {
+        const { code, data } = await createOrder()
+        if (code === 2000) {
+          this.$store.commit('cart/SET_CART_LIST', [])
+          this.$store.commit('cart/SET_ORDER_ID', data.order_id)
+          this.$emit('switchComponent', {
+            currentStep: 3,
+            currentComponent: 'CartSuccess',
+            isActive: true,
+          })
+        }
+      } finally {
         this.$vs.loading.close('.main > .con-vs-loading')
-        this.$router.replace('/cart-success')
-      }, 2500)
+      }
     },
   },
 }
