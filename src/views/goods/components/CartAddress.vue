@@ -4,7 +4,7 @@
       class="pr-4"
       :class="addressList.length > 0 ? 'w-2/3' : 'w-full'"
     >
-      <div class="p-5 bg-white shadow rounded-lg">
+      <div class="p-5 bg-white base-shadow rounded-lg">
         <p class="text-lg font-bold">设置新的收货地址</p>
         <p class="text-sm text-gray-500">填写完成时，请确认信息无误</p>
         <div class="w-2/3 my-8">
@@ -75,7 +75,7 @@
       class="w-1/3 pl-3"
       v-if="addressList.length > 0"
     >
-      <div class="p-5 bg-white shadow rounded-lg">
+      <div class="p-5 bg-white base-shadow rounded-lg">
         <div class="flex justify-between items-center text-2xl">
           {{ current.receiver }}
           <span
@@ -94,7 +94,7 @@
         <vs-divider />
         <vs-button
           class="w-full mt-4"
-          @click="onSettle()"
+          @click="onSettle(current)"
         >使用这个地址</vs-button>
       </div>
     </div>
@@ -185,7 +185,7 @@ export default {
   }),
 
   computed: {
-    ...mapState('user', ['defaultAddress', 'addressList']),
+    ...mapState('user', ['addressList', 'defaultAddress']),
   },
 
   watch: {
@@ -220,11 +220,10 @@ export default {
 
     onSetAddress() {
       this.$refs.form.validate(async (valid) => {
-        console.log(valid)
         if (valid) {
           try {
             await this.$store.dispatch('user/addAddress', this.newAddress)
-            this.onSettle()
+            this.onSettle(this.newAddress)
             return true
           } catch {
             return false
@@ -238,7 +237,8 @@ export default {
       this.$refs.form.resetFields()
     },
 
-    onSettle() {
+    onSettle(addr) {
+      this.$store.commit('cart/SET_ADDRESS', addr)
       this.$emit('switchComponent', {
         currentStep: 3,
         currentComponent: 'CartSettle',

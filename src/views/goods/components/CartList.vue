@@ -6,7 +6,7 @@
         <div>
           <ul>
             <li
-              class="list-item base-shadow vs-con-loading__container mb-6"
+              class="list-item mb-6 base-shadow vs-con-loading__container"
               v-for="item in cartList"
               :key="item._id"
               :id="`li-loading${item._id}`"
@@ -69,7 +69,7 @@
 
       <!-- 右侧 -->
       <div class="w-1/3 pl-5">
-        <div class="p-4 bg-white shadow rounded-lg">
+        <div class="p-4 bg-white base-shadow rounded-lg">
           <p class="mb-1 text-sm text-gray-500">购物车账单总览</p>
           <div class="flex justify-between cursor-pointer">
             <span class="label">优惠券</span>
