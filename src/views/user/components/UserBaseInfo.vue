@@ -26,7 +26,7 @@
               >
                 <vs-td>
                   <vs-image
-                    class="w-32 h-32 shadow"
+                    class="w-32 h-32 base-shadow"
                     :src="`${tr.img_list[0]}?imageView2/2/w/100`"
                   ></vs-image>
                 </vs-td>
@@ -84,7 +84,7 @@
               >
                 <vs-td>
                   <vs-image
-                    class="w-32 h-32 shadow"
+                    class="w-32 h-32 base-shadow"
                     :src="`${tr.img_list[0]}?imageView2/2/w/100`"
                   ></vs-image>
                 </vs-td>
