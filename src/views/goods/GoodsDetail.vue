@@ -293,7 +293,9 @@ export default {
       this.addCartDisable = true
 
       try {
-        await this.$store.dispatch('cart/addCartItem', id)
+        if (this.amount >= 1 && this.amount <= this.goods.quantity) {
+          await this.$store.dispatch('cart/addCartItem', { amount: this.amount, goods_id: id })
+        }
       } finally {
         this.$vs.loading.close('#addCartBtn > .con-vs-loading')
         this.addCartDisable = false
