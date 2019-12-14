@@ -114,7 +114,10 @@
                     <i
                       title="查看详情"
                       class="el-icon-goods ml-3 p-2 text-xl cursor-pointer"
-                      @click="$router.push({path: '/goods-detail'})"
+                      @click.stop="$router.push({
+                                    path: '/goods-detail',
+                                    query: { goods_id: tr.goods._id }
+                                  })"
                     ></i>
                   </vs-td>
                 </vs-tr>
@@ -127,7 +130,7 @@
             />
           </div>
           <div class="flex flex-col items-end">
-            <div>已付款</div>
+            <div class="mr-1">已付款</div>
             <div class="price">￥{{ Number(detail.total_price).toFixed(2) }}</div>
           </div>
         </div>
