@@ -8,7 +8,7 @@
         <div class="card-header">
           <p class="mr-3">
             订单号：
-            <span class="text-base text-gray-500">{{ detail.order_id }}</span>
+            <span class="text-base text-gray-500">{{ detail._id }}</span>
           </p>
           <el-tooltip
             content="复制订单号"
@@ -17,7 +17,7 @@
             <i
               class="el-icon-copy-document text-gray-500 cursor-pointer"
               style="font-size: 20px;"
-              v-clipboard:copy="detail.order_id"
+              v-clipboard:copy="detail._id"
               v-clipboard:success="onCopy"
             ></i>
           </el-tooltip>
@@ -28,10 +28,6 @@
           <div class="order-info">
             <div class="order-info__col">
               <div class="order-info__item">
-                <div class="label">收货地址</div>
-                <div class="value">{{ detail.address }}</div>
-              </div>
-              <div class="order-info__item">
                 <div class="label">订单状态</div>
                 <div class="value">
                   <vs-chip :color="status[detail.status].color">
@@ -41,18 +37,30 @@
                 </div>
               </div>
               <div class="order-info__item">
-                <div class="label">运费设置</div>
-                <div class="value">{{ detail.delivery_method }}</div>
+                <div class="label">收货人</div>
+                <div class="value">{{ detail.address.receiver }}</div>
+              </div>
+              <div class="order-info__item">
+                <div class="label">联系电话</div>
+                <div class="value">{{ detail.address.phone }}</div>
+              </div>
+              <div class="order-info__item">
+                <div class="label">收货地址</div>
+                <div class="value">{{ detail.address.address }}</div>
               </div>
             </div>
             <div class="order-info__col">
               <div class="order-info__item">
                 <div class="label">创建时间</div>
-                <div class="value">{{ detail.create_time }}</div>
+                <div class="value">
+                  {{ $dayjs(detail.created_at).format('YYYY-MM-DD hh:mm:ss') }}
+                </div>
               </div>
               <div class="order-info__item">
                 <div class="label">发货时间</div>
-                <div class="value">{{ detail.create_time }}</div>
+                <div class="value">
+                  {{ $dayjs(detail.created_at).format('YYYY-MM-DD hh:mm:ss') }}
+                </div>
               </div>
               <div class="order-info__item">
                 <div class="label">支付方式</div>
@@ -71,7 +79,7 @@
           <div class="py-6">
             <vs-table
               noDataText="暂无数据"
-              :data="infos"
+              :data="goodsList"
             >
               <template slot="header">
                 <div class="p-4">商品列表</div>
@@ -89,19 +97,19 @@
                   v-for="(tr, i) in data"
                   :key="i"
                 >
-                  <vs-td :data="tr.img_urls[0]">
+                  <vs-td>
                     <el-image
                       class="rounded-lg border-gray-500 cursor-pointer"
                       style="width: 80px; height: 80px"
                       fit="cover"
-                      :src="tr.img_urls[0]"
-                      @click="showViewer = true, urlList = tr.img_urls"
+                      :src="`${tr.goods.img_list[0]}?imageView2/2/w/130`"
+                      @click="showViewer = true, urlList = tr.goods.img_list"
                     >
                     </el-image>
                   </vs-td>
-                  <vs-td :data="tr.name">{{ tr.name }}</vs-td>
-                  <vs-td :data="tr.price">1</vs-td>
-                  <vs-td :data="tr.price">￥{{ tr.price }}</vs-td>
+                  <vs-td>{{ tr.goods.name }}</vs-td>
+                  <vs-td>1</vs-td>
+                  <vs-td>￥{{ tr.goods.price }}</vs-td>
                   <vs-td>
                     <i
                       title="查看详情"
@@ -120,7 +128,7 @@
           </div>
           <div class="flex flex-col items-end">
             <div>已付款</div>
-            <div class="price">￥{{ detail.total }}</div>
+            <div class="price">￥{{ Number(detail.total_price).toFixed(2) }}</div>
           </div>
         </div>
       </div>
@@ -133,32 +141,31 @@
         <OrderStep />
       </div>
 
-      <div class="card">
+      <div
+        v-if="detail.buyer"
+        class="card"
+      >
         <div class="card-header">
-          <p>用户信息</p>
+          <p>买家信息</p>
         </div>
         <vs-divider />
         <div class="user-info">
           <div class="user-info__col">
             <div class="user-info__item">
-              <div class="label">用户姓名</div>
-              <div class="value">{{ detail.user.name }}</div>
-            </div>
-            <div class="user-info__item">
-              <div class="label">所在学校</div>
-              <div class="value">{{ detail.user.school }}</div>
+              <div class="label">用户昵称</div>
+              <div class="value">{{ detail.buyer.nickname }}</div>
             </div>
           </div>
           <div class="user-info__col">
             <div class="user-info__item">
-              <div class="label">用户 ID</div>
-              <div class="value">{{ detail.user.user_id }}</div>
+              <div class="label">用户姓名</div>
+              <div class="value">{{ detail.buyer.real_name }}</div>
             </div>
           </div>
           <div class="user-info__col">
             <div class="user-info__item">
               <div class="label">联系方式</div>
-              <div class="value">{{ detail.user.phone }}</div>
+              <div class="value">{{ detail.buyer.phone }}</div>
             </div>
           </div>
         </div>
@@ -175,6 +182,8 @@ import { getOrderDetail } from '@/request/api/order'
 
 export default {
   name: 'OrderDetail',
+  components: { ElImageViewer, OrderStep },
+
   data() {
     return {
       showViewer: false,
@@ -182,19 +191,19 @@ export default {
       detail: null,
       text: '123',
       orderID: '',
-      infos: [],
+      goodsList: [],
       status: {
-        0: {
+        1: {
           text: '进行中',
           color: 'primary',
           icon: 'el-icon-loading',
         },
-        1: {
+        2: {
           text: '已完成',
           color: 'success',
           icon: 'el-icon-check',
         },
-        2: {
+        3: {
           text: '已取消',
           color: 'danger',
           icon: 'el-icon-close',
@@ -202,8 +211,6 @@ export default {
       },
     }
   },
-
-  components: { ElImageViewer, OrderStep },
 
   mounted() {
     this.orderId = this.$route.query.orderId
@@ -220,8 +227,8 @@ export default {
       try {
         const { code, data } = await getOrderDetail({ order_id })
         if (code === 2000) {
-          this.detail = data.detail
-          this.infos = data.detail.goods
+          this.detail = data.order_detail
+          this.goodsList = data.order_detail.goods_list
         }
       } finally {
         this.$vs.loading.close('#div-with-loading > .con-vs-loading')
