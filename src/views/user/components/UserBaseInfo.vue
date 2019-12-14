@@ -27,7 +27,7 @@
                 <vs-td>
                   <vs-image
                     class="w-32 h-32 base-shadow"
-                    :src="`${tr.img_list[0]}?imageView2/2/w/100`"
+                    :src="`${tr.img_list[0]}?imageView2/2/w/130`"
                   ></vs-image>
                 </vs-td>
 
@@ -72,51 +72,52 @@
               <vs-th>图片</vs-th>
               <vs-th>商品名称</vs-th>
               <vs-th>成交价</vs-th>
+              <vs-th>数量</vs-th>
               <vs-th>原主人</vs-th>
               <vs-th>购买日期</vs-th>
               <vs-th>操作</vs-th>
             </template>
 
             <template slot-scope="{data}">
-              <vs-tr
-                v-for="(tr, i) in data"
-                :key="i"
-              >
-                <vs-td>
-                  <vs-image
-                    class="w-32 h-32 base-shadow"
-                    :src="`${tr.img_list[0]}?imageView2/2/w/100`"
-                  ></vs-image>
-                </vs-td>
-                <vs-td>{{ tr.name }}</vs-td>
-                <vs-td class="font-semibold">￥{{ Number(tr.price).toFixed(2) }}</vs-td>
-                <vs-td>
-                  {{ '' }}
-                </vs-td>
-                <vs-td>
-                  {{ $dayjs(tr.created_at).format('YYYY-MM-DD') }}
-                </vs-td>
-                <vs-td>
-                  <vs-dropdown vs-trigger-click>
-                    <i class="el-icon-more text-lg text-gray-600 cursor-pointer"></i>
+              <template v-for="order in data">
+                <vs-tr
+                  v-for="(tr, i) in order.goods_list"
+                  :key="i"
+                >
+                  <vs-td>
+                    <vs-image
+                      class="w-32 h-32 base-shadow"
+                      :src="`${tr.goods.img_list[0]}?imageView2/2/w/130`"
+                    ></vs-image>
+                  </vs-td>
+                  <vs-td>{{ tr.goods.name }}</vs-td>
+                  <vs-td class="font-semibold">￥{{ Number(tr.goods.price).toFixed(2) }}</vs-td>
+                  <vs-td>{{ tr.amount }}</vs-td>
+                  <vs-td>{{ tr.goods.seller.nickname }}</vs-td>
+                  <vs-td>
+                    {{ $dayjs(data[i].created_at).format('YYYY-MM-DD') }}
+                  </vs-td>
+                  <vs-td>
+                    <vs-dropdown vs-trigger-click>
+                      <i class="el-icon-more text-lg text-gray-600 cursor-pointer"></i>
 
-                    <vs-dropdown-menu>
-                      <vs-dropdown-item>
-                        查看订单
-                      </vs-dropdown-item>
-                      <vs-dropdown-item>
-                        删除记录
-                      </vs-dropdown-item>
-                    </vs-dropdown-menu>
-                  </vs-dropdown>
-                </vs-td>
-              </vs-tr>
+                      <vs-dropdown-menu>
+                        <vs-dropdown-item @click.stop="viewOrderDetail(order._id)">
+                          查看订单
+                        </vs-dropdown-item>
+                        <vs-dropdown-item>删除记录</vs-dropdown-item>
+                      </vs-dropdown-menu>
+                    </vs-dropdown>
+                  </vs-td>
+                </vs-tr>
+              </template>
             </template>
           </vs-table>
         </div>
       </div>
     </div>
 
+    <!-- 最近联系人 -->
     <div class="w-4/12 pl-5">
       <div class="p-5 bg-white rounded-lg">
         <div class="mb-4 text-gray-700">最近联系</div>
@@ -170,10 +171,9 @@
 
 <script>
 import { timeDiff } from '@/utils/util'
-import {
-  getPublishedGoods,
-  getPurchasedGoods,
-} from '@/request/api/user'
+
+import { getPublishedGoods } from '@/request/api/user'
+import { getOrdersByUser } from '@/request/api/order'
 
 export default {
   name: 'UserBaseInfo',
@@ -203,7 +203,7 @@ export default {
 
   created() {
     this.getPublishedGoods()
-    this.getPurchasedGoods()
+    this.getOrdersByUser()
   },
 
   mounted() {
@@ -218,10 +218,10 @@ export default {
       }
     },
 
-    async getPurchasedGoods() {
-      const { code, data } = await getPurchasedGoods()
+    async getOrdersByUser() {
+      const { code, data } = await getOrdersByUser()
       if (code === 2000) {
-        this.purchasedGoods = data.purchased_goods
+        this.purchasedGoods = data.list
       }
     },
 
@@ -229,6 +229,13 @@ export default {
       this.$router.push({
         path: '/goods-detail',
         query: { id },
+      })
+    },
+
+    viewOrderDetail(orderId) {
+      this.$router.push({
+        path: '/order-detail',
+        query: { orderId },
       })
     },
   },

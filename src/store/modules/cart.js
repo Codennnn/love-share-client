@@ -30,10 +30,12 @@ const actions = {
     }
   },
 
-  async addCartItem({ dispatch }, { amount, goods_id }) {
-    const { code } = await addCartItem({ amount, goods_id })
-    if (code === 2000) {
-      dispatch('getCartList')
+  async addCartItem({ dispatch, getters }, { amount, goods_id }) {
+    if (!getters.isInCart(goods_id)) {
+      const { code } = await addCartItem({ amount, goods_id })
+      if (code === 2000) {
+        dispatch('getCartList')
+      }
     }
   },
 
@@ -44,7 +46,8 @@ const actions = {
     }
   },
 
-  async clearCartList({ dispatch }, cart_id_list) {
+  async clearCartList({ dispatch, state }) {
+    const cart_id_list = state.cartList.map(el => el._id)
     const { code } = await clearCartList({ cart_id_list })
     if (code === 2000) {
       dispatch('getCartList')

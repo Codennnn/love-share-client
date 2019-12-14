@@ -235,10 +235,8 @@ export default {
     // 清空购物车
     onClear() {
       this.showPopover = false
-      // this.$store.commit('cart/SET_CART_LIST', [])
-      const cartIdList = this.cartList.map(el => el._id)
-      console.log(cartIdList)
-      this.$store.dispatch('cart/clearCartList', cartIdList)
+      this.$store.commit('cart/SET_CART_LIST', [])
+      this.$store.dispatch('cart/clearCartList')
     },
 
     // 开始结算
