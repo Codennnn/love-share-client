@@ -22,3 +22,11 @@ export function removeCartItem(data) {
     data,
   })
 }
+
+export function clearCartList(data) {
+  return request({
+    url: '/cart/clear',
+    method: 'delete',
+    data,
+  })
+}

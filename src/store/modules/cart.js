@@ -1,4 +1,6 @@
-import { getCartList, addCartItem, removeCartItem } from '@/request/api/cart'
+import {
+  getCartList, addCartItem, removeCartItem, clearCartList,
+} from '@/request/api/cart'
 
 const state = {
   cartList: [],
@@ -28,15 +30,22 @@ const actions = {
     }
   },
 
-  async addCartItem({ dispatch }, goods_id) {
-    const { code } = await addCartItem({ goods_id })
+  async addCartItem({ dispatch }, { amount, goods_id }) {
+    const { code } = await addCartItem({ amount, goods_id })
     if (code === 2000) {
       dispatch('getCartList')
     }
   },
 
-  async removeCartItem({ dispatch }, goods_id) {
-    const { code } = await removeCartItem({ goods_id })
+  async removeCartItem({ dispatch }, cart_id) {
+    const { code } = await removeCartItem({ cart_id })
+    if (code === 2000) {
+      dispatch('getCartList')
+    }
+  },
+
+  async clearCartList({ dispatch }, cart_id_list) {
+    const { code } = await clearCartList({ cart_id_list })
     if (code === 2000) {
       dispatch('getCartList')
     }
@@ -52,17 +61,16 @@ export default {
     cartAmount: state => state.cartList.length,
     // 总运费
     deliveryCharges: (state) => {
-      const charge = state.cartList.reduce((acc, curr) => acc + curr.delivery_charge, 0)
+      const charge = state.cartList.reduce((acc, curr) => acc + curr.goods.delivery_charge, 0)
       if (charge === 0) {
         return '免费'
       }
       return charge
     },
     // 总付款
-    amountPayable: (state) => {
-      const amount = state.cartList.reduce((acc, curr) => acc + curr.price, 0)
-      return amount
-    },
-    isInCart: state => id => state.cartList.some(item => item._id === id),
+    amountPayable: state => state.cartList.reduce(
+      (acc, curr) => acc + curr.goods.price * curr.amount, 0,
+    ),
+    isInCart: state => id => state.cartList.some(item => item.goods._id === id),
   },
 }

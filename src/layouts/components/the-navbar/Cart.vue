@@ -24,22 +24,22 @@
             style="transition: all 0.3s;"
             v-for="(item, i) in cartList"
             :key="i"
-            @click="$router.push({path: 'goods-detail', query: { goods_id: item._id }})"
+            @click="$router.push({path: 'goods-detail', query: { goods_id: item.goods._id }})"
           >
             <el-image
               class="mr-2 rounded-lg"
               style="width: 80px; height: 80px"
               fit="cover"
-              :src="`${item.img_list[0]}?imageView2/2/w/100`"
+              :src="`${item.goods.img_list[0]}?imageView2/2/w/100`"
             ></el-image>
             <div class="flex-1 overflow-hidden">
               <div class="text-overflow">
-                {{ item.name }}
+                {{ item.goods.name }}
               </div>
               <div class="mt-2 flex justify-between items-center">
                 <div class="whitespace-no-wrap text-sm text-gray-500">
-                  <span class="font-bold">￥{{ Number(item.price).toFixed(2) }}</span>
-                  <span> x {{ item.quantity }}</span>
+                  <span class="font-bold">￥{{ Number(item.goods.price).toFixed(2) }}</span>
+                  <span> x {{ item.amount }}</span>
                 </div>
                 <i
                   title="移出购物车"
