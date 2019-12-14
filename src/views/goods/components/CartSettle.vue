@@ -171,11 +171,16 @@ export default {
           amount: el.amount,
           goods: el.goods._id,
         }))
-        const { code, data } = await createOrder({
+        const body = {
           goods_list: goodsList,
-        })
+          payment: this.payment,
+          address: this.address,
+          total_price: this.amountPayable,
+          actual_price: this.amountPayable,
+        }
+        const { code, data } = await createOrder(body)
         if (code === 2000) {
-          this.$store.commit('cart/SET_CART_LIST', [])
+          await this.$store.dispatch('cart/clearCartList')
           this.$store.commit('cart/SET_ORDER_ID', data.order_id)
           this.$emit('switchComponent', {
             currentStep: 3,

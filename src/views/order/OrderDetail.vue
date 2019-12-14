@@ -206,19 +206,19 @@ export default {
   components: { ElImageViewer, OrderStep },
 
   mounted() {
-    this.orderID = this.$route.query.orderID
-    this.getOrderDetail(this.$route.query.orderID)
+    this.orderId = this.$route.query.orderId
+    this.getOrderDetail(this.orderId)
   },
 
   methods: {
-    async getOrderDetail() {
+    async getOrderDetail(order_id) {
       this.$vs.loading({
         container: '#div-with-loading',
         scale: 1,
       })
 
       try {
-        const { code, data } = await getOrderDetail()
+        const { code, data } = await getOrderDetail({ order_id })
         if (code === 2000) {
           this.detail = data.detail
           this.infos = data.detail.goods
