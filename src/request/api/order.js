@@ -15,3 +15,10 @@ export function getOrderDetail(params) {
     params,
   })
 }
+
+export function getOrdersByUser() {
+  return request({
+    url: '/order/by_user',
+    method: 'get',
+  })
+}
