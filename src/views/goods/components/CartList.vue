@@ -15,7 +15,7 @@
                 <el-image
                   class="h-full w-full"
                   fit="cover"
-                  :src="item.img_list[0]"
+                  :src="item.goods.img_list[0]"
                 />
               </div>
 
@@ -23,25 +23,26 @@
                 class="w-1/3 py-4 px-5 flex-col"
                 style="border-right: 1px dashed #cfcfcf;"
               >
-                <div class="font-bold text-gray-700">{{ item.name }}</div>
+                <div class="font-bold text-gray-700">{{ item.goods.name }}</div>
                 <div class="text-sm">数量</div>
                 <div class="flex">
                   <vs-input-number
                     :min="1"
-                    :max="item.quantity"
-                    v-model="item.quantity"
+                    :max="item.goods.quantity"
+                    v-model="item.amount"
                   />
                 </div>
               </div>
 
               <div class="w-1/3 py-4 px-5 flex flex-col items-center">
                 <div class="ml-auto">
-                  <vs-chip :color="item.delivery === 1 ? 'primary' : ''">
-                    {{ delivery[item.delivery] }}
+                  <vs-chip :color="item.goods.delivery === 1 ? 'primary' : ''">
+                    {{ delivery[item.goods.delivery] }}
                   </vs-chip>
                 </div>
-                <div class="w-full mt-2 mb-4 text-center font-bold">
-                  ￥{{ Number(item.price).toFixed(2) }}
+                <div class="w-full mt-2 mb-4 text-center">
+                  <span class="text-sm text-gray-600">单价：</span>
+                  <span class="text-lg font-bold">￥{{ Number(item.goods.price).toFixed(2) }}</span>
                 </div>
                 <div
                   class="btn mb-2"
@@ -100,12 +101,39 @@
           <vs-divider />
           <div class="flex justify-between">
             <span class="label">实付</span>
-            <span class="label">￥{{ Number(tweenedAmount).toFixed(2) }}</span>
+            <span class="label text-lg">
+              ￥{{ Number(tweenedAmount).toFixed(2) }}
+            </span>
           </div>
           <vs-button
-            class="w-full mt-4"
+            class="w-full mt-4 mb-2"
             @click="onSettle()"
           >开始结算</vs-button>
+          <el-popover
+            title="购物车清空后将不可恢复"
+            trigger="manual"
+            v-model="showPopover"
+          >
+            <div class="flex justify-end">
+              <vs-button
+                color="#999"
+                type="flat"
+                size="small"
+                @click="showPopover = false"
+              >取消</vs-button>
+              <vs-button
+                color="danger"
+                type="flat"
+                size="small"
+                @click="onClear()"
+              >确认清空</vs-button>
+            </div>
+            <span
+              slot="reference"
+              class="ml-1 text-gray-500 text-sm text-right cursor-pointer"
+              @click="showPopover = !showPopover"
+            >清空购物车</span>
+          </el-popover>
         </div>
       </div>
     </div>
@@ -133,7 +161,7 @@ import { collectGoods, uncollectGoods } from '@/request/api/goods'
 export default {
   name: 'CartList',
   data: () => ({
-    number: 1,
+    showPopover: false,
     delivery: {
       1: '包 邮',
       2: '自 费',
@@ -202,6 +230,15 @@ export default {
           }
         })
       }
+    },
+
+    // 清空购物车
+    onClear() {
+      this.showPopover = false
+      // this.$store.commit('cart/SET_CART_LIST', [])
+      const cartIdList = this.cartList.map(el => el._id)
+      console.log(cartIdList)
+      this.$store.dispatch('cart/clearCartList', cartIdList)
     },
 
     // 开始结算
