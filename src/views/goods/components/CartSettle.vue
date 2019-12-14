@@ -6,7 +6,10 @@
           class="w-full mt-1 mb-3 p-3 text-lg text-primary rounded-lg"
           style="background: rgba(var(--vs-primary), 0.05);"
         >购物清单</div>
-        <vs-table :data="cartList">
+        <vs-table
+          noDataText="暂无任何商品"
+          :data="cartList"
+        >
           <template slot="thead">
             <vs-th>商品名称</vs-th>
             <vs-th>数量</vs-th>
@@ -19,18 +22,18 @@
               v-for="(tr, i) in data"
               :key="i"
             >
-              <vs-td>{{ tr.name }}</vs-td>
-              <vs-td>{{ tr.quantity }}</vs-td>
-              <vs-td>{{ tr.delivery_charge }}</vs-td>
-              <vs-td class="text-warning font-bold">
-                ￥{{ Number(tr.price).toFixed(2) }}
+              <vs-td>{{ tr.goods.name }}</vs-td>
+              <vs-td>{{ tr.amount }}</vs-td>
+              <vs-td>{{ tr.goods.delivery_charge }}</vs-td>
+              <vs-td class="text-primary font-bold">
+                ￥{{ Number(tr.goods.price).toFixed(2) }}
               </vs-td>
             </vs-tr>
           </template>
         </vs-table>
 
         <div
-          class="w-full my-3 p-3 text-lg text-primary rounded-lg"
+          class="w-full mt-6 mb-3 p-3 text-lg text-primary rounded-lg"
           style="background: rgba(var(--vs-primary), 0.05);"
         >收货信息</div>
         <div class="p-2 text-sm text-gray-600">
@@ -118,6 +121,7 @@
       </div>
       <vs-button
         class="w-full mt-5"
+        :disabled="payBtnDisable"
         @click="onPay()"
       >信息无误，确认付款</vs-button>
     </div>
@@ -130,6 +134,7 @@ import { mapState, mapGetters } from 'vuex'
 import { createOrder } from '@/request/api/order'
 
 export default {
+  payBtnDisable: false,
   name: 'CartSettle',
   data: () => ({
     icons: [
@@ -143,10 +148,18 @@ export default {
   computed: {
     ...mapState('cart', ['cartList', 'address']),
     ...mapGetters('cart', ['cartAmount', 'deliveryCharges', 'amountPayable']),
+    payBtnDisable() {
+      if (this.cartList.length <= 0 || !this.payment) {
+        return true
+      }
+      return false
+    },
   },
 
   methods: {
     async onPay() {
+      if (this.cartList.length <= 0) return
+
       this.$vs.loading({
         container: '.main',
         scale: 1,
@@ -154,7 +167,13 @@ export default {
       })
 
       try {
-        const { code, data } = await createOrder()
+        const goodsList = this.cartList.map(el => ({
+          amount: el.amount,
+          goods: el.goods._id,
+        }))
+        const { code, data } = await createOrder({
+          goods_list: goodsList,
+        })
         if (code === 2000) {
           this.$store.commit('cart/SET_CART_LIST', [])
           this.$store.commit('cart/SET_ORDER_ID', data.order_id)
