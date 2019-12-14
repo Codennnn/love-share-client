@@ -43,6 +43,7 @@
     >
       <keep-alive>
         <component
+          class="p-6"
           :is="currentComponent"
           @switchComponent="changeComponent"
         />
