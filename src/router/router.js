@@ -77,6 +77,12 @@ export const routes = [
         component: () => import('@/views/user/UserCenter.vue'),
         meta: { title: '个人中心' },
       },
+      {
+        path: '/user-detail',
+        name: 'UserDetail',
+        component: () => import('@/views/user/UserDetail.vue'),
+        meta: { title: '用户详情' },
+      },
     ],
     meta: { title: '首页' },
   },
