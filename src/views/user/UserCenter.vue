@@ -43,11 +43,17 @@
           </div>
         </div>
         <div class="w-1/2 flex justify-around">
-          <div class="flex flex-col items-center justify-center cursor-pointer">
+          <div
+            class="flex flex-col items-center justify-center cursor-pointer"
+            @click="$router.push('/user-follows')"
+          >
             <div>关注的人</div>
             <div class="mt-4 text-2xl font-bold">{{ followsNum }}</div>
           </div>
-          <div class="flex flex-col items-center justify-center cursor-pointer">
+          <div
+            class="flex flex-col items-center justify-center cursor-pointer"
+            @click="$router.push('/user-fans')"
+          >
             <div>粉丝数</div>
             <div class="mt-4 text-2xl font-bold">{{ fansNum }}</div>
           </div>

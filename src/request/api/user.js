@@ -147,3 +147,11 @@ export function getPurchasedGoods() {
     method: 'get',
   })
 }
+
+export function getUserFollows(params) {
+  return request({
+    url: '/user/follows',
+    method: 'get',
+    params,
+  })
+}
