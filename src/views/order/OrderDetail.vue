@@ -82,7 +82,7 @@
               :data="goodsList"
             >
               <template slot="header">
-                <div class="p-4">商品列表</div>
+                <div class="p-4">购物清单</div>
               </template>
               <template slot="thead">
                 <vs-th>#</vs-th>

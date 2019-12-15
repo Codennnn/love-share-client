@@ -43,15 +43,15 @@
           </div>
         </div>
         <div class="w-1/2 flex justify-around">
-          <div class="flex flex-col items-center justify-center">
+          <div class="flex flex-col items-center justify-center cursor-pointer">
             <div>关注的人</div>
             <div class="mt-4 text-2xl font-bold">{{ followsNum }}</div>
           </div>
-          <div class="flex flex-col items-center justify-center">
+          <div class="flex flex-col items-center justify-center cursor-pointer">
             <div>粉丝数</div>
             <div class="mt-4 text-2xl font-bold">{{ fansNum }}</div>
           </div>
-          <div class="flex flex-col items-center justify-center">
+          <div class="flex flex-col items-center justify-center cursor-pointer">
             <div>收藏夹</div>
             <div class="mt-4 text-2xl font-bold">{{ infoNum.collect_num }}</div>
           </div>

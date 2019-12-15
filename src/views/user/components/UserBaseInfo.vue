@@ -17,6 +17,7 @@
               <vs-th>价格</vs-th>
               <vs-th>发布于</vs-th>
               <vs-th>状态</vs-th>
+              <vs-th>操作</vs-th>
             </template>
 
             <template slot-scope="{data}">
@@ -30,20 +31,16 @@
                     :src="`${tr.img_list[0]}?imageView2/2/w/100`"
                   ></vs-image>
                 </vs-td>
-
                 <vs-td>
                   <p
                     class="cursor-pointer"
                     @click.native="viewGoodsDetail(tr._id)"
                   >{{ tr.name }}</p>
                 </vs-td>
-
                 <vs-td class="font-semibold">￥{{ Number(tr.price).toFixed(2) }}</vs-td>
-
                 <vs-td>
                   <div class="whitespace-no-wrap">{{ timeDiff(tr.created_at) }}</div>
                 </vs-td>
-
                 <vs-td>
                   <div
                     class="w-16 py-1 px-2 text-center whitespace-no-wrap"
@@ -51,6 +48,18 @@
                     :class="[`text-${status[tr.status].color}`]"
                     :style="`background: rgba(var(--vs-${status[tr.status].color}), 0.2);`"
                   >{{ status[tr.status].text }}</div>
+                </vs-td>
+                <vs-td>
+                  <vs-dropdown vs-trigger-click>
+                    <i class="el-icon-more text-lg text-gray-600 cursor-pointer"></i>
+
+                    <vs-dropdown-menu>
+                      <vs-dropdown-item @click.stop="editGoodsInfo(tr._id)">
+                        编辑信息
+                      </vs-dropdown-item>
+                      <vs-dropdown-item>删除记录</vs-dropdown-item>
+                    </vs-dropdown-menu>
+                  </vs-dropdown>
                 </vs-td>
               </vs-tr>
             </template>
@@ -93,7 +102,12 @@
                   <vs-td>{{ tr.goods.name }}</vs-td>
                   <vs-td class="font-semibold">￥{{ Number(tr.goods.price).toFixed(2) }}</vs-td>
                   <vs-td>{{ tr.amount }}</vs-td>
-                  <vs-td>{{ tr.goods.seller.nickname }}</vs-td>
+                  <vs-td
+                    class="cursor-pointer"
+                    @click.native.stop="viewUserDetail(tr.goods.seller._id)"
+                  >
+                    {{ tr.goods.seller.nickname }}
+                  </vs-td>
                   <vs-td>
                     {{ $dayjs(data[i].created_at).format('YYYY-MM-DD') }}
                   </vs-td>
@@ -147,10 +161,7 @@
               type="border"
               icon-pack="el-icon"
               icon="el-icon-user"
-              @click="$router.push({
-                        path: '/user-detail',
-                        query: { id: item.user_id }
-                      })"
+              @click="viewUserDetail(item._id)"
             ></vs-button>
           </li>
           <li class="text-center">
@@ -183,11 +194,11 @@ export default {
     publishedGoods: [], // 已发布商品
     purchasedGoods: [], // 已购买商品
     status: {
-      0: {
+      1: {
         color: 'warning',
         text: '待出售',
       },
-      1: {
+      2: {
         color: 'primary',
         text: '已出售',
       },
@@ -201,13 +212,13 @@ export default {
     },
   },
 
-  created() {
-    this.getPublishedGoods()
-    this.getOrdersByUser()
-  },
-
   mounted() {
     this.userId = this.$route.query.user_id
+  },
+
+  activated() {
+    this.getPublishedGoods()
+    this.getOrdersByUser()
   },
 
   methods: {
@@ -225,10 +236,17 @@ export default {
       }
     },
 
-    async viewGoodsDetail(id) {
+    viewGoodsDetail(goodsId) {
       this.$router.push({
         path: '/goods-detail',
-        query: { id },
+        query: { goodsId },
+      })
+    },
+
+    viewUserDetail(userId) {
+      this.$router.push({
+        path: '/user-detail',
+        query: { userId },
       })
     },
 
@@ -236,6 +254,13 @@ export default {
       this.$router.push({
         path: '/order-detail',
         query: { orderId },
+      })
+    },
+
+    editGoodsInfo(goodsId) {
+      this.$router.push({
+        path: '/goods-addition',
+        query: { goodsId },
       })
     },
   },
