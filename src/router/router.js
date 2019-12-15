@@ -83,6 +83,18 @@ export const routes = [
         component: () => import('@/views/user/UserDetail.vue'),
         meta: { title: '用户详情' },
       },
+      {
+        path: '/user-follows',
+        name: 'UserFollows',
+        component: () => import('@/views/user/UserFollows.vue'),
+        meta: { title: '关注的人' },
+      },
+      {
+        path: '/user-fans',
+        name: 'UserFans',
+        component: () => import('@/views/user/UserFans.vue'),
+        meta: { title: '我的粉丝' },
+      },
     ],
     meta: { title: '首页' },
   },
