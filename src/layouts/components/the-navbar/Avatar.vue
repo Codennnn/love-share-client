@@ -40,7 +40,7 @@
               <router-link
                 tag="div"
                 class="flex items-center hover:text-blue-500 cursor-pointer"
-                to="/user-center"
+                to="/message"
               >
                 <i class="el-icon-bell mr-1 text-base"></i>
                 <span>消息中心</span>
@@ -107,11 +107,11 @@ export default {
   top: 52px;
   left: 50%;
   max-height: 0;
-  box-shadow: 0 0 15px 5px rgba(var(--vs-dark), 0.08);
   transform: translateX(-50%);
   transition: 0.3s;
   &.active {
     max-height: 500px;
+    box-shadow: 0 0 15px 5px rgba(var(--vs-dark), 0.08);
   }
 }
 </style>
