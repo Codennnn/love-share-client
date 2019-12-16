@@ -187,7 +187,10 @@
             </div>
           </div>
         </div>
-        <div class="hover-light cursor-pointer">
+        <div
+          v-if="!$self(seller._id)"
+          class="hover-light cursor-pointer"
+        >
           <div
             class="mt-5 p-2 flex justify-center items-center text-center text-white
           bg-primary-gradient rounded"
