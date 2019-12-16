@@ -66,12 +66,6 @@ export const routes = [
         meta: { title: '帮助中心' },
       },
       {
-        path: '/message',
-        name: 'Message',
-        component: () => import('@/views/message/Message.vue'),
-        meta: { title: '我的消息' },
-      },
-      {
         path: '/user-center',
         name: 'UserCenter',
         component: () => import('@/views/user/UserCenter.vue'),
@@ -94,6 +88,12 @@ export const routes = [
         name: 'UserFans',
         component: () => import('@/views/user/UserFans.vue'),
         meta: { title: '我的粉丝' },
+      },
+      {
+        path: '/message',
+        name: 'Message',
+        component: () => import('@/views/message/Message.vue'),
+        meta: { title: '消息中心' },
       },
     ],
     meta: { title: '首页' },
