@@ -67,19 +67,9 @@
 
       <div class="flex items-center">
         <div class="w-1/3">
-          <vs-collapse>
-            <vs-collapse-item :not-arrow="true">
-              <vs-button
-                slot="header"
-                class="text-sm"
-                color="dark"
-                type="line"
-              >个人简介</vs-button>
-              <p class="text-gray-600 break-words">
-                {{ info.introduction || '未填写' }}
-              </p>
-            </vs-collapse-item>
-          </vs-collapse>
+          <p class="text-sm text-gray-600 break-words">
+            {{ info.introduction || '未填写' }}
+          </p>
         </div>
         <div class="flex justify-end w-2/3">
           <vs-button
