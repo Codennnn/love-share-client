@@ -103,10 +103,10 @@
                   <vs-td class="font-semibold">￥{{ Number(tr.goods.price).toFixed(2) }}</vs-td>
                   <vs-td>{{ tr.amount }}</vs-td>
                   <vs-td
-                    class="cursor-pointer"
+                    class="text-primary cursor-pointer"
                     @click.native.stop="viewUserDetail(tr.goods.seller._id)"
                   >
-                    {{ tr.goods.seller.nickname }}
+                    @{{ tr.goods.seller.nickname }}
                   </vs-td>
                   <vs-td>
                     {{ $dayjs(data[i].created_at).format('YYYY-MM-DD') }}
@@ -114,7 +114,6 @@
                   <vs-td>
                     <vs-dropdown vs-trigger-click>
                       <i class="el-icon-more text-lg text-gray-600 cursor-pointer"></i>
-
                       <vs-dropdown-menu>
                         <vs-dropdown-item @click.stop="viewOrderDetail(order._id)">
                           查看订单

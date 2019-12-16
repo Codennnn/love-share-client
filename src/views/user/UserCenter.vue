@@ -37,9 +37,10 @@
               <span>（{{ info.real_name }}）</span>
             </div>
             <span
+              v-if="info.school"
               class="my-2 py-1 px-3 text-center text-sm text-white"
               style="border-radius: 0.3rem; background: rgba(var(--vs-primary), 0.9)"
-            >{{ info.school ? info.school.name : '' }}</span>
+            >{{ info.school.name }}</span>
           </div>
         </div>
         <div class="w-1/2 flex justify-around">
