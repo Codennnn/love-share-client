@@ -81,6 +81,7 @@
         class="w-full p-2 text-center text-primary
                 cursor-pointer font-semibold bg-gray-100 hover:bg-gray-200"
         style="transition: all 0.3s;"
+        @click="$router.push('/message')"
       >
         <span>查看全部通知</span>
       </div>
