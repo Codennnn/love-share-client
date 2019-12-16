@@ -273,7 +273,7 @@ export default {
 }
 
 .scroll-area {
-  height: calc(100% - 4rem);
+  height: calc(100vh - 10rem);
 }
 </style>
 

@@ -45,6 +45,12 @@
       <!-- 导航栏右侧 -->
       <div class="flex items-center">
         <div class="flex items-center">
+          <!-- 头像信息 -->
+          <Avatar
+            v-if="$login()"
+            class="mx-3"
+          />
+
           <!-- 搜索图标 -->
           <el-tooltip
             effect="light"
@@ -85,46 +91,9 @@
           <Cart class="mr-3" />
 
           <!-- 通知图标 -->
-          <Notice class="mr-2" />
+          <Notice />
 
-          <!-- 用户名称 -->
-          <div class="ml-3 text-right">
-            <div class="text-lg">{{ info.nickname }}</div>
-            <small style="color: #919191;">{{ info.school.name }}</small>
-          </div>
-
-          <!-- 头像 -->
-          <vs-dropdown
-            class="ml-4"
-            vs-custom-content
-          >
-            <div class="flex items-center justify-center">
-              <vs-avatar
-                size="40px"
-                :src="`${info.avatar_url}?imageView2/2/w/40`"
-              />
-            </div>
-            <vs-dropdown-menu>
-              <vs-dropdown-item
-                class="w-32"
-                v-for="(pop, index) in popItems"
-                :key="index"
-              >
-                <router-link
-                  tag="div"
-                  class="flex items-center"
-                  :to="pop.route || ''"
-                  @click.native="!pop.route && signOut()"
-                >
-                  <i
-                    class="inner-icon text-base font-medium"
-                    :class="pop.icon"
-                  ></i>
-                  <span class="inner-text ml-3">{{ pop.text }}</span>
-                </router-link>
-              </vs-dropdown-item>
-            </vs-dropdown-menu>
-          </vs-dropdown>
+          <p class="mx-5">签到</p>
         </template>
         <template v-else>
           <vs-button
@@ -150,9 +119,12 @@
 
 <script>
 import Vue from 'vue'
-import { mapState } from 'vuex'
 import screenfull from 'screenfull'
 
+const Avatar = Vue.component(
+  'Avatar',
+  () => import('./the-navbar/Avatar.vue'),
+)
 const Cart = Vue.component(
   'Cart',
   () => import('./the-navbar/Cart.vue'),
@@ -165,18 +137,12 @@ const navIcons = [
   { tip: '个人中心', icon: 'el-icon-user', route: '/user-center' },
   { tip: '发布我的闲置', icon: 'el-icon-sell', route: '/goods-addition' },
 ]
-const popItems = [
-  { icon: 'el-icon-user', text: '个人中心', route: '/user-center' },
-  { icon: 'el-icon-message', text: '我的消息', route: '/message' },
-  { icon: 'el-icon-switch-button', text: '退出登录' },
-]
 
 export default {
   name: 'TheNavbar',
-  components: { Cart, Notice },
+  components: { Avatar, Cart, Notice },
 
   data: () => ({
-    popItems,
     navIcons,
     searchText: '',
     showSearchInput: false,
@@ -195,17 +161,7 @@ export default {
     }
   },
 
-  computed: {
-    ...mapState('user', ['info']),
-  },
-
   methods: {
-    // 退出登录
-    async signOut() {
-      await this.$store.dispatch('user/signOut')
-      this.$router.replace('/sign')
-    },
-
     // 网页全屏
     screenfull() {
       if (!screenfull.enabled) {
