@@ -21,3 +21,11 @@ export function setNoticeRead(data) {
     data,
   })
 }
+
+export function deleteNotice(data) {
+  return request({
+    url: '/notice/delete',
+    method: 'delete',
+    data,
+  })
+}

@@ -25,9 +25,11 @@
       <div class="p-4 bg-white rounded-lg">
         <ul v-if="dataList.length > 0">
           <li
-            class="mb-3"
+            v-contextmenu:contextmenu
+            class="mb-3 p-2 rounded-lg hover:bg-gray-100"
             v-for="(item, i) in dataList"
             :key="i"
+            :data-id="item._id"
           >
             <div class="mb-2 flex items-center">
               <vs-icon
@@ -53,6 +55,13 @@
               v-html="item.content"
             >
             </div>
+            <v-contextmenu
+              ref="contextmenu"
+              theme="bright"
+              @contextmenu="(e) => { deleteId = e.elm.dataset.id }"
+            >
+              <v-contextmenu-item @click="deleteNotice()">删除该通知</v-contextmenu-item>
+            </v-contextmenu>
           </li>
         </ul>
         <div
@@ -67,7 +76,7 @@
 </template>
 
 <script>
-import { getNoticeList } from '@/request/api/notice'
+import { getNoticeList, deleteNotice } from '@/request/api/notice'
 
 export default {
   name: 'Message',
@@ -86,6 +95,7 @@ export default {
       3: { icon: 'help_outline', color: 'warning' },
       4: { icon: 'error_outline', color: 'danger' },
     },
+    deleteId: null,
     dataList: [],
     currentActive: '系统通知',
   }),
@@ -99,6 +109,22 @@ export default {
       const { code, data } = await getNoticeList()
       if (code === 2000) {
         this.dataList = data.notice_list.reverse()
+      }
+    },
+
+    async deleteNotice() {
+      const { code } = await deleteNotice({ notice_id: this.deleteId })
+      if (code === 2000) {
+        this.dataList.forEach((el, i) => {
+          if (el._id === this.deleteId) {
+            this.dataList.splice(i, 1)
+          }
+        })
+        this.$vs.notify({
+          color: 'success',
+          title: '成功',
+          text: '已删除一条通知',
+        })
       }
     },
   },
