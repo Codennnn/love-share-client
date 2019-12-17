@@ -7,10 +7,17 @@ export function getNoticeList() {
   })
 }
 
-export function register(query) {
+export function getUnreadNotices() {
   return request({
-    url: '/notice/register',
-    method: 'post',
-    params: query,
+    url: '/notice/unread',
+    method: 'get',
+  })
+}
+
+export function setNoticeRead(data) {
+  return request({
+    url: '/notice/set_read',
+    method: 'put',
+    data,
   })
 }

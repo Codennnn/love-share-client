@@ -22,8 +22,43 @@
     </div>
 
     <div class="w-3/4">
-      <div class="bg-white rounded-lg">
-        <div class="py-4 flex justify-center">
+      <div class="p-4 bg-white rounded-lg">
+        <ul v-if="dataList.length > 0">
+          <li
+            class="mb-3"
+            v-for="(item, i) in dataList"
+            :key="i"
+          >
+            <div class="mb-2 flex items-center">
+              <vs-icon
+                size="small"
+                :icon="noticeType[item.type].icon"
+                :color="noticeType[item.type].color"
+              ></vs-icon>
+              <span
+                class="ml-2"
+                :class="`text-${noticeType[item.type].color}`"
+              >
+                {{ item.title }}
+              </span>
+              <span
+                class="ml-4 text-gray-500"
+                style="font-size: 0.7rem;"
+              >
+                {{ $dayjs(item.create_at).format('YYYY年MM月DD日 hh:mm') }}
+              </span>
+            </div>
+            <div
+              class="px-6 text-gray-600"
+              v-html="item.content"
+            >
+            </div>
+          </li>
+        </ul>
+        <div
+          v-else
+          class="py-4 flex justify-center"
+        >
           <img src="@/assets/images/no-data.png">
         </div>
       </div>
@@ -32,6 +67,8 @@
 </template>
 
 <script>
+import { getNoticeList } from '@/request/api/notice'
+
 export default {
   name: 'Message',
   data: () => ({
@@ -43,8 +80,28 @@ export default {
         title: '我的消息',
       },
     ],
+    noticeType: {
+      1: { icon: 'chat_bubble_outline', color: 'primary' },
+      2: { icon: 'done_outline', color: 'success' },
+      3: { icon: 'help_outline', color: 'warning' },
+      4: { icon: 'error_outline', color: 'danger' },
+    },
+    dataList: [],
     currentActive: '系统通知',
   }),
+
+  created() {
+    this.getNoticeList()
+  },
+
+  methods: {
+    async getNoticeList() {
+      const { code, data } = await getNoticeList()
+      if (code === 2000) {
+        this.dataList = data.notice_list.reverse()
+      }
+    },
+  },
 }
 </script>
 

@@ -207,8 +207,6 @@ export default {
             this.signUpInput[1].isError = true
             this.signUpInput[1].errorText = '昵称已被使用'
           }
-        } catch {
-          // TODO
         } finally {
           this.$vs.loading.close('#signUpBtn > .con-vs-loading')
           this.signUpDisable = false

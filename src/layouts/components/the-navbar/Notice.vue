@@ -1,6 +1,6 @@
 <template>
   <vs-dropdown vs-custom-content>
-    <el-badge :value="noticeAmount > 0 ? noticeAmount : ''">
+    <el-badge :value="unreadAmount > 0 ? unreadAmount : ''">
       <i class="nav-icon el-icon-bell"></i>
     </el-badge>
     <vs-dropdown-menu
@@ -10,19 +10,17 @@
       <div
         class="w-full table text-center text-white bg-primary cursor-pointer"
         style="height: 65px;"
-        @mouseover="showRefresh = true"
-        @mouseout="showRefresh = false"
       >
         <div
           class="table-cell"
           style="vertical-align: middle;"
-          @click="noticesRefresh"
+          @click="noticesRefresh()"
         >
-          <div class="text-xl">收到 {{ noticeAmount }} 条新通知</div>
           <div
-            class="text-sm text-gray-300"
-            v-show="showRefresh"
-          >点击刷新</div>
+            title="点击刷新 (=・ω・=)"
+            class="text-xl"
+          >收到 {{ unreadAmount }} 条未读通知</div>
+          <div class="text-sm text-gray-300"></div>
         </div>
       </div>
       <VuePerfectScrollbar
@@ -34,13 +32,13 @@
       >
         <ul
           class="vs-con-loading__container"
-          v-if="noticeAmount > 0"
+          v-if="unreadAmount > 0"
         >
           <li
-            class="notice flex justify-between p-4
+            class="notice relative flex justify-between p-4
                     cursor-pointer hover:bg-gray-200"
             style="transition: all 0.3s;"
-            v-for="(nt, i) in noticeList"
+            v-for="(nt, i) in unreadNotices"
             :key="i"
           >
             <div class="flex items-start">
@@ -63,6 +61,12 @@
               class="whitespace-no-wrap"
               style="color: #989898;"
             >{{ timeDiff(nt.time) }}</small>
+            <i
+              title="不再通知"
+              class="read el-icon-close-notification absolute bottom-0 mr-3 mb-1 text-lg
+              text-sm text-gray-500 hover:text-blue-500"
+              @click="setNoticeRead(nt._id)"
+            ></i>
           </li>
         </ul>
         <div
@@ -78,29 +82,32 @@
         </div>
       </VuePerfectScrollbar>
       <div
-        class="w-full p-2 text-center text-primary
-                cursor-pointer font-semibold bg-gray-100 hover:bg-gray-200"
+        class="w-full py-2 px-4 flex justify-between items-center text-sm
+        bg-gray-100 hover:bg-gray-200"
         style="transition: all 0.3s;"
-        @click="$router.push('/message')"
       >
-        <span>查看全部通知</span>
+        <span class="text-gray-600 cursor-pointer">全部已读</span>
+        <span
+          class="text-primary cursor-pointer"
+          @click="$router.push('/message')"
+        >查看全部通知</span>
       </div>
     </vs-dropdown-menu>
   </vs-dropdown>
 </template>
 
-
 <script>
-
 import VuePerfectScrollbar from 'vue-perfect-scrollbar'
 import { mapState, mapGetters } from 'vuex'
+
+import { setNoticeRead } from '@/request/api/notice'
 import { timeDiff } from '@/utils/util'
 
 const noticeType = {
-  0: { icon: 'chat_bubble_outline', color: 'primary' },
-  1: { icon: 'done_outline', color: 'success' },
-  2: { icon: 'help_outline', color: 'warning' },
-  3: { icon: 'error_outline', color: 'danger' },
+  1: { icon: 'chat_bubble_outline', color: 'primary' },
+  2: { icon: 'done_outline', color: 'success' },
+  3: { icon: 'help_outline', color: 'warning' },
+  4: { icon: 'error_outline', color: 'danger' },
 }
 
 export default {
@@ -110,22 +117,21 @@ export default {
   data: () => ({
     timeDiff,
     noticeType,
-    showRefresh: false,
   }),
 
   created() {
-    this.getNoticeList()
+    this.getUnreadNotices()
   },
 
   computed: {
-    ...mapState('notice', ['noticeList']),
-    ...mapGetters('notice', ['noticeAmount']),
+    ...mapState('notice', ['unreadNotices']),
+    ...mapGetters('notice', ['unreadAmount']),
   },
 
   methods: {
     // 获取购物车
-    async getNoticeList() {
-      await this.$store.dispatch('notice/getNoticeList')
+    async getUnreadNotices() {
+      await this.$store.dispatch('notice/getUnreadNotices')
     },
 
     // 刷新通知
@@ -137,12 +143,32 @@ export default {
       })
 
       try {
-        await this.getNoticeList()
-      } catch { //
+        await this.getUnreadNotices()
       } finally {
         this.$vs.loading.close('#div-with-loading > .con-vs-loading')
+      }
+    },
+
+    async setNoticeRead(notice_id) {
+      const { code } = await setNoticeRead({ notice_id })
+      if (code === 2000) {
+        this.$store.commit('notice/REMOVE_UNREAD_ITEM', notice_id)
       }
     },
   },
 }
 </script>
+
+<style lang="scss" scoped>
+.notice {
+  .read {
+    right: -30px;
+    transition: all 0.2s;
+  }
+  &:hover {
+    .read {
+      right: 0;
+    }
+  }
+}
+</style>
