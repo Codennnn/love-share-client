@@ -1,7 +1,11 @@
 export function timeDiff(time) {
   let date
   if (typeof time === 'number') {
-    date = this.$dayjs.unix(time)
+    if (String(time).length === 13) {
+      date = this.$dayjs(time)
+    } else {
+      date = this.$dayjs.unix(time)
+    }
   } if (typeof time === 'string') {
     date = this.$dayjs(time)
   }

@@ -9,6 +9,10 @@ const mutations = {
     state.unreadNotices = notices
   },
 
+  ADD_UNREAD_ITEM(state, notice) {
+    state.unreadNotices.push(notice)
+  },
+
   REMOVE_UNREAD_ITEM(state, id) {
     for (let i = 0; i <= state.unreadNotices.length; i += 1) {
       if (state.unreadNotices[i]._id === id) {
@@ -23,7 +27,7 @@ const actions = {
   async getUnreadNotices({ commit }) {
     const { code, data } = await getUnreadNotices()
     if (code === 2000) {
-      commit('SET_UNREAD_NOTICES', data.notice_list.reverse())
+      commit('SET_UNREAD_NOTICES', data.notice_list)
     }
   },
 }
@@ -35,5 +39,6 @@ export default {
   actions,
   getters: {
     unreadAmount: state => state.unreadNotices.length,
+    unreadNoticesReverse: state => state.unreadNotices.reverse(),
   },
 }

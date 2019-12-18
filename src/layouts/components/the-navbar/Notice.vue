@@ -38,7 +38,7 @@
             class="notice relative flex justify-between p-4
                     cursor-pointer hover:bg-gray-200"
             style="transition: all 0.3s;"
-            v-for="(nt, i) in unreadNotices"
+            v-for="(nt, i) in unreadNoticesReverse"
             :key="i"
           >
             <div class="flex items-start">
@@ -98,7 +98,7 @@
 
 <script>
 import VuePerfectScrollbar from 'vue-perfect-scrollbar'
-import { mapState, mapGetters } from 'vuex'
+import { mapGetters } from 'vuex'
 
 import { setNoticeRead } from '@/request/api/notice'
 import { timeDiff } from '@/utils/util'
@@ -123,9 +123,19 @@ export default {
     this.getUnreadNotices()
   },
 
+  mounted() {
+    this.sockets.subscribe('receiveNotice', (notice) => {
+      this.$message({
+        showClose: true,
+        duration: 2000,
+        message: '收到一条新的通知，请注意查看',
+      })
+      this.$store.commit('notice/ADD_UNREAD_ITEM', notice)
+    })
+  },
+
   computed: {
-    ...mapState('notice', ['unreadNotices']),
-    ...mapGetters('notice', ['unreadAmount']),
+    ...mapGetters('notice', ['unreadAmount', 'unreadNoticesReverse']),
   },
 
   methods: {

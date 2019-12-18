@@ -47,7 +47,7 @@
                 class="ml-4 text-gray-500"
                 style="font-size: 0.7rem;"
               >
-                {{ $dayjs(item.create_at).format('YYYY年MM月DD日 hh:mm') }}
+                {{ $dayjs(item.time).format('YYYY年MM月DD日 hh:mm') }}
               </span>
             </div>
             <div
