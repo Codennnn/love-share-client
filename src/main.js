@@ -3,7 +3,8 @@ import animated from 'animate.css' // css 动画库
 import VueClipboard from 'vue-clipboard2' // 粘贴板
 import dayjs from 'dayjs' // 日期格式化
 import VContentmenu from 'v-contextmenu' // 右键菜单
-import 'v-contextmenu/dist/index.css'
+import VueSocketIO from 'vue-socket.io' // socket.io
+import 'v-contextmenu/dist/index.css' // 右键菜单样式
 
 import App from './App.vue'
 import store from './store/store'
@@ -14,6 +15,10 @@ import './router/control' // 路由控制
 import '@/layouts/theme' // 网站主题，样式
 
 // import '@/request/mock/mock' // 本地 mock 模拟请求数据
+
+Vue.use(new VueSocketIO({
+  connection: 'http://127.0.0.1:7001',
+}))
 
 Vue.use(VContentmenu)
 
