@@ -22,6 +22,14 @@ export function setNoticeRead(data) {
   })
 }
 
+export function setAllNoticesRead(data) {
+  return request({
+    url: '/notice/set_all_read',
+    method: 'put',
+    data,
+  })
+}
+
 export function deleteNotice(data) {
   return request({
     url: '/notice/delete',
