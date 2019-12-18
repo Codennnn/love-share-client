@@ -23,37 +23,61 @@
 
     <div class="w-3/4">
       <div class="p-4 bg-white rounded-lg">
+        <div>
+          <vs-icon
+            class="cursor-pointer"
+            title="刷新"
+            size="25px"
+            icon="refresh"
+            color="#999"
+            @click.native="getNoticeList()"
+          ></vs-icon>
+          <span @click="showCheckBox = !showCheckBox">
+            批量操作
+          </span>
+        </div>
         <ul v-if="dataList.length > 0">
           <li
             v-contextmenu:contextmenu
-            class="mb-3 p-2 rounded-lg hover:bg-gray-100"
+            class="mb-3 p-2 flex items-center rounded-lg hover:bg-gray-100"
             v-for="(item, i) in dataList"
             :key="i"
             :data-id="item._id"
           >
-            <div class="mb-2 flex items-center">
-              <vs-icon
-                size="small"
-                :icon="noticeType[item.type].icon"
-                :color="noticeType[item.type].color"
-              ></vs-icon>
-              <span
-                class="ml-2"
-                :class="`text-${noticeType[item.type].color}`"
+            <div class="flex-1">
+              <div class="mb-2 flex items-center">
+                <vs-icon
+                  size="small"
+                  :icon="noticeType[item.type].icon"
+                  :color="noticeType[item.type].color"
+                ></vs-icon>
+                <span
+                  class="ml-2"
+                  :class="[`text-${noticeType[item.type].color}`, {'font-bold': item.is_read}]"
+                >
+                  {{ item.title }}
+                </span>
+                <span
+                  class="ml-4 text-gray-500"
+                  style="font-size: 0.7rem;"
+                >
+                  {{ $dayjs(item.time).format('YYYY年MM月DD日 hh:mm') }}
+                </span>
+              </div>
+              <div
+                class="px-6 text-gray-600"
+                v-html="item.content"
               >
-                {{ item.title }}
-              </span>
-              <span
-                class="ml-4 text-gray-500"
-                style="font-size: 0.7rem;"
-              >
-                {{ $dayjs(item.time).format('YYYY年MM月DD日 hh:mm') }}
-              </span>
+              </div>
             </div>
             <div
-              class="px-6 text-gray-600"
-              v-html="item.content"
+              v-show="showCheckBox"
+              class="ml-auto"
             >
+              <vs-checkbox
+                v-model="noticeIdList"
+                :vs-value="item._id"
+              ></vs-checkbox>
             </div>
             <v-contextmenu
               ref="contextmenu"
@@ -97,6 +121,8 @@ export default {
     },
     deleteId: null,
     dataList: [],
+    noticeIdList: [],
+    showCheckBox: true,
     currentActive: '系统通知',
   }),
 

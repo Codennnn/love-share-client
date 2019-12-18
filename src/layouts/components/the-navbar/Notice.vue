@@ -86,7 +86,10 @@
         bg-gray-100 hover:bg-gray-200"
         style="transition: all 0.3s;"
       >
-        <span class="text-gray-600 cursor-pointer">全部已读</span>
+        <span
+          class="text-gray-600 cursor-pointer"
+          @click="setAllNoticesRead()"
+        >全部已读</span>
         <span
           class="text-primary cursor-pointer"
           @click="$router.push('/message')"
@@ -100,7 +103,7 @@
 import VuePerfectScrollbar from 'vue-perfect-scrollbar'
 import { mapGetters } from 'vuex'
 
-import { setNoticeRead } from '@/request/api/notice'
+import { setNoticeRead, setAllNoticesRead } from '@/request/api/notice'
 import { timeDiff } from '@/utils/util'
 
 const noticeType = {
@@ -124,7 +127,7 @@ export default {
   },
 
   mounted() {
-    this.sockets.subscribe('receiveNotice', (notice) => {
+    this.sockets.subscribe(`receiveNotice${this.userId}`, (notice) => {
       this.$message({
         showClose: true,
         duration: 2000,
@@ -135,6 +138,7 @@ export default {
   },
 
   computed: {
+    ...mapGetters('user', { userId: 'getUserId' }),
     ...mapGetters('notice', ['unreadAmount', 'unreadNoticesReverse']),
   },
 
@@ -163,6 +167,14 @@ export default {
       const { code } = await setNoticeRead({ notice_id })
       if (code === 2000) {
         this.$store.commit('notice/REMOVE_UNREAD_ITEM', notice_id)
+      }
+    },
+
+    async setAllNoticesRead() {
+      const noticeIdList = this.unreadNoticesReverse.map(el => el._id)
+      const { code } = await setAllNoticesRead({ notice_id_list: noticeIdList })
+      if (code === 2000) {
+        this.$store.commit('notice/SET_UNREAD_NOTICES', [])
       }
     },
   },
