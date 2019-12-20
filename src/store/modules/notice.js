@@ -40,5 +40,6 @@ export default {
   getters: {
     unreadAmount: state => state.unreadNotices.length,
     unreadNoticesReverse: state => state.unreadNotices.reverse(),
+    isUnread: state => id => state.unreadNotices.some(el => el._id === id),
   },
 }

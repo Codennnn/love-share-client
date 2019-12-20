@@ -4,7 +4,10 @@
       <i class="nav-icon el-icon-shopping-cart-2"></i>
     </el-badge>
     <vs-dropdown-menu class="menu-box">
-      <div class="w-full py-4 text-center text-white bg-primary cursor-pointer">
+      <div
+        title="点击刷新 (=・ω・=)"
+        class="w-full py-4 text-center text-white bg-primary cursor-pointer"
+      >
         <p class="text-xl">共有 {{ this.cartAmount }} 件商品</p>
       </div>
       <VuePerfectScrollbar

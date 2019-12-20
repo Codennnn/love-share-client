@@ -37,3 +37,11 @@ export function deleteNotice(data) {
     data,
   })
 }
+
+export function deleteManyNotices(data) {
+  return request({
+    url: '/notice/delete_many',
+    method: 'delete',
+    data,
+  })
+}

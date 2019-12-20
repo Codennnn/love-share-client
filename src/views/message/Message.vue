@@ -22,19 +22,54 @@
     </div>
 
     <div class="w-3/4">
-      <div class="p-4 bg-white rounded-lg">
-        <div>
+      <div
+        id="message-with-loading"
+        class="p-4 bg-white rounded-lg vs-con-loading__container"
+      >
+        <div class="flex items-center justify-end">
+          <div class="relative flex items-center">
+            <div
+              class="action-line absolute flex items-center text-xl text-gray-500 bg-gray-100"
+              :class="{'show': showAction}"
+            >
+              <vs-checkbox
+                title="全选"
+                v-model="selectAll"
+              ></vs-checkbox>
+              <i
+                title="设为已读"
+                class="el-icon-finished mx-2 cursor-pointer"
+                @click="deleteManyNotices()"
+              ></i>
+              <i
+                title="删除"
+                class="el-icon-delete mx-2 cursor-pointer"
+                @click="deleteManyNotices()"
+              ></i>
+              <i
+                title="关闭"
+                class="el-icon-close cursor-pointer"
+                @click="showAction = false"
+              ></i>
+            </div>
+            <vs-icon
+              v-show="!showAction"
+              class="mx-1 cursor-pointer"
+              title="管理"
+              size="25px"
+              icon="settings_ethernet"
+              color="#bbb"
+              @click.native="showAction = true"
+            ></vs-icon>
+          </div>
           <vs-icon
             class="cursor-pointer"
             title="刷新"
             size="25px"
             icon="refresh"
-            color="#999"
-            @click.native="getNoticeList()"
+            color="#bbb"
+            @click.native="selectAll = false, showAction = false, getNoticeList()"
           ></vs-icon>
-          <span @click="showCheckBox = !showCheckBox">
-            批量操作
-          </span>
         </div>
         <ul v-if="dataList.length > 0">
           <li
@@ -53,7 +88,8 @@
                 ></vs-icon>
                 <span
                   class="ml-2"
-                  :class="[`text-${noticeType[item.type].color}`, {'font-bold': item.is_read}]"
+                  :class="[`text-${noticeType[item.type].color}`,
+                  {'font-bold': isUnread(item._id)}]"
                 >
                   {{ item.title }}
                 </span>
@@ -75,7 +111,7 @@
               class="ml-auto"
             >
               <vs-checkbox
-                v-model="noticeIdList"
+                v-model="select"
                 :vs-value="item._id"
               ></vs-checkbox>
             </div>
@@ -100,41 +136,85 @@
 </template>
 
 <script>
-import { getNoticeList, deleteNotice } from '@/request/api/notice'
+import { getNoticeList, deleteNotice, deleteManyNotices } from '@/request/api/notice'
+
+const list = [
+  {
+    title: '系统通知',
+  },
+  {
+    title: '我的消息',
+  },
+]
+const noticeType = {
+  1: { icon: 'chat_bubble_outline', color: 'primary' },
+  2: { icon: 'done_outline', color: 'success' },
+  3: { icon: 'help_outline', color: 'warning' },
+  4: { icon: 'error_outline', color: 'danger' },
+}
 
 export default {
   name: 'Message',
   data: () => ({
-    list: [
-      {
-        title: '系统通知',
-      },
-      {
-        title: '我的消息',
-      },
-    ],
-    noticeType: {
-      1: { icon: 'chat_bubble_outline', color: 'primary' },
-      2: { icon: 'done_outline', color: 'success' },
-      3: { icon: 'help_outline', color: 'warning' },
-      4: { icon: 'error_outline', color: 'danger' },
-    },
-    deleteId: null,
-    dataList: [],
-    noticeIdList: [],
-    showCheckBox: true,
+    list,
+    noticeType,
     currentActive: '系统通知',
+
+    dataList: [],
+    deleteId: null,
+    select: [],
+    selectAll: false,
+    showAction: false,
   }),
 
-  created() {
+  watch: {
+    select() {
+      if (this.isAllSelect) {
+        this.selectAll = true
+      } else {
+        this.selectAll = false
+      }
+    },
+    selectAll(val) {
+      if (val) {
+        this.onSelectAll()
+      } else if (this.isAllSelect) {
+        this.onCancelSelectAll()
+      }
+    },
+  },
+
+  computed: {
+    isAllSelect() {
+      return this.dataList.every(el => this.select.includes(el._id))
+    },
+    showCheckBox() {
+      return this.showAction
+    },
+    isUnread() {
+      return id => this.$store.getters['notice/isUnread'](id)
+    },
+  },
+
+  mounted() {
     this.getNoticeList()
   },
 
   methods: {
     async getNoticeList() {
-      const { code, data } = await getNoticeList()
-      if (code === 2000) {
-        this.dataList = data.notice_list.reverse()
+      this.$vs.loading({
+        type: 'point',
+        container: '#message-with-loading',
+        scale: 1,
+      })
+
+      try {
+        const { code, data } = await getNoticeList()
+        if (code === 2000) {
+          this.dataList = data.notice_list.reverse()
+        }
+      } finally {
+        this.$vs.loading.close('#message-with-loading > .con-vs-loading')
       }
     },
 
@@ -153,6 +233,22 @@ export default {
         })
       }
     },
+
+    async deleteManyNotices() {
+      const { code } = await deleteManyNotices({ notice_id_list: this.select })
+      if (code === 2000) {
+        await this.getNoticeList()
+        this.selectAll = false
+      }
+    },
+
+    onSelectAll() {
+      this.select = this.dataList.map(el => el._id)
+    },
+
+    onCancelSelectAll() {
+      this.select = []
+    },
   },
 }
 </script>
@@ -160,5 +256,22 @@ export default {
 <style lang="scss" scoped>
 .item {
   transition: color 0.3s;
+}
+
+.action-line {
+  z-index: 999;
+  top: 50%;
+  right: 0;
+  max-width: 0;
+  height: 35px;
+  line-height: 35px;
+  transform: translateY(-50%);
+  transition: all 0.5s;
+  border-radius: 1rem;
+  overflow: hidden;
+  &.show {
+    max-width: 150px;
+    padding: 0 0.6rem;
+  }
 }
 </style>
