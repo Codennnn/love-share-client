@@ -111,3 +111,11 @@ export function postComment(data) {
     data,
   })
 }
+
+export function replyComment(data) {
+  return request({
+    url: '/goods/comment/reply',
+    method: 'post',
+    data,
+  })
+}
