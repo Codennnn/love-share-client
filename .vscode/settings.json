@@ -6,21 +6,24 @@
     "wrap_attributes": "force-aligned"
   },
   "editor.formatOnSave": true,
-  "eslint.autoFixOnSave": true,
-  "eslint.validate": [
-    {
-      "language": "vue",
-      "autoFix": true
-    },
-    {
-      "language": "html",
-      "autoFix": true
-    },
-    {
-      "language": "javascript",
-      "autoFix": true
-    }
-  ],
+  // "eslint.autoFixOnSave": true,
+  // "eslint.validate": [
+  //   {
+  //     "language": "vue",
+  //     "autoFix": true
+  //   },
+  //   {
+  //     "language": "html",
+  //     "autoFix": true
+  //   },
+  //   {
+  //     "language": "javascript",
+  //     "autoFix": true
+  //   }
+  // ],
   "javascript.validate.enable": false,
-  "vetur.validation.script": false
+  "vetur.validation.script": false,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  }
 }
