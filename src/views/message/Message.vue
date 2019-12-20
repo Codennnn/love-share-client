@@ -39,7 +39,7 @@
               <i
                 title="设为已读"
                 class="el-icon-finished mx-2 cursor-pointer"
-                @click="deleteManyNotices()"
+                @click="setAllNoticesRead()"
               ></i>
               <i
                 title="删除"
@@ -136,7 +136,9 @@
 </template>
 
 <script>
-import { getNoticeList, deleteNotice, deleteManyNotices } from '@/request/api/notice'
+import {
+  getNoticeList, setAllNoticesRead, deleteNotice, deleteManyNotices,
+} from '@/request/api/notice'
 
 const list = [
   {
@@ -218,27 +220,35 @@ export default {
       }
     },
 
+    async setAllNoticesRead() {
+      if (this.select.length > 0) {
+        const { code } = await setAllNoticesRead({ notice_id_list: this.select })
+        if (code === 2000) {
+          this.$store.dispatch('notice/getUnreadNotices')
+          this.$vs.notify({
+            title: '已设为已读',
+            text: '该消息已被设置为已读消息',
+          })
+        }
+      }
+    },
+
     async deleteNotice() {
       const { code } = await deleteNotice({ notice_id: this.deleteId })
       if (code === 2000) {
-        this.dataList.forEach((el, i) => {
-          if (el._id === this.deleteId) {
-            this.dataList.splice(i, 1)
-          }
-        })
-        this.$vs.notify({
-          color: 'success',
-          title: '成功',
-          text: '已删除一条通知',
-        })
+        this.$store.dispatch('notice/getUnreadNotices')
+        this.getNoticeList()
       }
     },
 
     async deleteManyNotices() {
-      const { code } = await deleteManyNotices({ notice_id_list: this.select })
-      if (code === 2000) {
-        await this.getNoticeList()
-        this.selectAll = false
+      if (this.select.length > 0) {
+        const { code } = await deleteManyNotices({ notice_id_list: this.select })
+        if (code === 2000) {
+          this.$store.dispatch('notice/getUnreadNotices')
+          await this.getNoticeList()
+          this.selectAll = false
+        }
       }
     },
 
