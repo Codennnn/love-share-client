@@ -82,22 +82,15 @@ export default {
     font-size: 0.9rem;
     color: #999;
     transition: all 0.3s;
+    opacity: 0;
   }
   &:hover {
     .reply {
-      animation: fade 0.3s forwards;
+      right: 8px;
+      opacity: 1;
       &:hover {
         color: rgba(var(--vs-primary), 0.9);
       }
-    }
-  }
-  @keyframes fade {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-      right: 8px;
     }
   }
 }
