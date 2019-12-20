@@ -18,7 +18,7 @@
       <DetailUser :seller="seller" />
 
       <!-- 商品评论 -->
-      <DetailComment :comment="comment" />
+      <DetailComment :goodsId="goods._id" :comments="comments" />
     </div>
   </div>
 </template>
@@ -47,7 +47,7 @@ export default {
       fans: [],
       published_goods: [],
     },
-    comment: {},
+    comments: [],
   }),
 
   watch: {
@@ -65,6 +65,7 @@ export default {
       if (code === 2000) {
         this.goods = goods_detail
         this.seller = goods_detail.seller
+        this.comments = goods_detail.comments
       }
     },
   },

@@ -103,3 +103,11 @@ export function deleteGoodsImg(data) {
     data,
   })
 }
+
+export function postComment(data) {
+  return request({
+    url: '/goods/comment/post',
+    method: 'post',
+    data,
+  })
+}
