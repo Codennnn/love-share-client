@@ -26,7 +26,7 @@
         id="message-with-loading"
         class="p-4 bg-white rounded-lg vs-con-loading__container"
       >
-        <div class="flex items-center justify-end">
+        <div class="mb-4 flex items-center justify-end">
           <div class="relative flex items-center">
             <div
               class="action-line absolute flex items-center text-xl text-gray-500 bg-gray-100"
@@ -276,10 +276,12 @@ export default {
   height: 35px;
   line-height: 35px;
   transform: translateY(-50%);
-  transition: all 0.5s;
+  transition: all 0.4s;
   border-radius: 1rem;
   overflow: hidden;
+  opacity: 0;
   &.show {
+    opacity: 1;
     max-width: 150px;
     padding: 0 0.6rem;
   }
