@@ -1,5 +1,5 @@
 <template>
-  <div class="mt-6 p-3 bg-white rounded-lg overflow-hidden">
+  <div class="mt-6 p-3 bg-white rounded-lg">
     <div class="mb-1 flex justify-between items-center">
       <span class="mb-2 text-gray-600">留言板</span>
       <vs-button
@@ -21,19 +21,53 @@
       class="mt-6 pt-2"
     >
       <li
-        class="msg relative mb-2"
+        class="msg relative mb-2 overflow-hidden"
         v-for="(item, i) in comments"
         :key="i"
+        :class="{'px-1 py-2 bg-gray-100 rounded-lg': currMsg === item._id}"
       >
         <div class="flex items-center">
           <vs-avatar :src="`${item.sender.avatar_url}?imageView2/2/w/50`"></vs-avatar>
-          <p class="ml-1 text-sm text-gray-600 font-bold">
+          <p class="name ml-1">
             {{ item.sender.nickname }}
           </p>
           <p class="ml-2 text-sm text-gray-500">{{ timeDiff(item.created_at) }}</p>
         </div>
         <p class="ml-8 text-sm text-gray-600">{{ item.content }}</p>
-        <p class="reply absolute cursor-pointer">回复</p>
+        <p
+          class="reply absolute cursor-pointer"
+          @click="reply(item._id, item.sender.nickname)"
+        >回复</p>
+        <ul
+          v-if="item.replies.length === 0"
+          class="ml-6 p-2 bg-gray-100 rounded-lg"
+        >
+          <li class="reply-item">
+            <p class="text-sm">
+              <span class="name cursor-pointer">{{ '令狐少侠' }}</span>
+              <span class="mx-1 text-gray-500">回复</span>
+              <span class="name cursor-pointer">{{ '令狐少侠' }}:</span>
+              <span class="text-gray-500">
+                {{ '令狐少侠令狐少侠令狐少侠令狐少侠令狐少侠令狐少侠' }}
+              </span>
+              <i
+                title="回复"
+                class="reply-icon el-icon-chat-dot-square ml-2 cursor-pointer text-base
+                text-gray-600"
+              ></i>
+            </p>
+          </li>
+        </ul>
+        <div
+          v-if="currMsg === item._id"
+          class="mt-1 flex"
+        >
+          <vs-input
+            class="flex-1 mr-1"
+            :placeholder="placeholder"
+          />
+          <vs-button size="small">回复</vs-button>
+        </div>
       </li>
     </ul>
     <p
@@ -48,19 +82,21 @@
 <script>
 import { timeDiff } from '@/utils/util'
 
-import { postComment } from '@/request/api/goods'
+import { postComment, replyComment } from '@/request/api/goods'
 
 export default {
   name: 'DetailComment',
   props: {
     goodsId: String,
-    comments: { type: Array, default: () => [] },
+    comments: Array,
   },
 
   data: () => ({
     timeDiff,
     content: '',
     counterDanger: true,
+    currMsg: null,
+    placeholder: '',
   }),
 
   methods: {
@@ -70,15 +106,36 @@ export default {
         content: this.content,
       })
     },
+
+    async replyComment() {
+      await replyComment({
+        comment_id: this.goodsId,
+        content: this.content,
+      })
+    },
+
+    reply(id, nickname) {
+      this.placeholder = `回复 ${nickname}：`
+      if (this.currMsg === id) {
+        this.currMsg = null
+        return
+      }
+      this.currMsg = id
+    },
   },
 }
 </script>
 
 <style lang="scss" scoped>
 .msg {
+  .name {
+    color: #718096;
+    font-size: 0.875rem;
+    font-weight: bold;
+  }
   .reply {
     top: 6px;
-    right: -40px;
+    right: -30px;
     font-size: 0.9rem;
     color: #999;
     transition: all 0.3s;
@@ -90,6 +147,16 @@ export default {
       opacity: 1;
       &:hover {
         color: rgba(var(--vs-primary), 0.9);
+      }
+    }
+  }
+  .reply-item {
+    .reply-icon {
+      display: none;
+    }
+    &:hover {
+      .reply-icon {
+        display: inline-block;
       }
     }
   }
