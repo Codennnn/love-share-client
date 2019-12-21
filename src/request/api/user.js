@@ -141,10 +141,16 @@ export function getPublishedGoods() {
   })
 }
 
-export function getUserFollows(params) {
+export function getUserFollows() {
   return request({
     url: '/user/follows',
     method: 'get',
-    params,
+  })
+}
+
+export function getUserFans() {
+  return request({
+    url: '/user/fans',
+    method: 'get',
   })
 }

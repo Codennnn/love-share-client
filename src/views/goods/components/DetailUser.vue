@@ -75,6 +75,7 @@
 </template>
 
 <script>
+import { subscribe, unsubscribe } from '@/request/api/user'
 
 export default {
   name: 'DetailUser',
@@ -109,6 +110,34 @@ export default {
         path: '/user-detail',
         query: { user_id },
       })
+    },
+
+    // 关注
+    async subscribe(user_id) {
+      this.isSubscribeLoading = true
+      try {
+        const { code } = await subscribe({ user_id })
+        if (code === 2000) {
+          this.isSubscribe = true
+          this.$store.commit('user/ADD_FOLLOW', user_id)
+        }
+      } finally {
+        this.isSubscribeLoading = false
+      }
+    },
+
+    // 取消关注
+    async unsubscribe(user_id) {
+      this.isSubscribeLoading = true
+      try {
+        const { code } = await unsubscribe({ user_id })
+        if (code === 2000) {
+          this.isSubscribe = false
+          this.$store.commit('user/REMOVE_FOLLOW', user_id)
+        }
+      } finally {
+        this.isSubscribeLoading = false
+      }
     },
 
     // 联系卖家

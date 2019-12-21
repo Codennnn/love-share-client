@@ -21,7 +21,7 @@ const mutations = {
     state.info = info
   },
   SET_FANS(state, fans) {
-    state.follows = fans
+    state.fans = fans
   },
   SET_FOLLOWS(state, follows) {
     state.follows = follows

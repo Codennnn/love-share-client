@@ -75,8 +75,14 @@
         </div>
         <div class="info-item">
           <vs-chip>配 送</vs-chip>
-          <span style="margin-bottom: 4px;font-size: 15px;">
+          <span style="margin-bottom: 4px; font-size: 15px;">
             {{ goods.delivery === '1' ? '包邮' : goods.delivery === '2' ? '自费' : '自提' }}
+          </span>
+          <span
+            v-if="goods.delivery === '2'"
+            style="margin-bottom: 4px; font-size: 15px;"
+          >
+            (￥{{ Number(goods.delivery_charge).toFixed(2) }})
           </span>
         </div>
         <div
@@ -146,7 +152,6 @@
 import ElImageViewer from 'element-ui/packages/image/src/image-viewer.vue'
 import { timeDiff } from '@/utils/util'
 
-import { subscribe, unsubscribe } from '@/request/api/user'
 import { collectGoods, uncollectGoods } from '@/request/api/goods'
 
 export default {
@@ -189,34 +194,6 @@ export default {
       } finally {
         this.$vs.loading.close('#addCartBtn > .con-vs-loading')
         this.addCartDisable = false
-      }
-    },
-
-    // 关注
-    async subscribe(user_id) {
-      this.isSubscribeLoading = true
-      try {
-        const { code } = await subscribe({ user_id })
-        if (code === 2000) {
-          this.isSubscribe = true
-          this.$store.commit('user/ADD_FOLLOW', user_id)
-        }
-      } finally {
-        this.isSubscribeLoading = false
-      }
-    },
-
-    // 取消关注
-    async unsubscribe(user_id) {
-      this.isSubscribeLoading = true
-      try {
-        const { code } = await unsubscribe({ user_id })
-        if (code === 2000) {
-          this.isSubscribe = false
-          this.$store.commit('user/REMOVE_FOLLOW', user_id)
-        }
-      } finally {
-        this.isSubscribeLoading = false
       }
     },
 

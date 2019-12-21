@@ -80,13 +80,13 @@ export const routes = [
       {
         path: '/user-follows',
         name: 'UserFollows',
-        component: () => import('@/views/user/UserFollows.vue'),
+        component: () => import('@/views/user/components/list/UserFollows.vue'),
         meta: { title: '关注的人' },
       },
       {
         path: '/user-fans',
         name: 'UserFans',
-        component: () => import('@/views/user/UserFans.vue'),
+        component: () => import('@/views/user/components/list/UserFans.vue'),
         meta: { title: '我的粉丝' },
       },
       {

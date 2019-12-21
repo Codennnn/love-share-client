@@ -9,11 +9,13 @@
         role="avatar"
         tag="div"
         to="/user-center"
-        class="avatar relative w-10 h-10 flex items-center justify-center rounded-full
-        bg-no-repeat bg-center cursor-pointer"
-        :class="{'active': isHover}"
-        :style="{'background-image': `url(${info.avatar_url}?imageView2/2/w/40)`}"
+        class="flex items-center"
       >
+        <vs-avatar
+          class="avatar w-10 h-10 m-0"
+          :class="{'active': isHover}"
+          :src="`${info.avatar_url}?imageView2/2/w/40`"
+        />
       </router-link>
       <div
         class="content absolute w-64 rounded-lg bg-white overflow-hidden"
