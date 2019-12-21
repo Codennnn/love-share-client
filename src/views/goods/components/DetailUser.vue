@@ -150,16 +150,18 @@ export default {
     );
     transform: skewX(-25deg);
   }
-  &:hover .light {
-    display: block;
-    animation: flash 0.3s;
-  }
-  @keyframes flash {
-    from {
-      left: -150px;
+  &:hover {
+    .light {
+      display: block;
+      animation: flash 0.3s;
     }
-    to {
-      left: 100%;
+    @keyframes flash {
+      from {
+        left: -150px;
+      }
+      to {
+        left: 100%;
+      }
     }
   }
 }
