@@ -104,6 +104,22 @@ export function deleteGoodsImg(data) {
   })
 }
 
+export function getGoodsSeller(params) {
+  return request({
+    url: '/goods/seller',
+    method: 'get',
+    params,
+  })
+}
+
+export function getGoodsComments(params) {
+  return request({
+    url: '/goods/comments',
+    method: 'get',
+    params,
+  })
+}
+
 export function postComment(data) {
   return request({
     url: '/goods/comment/post',
