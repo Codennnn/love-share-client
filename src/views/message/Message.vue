@@ -9,7 +9,7 @@
           >消息中心</div>
           <ul class="pt-4">
             <li
-              class="item px-3 py-1 cursor-pointer hover:text-blue-500"
+              class="item px-3 py-1 cursor-pointer"
               v-for="(item, i) in list"
               :key="i"
               :class="{'text-primary': currentActive === item.title}"
@@ -267,6 +267,9 @@ export default {
 <style lang="scss" scoped>
 .item {
   transition: color 0.3s;
+  &:hover {
+    color: rgba(var(--vs-primary), 0.8);
+  }
 }
 
 .action-line {
