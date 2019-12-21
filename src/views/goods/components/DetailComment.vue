@@ -32,7 +32,7 @@
           <p class="name ml-1">
             {{ comment.sender.nickname }}
           </p>
-          <p class="ml-2 text-sm text-gray-500">
+          <p class="ml-2 text-xs text-gray-500">
             {{ timeDiff(comment.created_at) }}
           </p>
         </div>
@@ -70,7 +70,6 @@
             class="mt-1 flex items-end"
           >
             <vs-input
-              autofocus
               class="flex-1 mr-1"
               v-model="repContent"
               :label-placeholder="placeholder"
@@ -87,7 +86,6 @@
           class="mt-1 flex items-end"
         >
           <vs-input
-            autofocus
             class="flex-1 mr-1"
             v-model="repContent"
             :label-placeholder="placeholder"
@@ -148,17 +146,19 @@ export default {
     },
 
     async replyComment(comment_id, at) {
-      const { code } = await replyComment({
-        goods_id: this.goodsId,
-        comment_id,
-        at,
-        content: this.repContent,
-      })
-      if (code === 2000) {
-        this.$emit('refreshComments')
-        this.repContent = ''
-        this.currMsg = null
-        this.currRep = null
+      if (this.repContent.length > 0) {
+        const { code } = await replyComment({
+          goods_id: this.goodsId,
+          comment_id,
+          at,
+          content: this.repContent,
+        })
+        if (code === 2000) {
+          this.$emit('refreshComments')
+          this.repContent = ''
+          this.currMsg = null
+          this.currRep = null
+        }
       }
     },
 
