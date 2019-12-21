@@ -39,7 +39,7 @@
             <div class="w-1/2">
               <router-link
                 tag="div"
-                class="flex items-center hover:text-blue-500 cursor-pointer"
+                class="link flex items-center cursor-pointer"
                 to="/message"
               >
                 <i class="el-icon-bell mr-1 text-base"></i>
@@ -49,7 +49,7 @@
             <div class="w-1/2">
               <router-link
                 tag="div"
-                class="ml-5 flex items-center hover:text-blue-500 cursor-pointer"
+                class="link ml-5 flex items-center cursor-pointer"
                 to="/user-center"
               >
                 <i class="el-icon-user mr-1 text-base"></i>
@@ -108,10 +108,18 @@ export default {
   left: 50%;
   max-height: 0;
   transform: translateX(-50%);
-  transition: 0.3s;
+  transition: all 0.3s;
+  opacity: 0.6;
   &.active {
     max-height: 500px;
     box-shadow: 0 0 15px 5px rgba(var(--vs-dark), 0.08);
+    opacity: 1;
+  }
+}
+
+.link {
+  &:hover {
+    color: rgba(var(--vs-primary), 0.9);
   }
 }
 </style>

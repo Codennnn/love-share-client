@@ -75,6 +75,7 @@
           <li
             v-contextmenu:contextmenu
             class="mb-3 p-2 flex items-center rounded-lg hover:bg-gray-100"
+            style="transition: all 0.3s;"
             v-for="(item, i) in dataList"
             :key="i"
             :data-id="item._id"
