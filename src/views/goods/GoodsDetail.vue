@@ -15,10 +15,10 @@
       style="width: 35%;"
     >
       <!-- 卖家信息 -->
-      <DetailUser :seller="seller" />
+      <DetailUser :goodsId="goods._id" />
 
       <!-- 商品评论 -->
-      <DetailComment :goodsId="goods._id" :comments="comments" />
+      <DetailComment :goodsId="goods._id" />
     </div>
   </div>
 </template>
@@ -38,16 +38,6 @@ export default {
 
   data: () => ({
     goods: {}, // 商品信息
-    seller: { // 卖家信息
-      avatar_url: '',
-      nickname: '----',
-      school: { name: '-----' },
-      gender: '',
-      credit_value: 0,
-      fans: [],
-      published_goods: [],
-    },
-    comments: [],
   }),
 
   watch: {

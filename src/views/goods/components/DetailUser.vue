@@ -75,17 +75,35 @@
 </template>
 
 <script>
+import { getGoodsSeller } from '@/request/api/goods'
+
 export default {
   name: 'DetailUser',
-
   props: {
-    seller: Object,
+    goodsId: String,
   },
 
   data: () => ({
+    seller: { // 卖家信息
+      avatar_url: '',
+      nickname: '----',
+      school: { name: '-----' },
+      gender: '',
+      credit_value: 0,
+      fans: [],
+      published_goods: [],
+    },
     isSubscribe: false,
     isSubscribeLoading: false,
   }),
+
+  watch: {
+    goodsId(v) {
+      if (v.length > 0) {
+        this.getGoodsSeller()
+      }
+    },
+  },
 
   computed: {
     isFollowed() {
@@ -94,6 +112,13 @@ export default {
   },
 
   methods: {
+    async getGoodsSeller() {
+      const { code, data } = await getGoodsSeller({ goods_id: this.goodsId })
+      if (code === 2000) {
+        this.seller = data.seller
+      }
+    },
+
     // 查看用户详情
     viewUserDetail(user_id) {
       this.$router.push({

@@ -12,7 +12,7 @@
         label="问问更多细节~"
         counter="50"
         maxlength="50"
-        v-model="content"
+        v-model="textContent"
         :counter-danger.sync="counterDanger"
       />
     </div>
@@ -22,28 +22,30 @@
     >
       <li
         class="msg relative mb-2 overflow-hidden"
-        v-for="(item, i) in comments"
+        v-for="(comment, i) in comments"
         :key="i"
-        :class="{'px-1 py-2 bg-gray-100 rounded-lg': currMsg === item._id}"
+        :class="{'px-1 py-2 bg-gray-100 rounded-lg': currMsg === comment._id}"
       >
         <div class="flex items-center">
-          <vs-avatar :src="`${item.sender.avatar_url}?imageView2/2/w/50`"></vs-avatar>
+          <vs-avatar :src="`${comment.sender.avatar_url}?imageView2/2/w/50`"></vs-avatar>
           <p class="name ml-1">
-            {{ item.sender.nickname }}
+            {{ comment.sender.nickname }}
           </p>
-          <p class="ml-2 text-sm text-gray-500">{{ timeDiff(item.created_at) }}</p>
+          <p class="ml-2 text-sm text-gray-500">
+            {{ timeDiff(comment.created_at) }}
+          </p>
         </div>
-        <p class="ml-8 text-sm text-gray-600">{{ item.content }}</p>
+        <p class="ml-8 text-sm text-gray-600">{{ comment.content }}</p>
         <p
           class="reply absolute cursor-pointer"
-          @click="reply(item._id, item.sender.nickname)"
+          @click="reply(comment._id, comment.sender.nickname)"
         >回复</p>
         <ul
-          v-if="item.replies.length > 0"
+          v-if="comment.replies.length > 0"
           class="ml-6 p-2 bg-gray-100 rounded-lg"
         >
           <li
-            v-for="(it, index) in item.replies"
+            v-for="(it, index) in comment.replies"
             :key="index"
             class="reply-item"
           >
@@ -58,19 +60,40 @@
                 title="回复"
                 class="reply-icon el-icon-chat-dot-square ml-2
                  cursor-pointer text-base text-gray-600"
+                @click="rep(it._id, it.at.nickname)"
               ></i>
             </p>
+            <div
+              v-if="currRep === it._id"
+              class="mt-1 flex"
+            >
+              <vs-input
+                class="flex-1 mr-1"
+                v-model="repContent"
+                :placeholder="placeholder"
+                @keyup.enter="replyComment(comment._id, it.sender._id)"
+              />
+              <vs-button
+                size="small"
+                @click="replyComment(comment._id, it.sender._id)"
+              >回复</vs-button>
+            </div>
           </li>
         </ul>
         <div
-          v-if="currMsg === item._id"
+          v-if="currMsg === comment._id"
           class="mt-1 flex"
         >
           <vs-input
             class="flex-1 mr-1"
-            :placeholder="placeholder"
+            v-model="repContent"
+            :placeholder-label="placeholder"
+            @keyup.enter="replyComment(comment._id, comment.sender._id)"
           />
-          <vs-button size="small">回复</vs-button>
+          <vs-button
+            size="small"
+            @click="replyComment(comment._id, comment.sender._id)"
+          >回复</vs-button>
         </div>
       </li>
     </ul>
@@ -86,47 +109,91 @@
 <script>
 import { timeDiff } from '@/utils/util'
 
-import { postComment, replyComment } from '@/request/api/goods'
+import { getGoodsComments, postComment, replyComment } from '@/request/api/goods'
 
 export default {
   name: 'DetailComment',
   props: {
     goodsId: String,
-    comments: Array,
   },
 
   data: () => ({
     timeDiff,
-    content: '',
+    comments: [],
+    counterDanger: true,
     placeholder: '',
 
-    counterDanger: true,
+    textContent: '',
+    repContent: '',
     currMsg: null,
     currRep: null,
   }),
 
+  watch: {
+    goodsId: {
+      handler(v) {
+        if (v.length > 0) {
+          this.getGoodsComments()
+        }
+      },
+      immediate: true,
+    },
+  },
+
   methods: {
-    async postComment() {
-      await postComment({
-        goods_id: this.goodsId,
-        content: this.content,
-      })
+    async getGoodsComments() {
+      const { code, data } = await getGoodsComments({ goods_id: this.goodsId })
+      if (code === 2000) {
+        this.comments = data.comments
+      }
     },
 
-    async replyComment() {
-      await replyComment({
-        comment_id: this.goodsId,
-        content: this.content,
+    async postComment() {
+      if (this.textContent.length > 0) {
+        const { code } = await postComment({
+          goods_id: this.goodsId,
+          content: this.textContent,
+        })
+        if (code === 2000) {
+          this.getGoodsComments()
+          this.textContent = ''
+        }
+      }
+    },
+
+    async replyComment(comment_id, at) {
+      const { code } = await replyComment({
+        goods_id: this.goodsId,
+        comment_id,
+        at,
+        content: this.repContent,
       })
+      if (code === 2000) {
+        this.getGoodsComments()
+        this.repContent = ''
+        this.currMsg = null
+        this.currRep = null
+      }
     },
 
     reply(id, nickname) {
+      this.currRep = null
       this.placeholder = `回复 ${nickname}：`
       if (this.currMsg === id) {
         this.currMsg = null
         return
       }
       this.currMsg = id
+    },
+
+    rep(id, nickname) {
+      this.currMsg = null
+      this.placeholder = `回复 ${nickname}：`
+      if (this.currRep === id) {
+        this.currRep = null
+        return
+      }
+      this.currRep = id
     },
   },
 }
