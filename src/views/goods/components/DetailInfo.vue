@@ -144,25 +144,16 @@
 
 <script>
 import ElImageViewer from 'element-ui/packages/image/src/image-viewer.vue'
-
 import { timeDiff } from '@/utils/util'
-import { subscribe, unsubscribe } from '@/request/api/user'
 
-import {
-  collectGoods,
-  uncollectGoods,
-} from '@/request/api/goods'
+import { subscribe, unsubscribe } from '@/request/api/user'
+import { collectGoods, uncollectGoods } from '@/request/api/goods'
 
 export default {
   name: 'DetailInfo',
   components: { ElImageViewer },
 
-  props: {
-    goods: {
-      type: Object,
-      default: () => ({}),
-    },
-  },
+  props: { goods: Object },
 
   data: () => ({
     timeDiff,

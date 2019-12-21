@@ -22,6 +22,7 @@
     >
       <li
         class="msg relative mb-2 overflow-hidden"
+        style="transition: all 0.3s;"
         v-for="(comment, i) in comments"
         :key="i"
         :class="{'px-1 py-2 bg-gray-100 rounded-lg': currMsg === comment._id}"
@@ -38,7 +39,7 @@
         <p class="ml-8 text-sm text-gray-600">{{ comment.content }}</p>
         <p
           class="reply absolute cursor-pointer"
-          @click="reply(comment._id, comment.sender.nickname)"
+          @click="showReplyInput(comment._id, comment.sender.nickname, 1)"
         >回复</p>
         <ul
           v-if="comment.replies.length > 0"
@@ -60,34 +61,36 @@
                 title="回复"
                 class="reply-icon el-icon-chat-dot-square ml-2
                  cursor-pointer text-base text-gray-600"
-                @click="rep(it._id, it.at.nickname)"
+                @click="showReplyInput(comment._id, it.at.nickname, 2)"
               ></i>
             </p>
-            <div
-              v-if="currRep === it._id"
-              class="mt-1 flex"
-            >
-              <vs-input
-                class="flex-1 mr-1"
-                v-model="repContent"
-                :placeholder="placeholder"
-                @keyup.enter="replyComment(comment._id, it.sender._id)"
-              />
-              <vs-button
-                size="small"
-                @click="replyComment(comment._id, it.sender._id)"
-              >回复</vs-button>
-            </div>
           </li>
+          <div
+            v-if="currRep === comment._id"
+            class="mt-1 flex items-end"
+          >
+            <vs-input
+              autofocus
+              class="flex-1 mr-1"
+              v-model="repContent"
+              :label-placeholder="placeholder"
+              @keyup.enter="replyComment(comment._id, it.sender._id)"
+            />
+            <vs-button
+              size="small"
+              @click="replyComment(comment._id, it.sender._id)"
+            >回复</vs-button>
+          </div>
         </ul>
         <div
           v-if="currMsg === comment._id"
-          class="mt-1 flex"
+          class="mt-1 flex items-end"
         >
           <vs-input
+            autofocus
             class="flex-1 mr-1"
             v-model="repContent"
-            :placeholder-label="placeholder"
+            :label-placeholder="placeholder"
             @keyup.enter="replyComment(comment._id, comment.sender._id)"
           />
           <vs-button
@@ -109,19 +112,20 @@
 <script>
 import { timeDiff } from '@/utils/util'
 
-import { getGoodsComments, postComment, replyComment } from '@/request/api/goods'
+import { postComment, replyComment } from '@/request/api/goods'
 
 export default {
   name: 'DetailComment',
   props: {
     goodsId: String,
+    comments: Array,
   },
 
   data: () => ({
     timeDiff,
-    comments: [],
     counterDanger: true,
     placeholder: '',
+    atNickname: '',
 
     textContent: '',
     repContent: '',
@@ -129,25 +133,7 @@ export default {
     currRep: null,
   }),
 
-  watch: {
-    goodsId: {
-      handler(v) {
-        if (v.length > 0) {
-          this.getGoodsComments()
-        }
-      },
-      immediate: true,
-    },
-  },
-
   methods: {
-    async getGoodsComments() {
-      const { code, data } = await getGoodsComments({ goods_id: this.goodsId })
-      if (code === 2000) {
-        this.comments = data.comments
-      }
-    },
-
     async postComment() {
       if (this.textContent.length > 0) {
         const { code } = await postComment({
@@ -155,7 +141,7 @@ export default {
           content: this.textContent,
         })
         if (code === 2000) {
-          this.getGoodsComments()
+          this.$emit('refreshComments')
           this.textContent = ''
         }
       }
@@ -169,31 +155,27 @@ export default {
         content: this.repContent,
       })
       if (code === 2000) {
-        this.getGoodsComments()
+        this.$emit('refreshComments')
         this.repContent = ''
         this.currMsg = null
         this.currRep = null
       }
     },
 
-    reply(id, nickname) {
-      this.currRep = null
-      this.placeholder = `回复 ${nickname}：`
-      if (this.currMsg === id) {
-        this.currMsg = null
-        return
-      }
-      this.currMsg = id
-    },
-
-    rep(id, nickname) {
-      this.currMsg = null
-      this.placeholder = `回复 ${nickname}：`
-      if (this.currRep === id) {
+    showReplyInput(id, nickname, type) {
+      if (type === 1) {
         this.currRep = null
-        return
+        this.placeholder = `回复 ${nickname}：`
+        if (this.currMsg === id) {
+          this.currMsg = null
+          return
+        }
+        this.currMsg = id
+      } else if (type === 2) {
+        this.currMsg = null
+        this.placeholder = `回复 ${nickname}：`
+        this.currRep = id
       }
-      this.currRep = id
     },
   },
 }

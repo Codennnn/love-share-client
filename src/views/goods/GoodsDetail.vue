@@ -15,10 +15,14 @@
       style="width: 35%;"
     >
       <!-- 卖家信息 -->
-      <DetailUser :goodsId="goods._id" />
+      <DetailUser :seller="seller" />
 
       <!-- 商品评论 -->
-      <DetailComment :goodsId="goods._id" />
+      <DetailComment
+        :comments="comments"
+        :goodsId="goodsId"
+        @refreshComments="getGoodsComments()"
+      />
     </div>
   </div>
 </template>
@@ -30,6 +34,8 @@ import DetailComment from './components/DetailComment.vue'
 
 import {
   getGoodsDetail,
+  getGoodsSeller,
+  getGoodsComments,
 } from '@/request/api/goods'
 
 export default {
@@ -37,25 +43,54 @@ export default {
   components: { DetailInfo, DetailUser, DetailComment },
 
   data: () => ({
-    goods: {}, // 商品信息
+    goodsId: '',
+    goods: {},
+    comments: [],
+    seller: { // 卖家信息
+      avatar_url: '',
+      nickname: '----',
+      school: { name: '-----' },
+      gender: '',
+      credit_value: 0,
+      fans: [],
+      published_goods: [],
+    },
   }),
 
   watch: {
     '$route.query': {
       handler(query) {
-        this.initValues(query.goods_id)
+        this.goodsId = query.goods_id
       },
       immediate: true,
     },
   },
 
+  activated() {
+    this.getGoodsDetail()
+    this.getGoodsSeller()
+    this.getGoodsComments()
+  },
+
   methods: {
-    async initValues(goods_id) {
-      const { code, data: { goods_detail } } = await getGoodsDetail({ goods_id })
+    async getGoodsDetail() {
+      const { code, data } = await getGoodsDetail({ goods_id: this.goodsId })
       if (code === 2000) {
-        this.goods = goods_detail
-        this.seller = goods_detail.seller
-        this.comments = goods_detail.comments
+        this.goods = data.goods_detail
+      }
+    },
+
+    async getGoodsSeller() {
+      const { code, data } = await getGoodsSeller({ goods_id: this.goodsId })
+      if (code === 2000) {
+        this.seller = data.seller
+      }
+    },
+
+    async getGoodsComments() {
+      const { code, data } = await getGoodsComments({ goods_id: this.goodsId })
+      if (code === 2000) {
+        this.comments = data.comments
       }
     },
   },
