@@ -39,21 +39,25 @@
           @click="reply(item._id, item.sender.nickname)"
         >回复</p>
         <ul
-          v-if="item.replies.length === 0"
+          v-if="item.replies.length > 0"
           class="ml-6 p-2 bg-gray-100 rounded-lg"
         >
-          <li class="reply-item">
+          <li
+            v-for="(it, index) in item.replies"
+            :key="index"
+            class="reply-item"
+          >
             <p class="text-sm">
-              <span class="name cursor-pointer">{{ '令狐少侠' }}</span>
+              <span class="name cursor-pointer">{{ it.sender.nickname }}</span>
               <span class="mx-1 text-gray-500">回复</span>
-              <span class="name cursor-pointer">{{ '令狐少侠' }}:</span>
+              <span class="name cursor-pointer">{{ it.at.nickname }}:</span>
               <span class="text-gray-500">
-                {{ '令狐少侠令狐少侠令狐少侠令狐少侠令狐少侠令狐少侠' }}
+                {{ it.content }}
               </span>
               <i
                 title="回复"
-                class="reply-icon el-icon-chat-dot-square ml-2 cursor-pointer text-base
-                text-gray-600"
+                class="reply-icon el-icon-chat-dot-square ml-2
+                 cursor-pointer text-base text-gray-600"
               ></i>
             </p>
           </li>
@@ -94,9 +98,11 @@ export default {
   data: () => ({
     timeDiff,
     content: '',
+    placeholder: '',
+
     counterDanger: true,
     currMsg: null,
-    placeholder: '',
+    currRep: null,
   }),
 
   methods: {

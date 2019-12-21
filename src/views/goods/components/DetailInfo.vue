@@ -117,7 +117,7 @@
                   v-else
                   @click="$router.push('/goods-cart')"
                 >
-                  已加入购物车
+                  在购物车中查看
                 </vs-dropdown-item>
               </vs-dropdown-menu>
             </vs-dropdown>
