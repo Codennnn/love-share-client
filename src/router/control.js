@@ -7,13 +7,13 @@ import { getToken } from '@/utils/token'
 
 NProgress.configure({ showSpinner: false }) // NProgress 配置
 
-const whiteList = ['/sign', '/home']
+const whiteList = ['/sign', '/home', '/help-center']
 
 router.beforeEach(async (to, from, next) => {
   NProgress.start() // 进度条开始
 
   // 设置网页标题
-  const title = to.meta ?.title
+  const title = to.meta?.title
   document.title = title ? `${title} - 乐享校园` : '校园闲置物品交易平台'
 
   if (getToken()) {
