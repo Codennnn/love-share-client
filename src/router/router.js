@@ -90,6 +90,12 @@ export const routes = [
         meta: { title: '我的粉丝' },
       },
       {
+        path: '/user-collections',
+        name: 'UserCollections',
+        component: () => import('@/views/user/components/list/UserCollections.vue'),
+        meta: { title: '我的收藏' },
+      },
+      {
         path: '/message',
         name: 'Message',
         component: () => import('@/views/message/Message.vue'),
