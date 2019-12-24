@@ -136,21 +136,21 @@
         <ul v-if="recentContacts.length > 0">
           <li
             class="mb-3 flex items-center justify-between"
-            v-for="(item, i) in recentContacts"
+            v-for="(it, i) in recentContacts"
             :key="i"
           >
             <div class="flex items-center">
               <vs-avatar
                 class="mr-3"
                 size="40px"
-                :src="`${item.avatar_url}?imageView2/2/w/50`"
+                :src="`${it.avatar_url}?imageView2/2/w/50`"
               />
               <div>
-                <div class="text-sm">{{ item.nickname }}</div>
+                <div class="text-sm">{{ it.nickname }}</div>
                 <div
                   class="text-gray-500"
                   style="font-size: 0.7rem;"
-                >19/10/24 17:50</div>
+                >{{ chatLastMessaged(it._id) }}</div>
               </div>
             </div>
             <vs-button
@@ -159,10 +159,13 @@
               type="border"
               icon-pack="el-icon"
               icon="el-icon-user"
-              @click="viewUserDetail(item._id)"
+              @click="viewUserDetail(it._id)"
             ></vs-button>
           </li>
-          <li class="text-center">
+          <li
+            v-if="recentContacts.length >= 10"
+            class="text-center"
+          >
             <vs-button class="text-sm w-2/3">
               查看更多
               <i class="el-icon-arrow-right"></i>
@@ -232,6 +235,10 @@ export default {
       if (code === 2000) {
         this.purchasedGoods = data.list
       }
+    },
+
+    chatLastMessaged(id) {
+      return this.$dayjs(this.$store.getters['chat/chatLastMessaged'](id).time).format('YY/MM/DD hh:mm')
     },
 
     viewGoodsDetail(goodsId) {

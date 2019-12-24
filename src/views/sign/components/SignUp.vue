@@ -77,7 +77,7 @@
 
 <script>
 import { signUp } from '@/request/api/user'
-import { getSchoolList, checkPhoneNumber, getVerificationCode } from '@/request/api/common'
+import { getSchoolList, checkNickname, checkPhoneNumber } from '@/request/api/common'
 
 const signUpInput = [
   {
@@ -85,7 +85,7 @@ const signUpInput = [
     value: '',
     type: 'text',
     description: '',
-    reg: /^[\d\w\u4e00-\u9fa5,.;:"'?!-]{2,8}$/,
+    reg: /^[\u4e00-\u9fa5]{1,6}(·[\u4e00-\u9fa5]{1,6}){0,2}$/,
     isWarnng: false,
     isError: false,
     warningText: '',
@@ -231,7 +231,7 @@ export default {
     },
 
     // 检查输入的数据格式
-    check() {
+    async check() {
       const flags = this.signUpInput.map((input) => {
         if (input.reg.test(input.value)) {
           return true
@@ -240,48 +240,59 @@ export default {
         input.errorText = input.noneCheckText
         return false
       })
+
       if (this.signUpInput[2].value !== this.signUpInput[3].value) {
         this.signUpInput[3].isError = true
         this.signUpInput[3].errorText = '与前一次不相同，请确保两次密码输入已知'
         return false
       }
+
+      const res = await checkNickname({ nickname: this.signUpInput[1].value })
+      if (res.code === 4003) {
+        this.signUpInput[1].isError = true
+        this.signUpInput[1].errorText = '该昵称已被使用'
+        return false
+      }
+
+      const { code } = await checkPhoneNumber({ phone: this.signUpInput[4].value })
+      if (code === 4003) {
+        this.signUpInput[4].isError = true
+        this.signUpInput[4].errorText = '手机号已被注册'
+        return false
+      }
+
       const flag = flags.every(Boolean)
       return flag
     },
 
     // 获取验证码
     async getCode() {
-      if (this.validate() && this.check()) {
+      if (this.validate() && await this.check()) {
         if (!this.timer) {
-          const { code } = await checkPhoneNumber({ phone: this.signUpInput[3].value })
-          if (code === 2000) {
-            let count = 60
-            this.codeText = `${count}s`
-            this.getVerificationCode()
-            this.timer = setInterval(() => {
-              if (count > 0) {
-                count -= 1
-                this.codeText = `${count}s`
-              } else {
-                clearInterval(this.timer)
-                this.timer = null
-                count = 60
-                this.codeText = '重新发送'
-              }
-            }, 1000)
-          } else if (code === 4003) {
-            this.signUpInput[4].isError = true
-            this.signUpInput[4].errorText = '手机号已被注册'
-          }
+          this.getVerificationCode()
+          let count = 60
+          this.codeText = `${count}s`
+          this.timer = setInterval(() => {
+            if (count > 0) {
+              count -= 1
+              this.codeText = `${count}s`
+            } else {
+              clearInterval(this.timer)
+              this.timer = null
+              count = 60
+              this.codeText = '重新发送'
+            }
+          }, 1000)
         }
       }
     },
 
     async getVerificationCode() {
-      const { code, data } = await getVerificationCode({ phone: this.signUpInput[3].value })
-      if (code === 2000) {
-        this.code = data.code
-      }
+      this.code = Math
+        .random()
+        .toFixed(6)
+        .toString()
+        .slice(-6)
     },
 
     // 获取选择学校列表

@@ -17,18 +17,14 @@
         ></vs-list-header>
         <template v-if="fans.length > 0">
           <vs-list-item
-            v-for="item in fans"
-            :key="item._id"
-            :title="item.nickname"
-            :subtitle="item.introduction"
+            v-for="it in fans"
+            :key="it._id"
+            :title="it.user.nickname"
+            :subtitle="it.user.introduction"
           >
             <template slot="avatar">
-              <vs-avatar :src="`${item.avatar_url}?imageView2/2/w/50`" />
+              <vs-avatar :src="`${it.user.avatar_url}?imageView2/2/w/50`" />
             </template>
-            <vs-button
-              size="small"
-              color="#ccc"
-            >已关注</vs-button>
           </vs-list-item>
         </template>
         <div v-else>

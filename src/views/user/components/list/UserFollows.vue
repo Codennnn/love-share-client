@@ -17,18 +17,25 @@
         ></vs-list-header>
         <template v-if="follows.length > 0">
           <vs-list-item
-            v-for="item in follows"
-            :key="item._id"
-            :title="item.nickname"
-            :subtitle="item.introduction"
+            v-for="it in follows"
+            :key="it._id"
+            :title="it.user.nickname"
+            :subtitle="it.user.introduction"
           >
             <template slot="avatar">
-              <vs-avatar :src="`${item.avatar_url}?imageView2/2/w/50`" />
+              <vs-avatar :src="`${it.user.avatar_url}?imageView2/2/w/50`" />
             </template>
             <vs-button
+              v-if="isInFollows(it.user._id)"
               size="small"
               color="#ccc"
+              @click="unsubscribe(it.user._id)"
             >已关注</vs-button>
+            <vs-button
+              v-else
+              size="small"
+              @click="subscribe(it.user._id)"
+            >关注</vs-button>
           </vs-list-item>
         </template>
         <div v-else>
@@ -40,13 +47,22 @@
 </template>
 
 <script>
-import { getUserFollows } from '@/request/api/user'
+import Vue from 'vue'
+
+import { getUserFollows, subscribe, unsubscribe } from '@/request/api/user'
 
 export default {
   name: 'UserFollows',
   data: () => ({
     follows: [],
+    ids: {},
   }),
+
+  computed: {
+    isInFollows() {
+      return id => Object.prototype.hasOwnProperty.call(this.ids, id)
+    },
+  },
 
   created() {
     this.getUserFollows()
@@ -56,7 +72,26 @@ export default {
     async getUserFollows() {
       const { code, data } = await getUserFollows()
       if (code === 2000) {
+        data.follows.forEach((el) => {
+          this.ids[el.user._id] = el.user._id
+        })
         this.follows = data.follows
+      }
+    },
+
+    // 关注
+    async subscribe(user_id) {
+      const { code } = await subscribe({ user_id })
+      if (code === 2000) {
+        Vue.set(this.ids, user_id)
+      }
+    },
+
+    // 取消关注
+    async unsubscribe(user_id) {
+      const { code } = await unsubscribe({ user_id })
+      if (code === 2000) {
+        Vue.delete(this.ids, user_id)
       }
     },
   },

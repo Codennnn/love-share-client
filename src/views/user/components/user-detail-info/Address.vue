@@ -17,31 +17,24 @@
               color="primary"
               v-if="item._id === defaultAddress"
             >默认</vs-chip>
-            <vs-dropdown vs-trigger-click>
+
+            <el-dropdown size="small">
               <i class="el-icon-more ml-2 cursor-pointer"></i>
-              <vs-dropdown-menu class="w-24">
-                <vs-dropdown-item
+              <el-dropdown-menu slot="dropdown">
+                <el-dropdown-item
                   v-if="!(item._id === defaultAddress)"
                   class="text-center"
-                  @click="setDefaultAddress(item._id)"
-                >
-                  设为默认
-                </vs-dropdown-item>
-                <vs-dropdown-item
-                  class="text-center"
-                  @click="editForm = true, onShowForm(item)"
-                >
+                  @click.native="setDefaultAddress(item._id)"
+                >设为默认</el-dropdown-item>
+                <el-dropdown-item @click.native="editForm = true, onShowForm(item)">
                   修改
-                </vs-dropdown-item>
-                <vs-dropdown-item
-                  class="text-center text-danger"
-                  divider
-                  @click="onDeleteAddress(item._id)"
-                >
-                  删除
-                </vs-dropdown-item>
-              </vs-dropdown-menu>
-            </vs-dropdown>
+                </el-dropdown-item>
+                <el-dropdown-item
+                  @click.native="onDeleteAddress(item._id)"
+                  divided
+                >删除</el-dropdown-item>
+              </el-dropdown-menu>
+            </el-dropdown>
           </div>
         </vs-list-item>
       </template>

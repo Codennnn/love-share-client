@@ -7,6 +7,14 @@ export function getNotices() {
   })
 }
 
+export function checkNickname(data) {
+  return request({
+    url: '/common/check_nickname',
+    method: 'post',
+    data,
+  })
+}
+
 export function checkPhoneNumber(data) {
   return request({
     url: '/common/check_phone_number',

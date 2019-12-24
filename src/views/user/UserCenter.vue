@@ -3,17 +3,17 @@
     <div class="mb-6 bg-white rounded-lg p-5">
       <div class="mb-3 flex items-center">
         <div class="w-1/2 flex items-center">
-          <vs-dropdown
+          <el-dropdown
             class="avatar-drop"
-            vs-custom-content
+            placement="bottom"
           >
             <vs-avatar
-              class="mr-6 avatar"
+              class="avatar"
               size="100px"
               :src="info.avatar_url"
             />
-            <vs-dropdown-menu>
-              <div class="p-3">
+            <el-dropdown-menu slot="dropdown">
+              <div class="px-3 py-1">
                 <el-upload
                   drag
                   class="avatar-upload"
@@ -28,10 +28,10 @@
                   <div class="el-upload__tip"><em>点击上传图片（jpg、jpeg、png）</em></div>
                 </el-upload>
               </div>
-            </vs-dropdown-menu>
-          </vs-dropdown>
+            </el-dropdown-menu>
+          </el-dropdown>
 
-          <div>
+          <div class="ml-6 ">
             <div class="mb-4">
               <span class="font-bold text-2xl">{{ info.nickname }}</span>
               <span>（{{ info.real_name }}）</span>
@@ -212,6 +212,7 @@ export default {
 }
 
 .avatar-drop::v-deep {
+  position: relative;
   &:hover {
     .vs-avatar--con-img {
       &::before {
@@ -229,8 +230,9 @@ export default {
         left: 50%;
         top: 50%;
         width: 100%;
-        font-size: 1.1rem;
+        font-size: 1rem;
         color: white;
+        text-align: center;
         transform: translate(-50%, -50%);
       }
     }

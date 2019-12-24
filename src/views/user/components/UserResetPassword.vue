@@ -177,10 +177,21 @@ export default {
     },
 
     // 获取验证码
-    getCode() {
+    async getCode() {
       if (this.validate() && this.check()) {
         if (!this.timer) {
-          this.getVerificationCode()
+          const { code, data } = await getVerificationCode({ phone: this.inputs[2].value })
+          if (code === 2000) {
+            this.code = data.code
+          } else if (code === 3000) {
+            this.$vs.notify({
+              title: '手机号码有误',
+              text: '请确认手机号为注册时填写的手机号',
+              color: 'danger',
+            })
+            return
+          }
+
           let count = 60
           this.codeText = `${count}s`
           this.timer = setInterval(() => {
@@ -195,13 +206,6 @@ export default {
             }
           }, 1000)
         }
-      }
-    },
-
-    async getVerificationCode() {
-      const { code, data } = await getVerificationCode()
-      if (code === 2000) {
-        this.code = data.code
       }
     },
   },
