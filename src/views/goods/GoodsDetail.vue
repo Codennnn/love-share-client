@@ -6,7 +6,10 @@
       style="width: 65%;"
     >
       <!-- 商品信息 -->
-      <DetailInfo :goods="goods" />
+      <DetailInfo
+        :goods="goods"
+        :goodsId="goodsId"
+      />
     </div>
 
     <!-- 右侧 -->

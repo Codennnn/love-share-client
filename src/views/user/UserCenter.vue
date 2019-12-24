@@ -49,21 +49,21 @@
             @click="$router.push('/user-follows')"
           >
             <div>关注的人</div>
-            <div class="mt-4 text-2xl font-bold">{{ followsNum }}</div>
+            <div class="mt-4 text-2xl font-bold">{{ num.follows_num || 0 }}</div>
           </div>
           <div
             class="flex flex-col items-center justify-center cursor-pointer"
             @click="$router.push('/user-fans')"
           >
             <div>粉丝数</div>
-            <div class="mt-4 text-2xl font-bold">{{ fansNum }}</div>
+            <div class="mt-4 text-2xl font-bold">{{ num.fans_num || 0 }}</div>
           </div>
           <div
             class="flex flex-col items-center justify-center cursor-pointer"
             @click="$router.push('/user-collections')"
           >
             <div>收藏夹</div>
-            <div class="mt-4 text-2xl font-bold">{{ infoNum.collect_num }}</div>
+            <div class="mt-4 text-2xl font-bold">{{ num.collections_num || 0 }}</div>
           </div>
         </div>
       </div>
@@ -156,7 +156,7 @@ export default {
 
   data: () => ({
     currentComponent: 'UserBaseInfo',
-    infoNum: {},
+    num: {},
 
     showAvatarPopup: false,
     avatarImage: '',
@@ -166,24 +166,18 @@ export default {
     info() {
       return this.$store.state.user.info
     },
-    followsNum() {
-      return this.$store.getters['user/getFollows'].length
-    },
-    fansNum() {
-      return this.$store.getters['user/getFans'].length
-    },
-  },
-
-  created() {
-    getUserInfoNum().then(({ code, data }) => {
-      if (code === 2000) {
-        this.infoNum = data.info_num
-      }
-    })
   },
 
   mounted() {
     this.currentComponent = this.$route.query.component || 'UserBaseInfo'
+  },
+
+  activated() {
+    getUserInfoNum().then(({ code, data }) => {
+      if (code === 2000) {
+        this.num = data.info_num
+      }
+    })
   },
 
   methods: {

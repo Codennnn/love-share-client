@@ -124,15 +124,12 @@ export default {
     getUserId(state) {
       return state.info._id
     },
-
     getFollows(state) {
       return state.follows
     },
-
     getFans(state) {
       return state.fans
     },
-
     isFollowed: (state, getters) => id => getters.getFollows.includes(id),
   },
 }

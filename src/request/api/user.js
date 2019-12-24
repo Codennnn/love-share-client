@@ -115,3 +115,26 @@ export function getUserFans() {
     method: 'get',
   })
 }
+
+export function getCollectionList() {
+  return request({
+    url: '/user/collection/list',
+    method: 'get',
+  })
+}
+
+export function addCollection(data) {
+  return request({
+    url: '/user/collection/add',
+    method: 'post',
+    data,
+  })
+}
+
+export function deleteCollection(data) {
+  return request({
+    url: '/user/collection/delete',
+    method: 'delete',
+    data,
+  })
+}

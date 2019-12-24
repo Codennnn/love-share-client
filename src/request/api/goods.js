@@ -59,20 +59,6 @@ export function deleteGoods() {
   })
 }
 
-export function collectGoods() {
-  return request({
-    url: '/goods/collect',
-    method: 'post',
-  })
-}
-
-export function uncollectGoods() {
-  return request({
-    url: '/goods/uncollect',
-    method: 'delete',
-  })
-}
-
 export function dismountGoods() {
   return request({
     url: '/goods/dismount',
@@ -133,5 +119,13 @@ export function replyComment(data) {
     url: '/goods/comment/reply',
     method: 'post',
     data,
+  })
+}
+
+export function isGoodsCollected(params) {
+  return request({
+    url: '/goods/is_collected',
+    method: 'get',
+    params,
   })
 }

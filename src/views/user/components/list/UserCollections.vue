@@ -1,62 +1,74 @@
 <template>
   <div class="p-6 bg-white rounded-lg">
-    <div class="mb-4 flex">
-      <vs-button
-        color="#999"
-        type="flat"
-        size="large"
-        icon="arrow_back"
-        @click="$router.go(-1)"
-      >返回</vs-button>
-    </div>
-    <div class="w-1/3">
-      <vs-list>
-        <vs-list-header
-          title="我的粉丝"
-          color="primary"
-        ></vs-list-header>
-        <template v-if="fans.length > 0">
-          <vs-list-item
-            v-for="item in fans"
-            :key="item._id"
-            :title="item.nickname"
-            :subtitle="item.introduction"
-          >
-            <template slot="avatar">
-              <vs-avatar :src="`${item.avatar_url}?imageView2/2/w/50`" />
-            </template>
-            <vs-button
-              size="small"
-              color="#ccc"
-            >已关注</vs-button>
-          </vs-list-item>
-        </template>
-        <div v-else>
-          <div class="p-3 text-gray-600 text-center">暂无关注任何人</div>
-        </div>
-      </vs-list>
-    </div>
+    <vs-table
+      search
+      pagination
+      noDataText="暂无数据"
+      :max-items="5"
+      :data="collections"
+    >
+      <div
+        slot="header"
+        class="p-2 flex items-center"
+      >
+        <vs-button
+          radius
+          type="flat"
+          color="#999"
+          icon="arrow_back"
+          @click="$router.go(-1)"
+        ></vs-button>
+        <p class="ml-2 font-bold text-gray-600">收藏夹</p>
+      </div>
+
+      <template slot="thead">
+        <vs-th>商品名称</vs-th>
+        <vs-th>求购价</vs-th>
+        <vs-th>收藏于</vs-th>
+      </template>
+
+      <template slot-scope="{data}">
+        <vs-tr
+          v-for="(tr, i) in data"
+          :key="i"
+        >
+          <vs-td>{{ tr.goods.name }}</vs-td>
+          <vs-td>
+            <p class="text-gray-600 font-bold">￥{{ Number(tr.goods.price).toFixed(2) }}</p>
+          </vs-td>
+          <vs-td>
+            <p class="text-gray-600">{{ timeDiff(tr.created_at) }}</p>
+          </vs-td>
+          <vs-td>
+            <i class="el-icon-more-outline"></i>
+          </vs-td>
+        </vs-tr>
+      </template>
+    </vs-table>
   </div>
 </template>
 
 <script>
-import { getUserFans } from '@/request/api/user'
+import { timeDiff } from '@/utils/util'
+
+import { getCollectionList } from '@/request/api/user'
 
 export default {
   name: 'UserCollections',
   data: () => ({
-    fans: [],
+    timeDiff,
+    collections: [],
   }),
 
   created() {
-    this.getUserFans()
+    this.getCollectionList()
   },
 
   methods: {
-    async getUserFans() {
-      const { code, data } = await getUserFans()
+    async getCollectionList() {
+      const { code, data } = await getCollectionList()
       if (code === 2000) {
-        this.fans = data.fans
+        this.collections = data.collections
       }
     },
   },

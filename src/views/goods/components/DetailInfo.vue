@@ -37,10 +37,10 @@
             size="small"
             icon-pack="el-icon"
             icon="el-icon-star-off"
-            :color="isCollect ? 'warning' : 'success'"
-            @click="isCollect ? uncollectGoods() : collectGoods()"
+            :color="isCollected ? 'warning' : 'success'"
+            @click="isCollected ? deleteCollection() : addCollection()"
           >
-            {{ isCollect ? '取消收藏' : '加入收藏' }}
+            {{ isCollected ? '已收藏' : '收藏' }}
           </vs-button>
         </div>
         <div class="info-item">
@@ -140,6 +140,7 @@
       ></div>
     </div>
 
+    <!-- 图片预览 -->
     <el-image-viewer
       v-show="showViewer"
       :on-close="() => { showViewer = false }"
@@ -152,13 +153,13 @@
 import ElImageViewer from 'element-ui/packages/image/src/image-viewer.vue'
 import { timeDiff } from '@/utils/util'
 
-import { collectGoods, uncollectGoods } from '@/request/api/goods'
+import { addCollection, deleteCollection } from '@/request/api/user'
+import { isGoodsCollected } from '@/request/api/goods'
 
 export default {
   name: 'DetailInfo',
   components: { ElImageViewer },
-
-  props: { goods: Object },
+  props: { goods: Object, goodsId: String },
 
   data: () => ({
     timeDiff,
@@ -166,13 +167,17 @@ export default {
     addCartDisable: false,
 
     amount: 1, // 购买的数量
-    isCollect: false,
+    isCollected: false,
   }),
 
   computed: {
     isInCart() {
       return id => this.$store.getters['cart/isInCart'](id)
     },
+  },
+
+  activated() {
+    this.isGoodsCollected(this.goodsId)
   },
 
   methods: {
@@ -198,18 +203,25 @@ export default {
     },
 
     // 收藏商品
-    async collectGoods() {
-      const { code } = await collectGoods()
+    async addCollection() {
+      const { code } = await addCollection({ goods_id: this.goodsId })
       if (code === 2000) {
-        this.isCollect = true
+        this.isGoodsCollected(this.goodsId)
       }
     },
 
     // 取消收藏商品
-    async uncollectGoods() {
-      const { code } = await uncollectGoods()
+    async deleteCollection() {
+      const { code } = await deleteCollection({ goods_id: this.goodsId })
       if (code === 2000) {
-        this.isCollect = false
+        this.isGoodsCollected(this.goodsId)
+      }
+    },
+
+    async isGoodsCollected(goods_id) {
+      const { code, data } = await isGoodsCollected({ goods_id })
+      if (code === 2000) {
+        this.isCollected = data.is_collected
       }
     },
 
