@@ -1,8 +1,8 @@
 import { setToken, getToken, removeToken } from '@/utils/token'
+import { signIn, signOut, getUserInfo } from '@/request/api/user'
 import {
-  signIn, signOut, getUserInfo, getAddressList, addAddress,
-  deleteAddress, updateAddress, setDefaultAddress,
-} from '@/request/api/user'
+  getAddressList, addAddress, deleteAddress, updateAddress, setDefaultAddress,
+} from '@/request/api/address'
 
 const state = {
   token: getToken(),

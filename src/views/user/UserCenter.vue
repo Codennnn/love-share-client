@@ -58,7 +58,10 @@
             <div>粉丝数</div>
             <div class="mt-4 text-2xl font-bold">{{ fansNum }}</div>
           </div>
-          <div class="flex flex-col items-center justify-center cursor-pointer">
+          <div
+            class="flex flex-col items-center justify-center cursor-pointer"
+            @click="$router.push('/user-collections')"
+          >
             <div>收藏夹</div>
             <div class="mt-4 text-2xl font-bold">{{ infoNum.collect_num }}</div>
           </div>
