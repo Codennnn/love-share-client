@@ -16,7 +16,11 @@ export function timeDiff(time) {
     if (diff === 0) {
       const diffHour = now.diff(date, 'hour')
       if (diffHour <= 1) {
-        return `${now.diff(date, 'minute')}分钟前`
+        const diffMin = now.diff(date, 'minute')
+        if (diffMin < 1) {
+          return `${now.diff(date, 'second')}秒前`
+        }
+        return `${diffMin}分钟前`
       }
       if (diffHour < 24) {
         return `${diffHour}小时前`
