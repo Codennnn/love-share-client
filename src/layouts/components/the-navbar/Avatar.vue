@@ -14,7 +14,7 @@
         <vs-avatar
           class="avatar w-10 h-10 m-0"
           :class="{'active': isHover}"
-          :src="`${info.avatar_url}?imageView2/2/w/40`"
+          :src="info.avatar_url ? `${info.avatar_url}?imageView2/2/w/40` : ''"
         />
       </router-link>
       <div

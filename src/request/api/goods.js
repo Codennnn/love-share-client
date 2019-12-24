@@ -122,10 +122,10 @@ export function replyComment(data) {
   })
 }
 
-export function isGoodsCollected(params) {
+export function isGoodsCollected(data) {
   return request({
     url: '/goods/is_collected',
-    method: 'get',
-    params,
+    method: 'post',
+    data,
   })
 }

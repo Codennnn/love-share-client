@@ -4,6 +4,7 @@
       <div style="width: 60%;">
         <el-carousel :autoplay="false">
           <el-carousel-item
+            style="display: flex; justify-content: center;"
             v-for="(image, i) in goods.img_list"
             :key="i"
           >

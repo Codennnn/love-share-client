@@ -37,9 +37,20 @@
             val-icon-danger="clear"
             label="昵称"
             v-model="data.nickname"
-            :danger="error"
-            :danger-text="errorText"
-            @focus="error = false"
+            :danger="error1"
+            :danger-text="errorText1"
+            @focus="error1 = false"
+          />
+
+          <!-- 真实姓名 -->
+          <vs-input
+            class="mt-5 w-full"
+            val-icon-danger="clear"
+            label="真实姓名"
+            v-model="data.real_name"
+            :danger="error2"
+            :danger-text="errorText2"
+            @focus="error2 = false"
           />
 
           <!-- 邮箱 -->
@@ -159,8 +170,10 @@ export default {
   data: () => ({
     data: null,
     schoolList: [],
-    error: false, // 昵称错误
-    errorText: '', // 昵称错误信息
+    error1: false, // 昵称错误
+    errorText1: '', // 昵称错误信息
+    error2: false, // 真实姓名错误
+    errorText2: '', // 真实姓名错误信息
     counterDanger: true,
   }),
 
@@ -203,10 +216,14 @@ export default {
     },
 
     async onModify() {
-      const nicknameReg = /^[\d\w\u4e00-\u9fa5,.;:"'?!-]{2,8}$/
-      if (!nicknameReg.test(this.data.nickname)) {
-        this.error = true
-        this.errorText = '昵称格式只能是中文、字母、数字组成'
+      if (!/^[\d\w\u4e00-\u9fa5,.;:"'?!-]{2,8}$/.test(this.data.nickname)) {
+        this.error1 = true
+        this.errorText1 = '昵称格式只能是中文、字母、数字组成'
+        return
+      }
+      if (!/^[\u4e00-\u9fa5]{1,6}(·[\u4e00-\u9fa5]{1,6}){0,2}$/.test(this.data.real_name)) {
+        this.error2 = true
+        this.errorText2 = '真实姓名格式不正确'
         return
       }
 

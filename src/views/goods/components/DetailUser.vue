@@ -31,16 +31,16 @@
           class="px-5 py-2 flex items-center justify-center text-white
               text-sm cursor-pointer"
           style="height: 34px; border-radius: 17px;"
-          :class="isFollowed(seller._id)
+          :class="isFollowed
                       ? 'bg-gray-300 text-gray-600'
                       : 'bg-primary text-white'"
-          @click="isFollowed(seller._id) ? unsubscribe(seller._id) : subscribe(seller._id)"
+          @click="isFollowed ? unsubscribe(seller._id) : subscribe(seller._id)"
         >
           <i
             class="el-icon-loading mr-1"
             v-if="isSubscribeLoading"
           ></i>
-          {{ isFollowed(seller._id) ? '已关注' : '加关注' }}
+          {{ isFollowed ? '已关注' : '加关注' }}
         </span>
       </div>
       <div class="flex justify-around mt-3">
@@ -75,31 +75,25 @@
 </template>
 
 <script>
-import { subscribe, unsubscribe } from '@/request/api/user'
+import { subscribe, unsubscribe, isUserFollowed } from '@/request/api/user'
 
 export default {
   name: 'DetailUser',
   props: { seller: Object },
 
   data: () => ({
-    isSubscribe: false,
     isSubscribeLoading: false,
+    isFollowed: false,
   }),
 
   watch: {
-    goodsId: {
-      handler(v) {
-        if (v && v.length > 0) {
-          this.getGoodsSeller()
+    seller: {
+      handler() {
+        if (this.seller._id) {
+          this.isUserFollowed(this.seller._id)
         }
       },
       immediate: true,
-    },
-  },
-
-  computed: {
-    isFollowed() {
-      return id => this.$store.getters['user/isFollowed'](id)
     },
   },
 
@@ -118,8 +112,7 @@ export default {
       try {
         const { code } = await subscribe({ user_id })
         if (code === 2000) {
-          this.isSubscribe = true
-          this.$store.commit('user/ADD_FOLLOW', user_id)
+          this.isFollowed = true
         }
       } finally {
         this.isSubscribeLoading = false
@@ -132,8 +125,7 @@ export default {
       try {
         const { code } = await unsubscribe({ user_id })
         if (code === 2000) {
-          this.isSubscribe = false
-          this.$store.commit('user/REMOVE_FOLLOW', user_id)
+          this.isFollowed = false
         }
       } finally {
         this.isSubscribeLoading = false
@@ -148,6 +140,13 @@ export default {
       }
       this.$store.commit('chat/SET_ACTIVE_CHAT_USER', { _id, nickname, avatar_url })
       this.$store.commit('chat/SET_CHAT_OPEN')
+    },
+
+    async isUserFollowed(user_id) {
+      const { code, data } = await isUserFollowed({ user_id })
+      if (code === 2000) {
+        this.isFollowed = data.is_followed
+      }
     },
   },
 }

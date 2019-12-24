@@ -138,3 +138,11 @@ export function deleteCollection(data) {
     data,
   })
 }
+
+export function isUserFollowed(data) {
+  return request({
+    url: '/user/is_followed',
+    method: 'post',
+    data,
+  })
+}

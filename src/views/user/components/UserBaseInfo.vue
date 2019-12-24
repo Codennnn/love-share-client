@@ -7,8 +7,8 @@
         <div>
           <vs-table
             pagination
-            max-items="3"
             noDataText="暂无数据"
+            :max-items="3"
             :data="publishedGoods"
           >
             <template slot="thead">
@@ -50,16 +50,15 @@
                   >{{ status[tr.status].text }}</div>
                 </vs-td>
                 <vs-td>
-                  <vs-dropdown vs-trigger-click>
+                  <el-dropdown>
                     <i class="el-icon-more text-lg text-gray-600 cursor-pointer"></i>
-
-                    <vs-dropdown-menu>
-                      <vs-dropdown-item @click.stop="editGoodsInfo(tr._id)">
+                    <el-dropdown-menu slot="dropdown">
+                      <el-dropdown-item @click.native="editGoodsInfo(tr._id)">
                         编辑信息
-                      </vs-dropdown-item>
-                      <vs-dropdown-item>删除记录</vs-dropdown-item>
-                    </vs-dropdown-menu>
-                  </vs-dropdown>
+                      </el-dropdown-item>
+                      <el-dropdown-item>删除记录</el-dropdown-item>
+                    </el-dropdown-menu>
+                  </el-dropdown>
                 </vs-td>
               </vs-tr>
             </template>
@@ -73,8 +72,8 @@
         <div>
           <vs-table
             pagination
-            max-items="3"
             noDataText="暂无数据"
+            :max-items="3"
             :data="purchasedGoods"
           >
             <template slot="thead">
@@ -104,7 +103,7 @@
                   <vs-td>{{ tr.amount }}</vs-td>
                   <vs-td
                     class="text-primary cursor-pointer"
-                    @click.native.stop="viewUserDetail(tr.goods.seller._id)"
+                    @click.native="viewUserDetail(tr.goods.seller._id)"
                   >
                     @{{ tr.goods.seller.nickname }}
                   </vs-td>
@@ -112,15 +111,15 @@
                     {{ $dayjs(data[i].created_at).format('YYYY-MM-DD') }}
                   </vs-td>
                   <vs-td>
-                    <vs-dropdown vs-trigger-click>
+                    <el-dropdown>
                       <i class="el-icon-more text-lg text-gray-600 cursor-pointer"></i>
-                      <vs-dropdown-menu>
-                        <vs-dropdown-item @click.stop="viewOrderDetail(order._id)">
+                      <el-dropdown-menu slot="dropdown">
+                        <el-dropdown-item @click.native.stop="viewOrderDetail(order._id)">
                           查看订单
-                        </vs-dropdown-item>
-                        <vs-dropdown-item>删除记录</vs-dropdown-item>
-                      </vs-dropdown-menu>
-                    </vs-dropdown>
+                        </el-dropdown-item>
+                        <el-dropdown-item>删除记录</el-dropdown-item>
+                      </el-dropdown-menu>
+                    </el-dropdown>
                   </vs-td>
                 </vs-tr>
               </template>
