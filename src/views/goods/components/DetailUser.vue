@@ -99,10 +99,10 @@ export default {
 
   methods: {
     // 查看用户详情
-    viewUserDetail(user_id) {
+    viewUserDetail(userId) {
       this.$router.push({
         path: '/user-detail',
-        query: { user_id },
+        query: { userId },
       })
     },
 

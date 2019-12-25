@@ -9,6 +9,7 @@
       <DetailInfo
         :goods="goods"
         :goodsId="goodsId"
+        @settle="showSettle = true"
       />
     </div>
 
@@ -27,6 +28,8 @@
         @refreshComments="getGoodsComments()"
       />
     </div>
+
+    <DetailSettle v-show="showSettle" />
   </div>
 </template>
 
@@ -34,6 +37,7 @@
 import DetailInfo from './components/DetailInfo.vue'
 import DetailUser from './components/DetailUser.vue'
 import DetailComment from './components/DetailComment.vue'
+import DetailSettle from './components/DetailSettle.vue'
 
 import {
   getGoodsDetail,
@@ -43,7 +47,9 @@ import {
 
 export default {
   name: 'GoodsDetail',
-  components: { DetailInfo, DetailUser, DetailComment },
+  components: {
+    DetailInfo, DetailUser, DetailComment, DetailSettle,
+  },
 
   data: () => ({
     goodsId: '',
@@ -58,12 +64,14 @@ export default {
       fans: [],
       published_goods: [],
     },
+
+    showSettle: false,
   }),
 
   watch: {
     '$route.query': {
       handler(query) {
-        this.goodsId = query.goods_id
+        this.goodsId = query.goodsId
       },
       immediate: true,
     },

@@ -144,10 +144,10 @@ export default {
       }
     },
 
-    viewGoodsDetail(goods_id) {
+    viewGoodsDetail(goodsId) {
       this.$router.push({
         path: '/goods-detail',
-        query: { goods_id },
+        query: { goodsId },
       })
     },
   },

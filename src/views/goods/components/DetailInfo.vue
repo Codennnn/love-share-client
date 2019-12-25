@@ -106,6 +106,7 @@
               id="addCartBtn"
               class="btnx ml-3 text-sm vs-con-loading__container"
               :disabled="addCartDisable"
+              @click="$emit('settle')"
             >立即购买</vs-button>
             <vs-dropdown>
               <vs-button

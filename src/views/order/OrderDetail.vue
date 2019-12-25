@@ -116,7 +116,7 @@
                       class="el-icon-goods ml-3 p-2 text-xl cursor-pointer"
                       @click.stop="$router.push({
                                     path: '/goods-detail',
-                                    query: { goods_id: tr.goods._id }
+                                    query: { goodsId: tr.goods._id }
                                   })"
                     ></i>
                   </vs-td>
@@ -221,14 +221,14 @@ export default {
   },
 
   methods: {
-    async getOrderDetail(order_id) {
+    async getOrderDetail(orderId) {
       this.$vs.loading({
         container: '#div-with-loading',
         scale: 1,
       })
 
       try {
-        const { code, data } = await getOrderDetail({ order_id })
+        const { code, data } = await getOrderDetail({ orderId })
         if (code === 2000) {
           this.detail = data.order_detail
           this.goodsList = data.order_detail.goods_list

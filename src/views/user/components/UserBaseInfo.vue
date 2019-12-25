@@ -191,7 +191,6 @@ export default {
   name: 'UserBaseInfo',
   data: () => ({
     timeDiff,
-    userId: '',
     publishedGoods: [], // 已发布商品
     purchasedGoods: [], // 已购买商品
     status: {
@@ -211,10 +210,6 @@ export default {
       const { contactList } = this.$store.state.chat
       return JSON.parse(JSON.stringify(contactList)).reverse().slice(0, 10)
     },
-  },
-
-  mounted() {
-    this.userId = this.$route.query.user_id
   },
 
   activated() {

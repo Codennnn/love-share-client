@@ -11,6 +11,7 @@
           :data="cartList"
         >
           <template slot="thead">
+            <vs-th></vs-th>
             <vs-th>商品名称</vs-th>
             <vs-th>数量</vs-th>
             <vs-th>运费</vs-th>
@@ -22,6 +23,12 @@
               v-for="(tr, i) in data"
               :key="i"
             >
+              <vs-td>
+                <vs-image
+                  class="w-24 h-24 base-shadow"
+                  :src="`${tr.goods.img_list[0]}?imageView2/2/w/100`"
+                />
+              </vs-td>
               <vs-td>{{ tr.goods.name }}</vs-td>
               <vs-td>{{ tr.amount }}</vs-td>
               <vs-td>{{ tr.goods.delivery_charge }}</vs-td>

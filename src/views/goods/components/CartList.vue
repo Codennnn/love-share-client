@@ -55,12 +55,10 @@
                 <div
                   class="btn text-white"
                   style="background: rgba(var(--vs-primary), 1);"
-                  @click="item.is_collected
-                  ? uncollectGoods(item._id)
-                  : collectGoods(item._id)"
+                  @click="$router.push({path: '/goods-detail', query: { goodsId: item.goods._id }})"
                 >
                   <i class="el-icon-star-off mr-1 text-lg"></i>
-                  {{ item.is_collected ? '取消收藏' : '添加到收藏' }}
+                  查看商品
                 </div>
               </div>
             </li>
@@ -109,18 +107,8 @@
             class="w-full mt-4 mb-2"
             @click="onSettle()"
           >开始结算</vs-button>
-          <el-popover
-            title="购物车清空后将不可恢复"
-            trigger="manual"
-            v-model="showPopover"
-          >
+          <el-popover title="购物车清空后将不可恢复">
             <div class="flex justify-end">
-              <vs-button
-                color="#999"
-                type="flat"
-                size="small"
-                @click="showPopover = false"
-              >取消</vs-button>
               <vs-button
                 color="danger"
                 type="flat"
@@ -131,7 +119,6 @@
             <span
               slot="reference"
               class="ml-1 text-gray-500 text-sm text-right cursor-pointer"
-              @click="showPopover = !showPopover"
             >清空购物车</span>
           </el-popover>
         </div>
@@ -156,12 +143,9 @@
 import { mapState, mapGetters } from 'vuex'
 import { TweenLite } from 'gsap'
 
-import { collectGoods, uncollectGoods } from '@/request/api/goods'
-
 export default {
   name: 'CartList',
   data: () => ({
-    showPopover: false,
     delivery: {
       1: '包 邮',
       2: '自 费',
@@ -208,33 +192,8 @@ export default {
       }
     },
 
-    // 收藏商品
-    async collectGoods(id) {
-      const { code } = await collectGoods()
-      if (code === 2000) {
-        this.cartList.forEach((el, i, _) => {
-          if (el._id === id) {
-            _[i].is_collected = true
-          }
-        })
-      }
-    },
-
-    // 取消收藏商品
-    async uncollectGoods(id) {
-      const { code } = await uncollectGoods()
-      if (code === 2000) {
-        this.cartList.forEach((el, i, _) => {
-          if (el._id === id) {
-            _[i].is_collected = false
-          }
-        })
-      }
-    },
-
     // 清空购物车
     onClear() {
-      this.showPopover = false
       this.$store.commit('cart/SET_CART_LIST', [])
       this.$store.dispatch('cart/clearCartList')
     },

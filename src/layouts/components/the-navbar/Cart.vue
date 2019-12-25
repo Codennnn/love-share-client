@@ -27,7 +27,7 @@
             style="transition: all 0.3s;"
             v-for="(item, i) in cartList"
             :key="i"
-            @click="$router.push({path: 'goods-detail', query: { goods_id: item.goods._id }})"
+            @click="$router.push({path: 'goods-detail', query: { goodsId: item.goods._id }})"
           >
             <el-image
               class="mr-2 rounded-lg"

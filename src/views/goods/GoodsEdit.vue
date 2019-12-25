@@ -5,7 +5,6 @@
         <div class="mb-2 text-xl text-gray-600">图片上传</div>
         <template>
           <el-popover
-            trigger="click"
             v-for="(it, i) in goods.img_list"
             :key="i"
           >
@@ -29,6 +28,7 @@
             />
           </el-popover>
         </template>
+        <vs-divider />
         <vs-upload
           multiple
           ref="fileUpload"
@@ -357,6 +357,12 @@ export default {
 .con-upload::v-deep {
   .con-input-upload.disabled-upload {
     display: none;
+  }
+}
+
+.vs-image::v-deep {
+  .vs-image--img:hover {
+    filter: grayscale(100%);
   }
 }
 </style>
