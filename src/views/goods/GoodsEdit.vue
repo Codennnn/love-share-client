@@ -3,12 +3,38 @@
     <div class="md:w-full md:mb-6 lg:pr-3 lg:w-4/12">
       <div class="p-5 bg-white rounded-lg">
         <div class="mb-2 text-xl text-gray-600">图片上传</div>
+        <template>
+          <el-popover
+            trigger="click"
+            v-for="(it, i) in goods.img_list"
+            :key="i"
+          >
+            <div>
+              <p class="text-gray-600">是否删除该图片？ <br />
+                该操作将不可恢复。</p>
+              <div class="flex">
+                <vs-button
+                  class="w-16 mt-1 ml-auto"
+                  size="small"
+                  type="flat"
+                  color="danger"
+                  @click.native="deleteImg(it)"
+                >删除</vs-button>
+              </div>
+            </div>
+            <vs-image
+              slot="reference"
+              class="w-1/3"
+              :src="it"
+            />
+          </el-popover>
+        </template>
         <vs-upload
           multiple
           ref="fileUpload"
           text="图片格式（JPG、PNG）"
           accept="image/jpeg,image/jpg,image/png"
-          :limit="6"
+          :limit="limit"
           :show-upload-button="false"
         />
       </div>
@@ -24,7 +50,7 @@
             placeholder="请输入商品名称"
             val-icon-warning="warning"
             v-model="goods.name"
-            warning-text="不能为空"
+            warning-text="商品名称不能为空"
             :warning="warning"
             @focus="warning = false"
           />
@@ -159,17 +185,11 @@
         </div>
         <div class="flex justify-end text-sm">
           <vs-button
-            class="mr-4"
-            color="#646464"
-            type="border"
-            @click="onStorage()"
-          >暂存为草稿</vs-button>
-          <vs-button
-            id="publishBtn"
+            id="updateBtn"
             class="vs-con-loading__container"
-            :disabled="publishBtnDisable"
-            @click="onPublish()"
-          >确认发布该商品</vs-button>
+            :disabled="updateBtnDisable"
+            @click="onUpdate()"
+          >确认更新商品信息</vs-button>
         </div>
       </div>
     </div>
@@ -180,50 +200,44 @@
 import { VueEditor } from 'vue2-editor'
 import { dataURItoBlob } from '@/utils/util'
 
-import { createGoods, uploadGoodsImg, deleteGoodsImg } from '@/request/api/goods'
+import {
+  getGoodsDetail, uploadGoodsImg, deleteGoodsImg, updateGoods,
+} from '@/request/api/goods'
 
 export default {
-  name: 'GoodsAddition',
+  name: 'GoodsEdit',
   components: { VueEditor },
 
   data: () => ({
-    goods: {
-      name: '', // 商品名称
-      category: [], // 所选分类
-      quantity: 1, // 商品数量
-      price: 0, // 二手价
-      original_price: 0, // 入手价
-      checked: false, // 是否选择入手价
-      delivery: '1', // 运费设置
-      delivery_charge: 0,
-      can_bargain: false, // 议价设置
-      can_return: false, // 退货设置
-      description: '', // 商品描述
-    },
-
+    goods: {},
     warning: false, // 商品名称警告
-    publishBtnDisable: false, // 是否禁用发布按钮
+    updateBtnDisable: false, // 是否禁用发布按钮
     imgList: [],
+    deleteList: [],
   }),
 
   computed: {
     categoryList() {
       return this.$store.state.categoryList
     },
+    limit() {
+      return 6 - this.goods?.img_list?.length
+    },
   },
 
-  created() {
-    const goods = JSON.parse(localStorage.getItem('goods'))
-    if (goods) {
-      this.goods = goods
-    }
+  mounted() {
+    this.getGoodsDetail()
   },
 
   methods: {
-    // 保存商品描述草稿
-    onStorage() {
-      localStorage.setItem('goods', JSON.stringify(this.goods))
-      this.$message({ showClose: true, message: '已保存到本地草稿箱 ✔️' })
+    async getGoodsDetail() {
+      const { code, data } = await getGoodsDetail({ goods_id: this.$route.query.goodsId })
+      if (code === 2000) {
+        data.goods_detail.category = data.goods_detail.category.map(
+          el => this.categoryList.filter(it => it.name === el.name)[0]._id,
+        )
+        this.goods = data.goods_detail
+      }
     },
 
     onCheck() {
@@ -266,7 +280,7 @@ export default {
             title: '商品图片不能大于5M',
             text: '请压缩图片后继续上传',
           })
-          return false
+          return
         }
 
         const formData = new FormData()
@@ -276,53 +290,52 @@ export default {
         const { code, data } = await uploadGoodsImg(formData)
         if (code === 2000 && data.img_list.length > 0) {
           this.imgList = data.img_list
-          return true
+          this.goods.img_list.push(...this.imgList)
         }
-        return false
       }
-      this.$vs.notify({
-        color: 'danger',
-        title: '请添加商品图片',
-        text: '赶紧给你的宝贝拍几张照片吧',
-      })
-      return false
     },
 
-    async onPublish() {
+    deleteImg(item) {
+      this.deleteList.push(item)
+      this.goods.img_list.splice(this.goods.img_list.indexOf(item), 1)
+    },
+
+    async onUpdate() {
       if (this.onCheck()) {
         this.$vs.loading({
           background: 'primary',
           color: '#fff',
-          container: '#publishBtn',
+          container: '#updateBtn',
           scale: 0.45,
         })
-        this.publishBtnDisable = true
+        this.updateBtnDisable = true
 
         try {
-          const flag = await this.uploadGoodsImg()
-          if (!flag) return
+          await this.uploadGoodsImg()
 
-          this.goods.img_list = this.imgList
-          createGoods(this.goods)
-            .then(({ code }) => {
-              if (code === 2000) {
-                localStorage.removeItem('goods')
-                this.$vs.notify({
-                  color: 'success',
-                  title: '成功',
-                  text: '已发布一件闲置物品',
-                })
-                this.$router.push('/')
-              } else {
-                throw new Error()
-              }
+          if (this.goods.img_list.length > 0) {
+            updateGoods(this.goods)
+              .then(async ({ code }) => {
+                if (code === 2000) {
+                  await deleteGoodsImg({ img_list: this.deleteList })
+                  this.$router.go(-1)
+                } else {
+                  throw new Error()
+                }
+              })
+              .catch(() => {
+                deleteGoodsImg({ img_list: this.imgList })
+              })
+          } else {
+            this.$vs.notify({
+              color: 'danger',
+              title: '请添加商品图片',
+              text: '赶紧给你的宝贝拍几张照片吧',
             })
-            .catch(() => {
-              deleteGoodsImg({ img_list: this.imgList })
-            })
+          }
         } finally {
-          this.publishBtnDisable = false
-          this.$vs.loading.close('#publishBtn > .con-vs-loading')
+          this.updateBtnDisable = false
+          this.$vs.loading.close('#updateBtn > .con-vs-loading')
         }
       }
     },

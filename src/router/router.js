@@ -101,6 +101,12 @@ export const routes = [
         component: () => import('@/views/message/Message.vue'),
         meta: { title: '消息中心' },
       },
+      {
+        path: '/goods-edit',
+        name: 'GoodesEdit',
+        component: () => import('@/views/goods/GoodsEdit.vue'),
+        meta: { title: '编辑商品' },
+      },
     ],
     meta: { title: '首页' },
   },

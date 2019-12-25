@@ -187,10 +187,12 @@ export default {
   .read {
     right: -30px;
     transition: all 0.2s;
+    opacity: 0;
   }
   &:hover {
     .read {
       right: 0;
+      opacity: 1;
     }
   }
 }

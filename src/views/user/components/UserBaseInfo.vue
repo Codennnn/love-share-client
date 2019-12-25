@@ -15,7 +15,7 @@
               <vs-th>图片</vs-th>
               <vs-th>商品名称</vs-th>
               <vs-th>价格</vs-th>
-              <vs-th>发布于</vs-th>
+              <vs-th>最后更新</vs-th>
               <vs-th>状态</vs-th>
               <vs-th>操作</vs-th>
             </template>
@@ -39,7 +39,7 @@
                 </vs-td>
                 <vs-td class="font-semibold">￥{{ Number(tr.price).toFixed(2) }}</vs-td>
                 <vs-td>
-                  <div class="whitespace-no-wrap">{{ timeDiff(tr.created_at) }}</div>
+                  <div class="whitespace-no-wrap">{{ timeDiff(tr.updated_at) }}</div>
                 </vs-td>
                 <vs-td>
                   <div
@@ -264,7 +264,7 @@ export default {
 
     editGoodsInfo(goodsId) {
       this.$router.push({
-        path: '/goods-addition',
+        path: '/goods-edit',
         query: { goodsId },
       })
     },

@@ -8,6 +8,14 @@ export function createGoods(data) {
   })
 }
 
+export function updateGoods(data) {
+  return request({
+    url: '/goods/update',
+    method: 'put',
+    data,
+  })
+}
+
 export function getRecommendGoodsList(params) {
   return request({
     url: '/goods/list/recommend',
