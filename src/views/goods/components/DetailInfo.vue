@@ -172,6 +172,12 @@ export default {
     isCollected: false,
   }),
 
+  watch: {
+    amount(v) {
+      this.$emit('setAmount', v)
+    },
+  },
+
   computed: {
     isInCart() {
       return id => this.$store.getters['cart/isInCart'](id)
