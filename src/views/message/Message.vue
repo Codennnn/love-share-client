@@ -27,6 +27,40 @@
         class="p-4 bg-white rounded-lg vs-con-loading__container"
       >
         <div class="mb-4 flex items-center justify-end">
+          <el-dropdown
+            class="mr-auto"
+            @command="handleCommand"
+          >
+            <span class="el-dropdown-link">
+              {{ label }}<i class="el-icon-arrow-down el-icon--right"></i>
+            </span>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item
+                :command="{label: '全部消息', type: 0}"
+                icon=""
+              >全部消息</el-dropdown-item>
+              <el-dropdown-item
+                :command="{label: '系统消息', type: 1}"
+                icon="el-icon-chat-square"
+              >系统</el-dropdown-item>
+              <el-dropdown-item
+                :command="{label: '成功消息', type: 2}"
+                icon="el-icon-check"
+              >成功</el-dropdown-item>
+              <el-dropdown-item
+                :command="{label: '提示消息', type: 3}"
+                icon="el-icon-news"
+              >提示</el-dropdown-item>
+              <el-dropdown-item
+                :command="{label: '重要消息', type: 4}"
+                icon="el-icon-warning-outline"
+              >重要</el-dropdown-item>
+              <el-dropdown-item
+                :command="{label: '未读消息', type: 5}"
+                icon="el-icon-bell"
+              >未读</el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
           <div class="relative flex items-center">
             <div
               class="action-line absolute flex items-center text-xl text-gray-500 bg-gray-100"
@@ -162,7 +196,9 @@ export default {
     list,
     noticeType,
     currentActive: '系统通知',
+    label: '全部消息',
 
+    rawData: [],
     dataList: [],
     deleteId: null,
     select: [],
@@ -204,6 +240,7 @@ export default {
   },
 
   methods: {
+    // 获取通知列表
     async getNoticeList() {
       this.$vs.loading({
         type: 'point',
@@ -214,6 +251,7 @@ export default {
       try {
         const { code, data } = await getNoticeList()
         if (code === 2000) {
+          this.rawData = data.notice_list.reverse()
           this.dataList = data.notice_list.reverse()
         }
       } finally {
@@ -221,6 +259,7 @@ export default {
       }
     },
 
+    // 多条消息设为已读
     async setAllNoticesRead() {
       if (this.select.length > 0) {
         const { code } = await setAllNoticesRead({ notice_id_list: this.select })
@@ -234,6 +273,7 @@ export default {
       }
     },
 
+    // 删除消息
     async deleteNotice() {
       const { code } = await deleteNotice({ notice_id: this.deleteId })
       if (code === 2000) {
@@ -242,6 +282,7 @@ export default {
       }
     },
 
+    // 删除多条消息
     async deleteManyNotices() {
       if (this.select.length > 0) {
         const { code } = await deleteManyNotices({ notice_id_list: this.select })
@@ -253,12 +294,25 @@ export default {
       }
     },
 
+    // 选择全部
     onSelectAll() {
       this.select = this.dataList.map(el => el._id)
     },
 
+    // 取消选择全部
     onCancelSelectAll() {
       this.select = []
+    },
+
+    handleCommand({ label, type }) {
+      this.label = label
+      if (type === 0) {
+        this.dataList = this.rawData
+      } else if (type === 5) {
+        this.rawData.filter(el => !el.is_read)
+      } else {
+        this.dataList = this.rawData.filter(el => el.type === type)
+      }
     },
   },
 }
