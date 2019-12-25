@@ -288,6 +288,7 @@ export default {
         const { code } = await deleteManyNotices({ notice_id_list: this.select })
         if (code === 2000) {
           this.$store.dispatch('notice/getUnreadNotices')
+          this.handleCommand({ label: '全部消息' })
           await this.getNoticeList()
           this.selectAll = false
         }
