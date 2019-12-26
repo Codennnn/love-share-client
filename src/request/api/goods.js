@@ -8,9 +8,9 @@ export function createGoods(data) {
   })
 }
 
-export function updateGoods(data) {
+export function editGoods(data) {
   return request({
-    url: '/goods/update',
+    url: '/goods/edit',
     method: 'put',
     data,
   })

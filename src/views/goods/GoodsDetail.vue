@@ -57,83 +57,93 @@
         </div>
         <vs-divider class="my-0"></vs-divider>
 
-        <div class="container px-8 py-4">
-          <div class="mb-8">
-            <p class="text-sm text-gray-600">商品名称</p>
-            <p class="mb-4 text-lg font-bold">{{ goods.name }}</p>
-            <p class="text-sm text-gray-600">商品价格</p>
-            <p class="mb-4 text-lg font-bold">￥{{ Number(goods.price).toFixed(2) }}</p>
-            <p class="text-sm text-gray-600">购买数量</p>
-            <p class="mb-4 text-lg font-bold">{{ amount }}件</p>
-            <p class="text-sm text-gray-600">
-              收货信息
-              <span
-                class="ml-2 cursor-pointer"
-                style="color: rgba(var(--vs-primary), 1);"
-                @click="showPopup = true"
-              >选择</span>
-            </p>
-            <div class="mb-4 p-2 text-sm text-gray-600 bg-gray-100 rounded-lg">
-              <p>
-                <i class="el-icon-user"></i>
-                {{ currAddr.receiver }}
+        <VuePerfectScrollbar
+          class="scroll-area overflow-hidden"
+          :settings="{
+            maxScrollbarLength: 180,
+            wheelSpeed: 0.60,
+          }"
+        >
+          <div class="p-8">
+            <!-- 信息 -->
+            <div class="mb-8">
+              <p class="text-sm text-gray-600">商品名称</p>
+              <p class="mb-4 text-lg font-bold">{{ goods.name }}</p>
+              <p class="text-sm text-gray-600">商品价格</p>
+              <p class="mb-4 text-lg font-bold">￥{{ Number(goods.price).toFixed(2) }}</p>
+              <p class="text-sm text-gray-600">购买数量</p>
+              <p class="mb-4 text-lg font-bold">{{ amount }}件</p>
+              <p class="text-sm text-gray-600">
+                收货信息
+                <span
+                  class="ml-2 cursor-pointer"
+                  style="color: rgba(var(--vs-primary), 1);"
+                  @click="showPopup = true"
+                >选择</span>
               </p>
-              <p>
-                <i class="el-icon-phone-outline"></i>
-                {{ currAddr.phone }}
-              </p>
-              <p>
-                <i class="el-icon-location-information"></i>
-                {{ currAddr.address }}
-              </p>
+              <div class="mb-4 p-2 text-sm text-gray-600 bg-gray-100 rounded-lg">
+                <p>
+                  <i class="el-icon-user"></i>
+                  {{ currAddr.receiver }}
+                </p>
+                <p>
+                  <i class="el-icon-phone-outline"></i>
+                  {{ currAddr.phone }}
+                </p>
+                <p>
+                  <i class="el-icon-location-information"></i>
+                  {{ currAddr.address }}
+                </p>
+              </div>
             </div>
+            <!-- 支付方式 -->
+            <ul>
+              <li>
+                <vs-radio
+                  v-model="payment"
+                  vs-value="huabei"
+                >
+                  <div class="flex items-center">
+                    <span class="mx-2 text-sm">余额支付</span>
+                    <svg class="w-8 h-8">
+                      <use xlink:href="#icon-paypal"></use>
+                    </svg>
+                  </div>
+                </vs-radio>
+              </li>
+              <vs-divider border-style="dashed" />
+              <li
+                class="mb-2"
+                v-for="(item, index) in icons"
+                :key="index"
+              >
+                <vs-radio
+                  class="text-left"
+                  v-model="payment"
+                  :vs-value="item.value"
+                >
+                  <div class="flex items-center">
+                    <span class="mx-2 text-sm">{{ item.label }}</span>
+                    <svg class="w-8 h-8">
+                      <use :xlink:href="`#icon-${item.icon}`"></use>
+                    </svg>
+                  </div>
+                </vs-radio>
+              </li>
+              <vs-divider border-style="dashed" />
+              <li class="text-gray-600">
+                <span class="cursor-pointer">
+                  <i class="el-icon-plus"></i>
+                  <span class="ml-1 text-sm">添加银行卡</span>
+                </span>
+              </li>
+            </ul>
           </div>
-          <ul>
-            <li>
-              <vs-radio
-                v-model="payment"
-                vs-value="huabei"
-              >
-                <div class="flex items-center">
-                  <span class="mx-2 text-sm">余额支付</span>
-                  <svg class="w-8 h-8">
-                    <use xlink:href="#icon-paypal"></use>
-                  </svg>
-                </div>
-              </vs-radio>
-            </li>
-            <vs-divider />
-            <li
-              class="mb-2"
-              v-for="(item, index) in icons"
-              :key="index"
-            >
-              <vs-radio
-                class="text-left"
-                v-model="payment"
-                :vs-value="item.value"
-              >
-                <div class="flex items-center">
-                  <span class="mx-2 text-sm">{{ item.label }}</span>
-                  <svg class="w-8 h-8">
-                    <use :xlink:href="`#icon-${item.icon}`"></use>
-                  </svg>
-                </div>
-              </vs-radio>
-            </li>
-            <vs-divider />
-            <li class="text-gray-600">
-              <span class="cursor-pointer">
-                <i class="el-icon-plus"></i>
-                <span class="ml-1 text-sm">添加银行卡</span>
-              </span>
-            </li>
-          </ul>
-        </div>
+        </VuePerfectScrollbar>
 
         <div
           slot="footer"
-          class="flex items-center text-sm"
+          class="footer flex items-center text-sm"
           style="height: 4rem;"
         >
 
@@ -187,6 +197,7 @@
 
 <script>
 import { mapState } from 'vuex'
+import VuePerfectScrollbar from 'vue-perfect-scrollbar'
 import DetailInfo from './components/DetailInfo.vue'
 import DetailUser from './components/DetailUser.vue'
 import DetailComment from './components/DetailComment.vue'
@@ -205,7 +216,9 @@ const icons = [
 
 export default {
   name: 'GoodsDetail',
-  components: { DetailInfo, DetailUser, DetailComment },
+  components: {
+    VuePerfectScrollbar, DetailInfo, DetailUser, DetailComment,
+  },
 
   data: () => ({
     goodsId: '',
@@ -299,8 +312,16 @@ export default {
 
 <style lang="scss" scoped>
 .sidebar-main::v-deep {
-  .container {
-    height: calc(100% - 7.5rem);
+  #sidebar-container {
+    position: relative;
+    .footer {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+    }
+  }
+  .scroll-area {
+    max-height: calc(100% - 7.5rem);
   }
   .vs-sidebar--items {
     padding: 0;

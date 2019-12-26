@@ -131,7 +131,7 @@
     class="p-5 rounded-lg bg-white"
     style="box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.1);"
   >
-    <p class="mb-4 text-xl font-bold">您的购物车一件宝贝也有没哎~</p>
+    <p class="mb-4 text-xl font-bold">您的购物车里一件宝贝也有没哎~</p>
     <vs-button
       class="text-sm"
       @click="$router.push('/')"

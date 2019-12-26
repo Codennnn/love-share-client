@@ -26,9 +26,9 @@
         class="scroll-area pt-4 pb-6"
         v-if="data"
         :settings="{
-        maxScrollbarLength: 180,
-        wheelSpeed: 0.60,
-      }"
+          maxScrollbarLength: 180,
+          wheelSpeed: 0.60,
+        }"
       >
         <div class="p-6">
           <!-- 昵称 -->

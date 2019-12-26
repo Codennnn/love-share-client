@@ -201,7 +201,7 @@ import { VueEditor } from 'vue2-editor'
 import { dataURItoBlob } from '@/utils/util'
 
 import {
-  getGoodsDetail, uploadGoodsImg, deleteGoodsImg, updateGoods,
+  getGoodsDetail, uploadGoodsImg, deleteGoodsImg, editGoods,
 } from '@/request/api/goods'
 
 export default {
@@ -314,7 +314,7 @@ export default {
           await this.uploadGoodsImg()
 
           if (this.goods.img_list.length > 0) {
-            updateGoods(this.goods)
+            editGoods(this.goods)
               .then(async ({ code }) => {
                 if (code === 2000) {
                   await deleteGoodsImg({ img_list: this.deleteList })
