@@ -53,7 +53,10 @@
                     class="font-medium block"
                     :class="[`text-${noticeType[nt.type].color}`]"
                   >{{ nt.title }}</span>
-                  <small class="notice-content">{{ nt.content }}</small>
+                  <div
+                    class="text-sm text-gray-600"
+                    v-html="nt.content"
+                  ></div>
                 </div>
               </div>
             </div>

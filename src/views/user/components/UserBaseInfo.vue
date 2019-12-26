@@ -116,7 +116,7 @@
                     @{{ tr.goods.seller.nickname }}
                   </vs-td>
                   <vs-td>
-                    {{ $dayjs(data[i].created_at).format('YYYY-MM-DD') }}
+                    {{ $dayjs(tr.goods.sell_time).format('YYYY-MM-DD') }}
                   </vs-td>
                   <vs-td>
                     <el-dropdown>
@@ -125,7 +125,7 @@
                         <el-dropdown-item @click.native.stop="viewOrderDetail(order._id)">
                           查看订单
                         </el-dropdown-item>
-                        <el-dropdown-item>删除记录</el-dropdown-item>
+                        <el-dropdown-item>下架商品</el-dropdown-item>
                       </el-dropdown-menu>
                     </el-dropdown>
                   </vs-td>

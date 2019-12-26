@@ -177,6 +177,8 @@ export default {
         const goodsList = this.cartList.map(el => ({
           amount: el.amount,
           goods: el.goods._id,
+          name: el.goods.name,
+          seller: el.goods.seller._id,
         }))
         const body = {
           goods_list: goodsList,
