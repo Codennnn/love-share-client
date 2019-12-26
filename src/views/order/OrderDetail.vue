@@ -221,14 +221,14 @@ export default {
   },
 
   methods: {
-    async getOrderDetail(orderId) {
+    async getOrderDetail(order_id) {
       this.$vs.loading({
         container: '#div-with-loading',
         scale: 1,
       })
 
       try {
-        const { code, data } = await getOrderDetail({ orderId })
+        const { code, data } = await getOrderDetail({ order_id })
         if (code === 2000) {
           this.detail = data.order_detail
           this.goodsList = data.order_detail.goods_list

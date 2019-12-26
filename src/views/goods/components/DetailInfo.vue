@@ -136,8 +136,8 @@
           </div>
           <div v-else>
             <vs-button
-              color="#999"
               size="small"
+              :disabled="true"
             >该商品已被购买</vs-button>
           </div>
         </div>

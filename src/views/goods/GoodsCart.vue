@@ -81,6 +81,10 @@ export default {
     currentComponent: 'CartList',
   }),
 
+  activated() {
+    this.currentComponent = 'CartList'
+  },
+
   methods: {
     changeComponent({ currentStep, currentComponent, isActive = false }) {
       if (isActive || this.activeStep.includes(currentComponent)) {
