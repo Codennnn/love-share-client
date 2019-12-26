@@ -23,7 +23,7 @@
             </div>
             <vs-image
               slot="reference"
-              class="w-1/3"
+              class="w-1/3 mb-4"
               :src="it"
             />
           </el-popover>

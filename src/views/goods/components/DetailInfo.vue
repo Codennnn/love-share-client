@@ -97,14 +97,18 @@
         </div>
         <div class="flex items-center mt-6">
           <vs-input-number
+            class="mr-4"
             v-model="amount"
             :min="1"
             :max="goods.quantity"
           />
-          <div class="btn-group">
+          <div
+            v-if="goods.status !== 2"
+            class="btn-group"
+          >
             <vs-button
               id="addCartBtn"
-              class="btnx ml-3 text-sm vs-con-loading__container"
+              class="btnx text-sm vs-con-loading__container"
               :disabled="addCartDisable"
               @click="$emit('settle')"
             >立即购买</vs-button>
@@ -129,6 +133,12 @@
                 </vs-dropdown-item>
               </vs-dropdown-menu>
             </vs-dropdown>
+          </div>
+          <div v-else>
+            <vs-button
+              color="#999"
+              size="small"
+            >该商品已被购买</vs-button>
           </div>
         </div>
       </div>

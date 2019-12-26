@@ -57,7 +57,7 @@
         </div>
         <vs-divider class="my-0"></vs-divider>
 
-        <div class="container pl-8 pr-16 py-4">
+        <div class="container px-8 py-4">
           <div class="mb-8">
             <p class="text-sm text-gray-600">商品名称</p>
             <p class="mb-4 text-lg font-bold">{{ goods.name }}</p>
@@ -65,6 +65,28 @@
             <p class="mb-4 text-lg font-bold">￥{{ Number(goods.price).toFixed(2) }}</p>
             <p class="text-sm text-gray-600">购买数量</p>
             <p class="mb-4 text-lg font-bold">{{ amount }}件</p>
+            <p class="text-sm text-gray-600">
+              收货信息
+              <span
+                class="ml-2 cursor-pointer"
+                style="color: rgba(var(--vs-primary), 1);"
+                @click="showPopup = true"
+              >选择</span>
+            </p>
+            <div class="mb-4 p-2 text-sm text-gray-600 bg-gray-100 rounded-lg">
+              <p>
+                <i class="el-icon-user"></i>
+                {{ currAddr.receiver }}
+              </p>
+              <p>
+                <i class="el-icon-phone-outline"></i>
+                {{ currAddr.phone }}
+              </p>
+              <p>
+                <i class="el-icon-location-information"></i>
+                {{ currAddr.address }}
+              </p>
+            </div>
           </div>
           <ul>
             <li>
@@ -114,14 +136,57 @@
           class="flex items-center text-sm"
           style="height: 4rem;"
         >
+
+          <vs-button
+            class="ml-4"
+            type="flat"
+            color="danger"
+            @click="isSidebarActive = false"
+          >关闭</vs-button>
           <vs-button class="w-1/3 ml-auto mr-6">确认并付款</vs-button>
         </div>
       </div>
     </vs-sidebar>
+
+    <!-- 弹出框 -->
+    <vs-popup
+      title="选择收货地址"
+      :active.sync="showPopup"
+    >
+      <ul>
+        <li
+          class="mb-3 px-10"
+          v-for="(it, i) in addressList"
+          :key="i"
+        >
+          <div class="px-2 flex justify-between items-start">
+            <vs-chip>{{ it.type }}</vs-chip>
+            <div class="flex-1 ml-2">
+              <span class="mr-3 text-lg">{{ it.receiver }}</span>
+              <span>{{ it.phone }}</span>
+              <p class="text-gray-600">{{ it.address }}</p>
+            </div>
+            <vs-radio
+              v-model="addressCheck"
+              :vs-value="it"
+            ></vs-radio>
+          </div>
+          <vs-divider
+            v-if="addressList.length !== (i + 1)"
+            border-style="dashed"
+          />
+        </li>
+      </ul>
+
+      <div class="mt-8 text-center">
+        <vs-button @click="currAddr = addressCheck, showPopup = false">选择这个地址</vs-button>
+      </div>
+    </vs-popup>
   </div>
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import DetailInfo from './components/DetailInfo.vue'
 import DetailUser from './components/DetailUser.vue'
 import DetailComment from './components/DetailComment.vue'
@@ -159,13 +224,36 @@ export default {
     icons,
     amount: 1,
     payment: 'huabei',
+    currAddr: {},
+    showPopup: false,
+    addressCheck: {},
     isSidebarActive: false,
   }),
+
+  computed: {
+    ...mapState('user', ['addressList', 'defaultAddress']),
+  },
 
   watch: {
     '$route.query': {
       handler(query) {
         this.goodsId = query.goodsId
+      },
+      immediate: true,
+    },
+
+    defaultAddress: {
+      handler(newVal) {
+        if (newVal) {
+          this.addressList.forEach((el) => {
+            if (el._id === this.defaultAddress) {
+              this.currAddr = el
+            }
+          })
+        } else {
+          const [currAddr] = this.addressList
+          this.currAddr = currAddr
+        }
       },
       immediate: true,
     },
@@ -219,11 +307,7 @@ export default {
     height: 100%;
     overflow: hidden;
   }
-  .vs-sidebar--background {
-    z-index: 52010;
-  }
   .vs-sidebar {
-    z-index: 52010;
     width: 400px;
     max-width: 90vw;
   }
@@ -231,5 +315,9 @@ export default {
 
 .con-vs-radio {
   justify-content: start;
+}
+
+.con-vs-popup {
+  z-index: 9999999;
 }
 </style>

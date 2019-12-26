@@ -15,6 +15,7 @@
               <vs-th>图片</vs-th>
               <vs-th>商品名称</vs-th>
               <vs-th>价格</vs-th>
+              <vs-th>发布于</vs-th>
               <vs-th>最后更新</vs-th>
               <vs-th>状态</vs-th>
               <vs-th>操作</vs-th>
@@ -32,12 +33,12 @@
                   ></vs-image>
                 </vs-td>
                 <vs-td>
-                  <p
-                    class="cursor-pointer"
-                    @click.native="viewGoodsDetail(tr._id)"
-                  >{{ tr.name }}</p>
+                  <p>{{ tr.name }}</p>
                 </vs-td>
                 <vs-td class="font-semibold">￥{{ Number(tr.price).toFixed(2) }}</vs-td>
+                <vs-td>
+                  <div class="whitespace-no-wrap">{{ timeDiff(tr.created_at) }}</div>
+                </vs-td>
                 <vs-td>
                   <div class="whitespace-no-wrap">{{ timeDiff(tr.updated_at) }}</div>
                 </vs-td>
@@ -53,7 +54,13 @@
                   <el-dropdown>
                     <i class="el-icon-more text-lg text-gray-600 cursor-pointer"></i>
                     <el-dropdown-menu slot="dropdown">
-                      <el-dropdown-item @click.native="editGoodsInfo(tr._id)">
+                      <el-dropdown-item @click.native="viewGoodsDetail(tr._id)">
+                        查看主页
+                      </el-dropdown-item>
+                      <el-dropdown-item
+                        v-if="tr.status !== 2"
+                        @click.native="editGoodsInfo(tr._id)"
+                      >
                         编辑信息
                       </el-dropdown-item>
                       <el-dropdown-item>删除记录</el-dropdown-item>
@@ -102,6 +109,7 @@
                   <vs-td class="font-semibold">￥{{ Number(tr.goods.price).toFixed(2) }}</vs-td>
                   <vs-td>{{ tr.amount }}</vs-td>
                   <vs-td
+                    title="查看用户"
                     class="text-primary cursor-pointer"
                     @click.native="viewUserDetail(tr.goods.seller._id)"
                   >
@@ -201,6 +209,10 @@ export default {
       2: {
         color: 'primary',
         text: '已出售',
+      },
+      3: {
+        color: 'danger',
+        text: '已下架',
       },
     },
   }),
