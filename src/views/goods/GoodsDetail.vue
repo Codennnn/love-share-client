@@ -177,6 +177,10 @@ export default {
     this.getGoodsComments()
   },
 
+  deactivated() {
+    this.isSidebarActive = false
+  },
+
   methods: {
     // 获取商品信息
     async getGoodsDetail() {
