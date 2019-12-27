@@ -1,5 +1,6 @@
 <template>
   <div class="flex">
+    <!-- 左侧 -->
     <div class="w-1/4 pr-5">
       <div class="p-2 bg-white rounded-lg">
         <div class="p-1">
@@ -21,6 +22,7 @@
       </div>
     </div>
 
+    <!-- 右侧 -->
     <div class="w-3/4">
       <div
         id="message-with-loading"
@@ -102,15 +104,15 @@
             size="25px"
             icon="refresh"
             color="#bbb"
-            @click.native="selectAll = false, showAction = false, getNoticeList()"
+            @click.native="selectAll = false, showAction = false, refreshNoticeList()"
           ></vs-icon>
         </div>
 
         <ul
           v-show="dataList.length > 0"
-          style="height: 100px; overflow: auto;"
+          style="height: 650px; overflow: auto;"
           v-infinite-scroll="loadMore"
-          :infinite-scroll-disabled="busy"
+          :infinite-scroll-disabled="stop"
         >
           <li
             v-contextmenu:contextmenu
@@ -210,9 +212,9 @@ export default {
     deleteId: null,
     selectAll: false, // 是否全选
     showAction: false, // 显示更多操作
-    busy: false,
+    stop: false,
 
-    page: 1,
+    page: 0,
     pageSize: 10,
   }),
 
@@ -247,22 +249,38 @@ export default {
 
   methods: {
     // 获取通知列表
-    async getNoticeList() {
+    async getNoticeList(page) {
       this.$vs.loading({
         type: 'point',
         container: '#message-with-loading',
         scale: 1,
       })
+      this.stop = true
 
       try {
-        const { code, data } = await getNoticeList()
+        const { code, data } = await getNoticeList({ page, page_size: this.pageSize })
         if (code === 2000) {
-          this.rawData = data.notice_list
-          this.dataList = data.notice_list.reverse()
+          if (data.notice_list.length < this.pageSize) {
+            this.stop = true
+          } else {
+            this.rawData.push(...data.notice_list)
+            this.dataList = this.rawData.reverse()
+            this.page += 1
+            this.stop = false
+          }
         }
+      } catch {
+        this.stop = true
       } finally {
         this.$vs.loading.close('#message-with-loading > .con-vs-loading')
       }
+    },
+
+    refreshNoticeList() {
+      this.page = 0
+      this.rawData = []
+      this.dataList = []
+      this.getNoticeList(this.page)
     },
 
     // 多条消息设为已读
@@ -284,7 +302,7 @@ export default {
       const { code } = await deleteNotice({ notice_id: this.deleteId })
       if (code === 2000) {
         this.$store.dispatch('notice/getUnreadNotices')
-        this.getNoticeList()
+        this.refreshNoticeList()
       }
     },
 
@@ -295,7 +313,7 @@ export default {
         if (code === 2000) {
           this.$store.dispatch('notice/getUnreadNotices')
           this.handleCommand({ label: '全部消息' })
-          await this.getNoticeList()
+          await this.refreshNoticeList()
           this.selectAll = false
         }
       }
@@ -323,24 +341,8 @@ export default {
     },
 
     async loadMore() {
-      this.$vs.loading({
-        type: 'point',
-        container: '#message-with-loading',
-        scale: 1,
-      })
-      this.busy = true
-
-      try {
-        const { code, data } = await getNoticeList({ pageSize: this.pageSize })
-        if (code === 2000) {
-          this.rawData = data.notice_list
-          this.dataList = data.notice_list.reverse()
-        }
-      } catch {
-        this.busy = true
-      } finally {
-        this.busy = false
-        this.$vs.loading.close('#message-with-loading > .con-vs-loading')
+      if (!this.stop) {
+        this.getNoticeList(this.page)
       }
     },
   },
