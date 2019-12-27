@@ -2,8 +2,9 @@ import Vue from 'vue'
 import animated from 'animate.css' // css 动画库
 import VueClipboard from 'vue-clipboard2' // 粘贴板
 import dayjs from 'dayjs' // 日期格式化
-import VContentmenu from 'v-contextmenu' // 右键菜单
 import VueSocketIO from 'vue-socket.io' // socket.io
+import infiniteScroll from 'vue-infinite-scroll' // 无限滚动
+import VContentmenu from 'v-contextmenu' // 右键菜单
 import 'v-contextmenu/dist/index.css' // 右键菜单样式
 
 import App from './App.vue'
@@ -24,6 +25,7 @@ Vue.use(VContentmenu)
 
 Vue.use(animated)
 Vue.use(VueClipboard)
+Vue.use(infiniteScroll)
 Vue.prototype.$dayjs = dayjs
 
 Vue.directive('self', (el, binding) => {
