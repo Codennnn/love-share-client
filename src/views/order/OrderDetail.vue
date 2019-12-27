@@ -228,10 +228,14 @@ export default {
       })
 
       try {
-        const { code, data } = await getOrderDetail({ order_id })
+        const { code, data: { order_detail } } = await getOrderDetail({ order_id })
         if (code === 2000) {
-          this.detail = data.order_detail
-          this.goodsList = data.order_detail.goods_list
+          if (order_detail) {
+            this.detail = order_detail
+            this.goodsList = order_detail.goods_list
+          } else {
+            this.$router.replace('/not-found')
+          }
         }
       } finally {
         this.$vs.loading.close('#div-with-loading > .con-vs-loading')

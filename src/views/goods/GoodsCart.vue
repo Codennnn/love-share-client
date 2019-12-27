@@ -68,11 +68,15 @@ const CartSuccess = Vue.component(
   'CartSuccess',
   () => import('./components/CartSuccess.vue'),
 )
+const CartFail = Vue.component(
+  'CartFail',
+  () => import('./components/CartFail.vue'),
+)
 
 export default {
   name: 'GoodsCart',
   components: {
-    CartList, CartAddress, CartSettle, CartSuccess,
+    CartList, CartAddress, CartSettle, CartSuccess, CartFail,
   },
 
   data: () => ({
