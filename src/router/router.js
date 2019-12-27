@@ -107,6 +107,12 @@ export const routes = [
         component: () => import('@/views/goods/GoodsEdit.vue'),
         meta: { title: '编辑商品' },
       },
+      {
+        path: '/test',
+        name: 'Test',
+        component: () => import('@/views/test/Test.vue'),
+        meta: { title: '测试' },
+      },
     ],
     meta: { title: '首页' },
   },

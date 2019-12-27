@@ -197,12 +197,14 @@ export default {
             isActive: true,
           })
         } else if (code === 5000) {
-          this.$emit('switchComponent', {
-            currentStep: 3,
-            currentComponent: 'CartFail',
-            isActive: true,
-          })
+          throw new Error()
         }
+      } catch {
+        this.$emit('switchComponent', {
+          currentStep: 3,
+          currentComponent: 'CartFail',
+          isActive: true,
+        })
       } finally {
         this.$vs.loading.close('.main > .con-vs-loading')
       }

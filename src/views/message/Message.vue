@@ -105,39 +105,45 @@
             @click.native="selectAll = false, showAction = false, getNoticeList()"
           ></vs-icon>
         </div>
-        <ul v-if="dataList.length > 0">
+
+        <ul
+          v-show="dataList.length > 0"
+          style="height: 100px; overflow: auto;"
+          v-infinite-scroll="loadMore"
+          :infinite-scroll-disabled="busy"
+        >
           <li
             v-contextmenu:contextmenu
             class="mb-3 p-2 flex items-center rounded-lg hover:bg-gray-100"
             style="transition: all 0.3s;"
-            v-for="(item, i) in dataList"
+            v-for="(it, i) in dataList"
             :key="i"
-            :data-id="item._id"
+            :data-id="it._id"
           >
             <div class="flex-1">
               <div class="mb-2 flex items-center">
                 <vs-icon
                   size="small"
-                  :icon="noticeType[item.type].icon"
-                  :color="noticeType[item.type].color"
+                  :icon="noticeType[it.type].icon"
+                  :color="noticeType[it.type].color"
                 ></vs-icon>
                 <span
                   class="ml-2"
-                  :class="[`text-${noticeType[item.type].color}`,
-                  {'font-bold': isUnread(item._id)}]"
+                  :class="[`text-${noticeType[it.type].color}`,
+                  {'font-bold': isUnread(it._id)}]"
                 >
-                  {{ item.title }}
+                  {{ it.title }}
                 </span>
                 <span
                   class="ml-4 text-gray-500"
                   style="font-size: 0.7rem;"
                 >
-                  {{ $dayjs(item.time).format('YYYY年MM月DD日 hh:mm') }}
+                  {{ $dayjs(it.time).format('YYYY年MM月DD日 hh:mm') }}
                 </span>
               </div>
               <div
                 class="px-6 text-gray-600"
-                v-html="item.content"
+                v-html="it.content"
               >
               </div>
             </div>
@@ -147,7 +153,7 @@
             >
               <vs-checkbox
                 v-model="select"
-                :vs-value="item._id"
+                :vs-value="it._id"
               ></vs-checkbox>
             </div>
             <v-contextmenu
@@ -160,7 +166,7 @@
           </li>
         </ul>
         <div
-          v-else
+          v-show="dataList.length <= 0"
           class="py-4 flex justify-center"
         >
           <img src="@/assets/images/no-data.png">
@@ -198,12 +204,16 @@ export default {
     currentActive: '系统通知',
     label: '全部消息',
 
-    rawData: [],
-    dataList: [],
+    rawData: [], // 原始数据
+    dataList: [], // 显示数据
+    select: [], // 选中的数据
     deleteId: null,
-    select: [],
-    selectAll: false,
-    showAction: false,
+    selectAll: false, // 是否全选
+    showAction: false, // 显示更多操作
+    busy: false,
+
+    page: 1,
+    pageSize: 10,
   }),
 
   watch: {
@@ -235,10 +245,6 @@ export default {
     },
   },
 
-  mounted() {
-    this.getNoticeList()
-  },
-
   methods: {
     // 获取通知列表
     async getNoticeList() {
@@ -251,7 +257,7 @@ export default {
       try {
         const { code, data } = await getNoticeList()
         if (code === 2000) {
-          this.rawData = data.notice_list.reverse()
+          this.rawData = data.notice_list
           this.dataList = data.notice_list.reverse()
         }
       } finally {
@@ -310,9 +316,31 @@ export default {
       if (type === 0) {
         this.dataList = this.rawData
       } else if (type === 5) {
-        this.rawData.filter(el => !el.is_read)
+        this.dataList = this.rawData.filter(el => !el.is_read)
       } else {
         this.dataList = this.rawData.filter(el => el.type === type)
+      }
+    },
+
+    async loadMore() {
+      this.$vs.loading({
+        type: 'point',
+        container: '#message-with-loading',
+        scale: 1,
+      })
+      this.busy = true
+
+      try {
+        const { code, data } = await getNoticeList({ pageSize: this.pageSize })
+        if (code === 2000) {
+          this.rawData = data.notice_list
+          this.dataList = data.notice_list.reverse()
+        }
+      } catch {
+        this.busy = true
+      } finally {
+        this.busy = false
+        this.$vs.loading.close('#message-with-loading > .con-vs-loading')
       }
     },
   },

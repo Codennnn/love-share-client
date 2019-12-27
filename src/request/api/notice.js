@@ -1,9 +1,10 @@
 import request from '../request'
 
-export function getNoticeList() {
+export function getNoticeList(params) {
   return request({
     url: '/notice/list',
     method: 'get',
+    params,
   })
 }
 

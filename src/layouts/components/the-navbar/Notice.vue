@@ -35,7 +35,7 @@
           v-if="unreadAmount > 0"
         >
           <li
-            class="notice relative flex justify-between p-4
+            class="notice relative p-4 flex justify-between
                     cursor-pointer hover:bg-gray-200"
             style="transition: all 0.3s;"
             v-for="(nt, i) in unreadNoticesReverse"
@@ -55,8 +55,9 @@
                   >{{ nt.title }}</span>
                   <div
                     class="text-sm text-gray-600"
+                    v-html="nt.content"
                     :title="nt.content"
-                  >{{ nt.content }}</div>
+                  ></div>
                 </div>
               </div>
             </div>

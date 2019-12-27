@@ -153,7 +153,10 @@
             color="danger"
             @click="isSidebarActive = false"
           >关闭</vs-button>
-          <vs-button class="w-1/3 ml-auto mr-6">确认并付款</vs-button>
+          <vs-button
+            class="w-1/3 ml-auto mr-6"
+            @click="onPay()"
+          >确认并付款</vs-button>
         </div>
       </div>
     </vs-sidebar>
@@ -207,6 +210,7 @@ import {
   getGoodsSeller,
   getGoodsComments,
 } from '@/request/api/goods'
+import { createOrder } from '@/request/api/order'
 
 const icons = [
   { icon: 'weixinzhifu', label: '微信支付', value: 'weixin' },
@@ -304,6 +308,47 @@ export default {
       const { code, data } = await getGoodsComments({ goods_id: this.goodsId })
       if (code === 2000) {
         this.comments = data.comments
+      }
+    },
+
+    async onPay() {
+      this.$vs.loading({
+        container: '#sidebar-container',
+        scale: 1,
+        text: '正在结算，请稍等...',
+      })
+
+      try {
+        const goodsList = [{
+          amount: this.amount,
+          goods: this.goodsId,
+          name: this.goods.name,
+          seller: this.goods.seller,
+        }]
+        const body = {
+          goods_list: goodsList,
+          payment: this.payment,
+          address: this.currAddr,
+          total_price: this.goods.price,
+          actual_price: this.goods.price,
+        }
+        const { code } = await createOrder(body)
+        if (code === 2000) {
+          this.$router.replace('/user-center')
+        } else if (code === 5000) {
+          throw new Error()
+        }
+      } catch {
+        this.$vs.notify({
+          title: '订单创建失败',
+          text: '服务器发生错误(点击关闭)',
+          icon: 'remove_shopping_cart',
+          color: 'danger',
+          position: 'top-left',
+          fixed: true,
+        })
+      } finally {
+        this.$vs.loading.close('#sidebar-container > .con-vs-loading')
       }
     },
   },
