@@ -10,7 +10,7 @@
           >消息中心</div>
           <ul class="pt-4">
             <li
-              class="item px-3 py-1 cursor-pointer"
+              class="li-item px-3 py-1 cursor-pointer"
               v-for="(item, i) in list"
               :key="i"
               :class="{'text-primary': currentActive === item.title}"
@@ -212,7 +212,7 @@ export default {
     deleteId: null,
     selectAll: false, // 是否全选
     showAction: false, // 显示更多操作
-    stop: false,
+    stop: false, // 禁用无限滚动
 
     page: 0,
     pageSize: 10,
@@ -277,6 +277,7 @@ export default {
     },
 
     refreshNoticeList() {
+      this.label = '全部消息'
       this.page = 0
       this.rawData = []
       this.dataList = []
@@ -350,7 +351,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.item {
+.li-item {
   transition: color 0.3s;
   &:hover {
     color: rgba(var(--vs-primary), 0.8);

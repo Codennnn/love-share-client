@@ -7,47 +7,46 @@
           <ul>
             <li
               class="list-item mb-6 base-shadow vs-con-loading__container"
-              v-for="item in cartList"
-              :key="item._id"
-              :id="`li-loading${item._id}`"
+              v-for="it in cartList"
+              :key="it._id"
+              :id="`li-loading${it._id}`"
             >
               <div class="w-1/3">
                 <el-image
                   class="h-full w-full"
                   fit="cover"
-                  :src="item.goods.img_list[0]"
+                  :src="it.goods.img_list[0]"
                 />
               </div>
-
               <div
                 class="w-1/3 py-4 px-5 flex-col"
                 style="border-right: 1px dashed #cfcfcf;"
               >
-                <div class="font-bold text-gray-700">{{ item.goods.name }}</div>
+                <div class="font-bold text-gray-700">{{ it.goods.name }}</div>
                 <div class="text-sm">数量</div>
                 <div class="flex">
                   <vs-input-number
                     :min="1"
-                    :max="item.goods.quantity"
-                    v-model="item.amount"
+                    :max="it.goods.quantity"
+                    v-model="it.amount"
                   />
                 </div>
               </div>
 
               <div class="w-1/3 py-4 px-5 flex flex-col items-center">
                 <div class="ml-auto">
-                  <vs-chip :color="item.goods.delivery === 1 ? 'primary' : ''">
-                    {{ delivery[item.goods.delivery] }}
+                  <vs-chip :color="it.goods.delivery === 1 ? 'primary' : ''">
+                    {{ delivery[it.goods.delivery] }}
                   </vs-chip>
                 </div>
                 <div class="w-full mt-2 mb-4 text-center">
                   <span class="text-sm text-gray-600">单价：</span>
-                  <span class="text-lg font-bold">￥{{ Number(item.goods.price).toFixed(2) }}</span>
+                  <span class="text-lg font-bold">￥{{ Number(it.goods.price).toFixed(2) }}</span>
                 </div>
                 <div
                   class="btn mb-2"
                   style="background: rgb(244, 244, 244);"
-                  @click="removeCartItem(item._id)"
+                  @click="removeCartItem(it._id)"
                 >
                   <i class="el-icon-close mr-1 text-xl"></i>
                   移出购物车
@@ -55,7 +54,7 @@
                 <div
                   class="btn text-white"
                   style="background: rgba(var(--vs-primary), 1);"
-                  @click="$router.push({path: '/goods-detail', query: { goodsId: item.goods._id }})"
+                  @click="$router.push({path: '/goods-detail', query: { goodsId: it.goods._id }})"
                 >
                   <i class="el-icon-star-off mr-1 text-lg"></i>
                   查看商品
