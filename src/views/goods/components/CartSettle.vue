@@ -18,24 +18,26 @@
             <vs-th>单价</vs-th>
           </template>
           <template slot-scope="{data}">
-            <vs-tr
-              class="text-base text-gray-700"
-              v-for="(tr, i) in data"
-              :key="i"
-            >
-              <vs-td>
-                <vs-image
-                  class="w-24 h-24 base-shadow"
-                  :src="`${tr.goods.img_list[0]}?imageView2/2/w/100`"
-                />
-              </vs-td>
-              <vs-td>{{ tr.goods.name }}</vs-td>
-              <vs-td>{{ tr.amount }}</vs-td>
-              <vs-td>{{ tr.goods.delivery_charge }}</vs-td>
-              <vs-td class="text-primary font-bold">
-                ￥{{ Number(tr.goods.price).toFixed(2) }}
-              </vs-td>
-            </vs-tr>
+            <template v-for="(tr, i) in data">
+              <vs-tr
+                v-if="tr.goods.status === 1"
+                class="text-base text-gray-700"
+                :key="i"
+              >
+                <vs-td>
+                  <vs-image
+                    class="w-24 h-24 base-shadow"
+                    :src="`${tr.goods.img_list[0]}?imageView2/2/w/100`"
+                  />
+                </vs-td>
+                <vs-td>{{ tr.goods.name }}</vs-td>
+                <vs-td>{{ tr.amount }}</vs-td>
+                <vs-td>{{ tr.goods.delivery_charge }}</vs-td>
+                <vs-td class="text-primary font-bold">
+                  ￥{{ Number(tr.goods.price).toFixed(2) }}
+                </vs-td>
+              </vs-tr>
+            </template>
           </template>
         </vs-table>
 

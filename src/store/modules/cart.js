@@ -62,6 +62,7 @@ export default {
   mutations,
   actions,
   getters: {
+    // 购物车商品数量
     cartAmount: state => state.cartList.length,
     // 总运费
     deliveryCharges: (state) => {
@@ -74,10 +75,10 @@ export default {
     // 总付款
     amountPayable: state => state.cartList.reduce(
       (acc, curr) => {
-        if (!curr.goods.buyer) {
+        if (curr.goods.status === 1) {
           return acc + curr.goods.price * curr.amount
         }
-        return 0
+        return acc
       },
       0,
     ),

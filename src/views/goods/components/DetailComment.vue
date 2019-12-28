@@ -12,7 +12,7 @@
         label="问问更多细节~"
         counter="50"
         maxlength="50"
-        v-model="textContent"
+        v-model.trim="textContent"
         :counter-danger.sync="counterDanger"
       />
     </div>

@@ -64,7 +64,7 @@
               </div>
               <div class="order-info__item">
                 <div class="label">支付方式</div>
-                <div class="value">{{ detail.payment }}</div>
+                <div class="value">{{ payment[detail.payment] }}</div>
               </div>
             </div>
             <div class="order-info__col">
@@ -89,7 +89,8 @@
                 <vs-th>商品名称</vs-th>
                 <vs-th>数量</vs-th>
                 <vs-th>价格</vs-th>
-                <vs-th>商品详情</vs-th>
+                <vs-th>物流</vs-th>
+                <!-- <vs-th>商品详情</vs-th> -->
               </template>
 
               <template slot-scope="{data}">
@@ -110,7 +111,31 @@
                   <vs-td>{{ tr.goods.name }}</vs-td>
                   <vs-td>1</vs-td>
                   <vs-td>￥{{ tr.goods.price }}</vs-td>
-                  <vs-td>
+                  <vs-td :data="tr.goods">
+                    <vs-button
+                      size="small"
+                      type="border"
+                    >物流信息</vs-button>
+                    <template slot="edit">
+                      <div class="w-full p-2 overflow-auto">
+                        <el-steps align-center>
+                          <el-step title="下单成功">
+                            <div slot="description">
+                              <p>等待发货</p>
+                              {{ $dayjs(tr.goods.sell_time).format('YY/MM/DD hh:mm') }}
+                            </div>
+                          </el-step>
+                          <el-step title="已发货">
+                            <div slot="description">
+                              <p>等待快递揽件</p>
+                              {{ $dayjs(tr.goods.sell_time).format('YYYY/MM/DD hh:mm') }}
+                            </div>
+                          </el-step>
+                        </el-steps>
+                      </div>
+                    </template>
+                  </vs-td>
+                  <!-- <vs-td>
                     <i
                       title="查看详情"
                       class="el-icon-goods ml-3 p-2 text-xl cursor-pointer"
@@ -119,7 +144,7 @@
                                     query: { goodsId: tr.goods._id }
                                   })"
                     ></i>
-                  </vs-td>
+                  </vs-td> -->
                 </vs-tr>
               </template>
             </vs-table>
@@ -141,7 +166,7 @@
           <p>交易流程</p>
         </div>
         <vs-divider />
-        <OrderStep />
+        <OrderStep :step="detail.step" />
       </div>
 
       <div
@@ -211,6 +236,12 @@ export default {
           color: 'danger',
           icon: 'el-icon-close',
         },
+      },
+      payment: {
+        huabei: '余额支付',
+        weixin: '微信支付',
+        zhifubao: '支付宝支付',
+        yinlian: '银行卡支付',
       },
     }
   },

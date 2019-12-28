@@ -1,13 +1,12 @@
 <template>
   <el-steps
-    :active="currentStep"
+    :active="step"
     align-center
   >
     <el-step title="创建订单">
       <div slot="description">2019-08-17 14:25</div>
     </el-step>
     <el-step title="支付成功">
-      <div slot="description">2019-08-17 14:25</div>
     </el-step>
 
     <el-step title="商品发出">
@@ -74,10 +73,9 @@
 
 <script>
 export default {
-  data() {
-    return {
-      currentStep: 4,
-    }
+  name: 'OrderStep',
+  props: {
+    step: Number,
   },
 }
 </script>

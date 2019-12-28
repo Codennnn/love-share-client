@@ -112,10 +112,10 @@ export default {
       BUG: '#f56c6c',
     }
     return {
+      tagColor,
       isPopupActive: false, // 是否弹框
       task: null,
       tags: ['前端', '后端', '其它', 'BUG'],
-      tagColor,
       tempTodo: '',
     }
   },
