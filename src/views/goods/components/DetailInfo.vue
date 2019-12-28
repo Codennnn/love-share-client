@@ -71,6 +71,20 @@
           </div>
         </div>
         <div class="info-item">
+          <vs-chip>新 旧</vs-chip>
+          <span
+            class="font-bold"
+            style="margin-bottom: 2px;"
+            :class="{
+              'text-success': goods.degree > 70,
+              'text-warning': goods.degree >= 30 && goods.degree < 70,
+              'text-danger': goods.degree < 30,
+            } "
+          >
+            {{ goods.degree }}%
+          </span>
+        </div>
+        <div class="info-item">
           <vs-chip>数 量</vs-chip>
           <span style="margin-bottom: 2px;">{{ goods.quantity }}</span>
         </div>

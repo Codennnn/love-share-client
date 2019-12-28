@@ -54,12 +54,11 @@
           <div class="w-2/3 flex items-center">
             <vs-slider
               class="mx-2"
-              step="10"
               text-fixed="%"
               v-model="goods.degree"
             />
             <div class="w-16 ml-4 text-right text-gray-600 font-bold">
-              {{ goods.degree / 10 }}成新
+              {{ goods.degree }}%
             </div>
           </div>
         </div>
