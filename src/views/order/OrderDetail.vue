@@ -53,13 +53,13 @@
               <div class="order-info__item">
                 <div class="label">创建时间</div>
                 <div class="value">
-                  {{ $dayjs(detail.created_at).format('YYYY-MM-DD hh:mm:ss') }}
+                  {{ $dayjs(detail.created_at).format('YYYY-MM-DD HH:mm:ss') }}
                 </div>
               </div>
               <div class="order-info__item">
                 <div class="label">发货时间</div>
                 <div class="value">
-                  {{ $dayjs(detail.created_at).format('YYYY-MM-DD hh:mm:ss') }}
+                  {{ $dayjs(detail.created_at).format('YYYY-MM-DD HH:mm:ss') }}
                 </div>
               </div>
               <div class="order-info__item">
@@ -122,13 +122,13 @@
                           <el-step title="下单成功">
                             <div slot="description">
                               <p>等待发货</p>
-                              {{ $dayjs(tr.goods.sell_time).format('YY/MM/DD hh:mm') }}
+                              {{ $dayjs(tr.goods.sell_time).format('YY/MM/DD HH:mm') }}
                             </div>
                           </el-step>
                           <el-step title="已发货">
                             <div slot="description">
                               <p>等待快递揽件</p>
-                              {{ $dayjs(tr.goods.sell_time).format('YYYY/MM/DD hh:mm') }}
+                              {{ $dayjs(tr.goods.sell_time).format('YYYY/MM/DD HH:mm') }}
                             </div>
                           </el-step>
                         </el-steps>

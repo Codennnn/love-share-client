@@ -184,7 +184,7 @@ export default {
           name: this.name,
           category: this.category,
           price: this.price,
-          time: this.$dayjs().format('YY-MM-DD hh:mm:ss'),
+          time: this.$dayjs().format('YY-MM-DD HH:mm:ss'),
         }
         this.$emit('addListData', data)
         this.$emit('closeSidebar')

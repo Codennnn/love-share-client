@@ -140,7 +140,7 @@
                   class="ml-4 text-gray-500"
                   style="font-size: 0.7rem;"
                 >
-                  {{ $dayjs(it.time).format('YYYY年MM月DD日 hh:mm') }}
+                  {{ $dayjs(it.time).format('YYYY年MM月DD日 HH:mm') }}
                 </span>
               </div>
               <div
@@ -179,8 +179,6 @@
 </template>
 
 <script>
-import _cloneDeepWith from 'lodash/cloneDeepWith'
-
 import {
   getNoticeList, setAllNoticesRead, deleteNotice, deleteManyNotices,
 } from '@/request/api/notice'
@@ -263,7 +261,7 @@ export default {
         const { code, data } = await getNoticeList({ page, page_size: this.pageSize })
         if (code === 2000) {
           this.rawData.push(...data.notice_list)
-          this.dataList = _cloneDeepWith(this.rawData).reverse()
+          this.dataList = [...this.rawData].reverse()
           this.page += 1
           this.stop = false
           if (data.notice_list.length < this.pageSize) {
@@ -333,11 +331,11 @@ export default {
     handleCommand({ label, type }) {
       this.label = label
       if (type === 0) {
-        this.dataList = this.rawData
+        this.dataList = [...this.rawData]
       } else if (type === 5) {
-        this.dataList = this.rawData.filter(el => !el.is_read)
+        this.dataList = [...this.rawData].filter(el => !el.is_read)
       } else {
-        this.dataList = this.rawData.filter(el => el.type === type)
+        this.dataList = [...this.rawData].filter(el => el.type === type)
       }
     },
 
