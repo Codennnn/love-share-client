@@ -50,6 +50,21 @@
         </div>
 
         <div class="py-3">
+          <div class="mb-2 text-gray-500">新旧程度</div>
+          <div class="w-2/3 flex items-center">
+            <vs-slider
+              class="mx-2"
+              step="10"
+              text-fixed="%"
+              v-model="goods.degree"
+            />
+            <div class="w-16 ml-4 text-right text-gray-600 font-bold">
+              {{ goods.degree / 10 }}成新
+            </div>
+          </div>
+        </div>
+
+        <div class="py-3">
           <div class="mb-2 text-gray-500">价格设置</div>
           <div class="flex items-end">
             <div>
@@ -191,11 +206,12 @@ export default {
       name: '', // 商品名称
       category: [], // 所选分类
       quantity: 1, // 商品数量
+      degree: 50, // 新旧程度
       price: 0, // 二手价
       original_price: 0, // 入手价
       checked: false, // 是否选择入手价
       delivery: '1', // 运费设置
-      delivery_charge: 0,
+      delivery_charge: 0, // 运费
       can_bargain: false, // 议价设置
       can_return: false, // 退货设置
       description: '', // 商品描述
