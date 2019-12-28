@@ -179,6 +179,8 @@
 </template>
 
 <script>
+import _cloneDeepWith from 'lodash/cloneDeepWith'
+
 import {
   getNoticeList, setAllNoticesRead, deleteNotice, deleteManyNotices,
 } from '@/request/api/notice'
@@ -260,13 +262,12 @@ export default {
       try {
         const { code, data } = await getNoticeList({ page, page_size: this.pageSize })
         if (code === 2000) {
+          this.rawData.push(...data.notice_list)
+          this.dataList = _cloneDeepWith(this.rawData).reverse()
+          this.page += 1
+          this.stop = false
           if (data.notice_list.length < this.pageSize) {
             this.stop = true
-          } else {
-            this.rawData.push(...data.notice_list)
-            this.dataList = this.rawData.reverse()
-            this.page += 1
-            this.stop = false
           }
         }
       } catch {
@@ -280,7 +281,6 @@ export default {
       this.label = '全部消息'
       this.page = 0
       this.rawData = []
-      this.dataList = []
       this.getNoticeList(this.page)
     },
 

@@ -46,10 +46,11 @@ const actions = {
     }
   },
 
-  async clearCartList({ dispatch, state }) {
+  async clearCartList({ commit, dispatch, state }) {
     const cart_id_list = state.cartList.map(el => el._id)
     const { code } = await clearCartList({ cart_id_list })
     if (code === 2000) {
+      commit('SET_CART_LIST', [])
       dispatch('getCartList')
     }
   },
@@ -72,7 +73,13 @@ export default {
     },
     // 总付款
     amountPayable: state => state.cartList.reduce(
-      (acc, curr) => acc + curr.goods.price * curr.amount, 0,
+      (acc, curr) => {
+        if (!curr.goods.buyer) {
+          return acc + curr.goods.price * curr.amount
+        }
+        return 0
+      },
+      0,
     ),
     isInCart: state => id => state.cartList.some(item => item.goods._id === id),
   },

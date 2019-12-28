@@ -6,7 +6,7 @@
         <div>
           <ul>
             <li
-              class="list-item mb-6 base-shadow vs-con-loading__container"
+              class="list-item relative mb-6 base-shadow vs-con-loading__container"
               v-for="it in cartList"
               :key="it._id"
               :id="`li-loading${it._id}`"
@@ -32,7 +32,6 @@
                   />
                 </div>
               </div>
-
               <div class="w-1/3 py-4 px-5 flex flex-col items-center">
                 <div class="ml-auto">
                   <vs-chip :color="it.goods.delivery === 1 ? 'primary' : ''">
@@ -59,6 +58,15 @@
                   <i class="el-icon-star-off mr-1 text-lg"></i>
                   查看商品
                 </div>
+              </div>
+
+              <!-- 下架标志 -->
+              <div
+                v-if="it.goods.buyer"
+                class="absolute z-50 cursor-default"
+                style="transform: rotateZ(-45deg);top: 1.5rem; left: -3.5rem;"
+              >
+                <div class="w-48 py-1 text-center text-white text-xl bg-danger">已卖出</div>
               </div>
             </li>
           </ul>
@@ -193,7 +201,6 @@ export default {
 
     // 清空购物车
     onClear() {
-      this.$store.commit('cart/SET_CART_LIST', [])
       this.$store.dispatch('cart/clearCartList')
     },
 
