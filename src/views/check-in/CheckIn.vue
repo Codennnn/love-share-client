@@ -5,6 +5,22 @@
       @eventClick="onCheckIn"
       @dayClick="onCheckIn"
     >
+      <div
+        slot="fc-header-left"
+        class="flex items-center"
+      >
+        <span>我的乐享豆</span>
+        <span class="mx-2 text-lg font-bold">{{ beans }}</span>
+        <span>
+          <svg class="w-5 h-5">
+            <use
+              class="ledou"
+              stroke="yellow"
+              xlink:href="#icon-ledou"
+            />
+          </svg>
+        </span>
+      </div>
       <div slot="fc-header-right">
         <span>累计签到</span>
         <span class="mx-2 text-primary text-lg font-bold">{{ events.length }}</span>
@@ -29,6 +45,12 @@ export default {
 
   created() {
     this.getCheckIn()
+  },
+
+  computed: {
+    beans() {
+      return this.$store.state.user.info.beans
+    },
   },
 
   methods: {
@@ -138,5 +160,8 @@ export default {
       opacity: 0.4;
     }
   }
+}
+use.ledou {
+  fill: rgba(var(--vs-warning), 1) !important;
 }
 </style>

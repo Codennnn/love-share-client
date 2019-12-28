@@ -47,7 +47,7 @@
             :to="item.to"
           >
             <svg class="w-12 h-12">
-              <use :xlink:href="`#icon-${item.icon}`"></use>
+              <use :xlink:href="`#icon-${item.icon}`" />
             </svg>
             <p class="mt-1 text-sm">{{ item.label }}</p>
           </router-link>

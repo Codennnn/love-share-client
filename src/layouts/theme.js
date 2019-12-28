@@ -8,7 +8,7 @@ import '@/assets/scss/reset.scss' // 覆盖默认样式
 import '@/assets/scss/common.scss' // 公共样式
 import '@/assets/scss/variables.scss' // scss 变量
 import '@/assets/scss/tailwind.scss' // tailwind 样式
-import '@/assets/iconfont/svg' // 阿里云字体图标
+import '@/assets/iconfont/svg' // 阿里巴巴图标
 
 import {
   Badge, Container, Dropdown, Carousel, CarouselItem,

@@ -92,8 +92,6 @@
 
           <!-- 通知图标 -->
           <Notice />
-
-          <p class="mx-5">签到</p>
         </template>
         <template v-else>
           <vs-button
@@ -191,11 +189,11 @@ export default {
 $navIcon: #686868; // 顶部导航栏图标颜色
 
 .nav-bar {
+  height: 65px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 65px;
-  padding: 0.6rem 1rem;
+  padding: 0.6rem 4rem;
   background: #fff;
   box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.08);
   box-sizing: border-box;
