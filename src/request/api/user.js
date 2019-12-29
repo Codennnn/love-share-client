@@ -25,6 +25,14 @@ export function getUserInfo() {
   })
 }
 
+export function getOtherUserInfo(params) {
+  return request({
+    url: '/user/other/info',
+    method: 'get',
+    params,
+  })
+}
+
 export function resetPassword(data) {
   return request({
     url: '/user/reset_password',
