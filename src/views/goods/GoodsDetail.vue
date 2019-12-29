@@ -26,6 +26,7 @@
       <DetailComment
         :comments="comments"
         :goodsId="goodsId"
+        :owner="seller._id"
         @refreshComments="getGoodsComments()"
       />
     </div>

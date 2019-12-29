@@ -42,19 +42,6 @@
         </template>
       </div>
 
-      <div>
-        <vs-alert
-          class="alert"
-          color="danger"
-          icon="rss_feed"
-          :active="isOffline"
-        >
-          <span>
-            网络不可用，请检测您的网络配置
-          </span>
-        </vs-alert>
-      </div>
-
       <!-- 导航栏右侧 -->
       <div class="flex items-center">
         <div class="flex items-center">
@@ -158,20 +145,12 @@ export default {
     searchText: '',
     showSearchInput: false, // 显示搜索框
     isFullScreen: false, // 是否全屏,
-    isOffline: false, // 是否处于网络
   }),
 
   mounted() {
     if (screenfull.enabled) {
       screenfull.on('change', this.screenChange)
     }
-
-    window.addEventListener('online', () => {
-      this.isOffline = false
-    })
-    window.addEventListener('offline', () => {
-      this.isOffline = true
-    })
   },
 
   beforeDestroy() {
@@ -261,13 +240,6 @@ $navIcon: #686868; // 顶部导航栏图标颜色
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     color: #989898;
-  }
-}
-
-// 断网警告
-.alert {
-  .vs-icon {
-    font-size: 1.2rem;
   }
 }
 </style>

@@ -23,37 +23,57 @@
       <li
         class="msg relative mb-2 overflow-hidden"
         style="transition: all 0.3s;"
-        v-for="(comment, i) in comments"
+        v-for="(cm, i) in comments"
         :key="i"
-        :class="{'px-1 py-2 bg-gray-100 rounded-lg': currMsg === comment._id}"
+        :class="{'px-1 py-2 bg-gray-100 rounded-lg': currMsg === cm._id}"
       >
         <div class="flex items-center">
-          <vs-avatar :src="`${comment.sender.avatar_url}?imageView2/2/w/50`"></vs-avatar>
+          <vs-avatar :src="`${cm.sender.avatar_url}?imageView2/2/w/50`"></vs-avatar>
           <p class="name ml-1">
-            {{ comment.sender.nickname }}
+            {{ cm.sender.nickname }}
           </p>
+          <p
+            v-if="cm.sender._id === owner"
+            class="ml-1 text-primary text-xs rounded-lg"
+            style="padding: 0.1rem 0.3rem; background: rgba(var(--vs-primary), 0.2);"
+          >主人</p>
           <p class="ml-2 text-xs text-gray-500">
-            {{ timeDiff(comment.created_at) }}
+            {{ timeDiff(cm.created_at) }}
           </p>
         </div>
-        <p class="ml-8 text-sm text-gray-600">{{ comment.content }}</p>
+        <p class="ml-8 text-sm text-gray-600">{{ cm.content }}</p>
         <p
           class="reply absolute cursor-pointer"
-          @click="showReplyInput(comment._id, comment.sender.nickname, 1)"
+          @click="showReplyInput(cm._id, cm.sender, 1)"
         >回复</p>
         <ul
-          v-if="comment.replies.length > 0"
+          v-if="cm.replies.length > 0"
           class="ml-6 p-2 bg-gray-100 rounded-lg"
         >
           <li
-            v-for="(it, index) in comment.replies"
+            v-for="(it, index) in cm.replies"
             :key="index"
             class="reply-item"
           >
             <p class="text-sm">
-              <span class="name cursor-pointer">{{ it.sender.nickname }}</span>
+              <span class="name cursor-pointer">
+                {{ it.sender.nickname }}
+                <span
+                  v-if="it.sender._id === owner"
+                  class="text-primary text-xs rounded-lg font-normal"
+                  style="padding: 0.1rem 0.3rem; background: rgba(var(--vs-primary), 0.2);"
+                >主人</span>
+              </span>
               <span class="mx-1 text-gray-500">回复</span>
-              <span class="name cursor-pointer">{{ it.at.nickname }}:</span>
+              <span class="name cursor-pointer">
+                {{ it.at.nickname }}
+                <span
+                  v-if="it.sender._id === owner"
+                  class="text-primary text-xs rounded-lg font-normal"
+                  style="padding: 0.1rem 0.3rem; background: rgba(var(--vs-primary), 0.2);"
+                >主人</span>
+                :
+              </span>
               <span class="text-gray-500">
                 {{ it.content }}
               </span>
@@ -61,39 +81,39 @@
                 title="回复"
                 class="reply-icon el-icon-chat-dot-square ml-2
                  cursor-pointer text-base text-gray-600"
-                @click="showReplyInput(comment._id, it.at.nickname, 2)"
+                @click="showReplyInput(cm._id, it.at, 2)"
               ></i>
             </p>
           </li>
           <div
-            v-if="currRep === comment._id"
+            v-if="currRep === cm._id"
             class="mt-1 flex items-end"
           >
             <vs-input
               class="flex-1 mr-1"
               v-model="repContent"
               :label-placeholder="placeholder"
-              @keyup.enter="replyComment(comment._id, it.sender._id)"
+              @keyup.enter="replyComment(cm._id, it.sender._id)"
             />
             <vs-button
               size="small"
-              @click="replyComment(comment._id, it.sender._id)"
+              @click="replyComment(cm._id, it.sender._id)"
             >回复</vs-button>
           </div>
         </ul>
         <div
-          v-if="currMsg === comment._id"
+          v-if="currMsg === cm._id"
           class="mt-1 flex items-end"
         >
           <vs-input
             class="flex-1 mr-1"
             v-model="repContent"
             :label-placeholder="placeholder"
-            @keyup.enter="replyComment(comment._id, comment.sender._id)"
+            @keyup.enter="replyComment(cm._id, cm.sender._id)"
           />
           <vs-button
             size="small"
-            @click="replyComment(comment._id, comment.sender._id)"
+            @click="replyComment(cm._id, cm.sender._id)"
           >回复</vs-button>
         </div>
       </li>
@@ -117,18 +137,18 @@ export default {
   props: {
     goodsId: String,
     comments: Array,
+    owner: String,
   },
 
   data: () => ({
     timeDiff,
     counterDanger: true,
-    placeholder: '',
-    atNickname: '',
 
-    textContent: '',
-    repContent: '',
-    currMsg: null,
-    currRep: null,
+    placeholder: '',
+    textContent: '', // 留言内容
+    repContent: '', // 回复内容
+    currMsg: null, // 当前留言
+    currRep: null, // 当前回复
   }),
 
   methods: {
@@ -162,19 +182,21 @@ export default {
       }
     },
 
-    showReplyInput(id, nickname, type) {
-      if (type === 1) {
-        this.currRep = null
-        this.placeholder = `回复 ${nickname}：`
-        if (this.currMsg === id) {
+    showReplyInput(id, { _id, nickname }, type) {
+      if (_id !== this.owner) {
+        if (type === 1) {
+          this.currRep = null
+          this.placeholder = `回复 ${nickname}：`
+          if (this.currMsg === id) {
+            this.currMsg = null
+            return
+          }
+          this.currMsg = id
+        } else if (type === 2) {
           this.currMsg = null
-          return
+          this.placeholder = `回复 ${nickname}：`
+          this.currRep = id
         }
-        this.currMsg = id
-      } else if (type === 2) {
-        this.currMsg = null
-        this.placeholder = `回复 ${nickname}：`
-        this.currRep = id
       }
     },
   },
