@@ -15,19 +15,6 @@ export default {
       this.$store.dispatch('user/getUserInfo')
     }
   },
-
-  mounted() {
-    window.addEventListener('offline', () => {
-      this.$vs.notify({
-        title: '网络不可用',
-        text: '请检测您的网络配置(点击关闭)',
-        icon: 'rss_feed',
-        color: 'danger',
-        position: 'top-left',
-        fixed: true,
-      })
-    })
-  },
 }
 </script>
 

@@ -9,7 +9,7 @@
         slot="fc-header-left"
         class="flex items-center"
       >
-        <span>我的乐享豆</span>
+        <span>我的乐豆</span>
         <span class="mx-2 text-lg font-bold">{{ beans }}</span>
         <span>
           <svg class="w-5 h-5">
