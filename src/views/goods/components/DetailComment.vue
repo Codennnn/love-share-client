@@ -34,8 +34,7 @@
           </p>
           <p
             v-if="cm.sender._id === owner"
-            class="ml-1 text-primary text-xs rounded-lg"
-            style="padding: 0.1rem 0.3rem; background: rgba(var(--vs-primary), 0.2);"
+            class="owner ml-1"
           >主人</p>
           <p class="ml-2 text-xs text-gray-500">
             {{ timeDiff(cm.created_at) }}
@@ -60,8 +59,7 @@
                 {{ it.sender.nickname }}
                 <span
                   v-if="it.sender._id === owner"
-                  class="text-primary text-xs rounded-lg font-normal"
-                  style="padding: 0.1rem 0.3rem; background: rgba(var(--vs-primary), 0.2);"
+                  class="owner"
                 >主人</span>
               </span>
               <span class="mx-1 text-gray-500">回复</span>
@@ -69,8 +67,7 @@
                 {{ it.at.nickname }}
                 <span
                   v-if="it.sender._id === owner"
-                  class="text-primary text-xs rounded-lg font-normal"
-                  style="padding: 0.1rem 0.3rem; background: rgba(var(--vs-primary), 0.2);"
+                  class="owner"
                 >主人</span>
                 :
               </span>
@@ -209,6 +206,14 @@ export default {
     color: #718096;
     font-size: 0.875rem;
     font-weight: bold;
+  }
+  .owner {
+    padding: 0.1rem 0.3rem;
+    border-radius: 0.5rem;
+    font-size: 0.6rem;
+    font-weight: normal;
+    color: rgba(var(--vs-primary), 1);
+    background: rgba(var(--vs-primary), 0.15);
   }
   .reply {
     top: 6px;

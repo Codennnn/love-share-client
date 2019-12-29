@@ -10,7 +10,7 @@ const mutations = {
   },
 
   ADD_UNREAD_ITEM(state, notice) {
-    state.unreadNotices.push(notice)
+    state.unreadNotices.unshift(notice)
   },
 
   REMOVE_UNREAD_ITEM(state, id) {
@@ -39,7 +39,6 @@ export default {
   actions,
   getters: {
     unreadAmount: state => state.unreadNotices.length,
-    unreadNoticesReverse: state => [...state.unreadNotices].reverse(),
     isUnread: state => id => state.unreadNotices.some(el => el._id === id),
   },
 }

@@ -38,7 +38,7 @@
             class="notice relative p-4 flex justify-between
                     cursor-pointer hover:bg-gray-200"
             style="transition: all 0.3s;"
-            v-for="(nt, i) in unreadNoticesReverse"
+            v-for="(nt, i) in unreadNotices"
             :key="i"
           >
             <div class="flex items-start">
@@ -105,7 +105,7 @@
 
 <script>
 import VuePerfectScrollbar from 'vue-perfect-scrollbar'
-import { mapGetters } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 
 import { setNoticeRead, setAllNoticesRead } from '@/request/api/notice'
 import { timeDiff } from '@/utils/util'
@@ -143,8 +143,9 @@ export default {
   },
 
   computed: {
+    ...mapState('notice', ['unreadNotices']),
     ...mapGetters('user', { userId: 'getUserId' }),
-    ...mapGetters('notice', ['unreadAmount', 'unreadNoticesReverse']),
+    ...mapGetters('notice', ['unreadAmount']),
   },
 
   methods: {
@@ -176,7 +177,7 @@ export default {
     },
 
     async setAllNoticesRead() {
-      const noticeIdList = this.unreadNoticesReverse.map(el => el._id)
+      const noticeIdList = this.unreadNotices.map(el => el._id)
       const { code } = await setAllNoticesRead({ notice_id_list: noticeIdList })
       if (code === 2000) {
         this.$store.commit('notice/SET_UNREAD_NOTICES', [])
