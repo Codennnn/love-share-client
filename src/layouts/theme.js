@@ -24,7 +24,8 @@ Vue.use(Vuesax, {
   theme: {
     colors: {
       primary: '#5B8FFF',
-      success: '#28C76F',
+      // success: '#28C76F',
+      success: '#24c1a0',
       danger: '#EA5455',
       warning: '#FF9F43',
       dark: '#1E1E1E',
