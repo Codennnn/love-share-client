@@ -103,10 +103,11 @@ export function unsubscribe(data) {
   })
 }
 
-export function getPublishedGoods() {
+export function getPublishedGoods(params) {
   return request({
     url: '/user/published_goods',
     method: 'get',
+    params,
   })
 }
 

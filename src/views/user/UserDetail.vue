@@ -21,11 +21,34 @@
                 v-else-if="info.gender === '2'"
               ></i>
             </div>
-            <span
-              v-if="info.school"
-              class="my-2 py-1 px-3 text-center text-sm text-white"
-              style="border-radius: 0.3rem; background: rgba(var(--vs-primary), 0.9)"
-            >{{ info.school.name }}</span>
+            <div class="flex items-center">
+              <vs-chip
+                v-if="info.school"
+                class="mr-2"
+              >
+                <i class="el-icon-location mr-1 text-lg"></i>
+                {{ info.school.name }}
+              </vs-chip>
+              <vs-button
+                v-if="isFollowed"
+                class="w-24 text-gray-600"
+                size="small"
+                color="#f7fafc"
+                icon-pack="el-icon"
+                icon="el-icon-check"
+                :disabled="disabled"
+                @click="unsubscribe(info._id)"
+              >已关注</vs-button>
+              <vs-button
+                v-else
+                class="w-24"
+                size="small"
+                icon-pack="el-icon"
+                icon="el-icon-plus"
+                :disabled="disabled"
+                @click="subscribe(info._id)"
+              >关 注</vs-button>
+            </div>
           </div>
         </div>
         <div class="w-1/2 flex justify-around">
@@ -47,52 +70,121 @@
       <div class="flex items-center">
         <div class="w-1/3">
           <p class="text-sm text-gray-600 break-words">
-            个人简介：
+            <span class="cursor-default">个人简介：</span>
             {{ info.introduction || '未填写' }}
           </p>
         </div>
         <div class="ml-auto mr-12">
-          <vs-button
-            v-if="isFollowed"
-            class="w-24 text-gray-600"
-            size="small"
-            color="#f7fafc"
-            icon-pack="el-icon"
-            icon="el-icon-check"
-            :disabled="disabled"
-            @click="unsubscribe(info._id)"
-          >已关注</vs-button>
-          <vs-button
-            v-else
-            class="w-24"
-            size="small"
-            color="rgb(91, 143, 255)"
-            gradient-color-secondary="rgb(139, 176, 255)"
-            type="gradient"
-            icon-pack="el-icon"
-            icon="el-icon-plus"
-            :disabled="disabled"
-            @click="subscribe(info._id)"
-          >关 注</vs-button>
+          <div
+            class="px-3 text-primary text-center text-sm cursor-pointer"
+            style="height: 1.8rem; line-height: 1.8rem;
+            background: rgba(var(--vs-primary), 0.2); border-radius: 0.9rem;"
+          >详细资料</div>
         </div>
       </div>
+    </div>
+
+    <div class="p-4 bg-white rounded-lg">
+      <div class="text-lg font-bold mb-4">TA 发布的</div>
+      <vs-table
+        pagination
+        noDataText="暂无数据"
+        :max-items="3"
+        :data="publishedGoods"
+      >
+        <template slot="thead">
+          <vs-th>图片</vs-th>
+          <vs-th>商品名称</vs-th>
+          <vs-th>价格</vs-th>
+          <vs-th>发布于</vs-th>
+          <vs-th>最后更新</vs-th>
+          <vs-th>状态</vs-th>
+          <vs-th>操作</vs-th>
+        </template>
+
+        <template slot-scope="{data}">
+          <vs-tr
+            v-for="(tr, i) in data"
+            :key="i"
+          >
+            <vs-td>
+              <vs-image
+                class="w-24 h-24 base-shadow"
+                :src="`${tr.img_list[0]}?imageView2/2/w/100`"
+              ></vs-image>
+            </vs-td>
+            <vs-td>
+              <p>{{ tr.name }}</p>
+            </vs-td>
+            <vs-td class="font-semibold">￥{{ Number(tr.price).toFixed(2) }}</vs-td>
+            <vs-td>
+              <div class="whitespace-no-wrap">{{ timeDiff(tr.created_at) }}</div>
+            </vs-td>
+            <vs-td>
+              <div class="whitespace-no-wrap">{{ timeDiff(tr.updated_at) }}</div>
+            </vs-td>
+            <vs-td>
+              <div
+                class="w-16 py-1 px-2 text-center whitespace-no-wrap"
+                style="border-radius: 0.4rem;"
+                :class="[`text-${status[tr.status].color}`]"
+                :style="`background: rgba(var(--vs-${status[tr.status].color}), 0.2);`"
+              >{{ status[tr.status].text }}</div>
+            </vs-td>
+            <vs-td>
+              <el-dropdown>
+                <i class="el-icon-more text-lg text-gray-600 cursor-pointer"></i>
+                <el-dropdown-menu slot="dropdown">
+                  <el-dropdown-item @click.native="viewGoodsDetail(tr._id)">
+                    查看主页
+                  </el-dropdown-item>
+                  <el-dropdown-item
+                    v-if="tr.status !== 2"
+                    @click.native="editGoodsInfo(tr._id)"
+                  >
+                    编辑信息
+                  </el-dropdown-item>
+                  <el-dropdown-item>删除记录</el-dropdown-item>
+                </el-dropdown-menu>
+              </el-dropdown>
+            </vs-td>
+          </vs-tr>
+        </template>
+      </vs-table>
     </div>
   </div>
 </template>
 
 <script>
+import { timeDiff } from '@/utils/util'
 import {
-  getUserInfoNum, getOtherUserInfo, subscribe, unsubscribe, isUserFollowed,
+  getUserInfoNum, getOtherUserInfo, subscribe, unsubscribe, isUserFollowed, getPublishedGoods,
 } from '@/request/api/user'
 
 export default {
   name: 'UserDetail',
   data: () => ({
+    timeDiff,
     userId: '',
     info: {},
     num: {},
+    publishedGoods: [],
     isFollowed: false,
     disabled: false,
+    status: {
+      1: {
+        color: 'warning',
+        text: '待出售',
+      },
+      2: {
+        color: 'primary',
+        text: '已出售',
+      },
+      3: {
+        color: 'danger',
+        text: '已下架',
+      },
+    },
   }),
 
   created() {
@@ -107,6 +199,11 @@ export default {
       getOtherUserInfo({ user_id }).then(({ code, data }) => {
         if (code === 2000) {
           this.info = data.user_info
+        }
+      })
+      getPublishedGoods({ user_id }).then(({ code, data }) => {
+        if (code === 2000) {
+          this.publishedGoods = data.published_goods
         }
       })
     } else {
