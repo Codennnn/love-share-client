@@ -30,20 +30,24 @@
         style="width: 40%;"
       >
         <p class="text-lg font-semibold">{{ goods.name }}</p>
-        <div class="my-2 flex items-center text-gray-500 text-sm">
+        <div class="my-2 flex items-center justify-between text-gray-500 text-sm">
           <p>发布于 {{ timeDiff(goods.created_at) }}</p>
-          <vs-button
-            class="ml-6"
-            type="flat"
-            size="small"
-            icon-pack="el-icon"
-            icon="el-icon-star-off"
-            :color="isCollected ? 'warning' : 'success'"
-            @click="isCollected ? deleteCollection() : addCollection()"
-          >
-            {{ isCollected ? '已收藏' : '收藏' }}
-          </vs-button>
+          <div class="flex items-center">
+            <vs-button
+              class="mr-2"
+              type="flat"
+              size="small"
+              icon-pack="el-icon"
+              icon="el-icon-star-off"
+              :color="isCollected ? 'warning' : 'success'"
+              @click="isCollected ? deleteCollection() : addCollection()"
+            >
+              {{ isCollected ? '已收藏' : '收藏' }}
+            </vs-button>
+            <span class="text-sm text-gray-600">{{ goods.collect_num }} 人收藏</span>
+          </div>
         </div>
+        <vs-divider border-style="dashed" />
         <div class="info-item">
           <vs-chip>类 别</vs-chip>
           <span
@@ -109,6 +113,7 @@
             7天无理由退换货
           </span>
         </div>
+        <vs-divider border-style="dashed" />
         <div class="flex items-center mt-6">
           <vs-input-number
             class="mr-4"

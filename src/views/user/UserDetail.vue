@@ -75,11 +75,37 @@
           </p>
         </div>
         <div class="ml-auto mr-12">
-          <div
-            class="px-3 text-primary text-center text-sm cursor-pointer"
-            style="height: 1.8rem; line-height: 1.8rem;
+          <vs-dropdown
+            vs-custom-content
+            vs-trigger-click
+          >
+            <div
+              class="px-3 text-primary text-center text-sm cursor-pointer"
+              style="height: 1.8rem; line-height: 1.8rem;
             background: rgba(var(--vs-primary), 0.2); border-radius: 0.9rem;"
-          >详细资料</div>
+            >详细资料</div>
+
+            <vs-dropdown-menu style="width: 250px;">
+              <div class="p-3">
+                <div class="info-item">
+                  <vs-chip>微 信</vs-chip>
+                  <span class="val">{{ info.wechat || '未填写' }}</span>
+                </div>
+                <div class="info-item">
+                  <vs-chip>Q 号</vs-chip>
+                  <span class="val">{{ info.qq || '未填写' }}</span>
+                </div>
+                <div class="info-item">
+                  <vs-chip>邮 箱</vs-chip>
+                  <span class="val">{{ info.email || '未填写' }}</span>
+                </div>
+                <div class="info-item">
+                  <vs-chip>手机号码</vs-chip>
+                  <span class="val">{{ info.phone || '未填写' }}</span>
+                </div>
+              </div>
+            </vs-dropdown-menu>
+          </vs-dropdown>
         </div>
       </div>
     </div>
@@ -249,4 +275,15 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.info-item {
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  .con-vs-chip {
+    margin-right: 0.5rem;
+  }
+  .val {
+    font-size: 0.8rem;
+  }
+}
 </style>
