@@ -54,23 +54,23 @@
 
 <script>
 import Vue from 'vue'
-import CartList from './components/CartList.vue'
+import CartList from './components/cart/CartList.vue'
 
 const CartAddress = Vue.component(
   'CartAddress',
-  () => import('./components/CartAddress.vue'),
+  () => import('./components/cart/CartAddress.vue'),
 )
 const CartSettle = Vue.component(
   'CartSettle',
-  () => import('./components/CartSettle.vue'),
+  () => import('./components/cart/CartSettle.vue'),
 )
 const CartSuccess = Vue.component(
   'CartSuccess',
-  () => import('./components/CartSuccess.vue'),
+  () => import('./components/cart/CartSuccess.vue'),
 )
 const CartFail = Vue.component(
   'CartFail',
-  () => import('./components/CartFail.vue'),
+  () => import('./components/cart/CartFail.vue'),
 )
 
 export default {

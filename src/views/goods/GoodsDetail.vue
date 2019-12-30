@@ -23,6 +23,7 @@
         :goodsId="goodsId"
         :owner="seller._id"
         @refreshComments="getGoodsComments()"
+        @showMoreComments="getMoreComments()"
       />
     </div>
 
@@ -164,7 +165,7 @@
       </div>
     </vs-sidebar>
 
-    <!-- 弹出框 -->
+    <!-- 选择地址弹出框 -->
     <vs-popup
       title="选择收货地址"
       :active.sync="showPopup"
@@ -198,15 +199,23 @@
         <vs-button @click="currAddr = addressCheck, showPopup = false">选择这个地址</vs-button>
       </div>
     </vs-popup>
+
+    <!-- 更多留言弹出框 -->
+    <vs-popup
+      title="更多留言"
+      fullscreen
+      :active.sync="showCommentsPopup"
+    >
+    </vs-popup>
   </div>
 </template>
 
 <script>
 import { mapState } from 'vuex'
 import VuePerfectScrollbar from 'vue-perfect-scrollbar'
-import DetailInfo from './components/DetailInfo.vue'
-import DetailUser from './components/DetailUser.vue'
-import DetailComment from './components/DetailComment.vue'
+import DetailInfo from './components/detail/DetailInfo.vue'
+import DetailUser from './components/detail/DetailUser.vue'
+import DetailComment from './components/detail/DetailComment.vue'
 
 import {
   getGoodsDetail,
@@ -248,6 +257,8 @@ export default {
     showPopup: false,
     addressCheck: {},
     isSidebarActive: false,
+    showCommentsPopup: false,
+    moreComments: [],
   }),
 
   computed: {
@@ -308,11 +319,28 @@ export default {
       }
     },
 
-    // 获取评论
+    // 获取留言
     async getGoodsComments() {
-      const { code, data } = await getGoodsComments({ goods_id: this.goodsId })
+      const { code, data } = await getGoodsComments({
+        goods_id: this.goodsId,
+        page: 0,
+        page_size: 5,
+      })
       if (code === 2000) {
         this.comments = data.comments
+      }
+    },
+
+    // 获取更多留言
+    async getMoreComments() {
+      const { code, data } = await getGoodsComments({
+        goods_id: this.goodsId,
+        page: 0,
+        page_size: 10,
+      })
+      if (code === 2000) {
+        this.showCommentsPopup = true
+        this.moreComments = data.comments
       }
     },
 
