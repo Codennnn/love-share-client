@@ -2,7 +2,7 @@
   <div
     ref="comment"
     class="relative p-3 bg-white rounded-lg overflow-hidden"
-    style="max-height: 595px;"
+    :style="`max-height: ${maxHeight}px;`"
   >
     <div class="mb-1 flex justify-between items-center">
       <span class="mb-2 text-gray-600">留言板</span>
@@ -132,11 +132,17 @@
     >
       还没有留言，快来抢沙发吧！
     </p>
+    <div v-if="showComments && !hideComment">
+      <vs-pagination
+        :total="Math.ceil(total / 5)"
+        v-model="currPage"
+      ></vs-pagination>
+    </div>
 
     <div
       v-if="hideComment"
       class="hide-comment absolute left-0 bottom-0 w-full text-sm text-center text-gray-600"
-      @click="$emit('showMoreComments')"
+      @click="showMoreComments()"
     >
       查看更多留言
     </div>
@@ -157,29 +163,44 @@ export default {
     goodsId: String,
     comments: Array,
     owner: String,
+    total: Number,
+  },
+
+  watch: {
+    currPage(page) {
+      this.$emit('switchPage', page)
+    },
   },
 
   data: () => ({
     timeDiff,
     counterDanger: true,
+    maxHeight: 595,
 
     placeholder: '',
     textContent: '', // 留言内容
     repContent: '', // 回复内容
     currMsg: null, // 当前留言
     currRep: null, // 当前回复
+    currPage: 1,
     hideComment: false, // 显示 “查看更多留言”
+    showComments: false,
   }),
 
   mounted() {
     const erd = elementResizeDetectorMaker()
     erd.listenTo(this.$refs.comment, (el) => {
-      if (el.offsetHeight >= 595) {
+      if (el.offsetHeight >= this.maxHeight) {
         this.hideComment = true
       } else {
         this.hideComment = false
       }
     })
+  },
+
+  deactivated() {
+    this.maxHeight = 595
+    this.showComments = false
   },
 
   methods: {
@@ -227,6 +248,11 @@ export default {
         this.placeholder = `回复 ${nickname}：`
         this.currRep = id
       }
+    },
+
+    showMoreComments() {
+      this.maxHeight = 10000
+      this.showComments = true
     },
   },
 }

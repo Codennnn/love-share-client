@@ -221,6 +221,10 @@ export default {
     this.isGoodsCollected(this.goodsId)
   },
 
+  deactivated() {
+    this.showViewer = false
+  },
+
   methods: {
     // 加入购物车
     async addCartItem(id) {

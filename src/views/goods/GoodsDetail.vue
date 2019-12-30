@@ -22,8 +22,9 @@
         :comments="comments"
         :goodsId="goodsId"
         :owner="seller._id"
+        :total="pagination.total"
         @refreshComments="getGoodsComments()"
-        @showMoreComments="getMoreComments()"
+        @switchPage="(page) => { getGoodsComments(page) }"
       />
     </div>
 
@@ -199,14 +200,6 @@
         <vs-button @click="currAddr = addressCheck, showPopup = false">选择这个地址</vs-button>
       </div>
     </vs-popup>
-
-    <!-- 更多留言弹出框 -->
-    <vs-popup
-      title="更多留言"
-      fullscreen
-      :active.sync="showCommentsPopup"
-    >
-    </vs-popup>
   </div>
 </template>
 
@@ -240,6 +233,7 @@ export default {
     goodsId: '',
     goods: {},
     comments: [],
+    pagination: {},
     seller: { // 卖家信息
       avatar_url: '',
       nickname: '----',
@@ -257,8 +251,6 @@ export default {
     showPopup: false,
     addressCheck: {},
     isSidebarActive: false,
-    showCommentsPopup: false,
-    moreComments: [],
   }),
 
   computed: {
@@ -320,27 +312,15 @@ export default {
     },
 
     // 获取留言
-    async getGoodsComments() {
+    async getGoodsComments(page = 1) {
       const { code, data } = await getGoodsComments({
         goods_id: this.goodsId,
-        page: 0,
+        page,
         page_size: 5,
       })
       if (code === 2000) {
         this.comments = data.comments
-      }
-    },
-
-    // 获取更多留言
-    async getMoreComments() {
-      const { code, data } = await getGoodsComments({
-        goods_id: this.goodsId,
-        page: 0,
-        page_size: 10,
-      })
-      if (code === 2000) {
-        this.showCommentsPopup = true
-        this.moreComments = data.comments
+        this.pagination = data.pagination
       }
     },
 
