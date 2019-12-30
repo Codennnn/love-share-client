@@ -245,7 +245,7 @@ export default {
     },
 
     chatLastMessaged(id) {
-      return this.$dayjs(this.$store.getters['chat/chatLastMessaged'](id).time).format('YY/MM/DD HH:mm')
+      return this.$dayjs(this.$store.getters['chat/chatLastMessaged'](id)?.time).format('YY/MM/DD HH:mm')
     },
 
     viewGoodsDetail(goodsId) {
