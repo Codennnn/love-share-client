@@ -1,7 +1,7 @@
 <template>
   <div class="flex">
     <div
-      class="main pr-4 vs-con-loading__container"
+      class="main pr-4 overflow-visible vs-con-loading__container"
       :class="addressList.length > 0 ? 'w-2/3' : 'w-full'"
     >
       <div class="p-5 bg-white base-shadow rounded-lg">
@@ -59,12 +59,17 @@
               </el-select>
             </el-form-item>
             <el-form-item class="btn-group">
+              <vs-button @click="onSetAddress()">设置地址并保存</vs-button>
               <vs-button
-                class="w-24 mr-4"
-                type="border"
+                class="ml-2"
+                type="flat"
+                @click="onSetAddress({ notSave:  true })"
+              >仅设置地址</vs-button>
+              <vs-button
+                color="success"
+                type="flat"
                 @click="onResetForm()"
               >重新填写</vs-button>
-              <vs-button @click="onSetAddress()">设置地址并保存</vs-button>
             </el-form-item>
           </el-form>
         </div>
@@ -218,16 +223,18 @@ export default {
       this.showPopup = false
     },
 
-    onSetAddress() {
+    onSetAddress({ notSave = false }) {
       this.$refs.form.validate(async (valid) => {
         if (valid) {
-          this.$vs.loading({
-            container: '.main',
-            scale: 1,
-            text: '正在结算，请稍等...',
-          })
           try {
-            await this.$store.dispatch('user/addAddress', this.newAddress)
+            if (!notSave) {
+              this.$vs.loading({
+                container: '.main',
+                scale: 1,
+                text: '正在保存地址，请稍等...',
+              })
+              await this.$store.dispatch('user/addAddress', this.newAddress)
+            }
             this.onSettle(this.newAddress)
             return true
           } catch {

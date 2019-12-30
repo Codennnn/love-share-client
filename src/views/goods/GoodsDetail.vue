@@ -77,10 +77,17 @@
               <p class="text-sm text-gray-600">
                 收货信息
                 <span
+                  v-if="addressList.length > 0"
                   class="ml-2 cursor-pointer"
                   style="color: rgba(var(--vs-primary), 1);"
                   @click="showPopup = true"
-                >选择</span>
+                >选择地址</span>
+                <span
+                  v-else
+                  class="ml-2 cursor-pointer"
+                  style="color: rgba(var(--vs-primary), 1);"
+                  @click="$router.push('/user-center')"
+                >添加地址</span>
               </p>
               <div class="mb-4 p-2 text-sm text-gray-600 bg-gray-100 rounded-lg">
                 <p>
@@ -262,15 +269,17 @@ export default {
 
     defaultAddress: {
       handler(newVal) {
-        if (newVal) {
-          this.addressList.forEach((el) => {
-            if (el._id === this.defaultAddress) {
-              this.currAddr = el
-            }
-          })
-        } else {
-          const [currAddr] = this.addressList
-          this.currAddr = currAddr
+        if (this.addressList.length > 0) {
+          if (newVal) {
+            this.addressList.forEach((el) => {
+              if (el._id === this.defaultAddress) {
+                this.currAddr = el
+              }
+            })
+          } else {
+            const [currAddr] = this.addressList
+            this.currAddr = currAddr
+          }
         }
       },
       immediate: true,
