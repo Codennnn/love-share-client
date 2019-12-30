@@ -1,10 +1,7 @@
 <template>
-  <div class="flex">
+  <div class="flex flex-wrap">
     <!-- 左侧 -->
-    <div
-      class="pr-3"
-      style="width: 65%;"
-    >
+    <div class="left">
       <!-- 商品信息 -->
       <DetailInfo
         :goods="goods"
@@ -15,15 +12,13 @@
     </div>
 
     <!-- 右侧 -->
-    <div
-      class="pl-3"
-      style="width: 35%;"
-    >
+    <div class="right">
       <!-- 卖家信息 -->
       <DetailUser :seller="seller" />
 
       <!-- 商品评论 -->
       <DetailComment
+        class="mt-6"
         :comments="comments"
         :goodsId="goodsId"
         :owner="seller._id"
@@ -366,6 +361,26 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.left {
+  @media (min-width: 1080px) {
+    width: 68%;
+    padding-right: 0.75rem;
+  }
+  @media (max-width: 1080px) {
+    width: 100%;
+    margin-bottom: 1.5rem;
+  }
+}
+.right {
+  @media (min-width: 1080px) {
+    width: 32%;
+    padding-left: 0.75rem;
+  }
+  @media (max-width: 1080px) {
+    width: 100%;
+  }
+}
+
 .sidebar-main::v-deep {
   #sidebar-container {
     position: relative;
@@ -387,10 +402,9 @@ export default {
     width: 400px;
     max-width: 90vw;
   }
-}
-
-.con-vs-radio {
-  justify-content: start;
+  .con-vs-radio {
+    justify-content: start;
+  }
 }
 
 .con-vs-popup {

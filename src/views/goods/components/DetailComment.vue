@@ -1,5 +1,5 @@
 <template>
-  <div class="mt-6 p-3 bg-white rounded-lg">
+  <div class="p-3 bg-white rounded-lg">
     <div class="mb-1 flex justify-between items-center">
       <span class="mb-2 text-gray-600">留言板</span>
       <vs-button
@@ -179,21 +179,19 @@ export default {
       }
     },
 
-    showReplyInput(id, { _id, nickname }, type) {
-      if (_id !== this.owner) {
-        if (type === 1) {
-          this.currRep = null
-          this.placeholder = `回复 ${nickname}：`
-          if (this.currMsg === id) {
-            this.currMsg = null
-            return
-          }
-          this.currMsg = id
-        } else if (type === 2) {
+    showReplyInput(id, { nickname }, type) {
+      if (type === 1) {
+        this.currRep = null
+        this.placeholder = `回复 ${nickname}：`
+        if (this.currMsg === id) {
           this.currMsg = null
-          this.placeholder = `回复 ${nickname}：`
-          this.currRep = id
+          return
         }
+        this.currMsg = id
+      } else if (type === 2) {
+        this.currMsg = null
+        this.placeholder = `回复 ${nickname}：`
+        this.currRep = id
       }
     },
   },

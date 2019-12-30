@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="p-3 text-center bg-white shadow-lg rounded-lg">
+    <div class="p-3 text-center bg-white base-shadow rounded-lg">
       <vs-avatar
         size="90px"
         :src="`${seller.avatar_url}?imageView2/2/w/100`"

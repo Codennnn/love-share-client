@@ -17,7 +17,6 @@
         </el-carousel>
         <vs-images hover="zoom">
           <vs-image
-            class=""
             v-for="(image, i) in goods.img_list"
             :key="i"
             :src="`${image}?imageView2/2/w/100`"
@@ -33,18 +32,23 @@
         <div class="my-2 flex items-center justify-between text-gray-500 text-sm">
           <p>发布于 {{ timeDiff(goods.created_at) }}</p>
           <div class="flex items-center">
-            <vs-button
-              class="mr-2"
-              type="flat"
-              size="small"
-              icon-pack="el-icon"
-              icon="el-icon-star-off"
-              :color="isCollected ? 'warning' : 'success'"
-              @click="isCollected ? deleteCollection() : addCollection()"
+            <div
+              v-if="isCollected"
+              class="collect-btn is-collected text-warning"
+              @click="deleteCollection()"
             >
-              {{ isCollected ? '已收藏' : '收藏' }}
-            </vs-button>
-            <span class="text-sm text-gray-600">{{ goods.collect_num }} 人收藏</span>
+              <i class="el-icon-star-off"></i>
+              已收藏
+            </div>
+            <div
+              v-else
+              class="collect-btn not-collected text-success"
+              @click="addCollection()"
+            >
+              <i class="el-icon-star-off"></i>
+              收藏
+            </div>
+            <span class="ml-2 text-sm text-gray-600">{{ goods.collect_num }} 人收藏</span>
           </div>
         </div>
         <vs-divider border-style="dashed" />
@@ -337,6 +341,21 @@ export default {
       font-size: 16px;
       border-radius: 0px 5px 5px 0px;
       border-left: 1px solid rgba(255, 255, 255, 0.2);
+    }
+  }
+}
+
+.collect-btn {
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  transition: all 0.3s;
+  cursor: pointer;
+  &:hover {
+    &.is-collected {
+      background: rgba(var(--vs-warning), 0.1);
+    }
+    &.not-collected {
+      background: rgba(var(--vs-success), 0.1);
     }
   }
 }

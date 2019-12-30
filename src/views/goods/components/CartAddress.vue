@@ -127,7 +127,10 @@
               :vs-value="item"
             ></vs-radio>
           </div>
-          <vs-divider v-if="addressList.length !== (i + 1)" />
+          <vs-divider
+            v-if="addressList.length !== (i + 1)"
+            border-style="dashed"
+          />
         </li>
       </ul>
 
