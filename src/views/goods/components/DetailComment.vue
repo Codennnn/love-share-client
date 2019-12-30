@@ -23,15 +23,15 @@
 
     <VuePerfectScrollbar
       v-if="comments.length > 0"
-      style="height: 350px;"
+      style="max-height: 350px;"
       :settings="{
-          maxScrollbarLength: 160,
-          wheelSpeed: 0.60,
-        }"
+        maxScrollbarLength: 160,
+        wheelSpeed: 0.60,
+      }"
     >
-      <ul class="mt-6 pt-2 pb-10">
+      <ul class="mt-6 pt-2 pb-10 overflow-hidden">
         <li
-          class="msg relative mb-2 overflow-hidden"
+          class="msg relative mb-2"
           style="transition: all 0.3s;"
           v-for="(cm, i) in comments"
           :key="i"
