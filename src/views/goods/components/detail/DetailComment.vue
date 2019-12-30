@@ -2,7 +2,7 @@
   <div
     ref="comment"
     class="relative p-3 bg-white rounded-lg overflow-hidden"
-    style="max-height: 500px;"
+    style="max-height: 595px;"
   >
     <div class="mb-1 flex justify-between items-center">
       <span class="mb-2 text-gray-600">留言板</span>
@@ -23,7 +23,7 @@
 
     <VuePerfectScrollbar
       v-if="comments.length > 0"
-      style="max-height: 350px;"
+      style="max-height: 550px;"
       :settings="{
         maxScrollbarLength: 160,
         wheelSpeed: 0.60,
@@ -76,7 +76,7 @@
                 <span class="name cursor-pointer">
                   {{ it.at.nickname }}
                   <span
-                    v-if="it.sender._id === owner"
+                    v-if="it.at._id === owner"
                     class="owner"
                   >主人</span>
                   :
@@ -136,6 +136,7 @@
     <div
       v-if="hideComment"
       class="hide-comment absolute left-0 bottom-0 w-full text-sm text-center text-gray-600"
+      @click="$emit('showMoreComments')"
     >
       查看更多留言
     </div>
@@ -173,7 +174,7 @@ export default {
   mounted() {
     const erd = elementResizeDetectorMaker()
     erd.listenTo(this.$refs.comment, (el) => {
-      if (el.offsetHeight >= 500) {
+      if (el.offsetHeight >= 595) {
         this.hideComment = true
       } else {
         this.hideComment = false
