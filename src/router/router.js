@@ -48,6 +48,12 @@ export const routes = [
         meta: { title: '商品详情' },
       },
       {
+        path: '/goods-school-list',
+        name: 'GoodsSchoolList',
+        component: () => import('@/views/goods/GoodsSchoolList.vue'),
+        meta: { title: '同校' },
+      },
+      {
         path: '/check-in',
         name: 'CheckIn',
         component: () => import('@/views/check-in/CheckIn.vue'),

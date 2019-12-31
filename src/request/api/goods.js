@@ -24,6 +24,14 @@ export function getRecommendGoodsList(params) {
   })
 }
 
+export function getGoodsListOfSameSchool(params) {
+  return request({
+    url: '/goods/list/same_school',
+    method: 'get',
+    params,
+  })
+}
+
 export function getGoods() {
   return request({
     url: '/goods/list',

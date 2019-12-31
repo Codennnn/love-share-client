@@ -39,7 +39,6 @@
       <!-- 功能区 -->
       <div class="ml-4 py-6 px-4 bg-white rounded-lg text-gray-600 shadow">
         <div class="grid-block">
-
           <router-link
             class="grid-item px-3 text-center cursor-pointer"
             v-for="(item, i) in grids"
@@ -75,7 +74,7 @@ const categoryIcons = {
   服饰鞋包: 'el-icon-brush',
 }
 const grids = [
-  { icon: 'xianlu', label: '逛同校', to: '/' },
+  { icon: 'xianlu', label: '逛同校', to: '/goods-school-list' },
   { icon: 'qizhi', label: '签到领币', to: '/check-in' },
   { icon: 'guolvqi', label: '旧物回收', to: '/' },
   { icon: 'yingbi', label: '物品租借', to: '/' },
