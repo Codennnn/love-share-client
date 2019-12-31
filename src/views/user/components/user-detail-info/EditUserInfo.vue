@@ -198,11 +198,7 @@ export default {
     isSidebarActive(active) {
       if (active) {
         this.data = _cloneDeepWith(this.info)
-        this.schoolList.forEach((it) => {
-          if (it.name === this.data.school.name) {
-            this.data.school = it._id
-          }
-        })
+        this.data.school = this.data.school._id
       }
     },
   },
