@@ -126,7 +126,7 @@
             :max="goods.quantity"
           />
           <div
-            v-if="goods.status !== 2"
+            v-if="goods.status === 1"
             class="btn-group"
           >
             <vs-button
@@ -157,11 +157,18 @@
               </vs-dropdown-menu>
             </vs-dropdown>
           </div>
-          <div v-else>
+          <div v-else-if="goods.status === 2">
             <vs-button
               size="small"
               :disabled="true"
             >该商品已被购买</vs-button>
+          </div>
+          <div v-else-if="goods.status === 3">
+            <vs-button
+              color="danger"
+              size="small"
+              :disabled="true"
+            >该商品已下架</vs-button>
           </div>
         </div>
       </div>

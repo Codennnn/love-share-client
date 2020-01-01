@@ -148,11 +148,6 @@
                 </vs-tr>
               </template>
             </vs-table>
-            <el-image-viewer
-              v-show="showViewer"
-              :on-close="() => showViewer = false"
-              :url-list="urlList"
-            />
           </div>
           <div class="flex flex-col items-end">
             <div class="mr-1">已付款</div>
@@ -203,19 +198,16 @@
 </template>
 
 <script>
-import ElImageViewer from 'element-ui/packages/image/src/image-viewer.vue'
 import OrderStep from './components/OrderStep.vue'
 
 import { getOrderDetail } from '@/request/api/order'
 
 export default {
   name: 'OrderDetail',
-  components: { ElImageViewer, OrderStep },
+  components: { OrderStep },
 
   data() {
     return {
-      showViewer: false,
-      urlList: [],
       detail: null,
       text: '123',
       orderID: '',
