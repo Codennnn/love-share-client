@@ -38,7 +38,10 @@
             v-model="searchText"
           />
 
-          <GoodsList :goodsList="goodsList">
+          <GoodsList
+            :goodsList="goodsList"
+            :columns="4"
+          >
           </GoodsList>
 
           <vs-pagination

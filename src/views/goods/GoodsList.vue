@@ -1,5 +1,8 @@
 <template>
-  <div class="grid-list">
+  <div
+    class="grid-list"
+    :class="[cols[columns - 1]]"
+  >
     <div
       class="goods-item"
       v-for="(goods, i) in goodsList"
@@ -38,6 +41,14 @@
 </template>
 
 <script>
+const cols = [
+  'columns-1',
+  'columns-2',
+  'columns-3',
+  'columns-4',
+  'columns-5',
+]
+
 export default {
   name: 'GoodsList',
   props: {
@@ -45,9 +56,15 @@ export default {
       type: Array,
       default: () => [],
     },
+    columns: {
+      type: Number,
+      default: 5,
+    },
   },
 
-  data: () => ({}),
+  data: () => ({
+    cols,
+  }),
 
   methods: {
     viewGoodsDetail(goodsId) {
@@ -63,11 +80,25 @@ export default {
 <style lang="scss" scoped>
 .grid-list {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
   grid-column-gap: 24px;
   grid-row-gap: 26px;
   @media (max-width: 1125px) {
     grid-template-columns: 1fr 1fr 1fr 1fr;
+  }
+  &.columns-1 {
+    grid-template-columns: 1fr;
+  }
+  &.columns-2 {
+    grid-template-columns: 1fr 1fr;
+  }
+  &.columns-3 {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+  &.columns-4 {
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+  }
+  &.columns-5 {
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
   }
   .goods-item {
     border-radius: 10px;

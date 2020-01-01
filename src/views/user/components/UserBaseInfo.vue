@@ -63,7 +63,18 @@
                       >
                         编辑信息
                       </el-dropdown-item>
-                      <el-dropdown-item>删除记录</el-dropdown-item>
+                      <el-dropdown-item
+                        v-if="tr.status === 1"
+                        @click.native="updateManyGoods(tr._id, 3)"
+                      >
+                        下架商品
+                      </el-dropdown-item>
+                      <el-dropdown-item
+                        v-else
+                        @click.native="updateManyGoods(tr._id, 1)"
+                      >
+                        重新上架
+                      </el-dropdown-item>
                     </el-dropdown-menu>
                   </el-dropdown>
                 </vs-td>
@@ -194,6 +205,7 @@ import { timeDiff } from '@/utils/util'
 
 import { getPublishedGoods } from '@/request/api/user'
 import { getOrdersByUser } from '@/request/api/order'
+import { updateManyGoods } from '@/request/api/goods'
 
 export default {
   name: 'UserBaseInfo',
@@ -274,6 +286,16 @@ export default {
         path: '/goods-edit',
         query: { goodsId },
       })
+    },
+
+    async updateManyGoods(id, status) {
+      const { code } = await updateManyGoods({
+        goods_id_list: [id],
+        status,
+      })
+      if (code === 2000) {
+        this.getPublishedGoods()
+      }
     },
   },
 }
