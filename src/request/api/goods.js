@@ -16,6 +16,14 @@ export function editGoods(data) {
   })
 }
 
+export function updateManyGoods(data) {
+  return request({
+    url: '/goods/update_many',
+    method: 'put',
+    data,
+  })
+}
+
 export function getRecommendGoodsList(params) {
   return request({
     url: '/goods/list/recommend',
@@ -29,34 +37,6 @@ export function getGoodsListOfSameSchool(params) {
     url: '/goods/list/same_school',
     method: 'get',
     params,
-  })
-}
-
-export function getGoods() {
-  return request({
-    url: '/goods/list',
-    method: 'get',
-  })
-}
-
-export function getStoredGoods() {
-  return request({
-    url: '/goods/stored',
-    method: 'get',
-  })
-}
-
-export function getDismountedGoods() {
-  return request({
-    url: '/goods/dismounted',
-    method: 'get',
-  })
-}
-
-export function getGoodsListInfo() {
-  return request({
-    url: '/goods/list_info',
-    method: 'get',
   })
 }
 
