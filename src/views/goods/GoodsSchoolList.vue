@@ -1,57 +1,45 @@
 <template>
-  <div>
-    <div class="flex">
-      <div
-        class="md:w-1/6 lg:w-1/4 pr-4"
-        vs-w="2"
-      >
-        <div>
-          <h6 class="my-3 text-sm text-gray-700">筛选搜索</h6>
-          <div class="p-4 shadow bg-white rounded-lg">
-            <div class="md:w-full lg:w-1/2">
-              <vs-radio
-                class="my-2"
-                v-for="(it, i) in categoryList"
-                :key="i"
-                :vs-value="it._id"
-                v-model="category"
-              >{{ it.name }}</vs-radio>
-            </div>
-          </div>
+  <div class="container flex">
+    <div class="left pr-4">
+      <h6 class="my-3 text-sm text-gray-700">筛选搜索</h6>
+      <div class="p-4 shadow bg-white rounded-lg">
+        <div class="">
+          <vs-radio
+            class="my-2 pl-2"
+            v-for="(it, i) in categoryList"
+            :key="i"
+            :vs-value="it._id"
+            v-model="category"
+          >{{ it.name }}</vs-radio>
         </div>
       </div>
-      <div
-        class="md:w-5/6 lg:w-3/4 pl-3"
-        vs-w="9"
+    </div>
+    <div class="right pl-3">
+      <h6 class="my-3 text-sm text-gray-700">
+        共查询到 {{ pagination.total }} 个商品
+      </h6>
+      <!-- 搜索框 -->
+      <vs-input
+        class="search-input mb-6 top-0 z-40 w-full shadow rounded-lg overflow-hidden"
+        icon="search"
+        size="large"
+        icon-no-border
+        placeholder="输入商品 ID 进行搜索..."
+        v-model="searchText"
+      />
+
+      <GoodsList
+        :goodsList="goodsList"
+        :columns="4"
       >
-        <div>
-          <h6 class="my-3 text-sm text-gray-700">
-            共查询到 {{ pagination.total }} 个商品
-          </h6>
-          <!-- 搜索框 -->
-          <vs-input
-            class="search-input mb-6 top-0 z-40 w-full shadow rounded-lg overflow-hidden"
-            icon="search"
-            size="large"
-            icon-no-border
-            placeholder="输入商品 ID 进行搜索..."
-            v-model="searchText"
-          />
+      </GoodsList>
 
-          <GoodsList
-            :goodsList="goodsList"
-            :columns="4"
-          >
-          </GoodsList>
-
-          <vs-pagination
-            goto
-            class="mt-12 mb-5"
-            v-model="currentPage"
-            :total="Math.ceil(pagination.total / this.pageSize)"
-          ></vs-pagination>
-        </div>
-      </div>
+      <vs-pagination
+        goto
+        class="mt-12 mb-5"
+        v-model="currentPage"
+        :total="Math.ceil(pagination.total / this.pageSize)"
+      ></vs-pagination>
     </div>
   </div>
 </template>
@@ -68,7 +56,7 @@ export default {
   data: () => ({
     goodsList: [],
     currentPage: 1,
-    pageSize: 20,
+    pageSize: 10,
     pagination: {},
     category: '',
     searchText: '',
@@ -114,6 +102,23 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.container {
+  .left {
+    width: 22%;
+  }
+  .right {
+    width: 78%;
+  }
+  @media (max-width: 1200px) {
+    .left {
+      width: 25%;
+    }
+    .right {
+      width: 75%;
+    }
+  }
+}
+
 .search-input {
   // 重设输入框样式
   &::v-deep {
@@ -132,5 +137,9 @@ export default {
       font-size: 25px;
     }
   }
+}
+
+.con-vs-radio {
+  justify-content: start;
 }
 </style>

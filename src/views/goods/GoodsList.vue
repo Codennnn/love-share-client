@@ -82,8 +82,8 @@ export default {
   display: grid;
   grid-column-gap: 24px;
   grid-row-gap: 26px;
-  @media (max-width: 1125px) {
-    grid-template-columns: 1fr 1fr 1fr 1fr;
+  @media (max-width: 1050px) {
+    grid-template-columns: 1fr 1fr 1fr !important;
   }
   &.columns-1 {
     grid-template-columns: 1fr;
