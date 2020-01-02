@@ -1,41 +1,48 @@
 <template>
-  <div
-    class="grid-list"
-    :class="[cols[columns - 1]]"
-  >
+  <div>
     <div
-      class="goods-item"
-      v-for="(goods, i) in goodsList"
-      :key="i"
+      v-if="goodsList.length > 0"
+      class="grid-list"
+      :class="[cols[columns - 1]]"
     >
       <div
-        class="img-wrapper p-8 cursor-pointer"
-        @click="viewGoodsDetail(goods._id)"
+        class="goods-item"
+        v-for="(goods, i) in goodsList"
+        :key="i"
       >
         <div
-          class="flex items-center"
-          style="height: 156px; width: 156px;"
+          class="img-wrapper p-8 cursor-pointer"
+          @click="viewGoodsDetail(goods._id)"
         >
-          <el-image
-            lazy
-            class="w-full"
-            fit="cover"
-            :src="goods.img_list[0]"
+          <div
+            class="flex items-center"
+            style="height: 156px; width: 156px;"
           >
-          </el-image>
+            <el-image
+              lazy
+              class="w-full"
+              fit="cover"
+              :src="goods.img_list[0]"
+            >
+            </el-image>
+          </div>
+        </div>
+        <div class="p-3">
+          <p
+            class="mb-3 text-sm text-gray-700 text-overflow-multi"
+            style="height: 2.7rem;"
+          >
+            {{ goods.name }}
+          </p>
+          <div class="flex justify-between items-center">
+            <div class="text-lg text-primary font-bold">￥{{ Number(goods.price).toFixed(2) }}</div>
+          </div>
         </div>
       </div>
-      <div class="p-3">
-        <p
-          class="mb-3 text-sm text-gray-700 text-overflow-multi"
-          style="height: 2.7rem;"
-        >
-          {{ goods.name }}
-        </p>
-        <div class="flex justify-between items-center">
-          <div class="text-lg text-primary font-bold">￥{{ Number(goods.price).toFixed(2) }}</div>
-        </div>
-      </div>
+    </div>
+
+    <div v-else>
+      <div></div>
     </div>
   </div>
 </template>
