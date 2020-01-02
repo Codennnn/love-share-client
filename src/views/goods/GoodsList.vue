@@ -11,21 +11,17 @@
         :key="i"
       >
         <div
-          class="img-wrapper p-8 cursor-pointer"
+          class="img-wrapper w-full sm:h-56 md:h-56 h-40 py-8 px-4
+           flex items-center  cursor-pointer"
           @click="viewGoodsDetail(goods._id)"
         >
-          <div
-            class="flex items-center"
-            style="height: 156px; width: 156px;"
+          <el-image
+            lazy
+            class="w-full h-full"
+            fit="cover"
+            :src="goods.img_list[0]"
           >
-            <el-image
-              lazy
-              class="w-full"
-              fit="cover"
-              :src="goods.img_list[0]"
-            >
-            </el-image>
-          </div>
+          </el-image>
         </div>
         <div class="p-3">
           <p
@@ -92,21 +88,6 @@ export default {
   @media (max-width: 1050px) {
     grid-template-columns: 1fr 1fr 1fr !important;
   }
-  &.columns-1 {
-    grid-template-columns: 1fr;
-  }
-  &.columns-2 {
-    grid-template-columns: 1fr 1fr;
-  }
-  &.columns-3 {
-    grid-template-columns: 1fr 1fr 1fr;
-  }
-  &.columns-4 {
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-  }
-  &.columns-5 {
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-  }
   .goods-item {
     border-radius: 10px;
     background: #fff;
@@ -121,6 +102,21 @@ export default {
       justify-content: center;
       align-items: center;
     }
+  }
+  &.columns-1 {
+    grid-template-columns: 1fr;
+  }
+  &.columns-2 {
+    grid-template-columns: 1fr 1fr;
+  }
+  &.columns-3 {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+  &.columns-4 {
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+  }
+  &.columns-5 {
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
   }
 }
 
