@@ -77,7 +77,7 @@ export default {
   },
 
   data: () => ({
-    alivePages: ['Home', 'UserCenter', 'GoodsCart', 'GoodsDetail'], // 允许缓存的路由
+    alivePages: ['Home', 'UserCenter', 'GoodsCart', 'GoodsDetail', 'GoodsSchoolList'], // 允许缓存的路由
   }),
 
   computed: {

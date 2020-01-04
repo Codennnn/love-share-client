@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Axios from 'axios'
+import Qs from 'qs'
 import { Notification } from 'element-ui'
 import { getToken } from '@/utils/token'
 
@@ -22,6 +23,10 @@ service.interceptors.request.use(
     const token = getToken()
     if (token) {
       config.headers.Authorization = `Bearer ${token}`
+    }
+
+    if (config.method === 'get') {
+      config.paramsSerializer = params => Qs.stringify(params, { arrayFormat: 'repeat' })
     }
 
     return config

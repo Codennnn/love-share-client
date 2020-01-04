@@ -32,11 +32,11 @@ export function getRecommendGoodsList(params) {
   })
 }
 
-export function getGoodsListOfSameSchool(params) {
+export function getGoodsListOfSameSchool(data) {
   return request({
     url: '/goods/list/same_school',
-    method: 'get',
-    params,
+    method: 'post',
+    data,
   })
 }
 

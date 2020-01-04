@@ -6,7 +6,6 @@
         <div class="">
           <vs-radio
             class="my-2 pl-2"
-            vs-value="all"
             v-model="category"
           >全部</vs-radio>
           <vs-radio
@@ -72,9 +71,8 @@ export default {
   },
 
   watch: {
-    category() {
-      console.log(this.category)
-      this.goodsList = []
+    category(v) {
+      this.getGoodsListOfSameSchool([v])
     },
   },
 
@@ -85,11 +83,12 @@ export default {
   },
 
   methods: {
-    async getGoodsListOfSameSchool() {
+    async getGoodsListOfSameSchool(category) {
       const { code, data } = await getGoodsListOfSameSchool({
         school_id: this.$store.state.user.info.school._id,
         page: 1,
         page_size: this.pageSize,
+        category,
       })
       if (code === 2000) {
         this.goodsList = data.goods_list
@@ -145,7 +144,12 @@ export default {
   }
 }
 
-.con-vs-radio {
+.con-vs-radio::v-deep {
   justify-content: start;
+  .vs-radio--label {
+    margin-left: 0.5rem;
+    font-size: 0.9rem;
+    color: gray;
+  }
 }
 </style>

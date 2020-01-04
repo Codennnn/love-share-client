@@ -51,7 +51,7 @@ export const routes = [
         path: '/goods-school-list',
         name: 'GoodsSchoolList',
         component: () => import('@/views/goods/GoodsSchoolList.vue'),
-        meta: { title: '同校' },
+        meta: { title: '逛同校' },
       },
       {
         path: '/check-in',
