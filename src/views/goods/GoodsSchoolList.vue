@@ -6,6 +6,11 @@
         <div class="">
           <vs-radio
             class="my-2 pl-2"
+            vs-value="all"
+            v-model="category"
+          >全部</vs-radio>
+          <vs-radio
+            class="my-2 pl-2"
             v-for="(it, i) in categoryList"
             :key="i"
             :vs-value="it._id"
@@ -69,6 +74,7 @@ export default {
   watch: {
     category() {
       console.log(this.category)
+      this.goodsList = []
     },
   },
 

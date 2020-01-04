@@ -8,8 +8,6 @@
       </div>
       <img
         src="@/assets/images/404.png"
-        style="user-select: none;"
-        draggable="false"
         alt="404"
       >
     </div>

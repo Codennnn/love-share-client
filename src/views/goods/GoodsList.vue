@@ -38,7 +38,23 @@
     </div>
 
     <div v-else>
-      <div></div>
+      <div
+        v-if="!noDataCustomize"
+        class="p-8 flex justify-center items-center"
+      >
+        <el-image
+          lazy
+          class="sm:w-1/3 lg:w-1/2"
+          fit="cover"
+          alt="无数据"
+          :src="require('@/assets/images/data-empty.png')"
+        >
+        </el-image>
+      </div>
+      <slot
+        v-else
+        name="no-data"
+      ></slot>
     </div>
   </div>
 </template>
@@ -62,6 +78,10 @@ export default {
     columns: {
       type: Number,
       default: 5,
+    },
+    noDataCustomize: {
+      type: Boolean,
+      default: false,
     },
   },
 
