@@ -8,7 +8,7 @@
             class="li-item mb-4 flex items-center cursor-pointer"
             v-for="(item, i) in categoryList"
             :key="i"
-            @click="$router.push({path: 'goods-category', query: {search: item._id}})"
+            @click="$router.push({path: 'goods-category', query: {category: item._id}})"
           >
             <i
               class="mr-3 text-xl"

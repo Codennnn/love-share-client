@@ -14,7 +14,7 @@ import {
   Badge, Container, Dropdown, Carousel, CarouselItem,
   DropdownMenu, DropdownItem, DatePicker, Form, FormItem, Image, Input,
   Menu, MenuItem, MenuItemGroup, Message, Option,
-  Popover, Submenu, Steps, Step, Select,
+  Popover, Radio, RadioGroup, Submenu, Steps, Step, Select,
   Tooltip, Table, TableColumn, Tag, Transfer, Upload,
 } from 'element-ui' // 按需引入组件
 import 'element-ui/lib/theme-chalk/index.css'
@@ -60,6 +60,8 @@ Vue.use(DatePicker)
 Vue.use(Select)
 Vue.use(Option)
 Vue.use(Input)
+Vue.use(Radio)
+Vue.use(RadioGroup)
 
 // 弹出小组件
 Vue.use(Tooltip)

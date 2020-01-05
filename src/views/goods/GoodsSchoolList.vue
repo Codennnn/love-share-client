@@ -1,9 +1,18 @@
 <template>
   <div>
-    <div class="py-2 flex items-center">
+    <div class="py-2 flex items-center justify-end text-gray-700">
       <i class="el-icon-map-location text-xl"></i>
-      <p class="mx-2">{{ schoolName }}</p>
-      <div class="text-sm text-primary cursor-pointer">切换</div>
+      <p class="mx-2">{{ selectedSchoolName }}</p>
+      <el-dropdown trigger="click">
+        <div class="text-sm text-primary cursor-pointer">切换</div>
+        <el-dropdown-menu slot="dropdown">
+          <el-dropdown-item
+            v-for="(it, i) in schoolList"
+            :key="i"
+            @click.native="switchSchool(it._id, it.name)"
+          >{{ it.name }}</el-dropdown-item>
+        </el-dropdown-menu>
+      </el-dropdown>
     </div>
     <div class="container flex">
       <!-- 左侧 -->
@@ -11,18 +20,17 @@
         <h6 class="my-3 text-sm text-gray-700">筛选搜索</h6>
         <div class="p-4 shadow bg-white rounded-lg">
           <div class="">
-            <vs-radio
-              class="my-2 pl-2"
-              vs-value="all"
-              v-model="category"
-            >全部</vs-radio>
-            <vs-radio
-              class="my-2 pl-2"
-              v-for="(it, i) in categoryList"
-              :key="i"
-              :vs-value="it._id"
-              v-model="category"
-            >{{ it.name }}</vs-radio>
+            <el-radio-group
+              v-model="selectedCategory"
+              @change="changeCategory"
+            >
+              <el-radio label="all">全部</el-radio>
+              <el-radio
+                v-for="(it, i) in categoryList"
+                :key="i"
+                :label="it._id"
+              >{{ it.name }}</el-radio>
+            </el-radio-group>
           </div>
         </div>
       </div>
@@ -43,15 +51,17 @@
         />
 
         <GoodsList
+          class="mt-4"
           :goodsList="goodsList"
           :columns="4"
         >
         </GoodsList>
 
         <vs-pagination
-          goto
+          v-if="goodsList.length > 0"
           class="mt-12 mb-5"
           v-model="currentPage"
+          :goto="goodsList.length > 10"
           :total="Math.ceil(pagination.total / this.pageSize)"
         ></vs-pagination>
       </div>
@@ -63,6 +73,7 @@
 import GoodsList from '@/views/goods/GoodsList.vue'
 
 import { getGoodsListOfSameSchool } from '@/request/api/goods'
+import { getSchoolList } from '@/request/api/common'
 
 export default {
   name: 'GoodsSchoolList',
@@ -70,41 +81,39 @@ export default {
 
   data: () => ({
     goodsList: [],
-    category: 'all',
+    schoolList: [],
+    selectedSchool: '',
+    selectedSchoolName: '',
+    selectedCategory: 'all',
+    searchText: '',
+
     currentPage: 1,
     pageSize: 10,
     pagination: {},
-    searchText: '',
   }),
-
-  watch: {
-    category: {
-      handler(v) {
-        if (v === 'all') {
-          this.getGoodsListOfSameSchool()
-        } else {
-          this.getGoodsListOfSameSchool([v])
-        }
-      },
-      immediate: true,
-    },
-  },
 
   computed: {
     categoryList() {
       return this.$store.state.categoryList
     },
-    schoolName() {
-      return this.$store.state.user.info.school.name
-    },
+  },
+
+  created() {
+    this.getSchoolList()
+  },
+
+  mounted() {
+    this.selectedSchool = this.$store.state.user.info.school._id
+    this.selectedSchoolName = this.$store.state.user.info.school.name
+    this.getGoodsListOfSameSchool(this.selectedSchool)
   },
 
   methods: {
-    async getGoodsListOfSameSchool(category) {
+    async getGoodsListOfSameSchool(school_id, category) {
       const { code, data } = await getGoodsListOfSameSchool({
-        school_id: this.$store.state.user.info.school._id,
         page: 1,
         page_size: this.pageSize,
+        school_id,
         category,
       })
       if (code === 2000) {
@@ -113,11 +122,34 @@ export default {
       }
     },
 
+    // 获取选择学校列表
+    async getSchoolList() {
+      const { code, data } = await getSchoolList()
+      if (code === 2000) {
+        this.schoolList = data.school_list
+      }
+    },
+
     viewGoodsDetail(goodsId) {
       this.$router.push({
         path: '/goods-detail',
         query: { goodsId },
       })
+    },
+
+    changeCategory(v) {
+      if (v === 'all') {
+        this.getGoodsListOfSameSchool(this.selectedSchool)
+      } else {
+        this.getGoodsListOfSameSchool(this.selectedSchool, [v])
+      }
+    },
+
+    switchSchool(id, name) {
+      this.selectedCategory = 'all'
+      this.selectedSchool = id
+      this.selectedSchoolName = name
+      this.getGoodsListOfSameSchool(id)
     },
   },
 }
@@ -161,12 +193,12 @@ export default {
   }
 }
 
-.con-vs-radio::v-deep {
-  justify-content: start;
-  .vs-radio--label {
-    margin-left: 0.5rem;
-    font-size: 0.9rem;
-    color: gray;
+.el-radio-group {
+  margin-left: 0.8rem;
+  display: flex;
+  flex-direction: column;
+  .el-radio {
+    margin: 0.4rem 0;
   }
 }
 </style>

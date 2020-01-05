@@ -297,13 +297,9 @@ export default {
 
     // 获取选择学校列表
     async getSchoolList() {
-      try {
-        const { code, data } = await getSchoolList()
-        if (code === 2000) {
-          this.schoolList = data.school_list
-        }
-      } catch {
-        // TODO
+      const { code, data } = await getSchoolList()
+      if (code === 2000) {
+        this.schoolList = data.school_list
       }
     },
 

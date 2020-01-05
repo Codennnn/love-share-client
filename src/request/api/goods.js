@@ -32,6 +32,14 @@ export function getRecommendGoodsList(params) {
   })
 }
 
+export function getGoodsListByCategory(params) {
+  return request({
+    url: '/goods/list/by_category',
+    method: 'get',
+    params,
+  })
+}
+
 export function getGoodsListOfSameSchool(data) {
   return request({
     url: '/goods/list/same_school',
