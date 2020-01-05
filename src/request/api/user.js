@@ -56,10 +56,11 @@ export function modifyUser(data) {
   })
 }
 
-export function getUserInfoNum() {
+export function getUserInfoNum(params) {
   return request({
     url: '/user/info_num',
     method: 'get',
+    params,
   })
 }
 

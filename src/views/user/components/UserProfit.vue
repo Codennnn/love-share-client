@@ -8,7 +8,7 @@
           <i class="el-icon-money text-4xl text-gray-600"></i>
         </div>
         <div class="ml-5">
-          <div class="text-2xl text-gray-700 font-bold">{{ '120.00' }}</div>
+          <div class="text-2xl text-gray-700 font-bold">{{ balance || '0.00' }}</div>
           <div class="text-gray-600 text-sm">余额</div>
         </div>
       </div>
@@ -17,7 +17,7 @@
           <i class="el-icon-cherry text-4xl text-gray-600"></i>
         </div>
         <div class="ml-5">
-          <div class="text-2xl text-gray-700 font-bold">{{ '240' }}</div>
+          <div class="text-2xl text-gray-700 font-bold">{{ beans }}</div>
           <div class="text-gray-600 text-sm">乐豆</div>
         </div>
       </div>
@@ -27,7 +27,7 @@
         </div>
         <div class="ml-5">
           <div class="text-2xl text-gray-700 font-bold">
-            {{ '2' }}
+            {{ '0' }}
             <span class="text-base font-medium">张</span>
           </div>
           <div class="text-gray-600 text-sm">优惠券</div>
@@ -39,7 +39,18 @@
 
 <script>
 export default {
+  name: 'UserProfit',
   data: () => ({}),
+
+  computed: {
+    balance() {
+      return this.$store.state.user.info.balance?.toFixed(2)
+    },
+
+    beans() {
+      return this.$store.state.user.info.beans
+    },
+  },
 }
 </script>
 

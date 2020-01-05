@@ -73,6 +73,7 @@ export default {
           const { code } = await checkIn({ check_in: event })
           if (code === 2000) {
             this.events.push(event)
+            this.$store.commit('user/ADD_BEAN', 10)
             this.$vs.notify({
               title: '恭喜你，签到成功',
               text: '坚持才是胜利哦',

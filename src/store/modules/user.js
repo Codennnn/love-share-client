@@ -27,6 +27,9 @@ const mutations = {
   SET_DEFAULT_ADDRESS(state, id) {
     state.defaultAddress = id
   },
+  ADD_BEAN(state, value) {
+    state.info.beans += value
+  },
 }
 
 const actions = {
