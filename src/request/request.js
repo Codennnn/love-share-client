@@ -11,6 +11,7 @@ const service = Axios.create({
   timeout: 10000,
   responseType: 'json',
   withCredentials: true,
+  paramsSerializer: params => Qs.stringify(params, { arrayFormat: 'repeat' }),
 })
 
 service.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8'
@@ -23,10 +24,6 @@ service.interceptors.request.use(
     const token = getToken()
     if (token) {
       config.headers.Authorization = `Bearer ${token}`
-    }
-
-    if (config.method === 'get') {
-      config.paramsSerializer = params => Qs.stringify(params, { arrayFormat: 'repeat' })
     }
 
     return config
