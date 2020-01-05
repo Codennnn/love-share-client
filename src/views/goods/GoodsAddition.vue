@@ -218,7 +218,7 @@ export default {
 
     warning: false, // 商品名称警告
     publishBtnDisable: false, // 是否禁用发布按钮
-    imgList: [],
+    imgList: [], // 已上传的图片
   }),
 
   computed: {

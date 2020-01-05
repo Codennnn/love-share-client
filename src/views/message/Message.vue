@@ -214,7 +214,7 @@ export default {
     showAction: false, // 显示更多操作
     stop: false, // 禁用无限滚动
 
-    page: 0,
+    page: 1,
     pageSize: 10,
   }),
 
@@ -275,9 +275,16 @@ export default {
       }
     },
 
+    // 加载更多
+    async loadMore() {
+      if (!this.stop) {
+        this.getNoticeList(this.page)
+      }
+    },
+
     refreshNoticeList() {
       this.label = '全部消息'
-      this.page = 0
+      this.page = 1
       this.rawData = []
       this.getNoticeList(this.page)
     },
@@ -336,12 +343,6 @@ export default {
         this.dataList = this.rawData.filter(el => !el.is_read)
       } else {
         this.dataList = this.rawData.filter(el => el.type === type)
-      }
-    },
-
-    async loadMore() {
-      if (!this.stop) {
-        this.getNoticeList(this.page)
       }
     },
   },

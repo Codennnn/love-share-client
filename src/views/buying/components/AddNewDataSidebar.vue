@@ -33,6 +33,7 @@
         <vs-input
           class="mt-5 w-full"
           label="标题"
+          placeholder="请输入标题"
           v-model="name"
         />
 
@@ -64,35 +65,22 @@
           icon="attach_money"
           v-model="price"
         />
-
-        <!-- IMG -->
-        <vs-upload
-          ref="fileUpload"
-          class="img-upload"
-          text="Upload Image"
-        />
       </div>
     </VuePerfectScrollbar>
 
     <div
-      class="flex flex-wrap items-center p-6 text-sm"
       slot="footer"
+      class="flex flex-wrap items-center p-6 text-sm"
     >
       <vs-button
         v-if="this.title === '添加求购信息'"
-        class="mr-6"
+        class="mr-2"
         @click="onPublish()"
       >确认添加</vs-button>
       <vs-button
-        v-else
-        class="mr-6"
-        color="success"
-        @click="onUpdate()"
-      >更新修改</vs-button>
-      <vs-button
-        type="border"
+        type="flat"
         color="danger"
-        @click="isSidebarActiveLocal = false"
+        @click="$emit('closeSidebar')"
       >取消操作</vs-button>
     </div>
   </vs-sidebar>
@@ -147,25 +135,14 @@ export default {
   watch: {
     isSidebarActive(flag) {
       if (flag) {
-        if (this.title === '添加求购信息') {
-          this.name = ''
-          this.category = []
-          this.price = ''
-        } else {
-          this.initValues()
-        }
+        this.name = ''
+        this.category = []
+        this.price = ''
       }
     },
   },
 
   methods: {
-    initValues() {
-      this.name = this.data.name
-      this.category = this.data.category
-      this.price = this.data.price
-      this.$refs.fileUpload.srcs = []
-    },
-
     verification() {
       if (
         this.name.length > 0
@@ -187,20 +164,6 @@ export default {
           time: this.$dayjs().format('YY-MM-DD HH:mm:ss'),
         }
         this.$emit('addListData', data)
-        this.$emit('closeSidebar')
-      }
-    },
-
-    onUpdate() {
-      if (this.verification()) {
-        const data = {
-          buying_id: this.data.buying_id,
-          time: this.data.time,
-          name: this.name,
-          category: this.category,
-          price: this.price,
-        }
-        this.$emit('updateListData', data)
         this.$emit('closeSidebar')
       }
     },
@@ -243,6 +206,7 @@ export default {
 
 .el-select::v-deep {
   .el-input__inner {
+    padding-left: 0.4rem;
     border: 1px solid rgba(0, 0, 0, 0.2);
     &::placeholder {
       color: rgba(0, 0, 0, 0.8);
