@@ -5,7 +5,7 @@
       pagination
       noDataText="暂无数据"
       :max-items="itemsPerPage"
-      :data="buyingList"
+      :data="beggingList"
     >
       <div
         slot="header"
@@ -29,6 +29,7 @@
         <vs-th sort-key="name">求购标题</vs-th>
         <vs-th sort-key="category">分类信息</vs-th>
         <vs-th sort-key="price">求购价</vs-th>
+        <vs-th sort-key="time">发布者</vs-th>
         <vs-th sort-key="time">发布时间</vs-th>
       </template>
 
@@ -75,30 +76,30 @@
 import AddNewDataSidebar from './components/AddNewDataSidebar.vue'
 
 import {
-  getBuyingList,
+  getBeggingList,
   addBuying,
-} from '@/request/api/buying'
+} from '@/request/api/begging'
 
 export default {
-  name: 'BuyingList',
+  name: 'BeggingList',
   components: { AddNewDataSidebar },
 
   data: () => ({
     selected: [],
-    itemsPerPage: 6,
-    buyingList: [],
+    itemsPerPage: 10,
+    beggingList: [],
     sidebarTitle: '',
     sidebarData: {},
     addNewDataSidebar: false,
   }),
 
   created() {
-    this.getBuyingList()
+    this.getBeggingList()
   },
 
   methods: {
-    async getBuyingList() {
-      const { code, data } = await getBuyingList()
+    async getBeggingList() {
+      const { code, data } = await getBeggingList()
       if (code === 2000) {
         this.buyingList = data.buying_list
       }
