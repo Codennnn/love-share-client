@@ -31,11 +31,19 @@
                   />
                 </vs-td>
                 <vs-td>{{ tr.goods.name }}</vs-td>
-                <vs-td>{{ tr.amount }}</vs-td>
-                <vs-td>{{ tr.goods.delivery_charge }}</vs-td>
+                <vs-td>x{{ tr.amount }}</vs-td>
+                <vs-td>{{ Number(tr.goods.delivery_charge).toFixed(2) }}</vs-td>
                 <vs-td class="text-primary font-bold">
                   ￥{{ Number(tr.goods.price).toFixed(2) }}
                 </vs-td>
+                <vs-td>
+                </vs-td>
+                <template slot="expand">
+                  <vs-input
+                    label-placeholder="添加备注"
+                    v-model="tr.goods.dec"
+                  />
+                </template>
               </vs-tr>
             </template>
           </template>
@@ -152,6 +160,7 @@ export default {
       { icon: 'yinlian', label: '银行卡支付', value: 'yinlian' },
     ],
     payment: 'huabei', // 支付方式
+    textarea: '',
   }),
 
   computed: {
@@ -198,7 +207,7 @@ export default {
             currentComponent: 'CartSuccess',
             isActive: true,
           })
-        } else if (code === 5000) {
+        } else {
           throw new Error()
         }
       } catch {

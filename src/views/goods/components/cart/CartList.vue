@@ -114,7 +114,8 @@
             class="w-full mt-4 mb-2"
             @click="onSettle()"
           >开始结算</vs-button>
-          <el-popover title="购物车清空后将不可恢复">
+          <el-popover>
+            <p class="text-gray-600">购物车清空后将不可恢复</p>
             <div class="flex justify-end">
               <vs-button
                 color="danger"

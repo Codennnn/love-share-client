@@ -5,6 +5,7 @@
         <div class="mb-2 text-xl text-gray-600">图片上传</div>
         <template>
           <el-popover
+            trigger="hover"
             v-for="(it, i) in goods.img_list"
             :key="i"
           >
@@ -33,7 +34,7 @@
           multiple
           ref="fileUpload"
           text="图片格式（JPG、PNG）"
-          accept="image/jpeg,image/jpg,image/png"
+          accept="image/jpeg,image/jpg,image/png,image/webp"
           :limit="limit"
           :show-upload-button="false"
         />

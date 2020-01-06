@@ -76,7 +76,7 @@ export default {
             this.$store.commit('user/ADD_BEAN', 10)
             this.$vs.notify({
               title: '恭喜你，签到成功',
-              text: '坚持才是胜利哦',
+              text: '乐豆 +10，坚持才是胜利哦',
               color: 'success',
             })
           }
