@@ -36,10 +36,10 @@ export const routes = [
         meta: { title: '发布闲置' },
       },
       {
-        path: '/buying-list',
-        name: 'BuyingList',
-        component: () => import('@/views/buying/BuyingList.vue'),
-        meta: { title: '求购信息' },
+        path: '/begging-list',
+        name: 'BeggingList',
+        component: () => import('@/views/begging/BeggingList.vue'),
+        meta: { title: '求购物品' },
       },
       {
         path: '/goods-detail',

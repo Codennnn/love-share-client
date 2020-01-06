@@ -5,7 +5,7 @@ import chat from './chat'
 import cart from './cart'
 import goods from './goods'
 import order from './order'
-import buying from './buying'
+import begging from './begging'
 import service from './service'
 import common from './common'
 
@@ -58,10 +58,10 @@ Mock.mock('/api/order/order_volume', 'get', order.order_volume)
 Mock.mock('/api/order/order_num', 'get', order.order_num)
 
 // 求购
-Mock.mock('/api/buying/list', 'get', buying.buying_list)
-Mock.mock('/api/buying/add', 'post', buying.add_buying)
-Mock.mock('/api/buying/delete', 'delete', buying.delete_buying)
-Mock.mock('/api/buying/update', 'put', buying.update_buying)
+Mock.mock('/api/begging/list', 'get', begging.buying_list)
+Mock.mock('/api/begging/add', 'post', begging.add_buying)
+Mock.mock('/api/begging/delete', 'delete', begging.delete_buying)
+Mock.mock('/api/begging/update', 'put', begging.update_buying)
 
 // 分类
 Mock.mock('/api/category/list', 'get', common.category_list)
