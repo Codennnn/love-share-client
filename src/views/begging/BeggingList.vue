@@ -16,7 +16,7 @@
           color="primary"
           type="border"
           size="small"
-          @click="addNewDataSidebar = true, sidebarTitle = '添加求购信息'"
+          @click="addNewDataSidebar = true"
         >
           <div class="px-1">
             <i class="el-icon-plus mr-1 font-semibold"></i>
@@ -42,17 +42,30 @@
           <vs-td>
             <vs-chip
               class="mr-1"
-              v-for="(item, i) in tr.category"
+              v-for="(it, i) in tr.category"
               :key="i"
             >
-              {{ item }}
+              {{ it.name }}
             </vs-chip>
           </vs-td>
           <vs-td>
-            <p class="text-gray-600 font-bold">￥{{ Number(tr.price).toFixed(2) }}</p>
+            <div>
+              <span class="text-gray-600 font-bold">￥{{ Number(tr.min_price).toFixed(2) }}</span>
+              -
+              <span class="text-gray-600 font-bold">￥{{ Number(tr.max_price).toFixed(2) }}</span>
+            </div>
           </vs-td>
           <vs-td>
-            <p class="text-gray-600">{{ tr.time }}</p>
+            <div class="flex items-center">
+              <vs-avatar
+                class="avatar w-8 h-8 mr-2"
+                :src="`${tr.announcer.avatar_url}?imageView2/2/w/40`"
+              />
+              <p class="text-gray-600">{{ tr.announcer.nickname }}</p>
+            </div>
+          </vs-td>
+          <vs-td>
+            <p class="text-gray-600">{{ timeDiff(tr.created_at) }}</p>
           </vs-td>
           <vs-td>
             <i class="el-icon-more-outline"></i>
@@ -63,10 +76,7 @@
 
     <!-- 侧边抽屉 -->
     <AddNewDataSidebar
-      :title="sidebarTitle"
       :isSidebarActive="addNewDataSidebar"
-      :data="sidebarData"
-      @addListData="addData"
       @closeSidebar="addNewDataSidebar = false"
     />
   </div>
@@ -74,22 +84,18 @@
 
 <script>
 import AddNewDataSidebar from './components/AddNewDataSidebar.vue'
+import { timeDiff } from '@/utils/util'
 
-import {
-  getBeggingList,
-  addBuying,
-} from '@/request/api/begging'
+import { getBeggingList } from '@/request/api/begging'
 
 export default {
   name: 'BeggingList',
   components: { AddNewDataSidebar },
 
   data: () => ({
-    selected: [],
-    itemsPerPage: 10,
+    timeDiff,
     beggingList: [],
-    sidebarTitle: '',
-    sidebarData: {},
+    itemsPerPage: 10,
     addNewDataSidebar: false,
   }),
 
@@ -99,26 +105,12 @@ export default {
 
   methods: {
     async getBeggingList() {
-      const { code, data } = await getBeggingList()
-      if (code === 2000) {
-        this.buyingList = data.buying_list
-      }
-    },
-
-    notify({
-      title, text, color = 'success', time = 3000,
-    }) {
-      this.$vs.notify({
-        title, text, color, time,
+      const { code, data } = await getBeggingList({
+        page: 1,
+        page_size: 100,
       })
-    },
-
-    async addData(info) {
-      const { code, data } = await addBuying()
       if (code === 2000) {
-        info.buying_id = data.buying_id
-        this.buyingList.unshift(info)
-        this.notify({ title: '添加成功', text: '成功添加一条求购商品信息' })
+        this.beggingList = data.begging_list
       }
     },
   },
@@ -162,12 +154,6 @@ export default {
       border-collapse: separate;
       border-spacing: 0 1.3rem;
       padding: 0 1rem;
-      & .is-selected {
-        border: none;
-        border-radius: 5px;
-        box-shadow: 0 0 10px 0 rgba(var(--vs-primary), 0.2) !important;
-        overflow: hidden;
-      }
       tr {
         box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.05);
         td {

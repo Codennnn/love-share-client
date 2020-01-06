@@ -10,13 +10,10 @@
     v-model="isSidebarActiveLocal"
   >
     <div class="mt-6 flex items-center justify-between px-6">
-      <span
-        class="text-lg"
-        :class="[title === '添加求购信息' ? 'text-primary' : 'text-success']"
-      >{{ title }}</span>
+      <span class="text-lg">添加求购信息</span>
       <i
         class="el-icon-close text-2xl font-bold cursor-pointer"
-        @click.stop="isSidebarActiveLocal = false"
+        @click.stop="$emit('closeSidebar')"
       ></i>
     </div>
     <vs-divider class="mb-0"></vs-divider>
@@ -34,7 +31,16 @@
           class="mt-5 w-full"
           label="标题"
           placeholder="请输入标题"
-          v-model="name"
+          v-model="payload.name"
+        />
+
+        <!-- 描述 -->
+        <vs-textarea
+          class="mt-6"
+          label="具体描述"
+          maxlength="150"
+          counter="150"
+          v-model="payload.description"
         />
 
         <!-- 分类 -->
@@ -46,25 +52,34 @@
           multiple
           class="w-full"
           placeholder="请选择分类"
-          v-model="category"
+          v-model="payload.category"
           :multiple-limit="2"
         >
           <el-option
-            v-for="(item, i) in categoryList"
+            v-for="(it, i) in categoryList"
             :key="i"
-            :label="item.name"
-            :value="item._id"
+            :label="it.name"
+            :value="it._id"
           >
           </el-option>
         </el-select>
 
         <!-- 价格 -->
-        <vs-input
-          class="mt-5 w-full"
-          label="价格"
-          icon="attach_money"
-          v-model="price"
-        />
+        <p
+          class="mt-5 text-sm"
+          style="color: rgba(0, 0, 0, .7);"
+        >价格区间</p>
+        <div class="flex items-center">
+          <vs-input
+            icon="attach_money"
+            v-model.number="payload.min_price"
+          />
+          <i class="el-icon-minus mx-1"></i>
+          <vs-input
+            icon="attach_money"
+            v-model.number="payload.max_price"
+          />
+        </div>
       </div>
     </VuePerfectScrollbar>
 
@@ -73,8 +88,8 @@
       class="flex flex-wrap items-center p-6 text-sm"
     >
       <vs-button
-        v-if="this.title === '添加求购信息'"
         class="mr-2"
+        :disabled="disabled"
         @click="onPublish()"
       >确认添加</vs-button>
       <vs-button
@@ -88,6 +103,7 @@
 
 <script>
 import VuePerfectScrollbar from 'vue-perfect-scrollbar'
+import { addBegging } from '@/request/api/begging'
 
 export default {
   name: 'AddNewDataSidebar',
@@ -98,21 +114,17 @@ export default {
       type: Boolean,
       required: true,
     },
-    // 侧边栏标题
-    title: {
-      type: String,
-      required: true,
-    },
-    data: {
-      type: Object,
-      required: true,
-    },
   },
 
   data: () => ({
-    name: '',
-    category: [],
-    price: '',
+    disabled: false,
+    payload: {
+      name: '',
+      category: [],
+      description: '',
+      min_price: 0,
+      max_price: 0,
+    },
   }),
 
   computed: {
@@ -145,9 +157,10 @@ export default {
   methods: {
     verification() {
       if (
-        this.name.length > 0
-        && this.category.length > 0
-        && this.price.length > 0
+        this.payload.name.length > 0
+        && this.payload.category.length > 0
+        && this.payload.min_price >= 0
+        && this.payload.max_price > 0
       ) {
         return true
       }
@@ -155,16 +168,25 @@ export default {
     },
 
     // 发布求购
-    onPublish() {
+    async onPublish() {
       if (this.verification()) {
-        const data = {
-          name: this.name,
-          category: this.category,
-          price: this.price,
-          time: this.$dayjs().format('YY-MM-DD HH:mm:ss'),
+        this.disabled = true
+        try {
+          const { code } = await addBegging(this.payload)
+          if (code === 2000) {
+            this.$vs.notify({
+              title: '添加成功',
+              text: '成功添加一条求购商品信息',
+              color: 'success',
+              time: 3000,
+            })
+            this.$emit('closeSidebar')
+          } else {
+            throw new Error()
+          }
+        } catch {
+          this.disabled = false
         }
-        this.$emit('addListData', data)
-        this.$emit('closeSidebar')
       }
     },
   },

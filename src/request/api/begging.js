@@ -1,30 +1,33 @@
 import request from '../request'
 
-export function getBeggingList(parames) {
+export function getBeggingList(params) {
   return request({
     url: '/begging/list',
     method: 'get',
-    parames,
+    params,
   })
 }
 
-export function addBuying() {
+export function addBegging(data) {
   return request({
-    url: '/begging/add',
+    url: '/begging',
     method: 'post',
+    data,
   })
 }
 
-export function deleteBuying() {
+export function deleteBegging(data) {
   return request({
-    url: '/begging/delete',
+    url: '/begging',
     method: 'delete',
+    data,
   })
 }
 
-export function updateBuying() {
+export function updateBegging(data) {
   return request({
-    url: '/begging/update',
+    url: '/begging',
     method: 'put',
+    data,
   })
 }
