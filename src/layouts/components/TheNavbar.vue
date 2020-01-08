@@ -185,7 +185,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 $navIcon: #686868; // 顶部导航栏图标颜色
 
 .nav-bar {
@@ -219,7 +219,9 @@ $navIcon: #686868; // 顶部导航栏图标颜色
     }
   }
 }
+</style>
 
+<style lang="scss">
 // 通知菜单
 .vs-dropdown-menu.menu-box {
   width: 365px;

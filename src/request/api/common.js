@@ -1,12 +1,5 @@
 import request from '../request'
 
-export function getNotices() {
-  return request({
-    url: '/common/notices',
-    method: 'get',
-  })
-}
-
 export function checkNickname(data) {
   return request({
     url: '/common/check_nickname',

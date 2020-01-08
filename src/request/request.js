@@ -1,10 +1,7 @@
-import Vue from 'vue'
 import Axios from 'axios'
 import Qs from 'qs'
 import { Notification } from 'element-ui'
 import { getToken } from '@/utils/token'
-
-Vue.prototype.$axios = Axios
 
 const service = Axios.create({
   baseURL: '/api',

@@ -12,7 +12,6 @@
       class="w-full pb-1"
       val-icon-warning="warning"
       val-icon-danger="clear"
-      color="rgb(91, 143, 255)"
       v-for="(item, i) in inputs"
       :key="i"
       :type="item.type"

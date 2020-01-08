@@ -177,10 +177,12 @@ export default {
     },
 
     async setAllNoticesRead() {
-      const noticeIdList = this.unreadNotices.map(el => el._id)
-      const { code } = await setAllNoticesRead({ notice_id_list: noticeIdList })
-      if (code === 2000) {
-        this.$store.commit('notice/SET_UNREAD_NOTICES', [])
+      if (this.unreadNotices.length > 0) {
+        const noticeIdList = this.unreadNotices.map(el => el._id)
+        const { code } = await setAllNoticesRead({ notice_id_list: noticeIdList })
+        if (code === 2000) {
+          this.$store.commit('notice/SET_UNREAD_NOTICES', [])
+        }
       }
     },
   },
