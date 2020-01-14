@@ -44,6 +44,7 @@ const actions = {
 
   async signOut({ commit, state }) {
     await signOut(state.token)
+    localStorage.removeItem('vuex')
     commit('SET_TOKEN', '')
     commit('SET_INFO', {})
     removeToken() // 移除本地token缓存

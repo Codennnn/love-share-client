@@ -20,7 +20,6 @@
             title="点击刷新 (=・ω・=)"
             class="text-xl"
           >收到 {{ unreadAmount }} 条未读通知</div>
-          <div class="text-sm text-gray-300"></div>
         </div>
       </div>
       <VuePerfectScrollbar
