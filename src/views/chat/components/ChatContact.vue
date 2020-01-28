@@ -31,7 +31,7 @@
 
 <script>
 export default {
-  name: 'chat-contact',
+  name: 'ChatContact',
   props: {
     contact: {
       type: Object,

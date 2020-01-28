@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="p-3 text-center bg-white base-shadow rounded-lg">
+    <div class="mb-5 p-3 text-center bg-white base-shadow rounded-lg">
       <vs-avatar
         size="90px"
         :src="`${seller.avatar_url}?imageView2/2/w/100`"
@@ -63,7 +63,7 @@
       class="hover-light cursor-pointer"
     >
       <div
-        class="mt-5 p-2 flex justify-center items-center text-center text-white
+        class="p-2 flex justify-center items-center text-center text-white
           bg-primary-gradient rounded"
         @click="contactSeller()"
       >

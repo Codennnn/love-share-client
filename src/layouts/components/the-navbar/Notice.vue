@@ -8,14 +8,10 @@
       class="menu-box"
     >
       <div
-        class="w-full table text-center text-white bg-primary cursor-pointer"
+        class="w-full text-center text-white bg-primary cursor-pointer"
         style="height: 65px;"
       >
-        <div
-          class="table-cell"
-          style="vertical-align: middle;"
-          @click="noticesRefresh()"
-        >
+        <div @click="noticesRefresh()">
           <div
             title="点击刷新 (=・ω・=)"
             class="text-xl"
