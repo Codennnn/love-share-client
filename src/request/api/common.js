@@ -24,6 +24,13 @@ export function getVerificationCode(data) {
   })
 }
 
+export function getBillboardList() {
+  return request({
+    url: '/billboard/list',
+    method: 'get',
+  })
+}
+
 export function getCategoryList() {
   return request({
     url: '/category/list',

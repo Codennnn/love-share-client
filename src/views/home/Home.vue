@@ -26,13 +26,13 @@
       >
         <el-carousel-item
           class="h-full rounded-lg"
-          v-for="(item, i) in ['https://ws1.sinaimg.cn/large/775017f8gy1g9blp5artdj20xn0ea44u.jpg']"
+          v-for="(item, i) in billboardList"
           :key="i"
         >
           <el-image
             class="h-full"
             fit="cover"
-            :src="item"
+            :src="item.url"
           ></el-image>
         </el-carousel-item>
       </el-carousel>
@@ -63,9 +63,8 @@
 <script>
 import GoodsList from '@/views/goods/GoodsList.vue'
 
-import {
-  getRecommendGoodsList,
-} from '@/request/api/goods'
+import { getBillboardList } from '@/request/api/common'
+import { getRecommendGoodsList } from '@/request/api/goods'
 
 const categoryIcons = {
   电子数码: 'el-icon-headset',
@@ -90,6 +89,7 @@ export default {
   data: () => ({
     categoryIcons,
     grids,
+    billboardList: [],
     goodsList: [],
     pagination: null,
   }),
@@ -101,10 +101,18 @@ export default {
   },
 
   created() {
+    this.getBillboardList()
     this.getRecommendGoodsList()
   },
 
   methods: {
+    async getBillboardList() {
+      const { code, data: { billboard_list } } = await getBillboardList()
+      if (code === 2000) {
+        this.billboardList = billboard_list
+      }
+    },
+
     async getRecommendGoodsList() {
       const { code, data } = await getRecommendGoodsList({ page: 1, page_size: 10 })
       if (code === 2000) {
