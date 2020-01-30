@@ -30,7 +30,7 @@
       >
         <p class="text-lg font-semibold">{{ goods.name }}</p>
         <div class="my-2 flex items-center justify-between text-gray-500 text-sm">
-          <p>发布于 {{ timeDiff(goods.created_at) }}</p>
+          <p>发布于 {{ $timeDiff(goods.created_at) }}</p>
           <div class="flex items-center">
             <div
               v-if="isCollected"
@@ -193,7 +193,6 @@
 
 <script>
 import ElImageViewer from 'element-ui/packages/image/src/image-viewer.vue'
-import { timeDiff } from '@/utils/util'
 
 import { addCollection, deleteCollection } from '@/request/api/user'
 import { isGoodsCollected } from '@/request/api/goods'
@@ -204,7 +203,6 @@ export default {
   props: { goods: Object, goodsId: String },
 
   data: () => ({
-    timeDiff,
     showViewer: false,
     addCartDisable: false,
 

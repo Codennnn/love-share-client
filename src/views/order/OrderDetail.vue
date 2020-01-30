@@ -104,7 +104,6 @@
                       style="width: 80px; height: 80px"
                       fit="cover"
                       :src="`${tr.goods.img_list[0]}?imageView2/2/w/130`"
-                      @click="showViewer = true, urlList = tr.goods.img_list"
                     >
                     </el-image>
                   </vs-td>

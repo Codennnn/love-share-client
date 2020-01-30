@@ -59,7 +59,7 @@
             <small
               class="whitespace-no-wrap"
               style="color: #989898;"
-            >{{ timeDiff(nt.time) }}</small>
+            >{{ $timeDiff(nt.time) }}</small>
             <i
               title="不再通知"
               class="read el-icon-close-notification absolute bottom-0 mr-3 mb-1 text-lg
@@ -103,7 +103,6 @@ import VuePerfectScrollbar from 'vue-perfect-scrollbar'
 import { mapState, mapGetters } from 'vuex'
 
 import { setNoticeRead, setAllNoticesRead } from '@/request/api/notice'
-import { timeDiff } from '@/utils/util'
 
 const noticeType = {
   1: { icon: 'chat_bubble_outline', color: 'primary' },
@@ -117,7 +116,6 @@ export default {
   components: { VuePerfectScrollbar },
 
   data: () => ({
-    timeDiff,
     noticeType,
   }),
 
@@ -144,7 +142,7 @@ export default {
   },
 
   methods: {
-    // 获取购物车
+    // 获取未读通知
     async getUnreadNotices() {
       await this.$store.dispatch('notice/getUnreadNotices')
     },

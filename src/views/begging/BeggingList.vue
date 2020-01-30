@@ -65,7 +65,7 @@
             </div>
           </vs-td>
           <vs-td>
-            <p class="text-gray-600">{{ timeDiff(tr.created_at) }}</p>
+            <p class="text-gray-600">{{ $timeDiff(tr.created_at) }}</p>
           </vs-td>
           <vs-td>
             <i class="el-icon-more-outline"></i>
@@ -84,7 +84,6 @@
 
 <script>
 import AddNewDataSidebar from './components/AddNewDataSidebar.vue'
-import { timeDiff } from '@/utils/util'
 
 import { getBeggingList } from '@/request/api/begging'
 
@@ -93,7 +92,6 @@ export default {
   components: { AddNewDataSidebar },
 
   data: () => ({
-    timeDiff,
     beggingList: [],
     itemsPerPage: 10,
     addNewDataSidebar: false,

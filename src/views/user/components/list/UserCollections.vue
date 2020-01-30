@@ -46,7 +46,7 @@
             <p class="text-gray-600 font-bold">￥{{ Number(tr.goods.price).toFixed(2) }}</p>
           </vs-td>
           <vs-td>
-            <p class="text-gray-600">{{ timeDiff(tr.created_at) }}</p>
+            <p class="text-gray-600">{{ $timeDiff(tr.created_at) }}</p>
           </vs-td>
           <vs-td>
             <div class="flex">
@@ -78,14 +78,12 @@
 
 <script>
 import Vue from 'vue'
-import { timeDiff } from '@/utils/util'
 
 import { getCollectionList, addCollection, deleteCollection } from '@/request/api/user'
 
 export default {
   name: 'UserCollections',
   data: () => ({
-    timeDiff,
     collections: [],
     ids: {},
   }),

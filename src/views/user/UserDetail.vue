@@ -144,10 +144,10 @@
             </vs-td>
             <vs-td class="font-semibold">￥{{ Number(tr.price).toFixed(2) }}</vs-td>
             <vs-td>
-              <div class="whitespace-no-wrap">{{ timeDiff(tr.created_at) }}</div>
+              <div class="whitespace-no-wrap">{{ $timeDiff(tr.created_at) }}</div>
             </vs-td>
             <vs-td>
-              <div class="whitespace-no-wrap">{{ timeDiff(tr.updated_at) }}</div>
+              <div class="whitespace-no-wrap">{{ $timeDiff(tr.updated_at) }}</div>
             </vs-td>
             <vs-td>
               <div
@@ -182,7 +182,6 @@
 </template>
 
 <script>
-import { timeDiff } from '@/utils/util'
 import {
   getUserInfoNum, getOtherUserInfo, subscribe, unsubscribe, isUserFollowed, getPublishedGoods,
 } from '@/request/api/user'
@@ -190,7 +189,6 @@ import {
 export default {
   name: 'UserDetail',
   data: () => ({
-    timeDiff,
     userId: '',
     info: {},
     num: {},

@@ -37,10 +37,10 @@
                 </vs-td>
                 <vs-td class="font-semibold">￥{{ Number(tr.price).toFixed(2) }}</vs-td>
                 <vs-td>
-                  <div class="whitespace-no-wrap">{{ timeDiff(tr.created_at) }}</div>
+                  <div class="whitespace-no-wrap">{{ $timeDiff(tr.created_at) }}</div>
                 </vs-td>
                 <vs-td>
-                  <div class="whitespace-no-wrap">{{ timeDiff(tr.updated_at) }}</div>
+                  <div class="whitespace-no-wrap">{{ $timeDiff(tr.updated_at) }}</div>
                 </vs-td>
                 <vs-td>
                   <div
@@ -201,8 +201,6 @@
 </template>
 
 <script>
-import { timeDiff } from '@/utils/util'
-
 import { getPublishedGoods } from '@/request/api/user'
 import { getOrdersByUser } from '@/request/api/order'
 import { updateManyGoods } from '@/request/api/goods'
@@ -210,7 +208,6 @@ import { updateManyGoods } from '@/request/api/goods'
 export default {
   name: 'UserBaseInfo',
   data: () => ({
-    timeDiff,
     publishedGoods: [], // 已发布商品
     purchasedGoods: [], // 已购买商品
     status: {
