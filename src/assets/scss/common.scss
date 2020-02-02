@@ -1,43 +1,43 @@
 // text classes
 .text-primary {
-  color: rgba(var(--vs-primary), 1) !important;
+  color: $primary !important;
 }
 
 .text-success {
-  color: rgba(var(--vs-success), 1) !important;
+  color: $success !important;
 }
 
 .text-danger {
-  color: rgba(var(--vs-danger), 1) !important;
+  color: $danger !important;
 }
 
 .text-warning {
-  color: rgba(var(--vs-warning), 1) !important;
+  color: $warning !important;
 }
 
 .text-dark {
-  color: rgba(var(--vs-dark), 1) !important;
+  color: $dark !important;
 }
 
 // background classes
 .bg-primary {
-  background-color: rgba(var(--vs-primary), 1) !important;
+  background-color: $primary !important;
 }
 
 .bg-success {
-  background-color: rgba(var(--vs-success), 1) !important;
+  background-color: $success !important;
 }
 
 .bg-danger {
-  background-color: rgba(var(--vs-danger), 1) !important;
+  background-color: $danger !important;
 }
 
 .bg-warning {
-  background-color: rgba(var(--vs-warning), 1) !important;
+  background-color: $warning !important;
 }
 
 .bg-dark {
-  background-color: rgba(var(--vs-dark), 1) !important;
+  background-color: $dark !important;
 }
 
 .bg-primary-gradient {
@@ -52,6 +52,39 @@
 
 .base-shadow {
   box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.1); // 基础投影
+}
+
+.base-shadow {
+  box-shadow: $base-shadow;
+}
+
+.light-shadow {
+  box-shadow: $light-shadow;
+}
+
+.heavy-shadow {
+  box-shadow: $heavy-shadow;
+}
+
+.radius {
+  border-radius: $large-radius;
+}
+
+.flex-row-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.flex-col-center {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.transition {
+  transition: all 0.3s;
 }
 
 img {

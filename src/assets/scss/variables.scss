@@ -1,5 +1,29 @@
+// Color
 $primary: rgba(var(--vs-primary), 1);
-$success : rgba(var(--vs-success), 1);
+$success: rgba(var(--vs-success), 1);
 $danger: rgba(var(--vs-danger), 1);
 $warning:rgba(var(--vs-warning), 1);
 $dark: rgba(var(--vs-dark), 1);
+
+// Shadow
+$light-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.05);
+$base-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.1);
+$heavy-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.15);
+
+// Border
+$small-radius: 0.4rem;
+$medium-radius: 0.6rem;
+$large-radius: 0.8rem;
+
+$navIcon: #686868; // 顶部导航栏图标颜色
+
+@mixin textOverflow($width, $line) {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-wrap: break-word;
+  word-break: break-all;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: $line;
+  max-width: $width;
+}
