@@ -5,20 +5,20 @@
       <vs-collapse>
         <vs-collapse-item
           open
-          v-for="(menu, i) in menus"
+          v-for="(guide, i) in guideList"
           :key="i"
         >
           <div slot="header">
-            {{ menu.title }}
+            {{ guide.section }}
           </div>
           <ul class="ml-2 text-gray-600">
             <li
               class="mb-2"
-              v-for="(submenu, i) in menu.submenus"
+              v-for="(article, i) in guide.articles"
               :key="i"
-              @click="getArticle()"
+              @click="getArticle(guide._id, article._id)"
             >
-              {{ submenu.title }}
+              {{ article.title }}
             </li>
           </ul>
         </vs-collapse-item>
@@ -42,68 +42,46 @@
 </template>
 
 <script>
-import { getArticle } from '@/request/api/service'
-
-const menus = [
-  {
-    title: '购物指南',
-    submenus: [
-      { title: '用户协议' },
-      { title: '交易条款' },
-      { title: '购物流程' },
-    ],
-  },
-  {
-    title: '支付问题',
-    submenus: [
-      { title: '支付流程' },
-      { title: '在线支付' },
-      { title: '货到付款' },
-    ],
-  },
-  {
-    title: '售后服务',
-    submenus: [
-      { title: '售后政策（三方）' },
-      { title: '退换货申请' },
-      { title: '售后常见问题' },
-    ],
-  },
-  {
-    title: '账户及会员',
-    submenus: [
-      { title: '账户安全与账户信息' },
-      { title: '账户资产' },
-      { title: '会员介绍' },
-    ],
-  },
-]
+import { getGuideList, getArticle } from '@/request/api/guide'
 
 export default {
   name: 'HelpCenter',
   data: () => ({
-    menus,
+    guideList: [],
     article: {},
   }),
 
-  mounted() {
-    this.getArticle()
+  created() {
+    this.getGuideList()
   },
 
   methods: {
-    async getArticle() {
+    // 获取指引列表
+    async getGuideList() {
+      const { code, data } = await getGuideList()
+      if (code === 2000) {
+        this.guideList = data.guide_list
+        const { _id, articles } = this.guideList.find(el => el.articles?.length > 0)
+        this.getArticle(_id, articles[0]._id)
+      }
+    },
+
+    // 获取文章
+    async getArticle(section_id, article_id) {
+      this.showEditor = false
       this.$vs.loading({
-        container: '#artical-loading',
+        container: '.article-container',
         scale: 1,
       })
-
       try {
-        const { code, data } = await getArticle()
+        const { code, data } = await getArticle({
+          section_id, article_id,
+        })
         if (code === 2000) {
           this.article = data.article
         }
       } finally {
-        this.$vs.loading.close('#artical-loading > .con-vs-loading')
+        this.$vs.loading.close('.article-container > .con-vs-loading')
       }
     },
   },

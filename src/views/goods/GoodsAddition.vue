@@ -275,10 +275,10 @@ export default {
       }, [])
 
       if (blobArray.length > 0) {
-        if (!blobArray.every(el => (el.size / 1024 / 1024) < 5)) {
+        if (!blobArray.every(el => (el.size / 1024 / 1024) < 3)) {
           this.$vs.notify({
             color: 'danger',
-            title: '商品图片不能大于5M',
+            title: '商品图片不能大于3M',
             text: '请压缩图片后继续上传',
           })
           return false
@@ -292,6 +292,12 @@ export default {
         if (code === 2000 && data.img_list.length > 0) {
           this.imgList = data.img_list
           return true
+        } if (code === 5000) {
+          this.$vs.notify({
+            color: 'danger',
+            title: '图片上传失败',
+            text: '可能是网络故障哦',
+          })
         }
         return false
       }
@@ -303,6 +309,7 @@ export default {
       return false
     },
 
+    // 发布商品
     async onPublish() {
       if (this.onCheck()) {
         this.$vs.loading({

@@ -12,6 +12,8 @@
         <template v-if="$login()">
           <router-link
             v-login
+            tag="div"
+            class="mr-3"
             v-for="(item, index) in navIcons"
             :key="index"
             :to="item.route"
@@ -22,7 +24,7 @@
               :content="item.tip"
             >
               <i
-                class="nav-icon mr-3"
+                class="nav-icon"
                 :class="item.icon"
               ></i>
             </el-tooltip>
@@ -132,7 +134,6 @@ const Notice = Vue.component(
   () => import('./the-navbar/Notice.vue'),
 )
 const navIcons = [
-  { tip: '个人中心', icon: 'el-icon-user', route: '/user-center' },
   { tip: '发布我的闲置', icon: 'el-icon-sell', route: '/goods-addition' },
 ]
 
@@ -186,9 +187,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-$navIcon: #686868; // 顶部导航栏图标颜色
-
-.nav-bar {
+.nav-bar::v-deep {
   height: 65px;
   display: flex;
   justify-content: space-between;
@@ -198,15 +197,14 @@ $navIcon: #686868; // 顶部导航栏图标颜色
   box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.08);
   box-sizing: border-box;
   .nav-icon {
-    cursor: pointer;
-    font-size: 22px;
-    font-weight: 500;
+    font-size: 1.5rem;
     color: $navIcon;
+    cursor: pointer;
   }
 }
 
 // 搜索框
-.nav-search {
+.nav-search::v-deep {
   // 重设输入框样式
   .vs-inputx {
     border: none !important;

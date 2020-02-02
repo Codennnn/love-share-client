@@ -1,13 +1,13 @@
 <template>
   <div>
-    <div class="mb-5 p-3 text-center bg-white base-shadow rounded-lg">
+    <div class="mb-5 p-3 text-center bg-white light-shadow radius">
       <vs-avatar
         size="90px"
         :src="`${seller.avatar_url}?imageView2/2/w/100`"
         @click="viewUserDetail(seller._id)"
       />
       <div
-        class="flex justify-center items-center text-lg cursor-pointer"
+        class="flex-row-center text-lg cursor-pointer"
         @click="viewUserDetail(seller._id)"
       >
         <span>{{ seller.nickname }}</span>
@@ -45,11 +45,11 @@
       </div>
       <div class="flex justify-around mt-3">
         <div>
-          <div class="font-semibold">{{ seller.published_goods.length }}</div>
+          <div class="font-semibold">{{ seller.published_num }}</div>
           <div class="text-gray-600 text-sm">已发布</div>
         </div>
         <div>
-          <div class="font-semibold">{{ seller.fans.length }}</div>
+          <div class="font-semibold">{{ seller.fans_num }}</div>
           <div class="text-gray-600 text-sm">关注者</div>
         </div>
         <div>
@@ -60,15 +60,11 @@
     </div>
     <div
       v-if="!$self(seller._id)"
-      class="hover-light cursor-pointer"
+      class="hover-light py-3 flex-row-center text-white
+       bg-primary-gradient rounded-lg cursor-pointer overflow-hidden"
+      @click="contactSeller()"
     >
-      <div
-        class="p-2 flex justify-center items-center text-center text-white
-          bg-primary-gradient rounded"
-        @click="contactSeller()"
-      >
-        联系卖家
-      </div>
+      联系卖家
       <div class="light"></div>
     </div>
   </div>
@@ -156,7 +152,6 @@ export default {
 // 按钮闪光闪烁
 .hover-light {
   position: relative;
-  overflow: hidden;
   .light {
     position: absolute;
     display: none;
@@ -181,7 +176,7 @@ export default {
   &:hover {
     .light {
       display: block;
-      animation: flash 0.3s;
+      animation: flash 0.45s;
     }
     @keyframes flash {
       from {

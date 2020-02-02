@@ -1,5 +1,5 @@
 <template>
-  <div class="relative p-6 bg-white rounded-lg overflow-hidden">
+  <div class="relative p-6 bg-white radius overflow-hidden">
     <div class="flex">
       <div style="width: 60%;">
         <el-carousel :autoplay="false">

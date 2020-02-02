@@ -8,18 +8,18 @@
           class="w-full py-2"
           val-icon-warning="warning"
           val-icon-danger="clear"
-          v-for="(item, i) in inputs"
+          v-for="(it, i) in inputs"
           :key="i"
-          :type="item.type"
-          :label="item.label"
-          :placeholder="item.placeholder"
-          :warning="item.isWarnng"
-          :warning-text="item.warningText"
-          :danger="item.isError"
-          :danger-text="item.errorText"
-          :description-text="item.description"
-          v-model.trim="item.value"
-          @focus="() => { item.isWarnng = false, item.isError = false }"
+          :type="it.type"
+          :label="it.label"
+          :placeholder="it.placeholder"
+          :warning="it.isWarnng"
+          :warning-text="it.warningText"
+          :danger="it.isError"
+          :danger-text="it.errorText"
+          :description-text="it.description"
+          v-model.trim="it.value"
+          @focus="() => { it.isWarnng = false, it.isError = false }"
         />
         <div class="flex items-center py-2">
           <vs-input
@@ -91,7 +91,6 @@ const inputs = [
     reg: /^[1]([3-9])[0-9]{9}$/,
   },
 ]
-
 export default {
   name: 'UserChangePassword',
   data: () => ({
@@ -113,7 +112,6 @@ export default {
           return
         }
 
-        // 显示登录按钮的加载动画
         this.$vs.loading({
           background: 'primary',
           color: '#fff',
@@ -122,27 +120,28 @@ export default {
         })
         this.resetBtnDisable = true
 
-        const { code } = await resetPassword({
-          phone: this.inputs[2].value,
-          password: this.inputs[0].value,
-        })
-        if (code === 2000) {
-          this.$vs.notify({
-            fixed: true,
-            title: '重置密码成功',
-            text: '请重新登录（点击关闭）',
-            color: 'success',
-            position: 'top-right',
-            icon: 'check_box',
+        try {
+          const { code } = await resetPassword({
+            phone: this.inputs[2].value,
+            password: this.inputs[0].value,
           })
-          // 重新登录
-          await this.$store.dispatch('user/signOut')
-          this.$router.replace('/sign')
+          if (code === 2000) {
+            this.$vs.notify({
+              fixed: true,
+              title: '重置密码成功',
+              text: '请重新登录（点击关闭）',
+              color: 'success',
+              position: 'top-right',
+              icon: 'check_box',
+            })
+            // 重新登录
+            await this.$store.dispatch('user/signOut')
+            this.$router.replace('/sign')
+          }
+        } finally {
+          this.$vs.loading.close('#resetBtn > .con-vs-loading')
+          this.resetBtnDisable = false
         }
-
-        // 关闭按钮的加载动画
-        this.$vs.loading.close('#resetBtn > .con-vs-loading')
-        this.resetBtnDisable = false
       }
     },
 
@@ -211,6 +210,3 @@ export default {
   },
 }
 </script>
-
-<style lang="scss" scoped>
-</style>

@@ -27,8 +27,7 @@
       :active.sync="signInAlert"
     >{{ signInAlertText }}</vs-alert>
     <span
-      class="text-sm text-gray-500 cursor-pointer hover:text-blue-600"
-      style="transition: 0.4s;"
+      class="text-sm text-gray-500 transition cursor-pointer hover:text-blue-600"
       @click="switchTo('SignReset', '重置密码')"
     >忘记密码？</span>
     <vs-button
@@ -42,8 +41,7 @@
     >登 录</vs-button>
     <div class="text-right">
       <span
-        class="text-sm text-gray-500 cursor-pointer hover:text-blue-600"
-        style="transition: 0.4s;"
+        class="text-sm text-gray-500 transition cursor-pointer hover:text-blue-600"
         @click="switchTo('SignUp', '注册')"
       >还没有账号，去注册</span>
     </div>

@@ -18,7 +18,7 @@
       <!-- 左侧 -->
       <div class="left pr-4">
         <h6 class="my-3 text-sm text-gray-700">筛选搜索</h6>
-        <div class="p-4 shadow bg-white rounded-lg">
+        <div class="p-4 light-shadow bg-white radius">
           <div class="">
             <el-radio-group
               v-model="selectedCategory"

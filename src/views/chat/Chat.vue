@@ -185,7 +185,7 @@ export default {
   computed: {
     ...mapState('chat', ['activeChatUser', 'activeChatNickname', 'activeChatAvatar']),
     userId() {
-      return this.$store.getters['user/getUserId']
+      return this.$store.getters['user/userId']
     },
     // 全部联系人
     contactList() {

@@ -108,7 +108,7 @@
           ></vs-icon>
         </div>
 
-        <ul
+        <FlipList
           v-show="dataList.length > 0"
           style="height: 650px; overflow: auto;"
           v-infinite-scroll="loadMore"
@@ -116,8 +116,7 @@
         >
           <li
             v-contextmenu:contextmenu
-            class="mb-3 p-2 flex items-center rounded-lg hover:bg-gray-100"
-            style="transition: all 0.3s;"
+            class="mb-3 p-2 flex items-center rounded-lg transition hover:bg-gray-100"
             v-for="(it, i) in dataList"
             :key="i"
             :data-id="it._id"
@@ -166,7 +165,7 @@
               <v-contextmenu-item @click="deleteNotice()">删除该通知</v-contextmenu-item>
             </v-contextmenu>
           </li>
-        </ul>
+        </FlipList>
         <div
           v-show="dataList.length <= 0"
           class="py-4 flex justify-center"
@@ -179,17 +178,15 @@
 </template>
 
 <script>
+import FlipList from '@/components/FlipList.vue'
+
 import {
   getNoticeList, setAllNoticesRead, deleteNotice, deleteManyNotices,
 } from '@/request/api/notice'
 
 const list = [
-  {
-    title: '系统通知',
-  },
-  {
-    title: '我的消息',
-  },
+  { title: '系统通知' },
+  { title: '我的消息' },
 ]
 const noticeType = {
   1: { icon: 'chat_bubble_outline', color: 'primary' },
@@ -200,6 +197,8 @@ const noticeType = {
 
 export default {
   name: 'Message',
+  components: { FlipList },
+
   data: () => ({
     list,
     noticeType,

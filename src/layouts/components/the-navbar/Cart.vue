@@ -14,14 +14,9 @@
           wheelSpeed: 0.60,
         }"
       >
-        <ul
-          class="w-full"
-          v-if="this.cartList.length > 0"
-        >
+        <ul v-if="this.cartList.length > 0">
           <li
-            class="flex p-2
-                    cursor-pointer hover:bg-gray-200"
-            style="transition: all 0.3s;"
+            class="flex p-2 transition cursor-pointer hover:bg-gray-200"
             v-for="(item, i) in cartList"
             :key="i"
             @click="$router.push({path: 'goods-detail', query: { goodsId: item.goods._id }})"
@@ -63,9 +58,8 @@
         </div>
       </VuePerfectScrollbar>
       <div
-        class="w-full p-2 text-center text-primary
+        class="w-full p-2 text-center text-primary transition
                 cursor-pointer font-semibold bg-gray-100 hover:bg-gray-200"
-        style="transition: all 0.3s;"
         @click="$router.push('/goods-cart')"
       >
         <span>进入购物车</span>

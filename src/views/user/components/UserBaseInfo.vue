@@ -120,7 +120,7 @@
                   <vs-td class="font-semibold">￥{{ Number(tr.goods.price).toFixed(2) }}</vs-td>
                   <vs-td>{{ tr.amount }}</vs-td>
                   <vs-td
-                    title="查看用户"
+                    title="进入该用户主页"
                     class="text-primary cursor-pointer"
                     @click.native="viewUserDetail(tr.goods.seller._id)"
                   >
@@ -136,7 +136,7 @@
                         <el-dropdown-item @click.native.stop="viewOrderDetail(order._id)">
                           查看订单
                         </el-dropdown-item>
-                        <el-dropdown-item>下架商品</el-dropdown-item>
+                        <el-dropdown-item class="text-danger">删除记录</el-dropdown-item>
                       </el-dropdown-menu>
                     </el-dropdown>
                   </vs-td>

@@ -41,7 +41,7 @@
     <div v-else>
       <div
         v-if="!noDataCustomize"
-        class="p-8 flex justify-center items-center"
+        class="p-8 flex-row-center"
       >
         <el-image
           lazy

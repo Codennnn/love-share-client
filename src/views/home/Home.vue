@@ -2,7 +2,7 @@
   <div>
     <div class="flex w-full">
       <!-- 商品分类 -->
-      <div class="mr-4 pt-6 px-8 bg-white rounded-lg text-gray-600">
+      <div class="pt-6 px-8 bg-white rounded-lg text-gray-600">
         <ul>
           <li
             class="li-item mb-4 flex items-center cursor-pointer"
@@ -21,16 +21,16 @@
 
       <!-- 幻灯片 -->
       <el-carousel
+        class="mx-6 flex-1"
         :autoplay="false"
-        class="flex-1"
       >
         <el-carousel-item
-          class="h-full rounded-lg"
+          class="h-full radius"
           v-for="(item, i) in billboardList"
           :key="i"
         >
           <el-image
-            class="h-full"
+            class="w-full h-full"
             fit="cover"
             :src="item.url"
           ></el-image>
@@ -38,18 +38,18 @@
       </el-carousel>
 
       <!-- 功能区 -->
-      <div class="ml-4 py-6 px-4 bg-white rounded-lg text-gray-600 shadow">
+      <div class="py-6 px-4 bg-white radius text-gray-600 light-shadow">
         <div class="grid-block">
           <router-link
             class="grid-item px-3 text-center cursor-pointer"
-            v-for="(item, i) in grids"
+            v-for="(it, i) in grids"
             :key="i"
-            :to="item.to"
+            :to="it.to"
           >
             <svg class="w-12 h-12">
-              <use :xlink:href="`#icon-${item.icon}`" />
+              <use :xlink:href="`#icon-${it.icon}`" />
             </svg>
-            <p class="mt-1 text-sm">{{ item.label }}</p>
+            <p class="mt-1 text-sm">{{ it.label }}</p>
           </router-link>
         </div>
       </div>
@@ -81,7 +81,6 @@ const grids = [
   { icon: 'gouwu', label: '求购物品', to: '/begging-list' },
   { icon: 'lubiao', label: '帮助中心', to: '/help-center' },
 ]
-
 export default {
   name: 'Home',
   components: { GoodsList },
@@ -91,7 +90,7 @@ export default {
     grids,
     billboardList: [],
     goodsList: [],
-    pagination: null,
+    pagination: {},
   }),
 
   computed: {
@@ -127,7 +126,7 @@ export default {
 <style lang="scss" scoped>
 .li-item {
   font-size: 0.95rem;
-  transition: 0.4s;
+  transition: 0.3s;
   &:hover {
     transform: translateX(0.25rem);
   }
@@ -138,7 +137,7 @@ export default {
   grid-template-columns: 1fr 1fr;
   grid-row-gap: 1rem;
   .grid-item {
-    transition: 0.4s;
+    transition: 0.3s;
     &:hover {
       transform: translateY(-0.25rem);
     }
@@ -158,26 +157,22 @@ export default {
   line-height: 45px;
   overflow: hidden;
   color: #333;
-  &::before {
-    content: "";
-    position: absolute;
-    top: 50%;
-    left: 0;
-    width: 25px;
-    height: 20px;
-    margin-top: -10px;
-    background-image: url(~@/assets/images/sprite.png);
-    background-position: 0 0;
-  }
+  &::before,
   &::after {
     content: "";
     position: absolute;
     top: 50%;
-    right: 0;
     width: 25px;
     height: 20px;
     margin-top: -10px;
     background-image: url(~@/assets/images/sprite.png);
+  }
+  &::before {
+    left: 0;
+    background-position: 0 0;
+  }
+  &::after {
+    right: 0;
     background-position: -25px 0;
   }
 }

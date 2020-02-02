@@ -80,9 +80,8 @@
             vs-trigger-click
           >
             <div
-              class="px-3 text-primary text-center text-sm cursor-pointer"
-              style="height: 1.8rem; line-height: 1.8rem;
-            background: rgba(var(--vs-primary), 0.2); border-radius: 0.9rem;"
+              class="w-24 h-8 text-primary flex-row-center text-sm cursor-pointer"
+              style="background: rgba(var(--vs-primary), 0.15); border-radius: 0.9rem;"
             >详细资料</div>
 
             <vs-dropdown-menu style="width: 250px;">
@@ -158,21 +157,11 @@
               >{{ status[tr.status].text }}</div>
             </vs-td>
             <vs-td>
-              <el-dropdown>
-                <i class="el-icon-more text-lg text-gray-600 cursor-pointer"></i>
-                <el-dropdown-menu slot="dropdown">
-                  <el-dropdown-item @click.native="viewGoodsDetail(tr._id)">
-                    查看主页
-                  </el-dropdown-item>
-                  <el-dropdown-item
-                    v-if="tr.status !== 2"
-                    @click.native="editGoodsInfo(tr._id)"
-                  >
-                    编辑信息
-                  </el-dropdown-item>
-                  <el-dropdown-item>删除记录</el-dropdown-item>
-                </el-dropdown-menu>
-              </el-dropdown>
+              <i
+                title="查看商品主页"
+                class="el-icon-more text-lg text-gray-600 cursor-pointer"
+                @click.native="viewGoodsDetail(tr._id)"
+              ></i>
             </vs-td>
           </vs-tr>
         </template>
@@ -186,29 +175,21 @@ import {
   getUserInfoNum, getOtherUserInfo, subscribe, unsubscribe, isUserFollowed, getPublishedGoods,
 } from '@/request/api/user'
 
+const status = {
+  1: { color: 'warning', text: '待出售' },
+  2: { color: 'primary', text: '已出售' },
+  3: { color: 'danger', text: '已下架' },
+}
 export default {
   name: 'UserDetail',
   data: () => ({
+    status,
     userId: '',
     info: {},
     num: {},
     publishedGoods: [],
     isFollowed: false,
     disabled: false,
-    status: {
-      1: {
-        color: 'warning',
-        text: '待出售',
-      },
-      2: {
-        color: 'primary',
-        text: '已出售',
-      },
-      3: {
-        color: 'danger',
-        text: '已下架',
-      },
-    },
   }),
 
   created() {
@@ -267,6 +248,13 @@ export default {
       if (code === 2000) {
         this.isFollowed = data.is_followed
       }
+    },
+
+    viewGoodsDetail(goodsId) {
+      this.$router.push({
+        path: '/goods-detail',
+        query: { goodsId },
+      })
     },
   },
 }

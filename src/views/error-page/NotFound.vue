@@ -1,5 +1,5 @@
 <template>
-  <div class="h-screen flex justify-center items-center bg-white">
+  <div class="h-screen flex-row-center bg-white">
     <div class="flex items-center">
       <div style="width: 15rem; margin:0 3rem; ">
         <p class="text-2xl font-bold">生活就像一盒巧克力 </p>

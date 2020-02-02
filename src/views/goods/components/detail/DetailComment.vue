@@ -1,7 +1,7 @@
 <template>
   <div
     ref="comment"
-    class="relative p-3 bg-white rounded-lg overflow-hidden"
+    class="relative p-3 bg-white radius overflow-hidden"
     :style="`max-height: ${maxHeight}px;`"
   >
     <div class="mb-1 flex justify-between items-center">
@@ -31,8 +31,7 @@
     >
       <ul class="mt-6 pt-2 pb-10 overflow-hidden">
         <li
-          class="msg relative mb-2"
-          style="transition: all 0.3s;"
+          class="msg relative mb-2 transition"
           v-for="(cm, i) in comments"
           :key="i"
           :class="{'px-1 py-2 bg-gray-100 rounded-lg': currMsg === cm._id}"
@@ -60,9 +59,9 @@
             class="ml-6 p-2 bg-gray-100 rounded-lg"
           >
             <li
+              class="reply-item"
               v-for="(it, index) in cm.replies"
               :key="index"
-              class="reply-item"
             >
               <p class="text-sm">
                 <span class="name cursor-pointer">
@@ -134,8 +133,8 @@
     </p>
     <div v-if="showComments && !hideComment">
       <vs-pagination
-        :total="Math.ceil(total / 5)"
         v-model="currPage"
+        :total="Math.ceil(total / 5)"
       ></vs-pagination>
     </div>
 

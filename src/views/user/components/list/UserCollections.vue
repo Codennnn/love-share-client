@@ -52,7 +52,7 @@
             <div class="flex">
               <div
                 v-if="isInCollections(tr.goods._id)"
-                class="py-2 flex justify-center items-center bg-gray-100 cursor-pointer rounded-lg"
+                class="py-2 flex-row-center bg-gray-100 cursor-pointer rounded-lg"
                 style="width: 7.5rem;"
                 @click="deleteCollection(tr.goods._id)"
               >
@@ -61,7 +61,7 @@
               </div>
               <div
                 v-else
-                class="py-2 flex justify-center items-center bg-gray-100 cursor-pointer rounded-lg"
+                class="py-2 flex-row-center bg-gray-100 cursor-pointer rounded-lg"
                 style="width: 7.5rem;"
                 @click="addCollection(tr.goods._id)"
               >

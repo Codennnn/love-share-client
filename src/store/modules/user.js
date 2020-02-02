@@ -104,7 +104,7 @@ export default {
   mutations,
   actions,
   getters: {
-    getUserId: state => state.info._id,
+    userId: state => state.info._id,
     isFollowed: (state, getters) => id => getters.getFollows.includes(id),
   },
 }

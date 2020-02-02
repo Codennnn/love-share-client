@@ -59,11 +59,16 @@ const errorHandler = {
 
 service.interceptors.response.use(
   (response) => {
-    const res = response
-    // console.log(`%c${res.config.url}`, 'color: green;')
-    // console.log(res.data)
-    // console.log('<<<<<<<<<<<<')
-    return res.data
+    const { data } = response
+    // const { code, msg } = data
+    // if (code >= 4000) {
+    //   errorHandler.errorNotify({
+    //     title: `错误代码 - ${code}`,
+    //     message: msg,
+    //     duration: 0,
+    //   })
+    // }
+    return data
   },
   (error) => {
     console.log(error, error.response)

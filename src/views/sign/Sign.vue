@@ -1,10 +1,10 @@
 <template>
   <div
-    class="relative h-screen py-40 flex justify-center items-center"
+    class="relative min-h-screen flex-row-center"
     style="background: rgb(239, 242, 247);"
   >
     <div
-      class="absolute flex items-center"
+      class="absolute z-50 flex items-center"
       style="top: 2rem; left: 4rem;"
     >
       <img
@@ -22,7 +22,7 @@
     </div>
 
     <div
-      class="relative flex justify-end bg-white rounded-lg overflow-hidden"
+      class="relative flex justify-end bg-white radius overflow-hidden"
       style="min-width: 1000px;"
     >
       <div
@@ -69,7 +69,7 @@ export default {
   components: { SignIn, SignUp, SignReset },
 
   data: () => ({
-    currentComponent: '',
+    currentComponent: 'SignIn',
   }),
 
   mounted() {

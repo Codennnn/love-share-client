@@ -8,15 +8,12 @@
       class="menu-box"
     >
       <div
-        class="w-full text-center text-white bg-primary cursor-pointer"
+        title="点击刷新 (=・ω・=)"
+        class="w-full flex-row-center text-white text-xl bg-primary cursor-pointer"
         style="height: 65px;"
+        @click="noticesRefresh()"
       >
-        <div @click="noticesRefresh()">
-          <div
-            title="点击刷新 (=・ω・=)"
-            class="text-xl"
-          >收到 {{ unreadAmount }} 条未读通知</div>
-        </div>
+        收到 {{ unreadAmount }} 条未读通知
       </div>
       <VuePerfectScrollbar
         style="height: 350px;"
@@ -30,9 +27,8 @@
           v-if="unreadAmount > 0"
         >
           <li
-            class="notice relative p-4 flex justify-between
+            class="notice relative p-4 flex justify-between transition
                     cursor-pointer hover:bg-gray-200"
-            style="transition: all 0.3s;"
             v-for="(nt, i) in unreadNotices"
             :key="i"
           >
@@ -80,11 +76,8 @@
           <div class="mt-4 text-gray-600 text-sm">暂无更多新的通知</div>
         </div>
       </VuePerfectScrollbar>
-      <div
-        class="w-full py-2 px-4 flex justify-between items-center text-sm
-        bg-gray-100 hover:bg-gray-200"
-        style="transition: all 0.3s;"
-      >
+      <div class="w-full py-2 px-4 flex justify-between items-center text-sm
+        transition bg-gray-100 hover:bg-gray-200">
         <span
           class="text-gray-600 cursor-pointer"
           @click="setAllNoticesRead()"
@@ -137,7 +130,7 @@ export default {
 
   computed: {
     ...mapState('notice', ['unreadNotices']),
-    ...mapGetters('user', { userId: 'getUserId' }),
+    ...mapGetters('user', ['userId']),
     ...mapGetters('notice', ['unreadAmount']),
   },
 

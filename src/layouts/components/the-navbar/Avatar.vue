@@ -6,7 +6,6 @@
       @mouseleave="isHover = false"
     >
       <router-link
-        role="avatar"
         tag="div"
         to="/user-center"
         class="flex items-center"
@@ -62,7 +61,7 @@
         </div>
         <div
           class="py-2 text-sm text-center bg-gray-200 text-gray-500
-        hover:text-gray-600 cursor-pointer"
+        hover:text-gray-600 transition cursor-pointer"
           @click="signOut()"
         >
           退出登录
@@ -120,6 +119,7 @@ export default {
 }
 
 .link {
+  transition: all 0.3s;
   &:hover {
     color: rgba(var(--vs-primary), 0.9);
   }

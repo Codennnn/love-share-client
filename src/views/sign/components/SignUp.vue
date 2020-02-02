@@ -67,8 +67,7 @@
     >立即注册</vs-button>
     <div class="text-right">
       <span
-        class="text-sm text-gray-500 cursor-pointer hover:text-blue-600"
-        style="transition: 0.4s;"
+        class="text-sm text-gray-500 transition cursor-pointer hover:text-blue-600"
         @click="switchToSignIn()"
       >已有账号，立即登录</span>
     </div>
