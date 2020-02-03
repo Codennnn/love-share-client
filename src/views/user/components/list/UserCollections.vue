@@ -1,5 +1,5 @@
 <template>
-  <div class="p-6 bg-white rounded-lg">
+  <div class="p-6 bg-white radius">
     <vs-table
       search
       pagination
@@ -49,15 +49,15 @@
             <p class="text-gray-600">{{ $timeDiff(tr.created_at) }}</p>
           </vs-td>
           <vs-td>
-            <div class="flex">
+            <div class="flex text-gray-600">
               <div
                 v-if="isInCollections(tr.goods._id)"
-                class="py-2 flex-row-center bg-gray-100 cursor-pointer rounded-lg"
+                class="py-2 flex-row-center bg-gray-150 cursor-pointer rounded-lg"
                 style="width: 7.5rem;"
                 @click="deleteCollection(tr.goods._id)"
               >
                 <i class="el-icon-star-on text-warning text-xl"></i>
-                <p class="ml-1 text-gray-600">取消收藏</p>
+                <p class="ml-1">取消收藏</p>
               </div>
               <div
                 v-else
@@ -65,8 +65,8 @@
                 style="width: 7.5rem;"
                 @click="addCollection(tr.goods._id)"
               >
-                <i class="el-icon-star-off text-gray-600 text-lg"></i>
-                <p class="ml-2 text-gray-600">收藏</p>
+                <i class="el-icon-star-off text-lg"></i>
+                <p class="ml-2">收藏</p>
               </div>
             </div>
           </vs-td>

@@ -20,7 +20,7 @@
             v-for="(url, i) in goods.img_list"
             :key="i"
             :src="`${url}?imageView2/2/w/100`"
-            @click.native="showViewer = true"
+            @click.native="showViewer = true, viewerList = [url]"
           />
         </vs-images>
       </div>
@@ -186,7 +186,7 @@
     <el-image-viewer
       v-show="showViewer"
       :on-close="() => { showViewer = false }"
-      :url-list="goods.img_list"
+      :url-list="viewerList"
     />
   </div>
 </template>
@@ -204,7 +204,8 @@ export default {
 
   data: () => ({
     showViewer: false,
-    addCartDisable: false,
+    addCartDisable: false, // 禁止加入购物车
+    viewerList: [],
 
     amount: 1, // 购买的数量
     isCollected: false,

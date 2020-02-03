@@ -73,7 +73,7 @@ const routerLinks = [
   { label: '消息中心', icon: 'bell', to: '/message' },
   { label: '我的空间', icon: 'user', to: '/user-center' },
   { label: '我的订单', icon: 'shopping-bag', to: '/user-center' },
-  { label: '我的收藏', icon: 'star', to: '/user-center' },
+  { label: '我的收藏', icon: 'star', to: '/user-collections' },
 ]
 export default {
   name: 'Avatar',

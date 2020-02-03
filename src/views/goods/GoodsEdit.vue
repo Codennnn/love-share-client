@@ -227,12 +227,12 @@ export default {
   },
 
   mounted() {
-    this.getGoodsDetail()
+    this.getGoodsDetail(this.$route.query.goodsId)
   },
 
   methods: {
-    async getGoodsDetail() {
-      const { code, data } = await getGoodsDetail({ goods_id: this.$route.query.goodsId })
+    async getGoodsDetail(goods_id) {
+      const { code, data } = await getGoodsDetail({ goods_id })
       if (code === 2000) {
         data.goods_detail.category = data.goods_detail.category.map(
           el => this.categoryList.filter(it => it.name === el.name)[0]._id,
@@ -275,10 +275,10 @@ export default {
       }, [])
 
       if (blobArray.length > 0) {
-        if (!blobArray.every(el => (el.size / 1024 / 1024) < 5)) {
+        if (!blobArray.every(el => (el.size / 1024 / 1024) < 3)) {
           this.$vs.notify({
             color: 'danger',
-            title: '商品图片不能大于5M',
+            title: '商品图片不能大于3M',
             text: '请压缩图片后继续上传',
           })
           return
@@ -318,7 +318,9 @@ export default {
             editGoods(this.goods)
               .then(async ({ code }) => {
                 if (code === 2000) {
-                  await deleteGoodsImg({ img_list: this.deleteList })
+                  if (this.deleteList.length > 0) {
+                    await deleteGoodsImg({ img_list: this.deleteList })
+                  }
                   this.$router.go(-1)
                 } else {
                   throw new Error()
