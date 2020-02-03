@@ -44,6 +44,10 @@
   background: linear-gradient(118deg, rgba(var(--vs-primary), 1), rgba(var(--vs-primary), .7)) !important;
 }
 
+.bg-gray-150 {
+  background-color: rgba(var(--vs-primary), 0.06);
+}
+
 .text-overflow {
   overflow: hidden;
   text-overflow: ellipsis;
