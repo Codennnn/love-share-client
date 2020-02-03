@@ -83,9 +83,3 @@ export default {
   },
 }
 </script>
-
-<style lang="scss" scoped>
-.quickly {
-  animation-duration: 0.2s;
-}
-</style>

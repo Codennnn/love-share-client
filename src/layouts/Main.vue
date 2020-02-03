@@ -34,8 +34,9 @@
         :h="50"
         :x="10"
         :y="820"
-        :z="Infinity"
-        @click.native="$store.commit('chat/SET_CHAT_OPEN')"
+        :z="99999999"
+        @mousedown.native="mousedown"
+        @mouseup.native="mouseup"
       >
         <div
           class="w-12 h-12 flex-row-center bg-primary-gradient rounded-lg"
@@ -101,11 +102,26 @@ export default {
 
   data: () => ({
     alivePages: ['Home', 'UserCenter', 'GoodsCart', 'GoodsDetail', 'GoodsSchoolList'], // 允许缓存的路由
+    mouseDownPos: {},
   }),
 
   computed: {
     showChatbox() {
       return this.$store.state.chat.showChatbox
+    },
+  },
+
+  methods: {
+    mousedown({ x, y }) {
+      this.mouseDownPos = { x, y }
+    },
+    mouseup({ x: x2, y: y2 }) {
+      const { x, y } = this.mouseDownPos
+      const sqrt = Math.sqrt((x - x2) * (x - x2) + (y - y2) * (y - y2))
+      // 如果小于等于 5，则认为是点击事件而非拖拽事件
+      if (sqrt <= 5) {
+        this.$store.commit('chat/SET_CHAT_OPEN')
+      }
     },
   },
 }
@@ -159,9 +175,5 @@ $footer-height: 65px !global;
   left: 30px;
   bottom: 30px;
   z-index: 9999;
-}
-
-.quickly {
-  animation-duration: 0.3s;
 }
 </style>

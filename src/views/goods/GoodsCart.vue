@@ -104,10 +104,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.quickly {
-  animation-duration: 0.1s;
-}
-
 .el-steps::v-deep {
   .el-step__icon-inner {
     font-size: 1.6rem !important;

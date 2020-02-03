@@ -25,7 +25,10 @@
             <div>{{ info.nickname }}</div>
             <small style="color: #919191;">{{ info.school.name }}</small>
           </div>
-          <div class="my-2 flex items-center">
+          <div
+            class="progress my-2 flex items-center"
+            :class="{'active': isHover}"
+          >
             <small class="mr-2 text-primary whitespace-no-wrap">乐享值</small>
             <vs-progress
               :percent="info.credit_value / 1000 * 100"
@@ -37,7 +40,11 @@
           </div>
           <vs-divider />
 
-          <div class="link-grid text-sm text-gray-600">
+          <!-- 路由链接 -->
+          <div
+            class="link-grid text-sm text-gray-600"
+            :class="{'active': isHover}"
+          >
             <router-link
               tag="div"
               class="link"
@@ -120,19 +127,42 @@ export default {
   }
 }
 
+@keyframes slide-left {
+  0% {
+    opacity: 0;
+    transform: translateX(100px);
+  }
+  70% {
+    opacity: 0.6;
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.progress {
+  &.active {
+    animation: slide-left 0.4s ease-out;
+  }
+}
+
 .link-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-column-gap: 1rem;
   grid-row-gap: 0.5rem;
-}
-.link {
-  display: flex;
-  align-items: center;
-  transition: all 0.3s;
-  cursor: pointer;
-  &:hover {
-    color: rgba(var(--vs-primary), 0.9);
+  &.active {
+    animation: slide-left 0.45s ease-out;
+  }
+  .link {
+    display: flex;
+    align-items: center;
+    transition: all 0.3s;
+    cursor: pointer;
+    &:hover {
+      color: $primary;
+    }
   }
 }
 </style>
