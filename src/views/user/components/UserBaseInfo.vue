@@ -106,8 +106,8 @@
 
             <template slot-scope="{data}">
               <vs-tr
-                v-for="tr in data"
-                :key="tr._id"
+                v-for="(tr, i) in data"
+                :key="i"
               >
                 <vs-td>
                   <vs-image

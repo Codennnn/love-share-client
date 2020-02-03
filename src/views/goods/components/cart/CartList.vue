@@ -136,9 +136,9 @@
 
   <div
     v-else
-    class="p-5 radius bg-white base-shadow"
+    class="p-8 radius bg-white light-shadow"
   >
-    <p class="mb-4 text-xl font-bold">您的购物车里一件宝贝也有没哎~</p>
+    <p class="mb-5 text-xl font-bold">您的购物车里一件宝贝也有没哎~</p>
     <vs-button
       class="text-sm"
       @click="$router.push('/')"
