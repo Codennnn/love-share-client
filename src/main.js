@@ -3,6 +3,7 @@ import animated from 'animate.css' // css 动画库
 import VueClipboard from 'vue-clipboard2' // 粘贴板
 import dayjs from 'dayjs' // 日期格式化
 import VueSocketIO from 'vue-socket.io' // socket.io
+import VueFeather from 'vue-feather' // Feather 图标
 import infiniteScroll from 'vue-infinite-scroll' // 无限滚动
 import VContentmenu from 'v-contextmenu' // 右键菜单
 import 'v-contextmenu/dist/index.css' // 右键菜单样式
@@ -24,7 +25,7 @@ Vue.use(new VueSocketIO({
 }))
 
 Vue.use(VContentmenu)
-
+Vue.use(VueFeather)
 Vue.use(animated)
 Vue.use(VueClipboard)
 Vue.use(infiniteScroll)

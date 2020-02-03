@@ -4,7 +4,7 @@
       class="main pr-4 overflow-visible vs-con-loading__container"
       :class="addressList.length > 0 ? 'w-2/3' : 'w-full'"
     >
-      <div class="p-5 bg-white base-shadow rounded-lg">
+      <div class="p-6 bg-white light-shadow radius">
         <p class="text-lg font-bold">设置新的收货地址</p>
         <p class="text-sm text-gray-500">填写完成时，请确认信息无误</p>
         <div class="w-2/3 my-8">
@@ -77,10 +77,10 @@
     </div>
 
     <div
-      class="w-1/3 pl-3"
       v-if="addressList.length > 0"
+      class="w-1/3 pl-3"
     >
-      <div class="p-5 bg-white base-shadow rounded-lg">
+      <div class="p-5 bg-white light-shadow radius">
         <div class="flex justify-between items-center text-2xl">
           {{ current.receiver }}
           <span

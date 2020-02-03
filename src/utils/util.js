@@ -18,7 +18,11 @@ export function timeDiff(time) {
       if (diffHour < 1) {
         const diffMin = now.diff(date, 'minute')
         if (diffMin < 1) {
-          return `${now.diff(date, 'second')}秒前`
+          const diffSec = now.diff(date, 'second')
+          if (diffSec < 30) {
+            return '刚刚'
+          }
+          return `${diffSec}秒前`
         }
         return `${diffMin}分钟前`
       }

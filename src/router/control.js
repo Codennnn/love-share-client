@@ -7,7 +7,7 @@ import { getToken } from '@/utils/token'
 
 NProgress.configure({ showSpinner: false }) // NProgress 配置
 
-const whiteList = ['/sign', '/home', '/help-center']
+const whiteList = ['/sign', '/home', '/goods-category', '/goods-detail', '/begging-list', '/help-center']
 
 router.beforeEach(async (to, from, next) => {
   NProgress.start() // 进度条开始

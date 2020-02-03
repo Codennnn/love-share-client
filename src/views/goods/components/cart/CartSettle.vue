@@ -1,7 +1,7 @@
 <template>
   <div class="main flex vs-con-loading__container">
     <div class="w-2/3 pr-3">
-      <div class="p-5 rounded-lg base-shadow bg-white">
+      <div class="p-5 radius light-shadow bg-white">
         <div
           class="w-full mt-1 mb-3 p-3 text-lg text-primary rounded-lg"
           style="background: rgba(var(--vs-primary), 0.05);"

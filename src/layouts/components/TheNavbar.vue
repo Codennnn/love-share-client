@@ -29,17 +29,14 @@
               ></i>
             </el-tooltip>
           </router-link>
-          <el-tooltip
-            effect="light"
-            content="在线聊"
-            :open-delay="100"
-          >
-            <i
-              class="nav-icon el-icon-chat-dot-round mr-3 mb-1"
+          <el-tooltip content="在线聊">
+            <feather
+              class="nav-icon mr-3 mb-1"
+              type="message-square"
               @click="$store.state.chat.showChatbox
               ? $store.commit('chat/SET_CHAT_CLOSE')
               : $store.commit('chat/SET_CHAT_OPEN')"
-            ></i>
+            ></feather>
           </el-tooltip>
         </template>
       </div>
@@ -54,20 +51,16 @@
           />
 
           <!-- 搜索图标 -->
-          <el-tooltip
-            effect="light"
-            :open-delay="100"
-            :content="showSearchInput ? '关闭搜索' : '全站搜索'"
-          >
-            <i
+          <el-tooltip :content="showSearchInput ? '关闭搜索' : '全站搜索'">
+            <feather
               class="nav-icon ml-3"
-              :class="[showSearchInput ? 'el-icon-close' : 'el-icon-search']"
+              :type="showSearchInput ? 'x' : 'search'"
               @click="showSearchInput = !showSearchInput"
-            ></i>
+            ></feather>
           </el-tooltip>
           <vs-input
             class="nav-search overflow-hidden"
-            :class="[showSearchInput ? 'w-48': 'w-0']"
+            :class="showSearchInput ? 'w-48': 'w-0'"
             placeholder="搜索你想要的宝贝"
             @keyup.esc="showSearchInput = false"
             @keyup.enter="search"
@@ -75,16 +68,12 @@
           />
 
           <!-- 全屏图标 -->
-          <el-tooltip
-            content="切换全屏"
-            effect="light"
-            :open-delay="100"
-          >
-            <i
+          <el-tooltip :content="isFullScreen ? '退出全屏' : '进入全屏'">
+            <feather
               class="nav-icon mx-3"
-              :class="[isFullScreen ? 'el-icon-crop' : 'el-icon-full-screen']"
+              :type="isFullScreen ? 'minimize' : 'maximize'"
               @click="screenfull"
-            ></i>
+            ></feather>
           </el-tooltip>
         </div>
 

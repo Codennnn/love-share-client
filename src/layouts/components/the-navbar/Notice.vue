@@ -1,7 +1,13 @@
 <template>
   <vs-dropdown vs-custom-content>
-    <el-badge :value="unreadAmount > 0 ? unreadAmount : ''">
-      <i class="nav-icon el-icon-bell"></i>
+    <el-badge
+      class="mt-1"
+      :value="unreadAmount > 0 ? unreadAmount : ''"
+    >
+      <feather
+        class="nav-icon"
+        type="bell"
+      ></feather>
     </el-badge>
     <vs-dropdown-menu
       id="div-with-loading"
@@ -23,8 +29,8 @@
         }"
       >
         <ul
-          class="vs-con-loading__container"
           v-if="unreadAmount > 0"
+          class="vs-con-loading__container"
         >
           <li
             class="notice relative p-4 flex justify-between transition

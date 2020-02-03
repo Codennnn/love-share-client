@@ -43,7 +43,11 @@
                 class="link flex items-center cursor-pointer"
                 to="/message"
               >
-                <i class="el-icon-bell mr-1 text-base"></i>
+                <feather
+                  class="mr-1"
+                  size="16"
+                  type="bell"
+                ></feather>
                 <span>消息中心</span>
               </router-link>
             </div>
@@ -53,7 +57,11 @@
                 class="link ml-5 flex items-center cursor-pointer"
                 to="/user-center"
               >
-                <i class="el-icon-user mr-1 text-base"></i>
+                <feather
+                  class="mr-1"
+                  size="16"
+                  type="user"
+                ></feather>
                 <span>我的空间</span>
               </router-link>
             </div>

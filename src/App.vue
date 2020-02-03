@@ -30,10 +30,6 @@ export default {
 
   created() {
     this.$store.dispatch('getCategoryList')
-    if (this.$login()) {
-      this.$store.dispatch('user/getAddressList')
-      this.$store.dispatch('user/getUserInfo')
-    }
   },
 
   mounted() {

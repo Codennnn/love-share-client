@@ -70,7 +70,7 @@ export default {
     async getArticle(section_id, article_id) {
       this.showEditor = false
       this.$vs.loading({
-        container: '.article-container',
+        container: '#artical-loading',
         scale: 1,
       })
       try {
@@ -81,7 +81,7 @@ export default {
           this.article = data.article
         }
       } finally {
-        this.$vs.loading.close('.article-container > .con-vs-loading')
+        this.$vs.loading.close('#artical-loading > .con-vs-loading')
       }
     },
   },

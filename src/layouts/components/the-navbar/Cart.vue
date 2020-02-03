@@ -1,7 +1,13 @@
 <template>
   <vs-dropdown vs-custom-content>
-    <el-badge :value="this.cartAmount > 0 ? this.cartAmount : ''">
-      <i class="nav-icon el-icon-shopping-cart-2"></i>
+    <el-badge
+      class="mt-1"
+      :value="this.cartAmount > 0 ? this.cartAmount : ''"
+    >
+      <feather
+        class="nav-icon "
+        type="shopping-cart"
+      ></feather>
     </el-badge>
     <vs-dropdown-menu class="menu-box">
       <div class="w-full py-4 text-center text-white bg-primary cursor-pointer">

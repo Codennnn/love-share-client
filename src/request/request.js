@@ -33,7 +33,7 @@ service.interceptors.request.use(
 
 const errorHandler = {
   errorNotify({
-    title = '哎呀！', message = '请求出错啦！', duration = 2000,
+    title = '哎呀！', message = '请求出错啦！', duration = 3500,
   } = {}) {
     Notification.error({ title, message, duration })
   },
@@ -60,14 +60,14 @@ const errorHandler = {
 service.interceptors.response.use(
   (response) => {
     const { data } = response
-    // const { code, msg } = data
-    // if (code >= 4000) {
-    //   errorHandler.errorNotify({
-    //     title: `错误代码 - ${code}`,
-    //     message: msg,
-    //     duration: 0,
-    //   })
-    // }
+    const { code, msg } = data
+    if (code >= 4000) {
+      errorHandler.errorNotify({
+        title: `错误代码 - ${code}`,
+        message: msg,
+        duration: 0,
+      })
+    }
     return data
   },
   (error) => {

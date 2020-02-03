@@ -6,7 +6,7 @@
         <div>
           <ul>
             <li
-              class="list-item relative mb-6 base-shadow vs-con-loading__container"
+              class="list-item vs-con-loading__container"
               v-for="it in cartList"
               :key="it._id"
               :id="`li-loading${it._id}`"
@@ -75,7 +75,7 @@
 
       <!-- 右侧 -->
       <div class="w-1/3 pl-5">
-        <div class="p-4 bg-white base-shadow rounded-lg">
+        <div class="p-4 bg-white light-shadow radius">
           <p class="mb-1 text-sm text-gray-500">购物车账单总览</p>
           <div class="flex justify-between cursor-pointer">
             <span class="label">优惠券</span>
@@ -136,8 +136,7 @@
 
   <div
     v-else
-    class="p-5 rounded-lg bg-white"
-    style="box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.1);"
+    class="p-5 radius bg-white base-shadow"
   >
     <p class="mb-4 text-xl font-bold">您的购物车里一件宝贝也有没哎~</p>
     <vs-button
@@ -219,13 +218,15 @@ export default {
 
 <style lang="scss" scoped>
 .list-item {
+  position: relative;
+  margin-bottom: 1.5rem;
   display: flex;
   background: white;
-  border-radius: 0.5rem;
+  border-radius: $large-radius;
   transition: 0.4s;
+  box-shadow: $light-shadow;
   &:hover {
     transform: translateY(-6px);
-    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2);
   }
 }
 

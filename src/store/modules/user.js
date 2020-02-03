@@ -33,21 +33,23 @@ const mutations = {
 }
 
 const actions = {
-  async signIn({ commit }, info) {
+  async signIn({ commit, dispatch }, info) {
     const { code, data } = await signIn(info)
     if (code === 2000) {
       commit('SET_TOKEN', data.token) // 将 token 存储到 vuex
       setToken(data.token) // 将 token 缓存到 cookie
+
+      dispatch('getAddressList')
+      dispatch('getUserInfo')
     }
     return code
   },
 
   async signOut({ commit, state }) {
     await signOut(state.token)
-    localStorage.removeItem('vuex')
     commit('SET_TOKEN', '')
-    commit('SET_INFO', {})
     removeToken() // 移除本地token缓存
+    localStorage.removeItem('vuex')
   },
 
   async getUserInfo({ commit }) {
