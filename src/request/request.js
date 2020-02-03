@@ -61,7 +61,7 @@ service.interceptors.response.use(
   (response) => {
     const { data } = response
     const { code, msg } = data
-    if (code >= 4000) {
+    if (code !== 2000) {
       errorHandler.errorNotify({
         title: `错误代码 - ${code}`,
         message: msg,

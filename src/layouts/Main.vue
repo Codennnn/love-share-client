@@ -27,20 +27,22 @@
 
       <!-- 在线聊天 -->
       <VueDragResize
+        ref="drag"
+        class="fixed cursor-pointer"
         :isActive="false"
         :isResizable="false"
-        class=" cursor-pointer"
         :w="50"
         :h="50"
-        :x="10"
-        :y="820"
+        :x="30"
+        :y="500"
         :z="99999999"
+        :parentLimitation="true"
         @mousedown.native="mousedown"
         @mouseup.native="mouseup"
       >
         <div
           class="w-12 h-12 flex-row-center bg-primary-gradient rounded-lg"
-          style="left: 30px; bottom: 30px; box-shadow: 0 0 10px rgba(var(--vs-primary), 1);"
+          style="box-shadow: 0 0 10px rgba(var(--vs-primary), 1);"
         >
           <feather
             class="text-white"

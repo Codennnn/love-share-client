@@ -31,22 +31,18 @@
         <p class="text-lg font-semibold">{{ goods.name }}</p>
         <div class="my-2 flex items-center justify-between text-gray-500 text-sm">
           <p>发布于 {{ $timeDiff(goods.created_at) }}</p>
-          <div class="flex items-center">
+          <div class="flex-row-center">
             <div
-              v-if="isCollected"
-              class="collect-btn is-collected text-warning"
-              @click="deleteCollection()"
+              class="collect-btn flex items-center"
+              :class="isCollected ? 'is-collected' : 'not-collected'"
+              @click="isCollected ? deleteCollection() : addCollection()"
             >
-              <i class="el-icon-star-off"></i>
-              已收藏
-            </div>
-            <div
-              v-else
-              class="collect-btn not-collected text-success"
-              @click="addCollection()"
-            >
-              <i class="el-icon-star-off"></i>
-              收藏
+              <feather
+                class="mr-1"
+                size="18"
+                type="star"
+              ></feather>
+              {{ isCollected ? '已收藏' : '收藏' }}
             </div>
             <span class="ml-2 text-sm text-gray-600">{{ goods.collect_num }} 人收藏</span>
           </div>
@@ -126,7 +122,7 @@
             :max="goods.quantity"
           />
           <div
-            v-if="goods.status === 1"
+            v-if="goods.status === 1 && !$self(sellerId)"
             class="btn-group"
           >
             <vs-button
@@ -200,7 +196,7 @@ import { isGoodsCollected } from '@/request/api/goods'
 export default {
   name: 'DetailInfo',
   components: { ElImageViewer },
-  props: { goods: Object, goodsId: String },
+  props: { goods: Object, goodsId: String, sellerId: String },
 
   data: () => ({
     showViewer: false,
@@ -360,13 +356,13 @@ export default {
   border-radius: 0.5rem;
   transition: all 0.3s;
   cursor: pointer;
-  &:hover {
-    &.is-collected {
-      background: rgba(var(--vs-warning), 0.1);
-    }
-    &.not-collected {
-      background: rgba(var(--vs-success), 0.1);
-    }
+  &.is-collected {
+    color: $warning;
+    background: rgba(var(--vs-warning), 0.1);
+  }
+  &.not-collected {
+    color: $success;
+    background: rgba(var(--vs-success), 0.1);
   }
 }
 </style>

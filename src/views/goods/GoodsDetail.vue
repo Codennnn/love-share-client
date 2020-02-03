@@ -6,6 +6,7 @@
       <DetailInfo
         :goods="goods"
         :goodsId="goodsId"
+        :seller-id="seller._id"
         @setAmount="(e) => amount = e"
         @settle="isSidebarActive = true"
       />
