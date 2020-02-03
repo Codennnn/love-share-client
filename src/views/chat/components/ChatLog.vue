@@ -1,8 +1,7 @@
 <template>
   <div
-    id="component-chat-log"
-    class="m-8"
     v-if="chatData"
+    class="my-8 mx-4"
   >
     <div
       v-for="(msg, index) in chatData.msg"
@@ -12,19 +11,12 @@
         class="flex items-start"
         :class="[{'flex-row-reverse' : msg.is_sent}]"
       >
-        <vs-avatar
-          size="40px"
-          class="mx-0 flex-no-shrink"
-          :class="msg.is_sent ? 'sm:ml-5 ml-3' : 'sm:mr-5 mr-3'"
-          :src="setAvatar(msg.is_sent)"
-        />
-
         <div
-          class="msg break-words relative shadow-md rounded py-3 px-4 mb-2 rounded-lg max-w-sm"
-          :class="{'bg-primary-gradient text-white': msg.is_sent,
-           'border border-solid border-grey-light bg-white': !msg.is_sent}"
+          class="msg break-words relative py-2 px-4 mb-2"
+          :class="{'right bg-primary-gradient text-white': msg.is_sent,
+           'left border border-solid border-grey-light bg-white': !msg.is_sent}"
         >
-          <span class="text-sm">{{ msg.msg }}</span>
+          <span class="text-sm break-words break-all">{{ msg.msg }}</span>
         </div>
       </div>
     </div>
@@ -40,10 +32,6 @@ export default {
       type: String,
       required: true,
     },
-    avatar: {
-      type: String,
-      required: true,
-    },
   },
 
   computed: {
@@ -51,14 +39,18 @@ export default {
       return this.$store.getters['chat/chatDataOfUser'](this.contactId)
     },
   },
-
-  methods: {
-    setAvatar(isSent) {
-      if (isSent) {
-        return `${this.$store.state.user.info.avatar_url}?imageView2/2/w/60`
-      }
-      return `${this.avatar}?imageView2/2/w/60`
-    },
-  },
 }
 </script>
+
+<style lang="scss" scoped>
+.msg {
+  max-width: 18rem;
+  &.left {
+    border-radius: 1rem 1em 1rem 0.3rem;
+  }
+  &.right {
+    border-radius: 1rem 1em 0.3rem 1rem;
+    background: rgba(var(--vs-primary), 0.9);
+  }
+}
+</style>

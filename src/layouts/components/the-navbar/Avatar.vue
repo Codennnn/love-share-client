@@ -36,35 +36,22 @@
             <small class="ml-2 text-primary whitespace-no-wrap">{{ info.credit_value }}</small>
           </div>
           <vs-divider />
-          <div class="flex text-sm text-gray-600">
-            <div class="w-1/2">
-              <router-link
-                tag="div"
-                class="link flex items-center cursor-pointer"
-                to="/message"
-              >
-                <feather
-                  class="mr-1"
-                  size="16"
-                  type="bell"
-                ></feather>
-                <span>消息中心</span>
-              </router-link>
-            </div>
-            <div class="w-1/2">
-              <router-link
-                tag="div"
-                class="link ml-5 flex items-center cursor-pointer"
-                to="/user-center"
-              >
-                <feather
-                  class="mr-1"
-                  size="16"
-                  type="user"
-                ></feather>
-                <span>我的空间</span>
-              </router-link>
-            </div>
+
+          <div class="link-grid text-sm text-gray-600">
+            <router-link
+              tag="div"
+              class="link"
+              v-for="(link, i) in routerLinks"
+              :key="i"
+              :to="link.to"
+            >
+              <feather
+                class="mr-1"
+                size="16"
+                :type="link.icon"
+              ></feather>
+              <span>{{ link.label }}</span>
+            </router-link>
           </div>
         </div>
         <div
@@ -82,9 +69,16 @@
 <script>
 import { mapState } from 'vuex'
 
+const routerLinks = [
+  { label: '消息中心', icon: 'bell', to: '/message' },
+  { label: '我的空间', icon: 'user', to: '/user-center' },
+  { label: '我的订单', icon: 'shopping-bag', to: '/user-center' },
+  { label: '我的收藏', icon: 'star', to: '/user-center' },
+]
 export default {
   name: 'Avatar',
   data: () => ({
+    routerLinks,
     isHover: false,
   }),
 
@@ -126,8 +120,17 @@ export default {
   }
 }
 
+.link-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-column-gap: 1rem;
+  grid-row-gap: 0.5rem;
+}
 .link {
+  display: flex;
+  align-items: center;
   transition: all 0.3s;
+  cursor: pointer;
   &:hover {
     color: rgba(var(--vs-primary), 0.9);
   }

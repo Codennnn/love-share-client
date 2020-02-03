@@ -44,27 +44,27 @@
       <!-- 导航栏右侧 -->
       <div class="flex items-center">
         <div class="flex items-center">
+          <!-- 搜索图标 -->
+          <div class="relative h-10 mr-6 bg-gray-150 radius overflow-hidden">
+            <div class="absolute z-50 left-0 w-10 h-10 flex-row-center">
+              <feather
+                class="nav-icon text-gray-100"
+                size="20"
+                type="search"
+              ></feather>
+            </div>
+            <vs-input
+              class="nav-search w-full h-full"
+              placeholder="搜索你想要的宝贝"
+              @keyup.enter="search"
+              v-model="searchText"
+            />
+          </div>
+
           <!-- 头像信息 -->
           <Avatar
             v-if="$login()"
             class="mx-3"
-          />
-
-          <!-- 搜索图标 -->
-          <el-tooltip :content="showSearchInput ? '关闭搜索' : '全站搜索'">
-            <feather
-              class="nav-icon ml-3"
-              :type="showSearchInput ? 'x' : 'search'"
-              @click="showSearchInput = !showSearchInput"
-            ></feather>
-          </el-tooltip>
-          <vs-input
-            class="nav-search overflow-hidden"
-            :class="showSearchInput ? 'w-48': 'w-0'"
-            placeholder="搜索你想要的宝贝"
-            @keyup.esc="showSearchInput = false"
-            @keyup.enter="search"
-            v-model="searchText"
           />
 
           <!-- 全屏图标 -->
@@ -133,7 +133,6 @@ export default {
   data: () => ({
     navIcons,
     searchText: '',
-    showSearchInput: false, // 显示搜索框
     isFullScreen: false, // 是否全屏,
   }),
 
@@ -194,16 +193,26 @@ export default {
 
 // 搜索框
 .nav-search::v-deep {
-  // 重设输入框样式
+  .vs-con-input {
+    height: 100%;
+  }
+  $padding-left: 2.8rem !global;
   .vs-inputx {
+    height: 100%;
+    padding-left: $padding-left;
+    padding-top: 0.5rem;
     border: none !important;
-    border-bottom: 2px solid #a0a0a0 !important;
     box-shadow: none;
+    background: transparent;
     border-radius: 0;
     &.vs-input--input:focus {
       border: none !important;
-      border-bottom: 2px solid #a0a0a0 !important;
     }
+  }
+  .vs-input--placeholder {
+    height: 100%;
+    padding-left: $padding-left;
+    padding-top: 0.6rem;
   }
 }
 </style>

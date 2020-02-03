@@ -21,11 +21,10 @@
 
       <!-- 幻灯片 -->
       <el-carousel
-        class="mx-6 flex-1"
+        class="mx-6 flex-1 radius"
         :autoplay="false"
       >
         <el-carousel-item
-          class="h-full radius"
           v-for="(item, i) in billboardList"
           :key="i"
         >

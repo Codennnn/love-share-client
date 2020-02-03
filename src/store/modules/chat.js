@@ -7,7 +7,6 @@ import {
 const state = {
   activeChatUser: '',
   activeChatNickname: '',
-  activeChatAvatar: '',
   contactList: [],
   chatSearchQuery: '',
   chats: {},
@@ -15,10 +14,9 @@ const state = {
 }
 
 const mutations = {
-  SET_ACTIVE_CHAT_USER(state, { _id = '', nickname = '', avatar_url = '' }) {
+  SET_ACTIVE_CHAT_USER(state, { _id = '', nickname = '' }) {
     state.activeChatUser = _id
     state.activeChatNickname = nickname
-    state.activeChatAvatar = avatar_url
   },
 
   SET_CONTACT_LIST(state, contactList) {
@@ -121,8 +119,8 @@ export default {
 
     getContactList: (state, getters) => state.contactList
       .sort((x, y) => {
-        const timeX = getters.chatLastMessaged(x._id) ?.time || 0
-        const timeY = getters.chatLastMessaged(y._id) ?.time || 0
+        const timeX = getters.chatLastMessaged(x._id)?.time || 0
+        const timeY = getters.chatLastMessaged(y._id)?.time || 0
         return (timeY - timeX)
       }),
 

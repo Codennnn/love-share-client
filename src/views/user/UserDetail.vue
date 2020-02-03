@@ -26,7 +26,11 @@
                 v-if="info.school"
                 class="mr-2"
               >
-                <i class="el-icon-location mr-1 text-lg"></i>
+                <feather
+                  class="mr-1"
+                  size="18"
+                  type="map-pin"
+                ></feather>
                 {{ info.school.name }}
               </vs-chip>
               <vs-button
@@ -83,7 +87,6 @@
               class="w-24 h-8 text-primary flex-row-center text-sm cursor-pointer"
               style="background: rgba(var(--vs-primary), 0.15); border-radius: 0.9rem;"
             >详细资料</div>
-
             <vs-dropdown-menu style="width: 250px;">
               <div class="p-3">
                 <div class="info-item">
@@ -152,16 +155,18 @@
               <div
                 class="w-16 py-1 px-2 text-center whitespace-no-wrap"
                 style="border-radius: 0.4rem;"
-                :class="[`text-${status[tr.status].color}`]"
+                :class="`text-${status[tr.status].color}`"
                 :style="`background: rgba(var(--vs-${status[tr.status].color}), 0.2);`"
               >{{ status[tr.status].text }}</div>
             </vs-td>
             <vs-td>
-              <i
+              <feather
                 title="查看商品主页"
-                class="el-icon-more text-lg text-gray-600 cursor-pointer"
-                @click.native="viewGoodsDetail(tr._id)"
-              ></i>
+                size="20"
+                type="log-in"
+                class="text-gray-600 cursor-pointer"
+                @click="viewGoodsDetail(tr._id)"
+              ></feather>
             </vs-td>
           </vs-tr>
         </template>

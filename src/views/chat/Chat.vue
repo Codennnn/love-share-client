@@ -103,10 +103,7 @@
         }"
       >
         <div ref="chatLog">
-          <ChatLog
-            :contactId="activeChatUser"
-            :avatar="activeChatAvatar"
-          />
+          <ChatLog :contactId="activeChatUser" />
         </div>
       </VuePerfectScrollbar>
 
@@ -183,7 +180,7 @@ export default {
   },
 
   computed: {
-    ...mapState('chat', ['activeChatUser', 'activeChatNickname', 'activeChatAvatar']),
+    ...mapState('chat', ['activeChatUser', 'activeChatNickname']),
     userId() {
       return this.$store.getters['user/userId']
     },

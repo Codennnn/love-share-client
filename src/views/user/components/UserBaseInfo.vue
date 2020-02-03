@@ -120,7 +120,7 @@
                   <vs-td class="font-semibold">￥{{ Number(tr.goods.price).toFixed(2) }}</vs-td>
                   <vs-td>{{ tr.amount }}</vs-td>
                   <vs-td
-                    title="进入该用户主页"
+                    title="进入主页"
                     class="text-primary cursor-pointer"
                     @click.native="viewUserDetail(tr.goods.seller._id)"
                   >
@@ -228,8 +228,8 @@ export default {
 
   computed: {
     recentContacts() {
-      const { contactList } = this.$store.state.chat
-      return JSON.parse(JSON.stringify(contactList)).reverse().slice(0, 10)
+      const contactList = this.$store.getters['chat/getContactList']
+      return contactList.slice(0, 10)
     },
   },
 
@@ -254,7 +254,12 @@ export default {
     },
 
     chatLastMessaged(id) {
-      return this.$dayjs(this.$store.getters['chat/chatLastMessaged'](id)?.time).format('YY/MM/DD HH:mm')
+      const time = this.$dayjs(this.$store.getters['chat/chatLastMessaged'](id)?.time)
+      const year = this.$dayjs().year()
+      if (year === time.year()) {
+        return time.format('M月DD日')
+      }
+      return time.format('YYYY年M月DD日 HH:mm')
     },
 
     viewGoodsDetail(goodsId) {

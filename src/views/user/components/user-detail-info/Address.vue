@@ -43,10 +43,7 @@
         v-else
       >暂无收货地址</div>
     </vs-list>
-    <div
-      class="mt-2 p-3 rounded-lg"
-      style="background: rgba(150, 150, 150, 0.1);"
-    >
+    <div class="mt-2 p-3 rounded-lg bg-gray-150">
       <CollapseTransition>
         <div v-if="showForm">
           <div class="flex pb-1">

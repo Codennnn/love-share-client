@@ -5,21 +5,21 @@
         <el-carousel :autoplay="false">
           <el-carousel-item
             style="display: flex; justify-content: center;"
-            v-for="(image, i) in goods.img_list"
+            v-for="(url, i) in goods.img_list"
             :key="i"
           >
-            <img
-              class="h-full"
-              style="max-width: inherit;"
-              :src="image"
-            >
+            <el-image
+              class="w-full"
+              fit="contain"
+              :src="url"
+            ></el-image>
           </el-carousel-item>
         </el-carousel>
         <vs-images hover="zoom">
           <vs-image
-            v-for="(image, i) in goods.img_list"
+            v-for="(url, i) in goods.img_list"
             :key="i"
-            :src="`${image}?imageView2/2/w/100`"
+            :src="`${url}?imageView2/2/w/100`"
             @click.native="showViewer = true"
           />
         </vs-images>
