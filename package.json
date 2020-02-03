@@ -19,6 +19,7 @@
     "echarts": "^4.2.1",
     "element-resize-detector": "^1.1.15",
     "element-ui": "^2.12.0",
+    "feather-icons": "^4.25.0",
     "gsap": "^3.0.1",
     "js-cookie": "^2.2.0",
     "lodash": "^4.17.14",
@@ -32,11 +33,12 @@
     "script-loader": "^0.7.2",
     "tailwindcss": "^1.0.5",
     "v-contextmenu": "^2.8.1",
-    "vue": "^2.6.10",
+    "vue": "^2.6.11",
     "vue-apexcharts": "^1.4.0",
     "vue-backtotop": "^1.6.1",
     "vue-clipboard2": "^0.3.0",
     "vue-cropper": "^0.4.9",
+    "vue-feather": "^1.0.0",
     "vue-fullcalendar": "^1.0.9",
     "vue-infinite-scroll": "^2.0.2",
     "vue-perfect-scrollbar": "^0.1.0",
@@ -58,6 +60,6 @@
     "eslint-plugin-vue": "^5.0.0",
     "node-sass": "^4.9.0",
     "sass-loader": "^7.1.0",
-    "vue-template-compiler": "^2.6.10"
+    "vue-template-compiler": "^2.6.11"
   }
 }
