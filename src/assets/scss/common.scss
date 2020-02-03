@@ -91,6 +91,10 @@
   transition: all 0.3s;
 }
 
+.quickly {
+  animation-duration: 0.2s !important;
+}
+
 img {
   user-select: none;
   -webkit-user-drag: none;
