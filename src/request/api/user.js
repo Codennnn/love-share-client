@@ -112,6 +112,14 @@ export function getPublishedGoods(params) {
   })
 }
 
+export function getBoughtGoods(params) {
+  return request({
+    url: '/user/bought_goods',
+    method: 'get',
+    params,
+  })
+}
+
 export function getUserFollows() {
   return request({
     url: '/user/follows',
