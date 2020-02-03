@@ -26,6 +26,27 @@
       </div>
 
       <!-- 在线聊天 -->
+      <VueDragResize
+        :isActive="false"
+        :isResizable="false"
+        class=" cursor-pointer"
+        :w="50"
+        :h="50"
+        :x="10"
+        :y="820"
+        :z="Infinity"
+        @click.native="$store.commit('chat/SET_CHAT_OPEN')"
+      >
+        <div
+          class="w-12 h-12 flex-row-center bg-primary-gradient rounded-lg"
+          style="left: 30px; bottom: 30px; box-shadow: 0 0 10px rgba(var(--vs-primary), 1);"
+        >
+          <feather
+            class="text-white"
+            type="message-square"
+          ></feather>
+        </div>
+      </VueDragResize>
       <transition
         enter-active-class="animated zoomIn quickly"
         leave-active-class="animated zoomOutLeft faster"
@@ -56,6 +77,7 @@
 </template>
 
 <script>
+import VueDragResize from 'vue-drag-resize'
 import BackToTop from 'vue-backtotop'
 import TheNavbar from './components/TheNavbar.vue'
 import TheFooter from './components/TheFooter.vue'
@@ -64,6 +86,7 @@ import Chat from '@/views/chat/Chat.vue'
 export default {
   name: 'Main',
   components: {
+    VueDragResize,
     TheNavbar,
     TheFooter,
     BackToTop,
@@ -89,7 +112,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-$footer-height: 65px;
+$footer-height: 65px !global;
 
 #layout-main {
   position: relative;
