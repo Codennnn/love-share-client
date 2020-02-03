@@ -51,9 +51,8 @@
                     :class="[`text-${noticeType[nt.type].color}`]"
                   >{{ nt.title }}</span>
                   <div
-                    class="text-sm text-gray-600"
+                    class="content text-sm text-gray-600"
                     v-html="nt.content"
-                    :title="nt.content"
                   ></div>
                 </div>
               </div>
@@ -62,12 +61,13 @@
               class="whitespace-no-wrap"
               style="color: #989898;"
             >{{ $timeDiff(nt.time) }}</small>
-            <i
+            <feather
               title="不再通知"
-              class="read el-icon-close-notification absolute bottom-0 mr-3 mb-1 text-lg
-              text-sm text-gray-500 hover:text-blue-500"
+              class="read absolute text-gray-500"
+              type="bell-off"
+              size="15"
               @click="setNoticeRead(nt._id)"
-            ></i>
+            ></feather>
           </li>
         </ul>
         <div
@@ -185,14 +185,18 @@ export default {
 .notice {
   .read {
     right: -30px;
+    bottom: 15px;
     transition: all 0.2s;
     opacity: 0;
   }
   &:hover {
     .read {
-      right: 0;
+      right: 15px;
       opacity: 1;
     }
+  }
+  .content {
+    @include textOverflow($width: 240px, $line: 2);
   }
 }
 </style>
