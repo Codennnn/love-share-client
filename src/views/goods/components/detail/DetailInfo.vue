@@ -153,7 +153,7 @@
               </vs-dropdown-menu>
             </vs-dropdown>
           </div>
-          <div v-else-if="goods.status === 2">
+          <div v-else-if="goods.status === 2 || goods.status === 4">
             <vs-button
               size="small"
               :disabled="true"

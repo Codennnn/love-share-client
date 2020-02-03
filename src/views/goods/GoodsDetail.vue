@@ -223,7 +223,6 @@ const icons = [
   { icon: 'zhifubao', label: '支付宝支付', value: 'zhifubao' },
   { icon: 'yinlian', label: '银行卡支付', value: 'yinlian' },
 ]
-
 export default {
   name: 'GoodsDetail',
   components: {
@@ -231,6 +230,7 @@ export default {
   },
 
   data: () => ({
+    icons,
     goodsId: '',
     goods: {},
     comments: [],
@@ -245,7 +245,6 @@ export default {
       published_goods: [],
     },
 
-    icons,
     amount: 1,
     payment: 'huabei',
     currAddr: {},

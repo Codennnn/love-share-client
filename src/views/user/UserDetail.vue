@@ -182,8 +182,9 @@ import {
 
 const status = {
   1: { color: 'warning', text: '待出售' },
-  2: { color: 'primary', text: '已出售' },
+  2: { color: 'success', text: '进行中' },
   3: { color: 'danger', text: '已下架' },
+  4: { color: 'primary', text: '已出兽' },
 }
 export default {
   name: 'UserDetail',

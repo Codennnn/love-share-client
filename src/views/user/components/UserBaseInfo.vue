@@ -70,7 +70,7 @@
                         下架商品
                       </el-dropdown-item>
                       <el-dropdown-item
-                        v-else
+                        v-if="tr.status === 3"
                         @click.native="updateManyGoods(tr._id, 1)"
                       >
                         重新上架
@@ -119,12 +119,13 @@
                   <vs-td>{{ tr.goods.name }}</vs-td>
                   <vs-td class="font-semibold">￥{{ Number(tr.goods.price).toFixed(2) }}</vs-td>
                   <vs-td>{{ tr.amount }}</vs-td>
-                  <vs-td
-                    title="进入主页"
-                    class="text-primary cursor-pointer"
-                    @click.native="viewUserDetail(tr.goods.seller._id)"
-                  >
-                    @{{ tr.goods.seller.nickname }}
+                  <vs-td>
+                    <el-tooltip content="进入TA的主页">
+                      <span
+                        class="text-primary cursor-pointer"
+                        @click="viewUserDetail(tr.goods.seller._id)"
+                      >@{{ tr.goods.seller.nickname }}</span>
+                    </el-tooltip>
                   </vs-td>
                   <vs-td>
                     {{ $dayjs(tr.goods.sell_time).format('YYYY-MM-DD') }}
@@ -136,7 +137,15 @@
                         <el-dropdown-item @click.native.stop="viewOrderDetail(order._id)">
                           查看订单
                         </el-dropdown-item>
-                        <el-dropdown-item class="text-danger">删除记录</el-dropdown-item>
+                        <el-dropdown-item
+                          v-if="tr.goods.status === 2"
+                          class="text-danger"
+                          @click.native.stop="viewOrderDetail(order._id)"
+                        >取消订单</el-dropdown-item>
+                        <el-dropdown-item
+                          v-if="tr.goods.status === 4"
+                          class="text-danger"
+                        >删除记录</el-dropdown-item>
                       </el-dropdown-menu>
                     </el-dropdown>
                   </vs-td>
@@ -208,22 +217,14 @@ import { updateManyGoods } from '@/request/api/goods'
 export default {
   name: 'UserBaseInfo',
   data: () => ({
+    status: {
+      1: { color: 'warning', text: '待出售' },
+      2: { color: 'success', text: '进行中' },
+      3: { color: 'danger', text: '已下架' },
+      4: { color: 'primary', text: '已出兽' },
+    },
     publishedGoods: [], // 已发布商品
     purchasedGoods: [], // 已购买商品
-    status: {
-      1: {
-        color: 'warning',
-        text: '待出售',
-      },
-      2: {
-        color: 'primary',
-        text: '已出售',
-      },
-      3: {
-        color: 'danger',
-        text: '已下架',
-      },
-    },
   }),
 
   computed: {
@@ -239,6 +240,7 @@ export default {
   },
 
   methods: {
+    // 获取发布的商品
     async getPublishedGoods() {
       const { code, data } = await getPublishedGoods()
       if (code === 2000) {
@@ -246,6 +248,7 @@ export default {
       }
     },
 
+    // 获取购买的商品
     async getOrdersByUser() {
       const { code, data } = await getOrdersByUser()
       if (code === 2000) {
@@ -253,6 +256,7 @@ export default {
       }
     },
 
+    // 最后的联系时间
     chatLastMessaged(id) {
       const time = this.$dayjs(this.$store.getters['chat/chatLastMessaged'](id)?.time)
       const year = this.$dayjs().year()
@@ -290,6 +294,7 @@ export default {
       })
     },
 
+    // 更新商品的状态
     async updateManyGoods(id, status) {
       const { code } = await updateManyGoods({
         goods_id_list: [id],

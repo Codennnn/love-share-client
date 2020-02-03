@@ -18,11 +18,7 @@
             :key="index"
             :to="item.route"
           >
-            <el-tooltip
-              effect="light"
-              :open-delay="100"
-              :content="item.tip"
-            >
+            <el-tooltip :content="item.tip">
               <i
                 class="nav-icon"
                 :class="item.icon"
