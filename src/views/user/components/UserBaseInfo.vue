@@ -63,6 +63,9 @@
                       >
                         编辑信息
                       </el-dropdown-item>
+                      <el-dropdown-item v-if="tr.status === 2">
+                        确认送达
+                      </el-dropdown-item>
                       <el-dropdown-item
                         v-if="tr.status === 1"
                         @click.native="updateManyGoods(tr._id, 3)"
@@ -86,7 +89,21 @@
 
       <!-- 我购买的 -->
       <div class="mt-6 p-6 bg-white rounded-lg">
-        <div class="text-lg font-bold mb-4">我购买的</div>
+        <div class="mb-4 flex items-center justify-between">
+          <div class="text-lg font-bold">我购买的</div>
+          <div
+            class="text-sm text-gray-500 hover:text-gray-600 flex items-center
+             transition cursor-pointer"
+            @click="$router.push('/order-list')"
+          >
+            查看历史订单
+            <feather
+              class="ml-1"
+              size="18"
+              type="arrow-right"
+            ></feather>
+          </div>
+        </div>
         <div>
           <vs-table
             pagination
@@ -130,22 +147,9 @@
                   {{ $dayjs(tr.sell_time).format('YYYY年M月D日') }}
                 </vs-td>
                 <vs-td>
-                  <el-dropdown>
-                    <i class="el-icon-more text-lg text-gray-600 cursor-pointer"></i>
-                    <el-dropdown-menu slot="dropdown">
-                      <el-dropdown-item @click.native.stop="viewOrderDetail(tr._id)">
-                        查看订单
-                      </el-dropdown-item>
-                      <el-dropdown-item
-                        class="text-danger"
-                        @click.native.stop="cancelOrder(tr._id)"
-                      >取消订单</el-dropdown-item>
-                      <el-dropdown-item
-                        v-if="tr.status === 4"
-                        class="text-danger"
-                      >删除记录</el-dropdown-item>
-                    </el-dropdown-menu>
-                  </el-dropdown>
+                  <vs-chip :color="state[tr.status].color">
+                    {{ state[tr.status].text }}
+                  </vs-chip>
                 </vs-td>
               </vs-tr>
             </template>
@@ -211,9 +215,16 @@ import { getPublishedGoods, getBoughtGoods } from '@/request/api/user'
 import { cancelOrder } from '@/request/api/order'
 import { updateManyGoods } from '@/request/api/goods'
 
+const state = {
+  1: { color: 'warning', text: '待出售' },
+  2: { color: 'success', text: '进行中' },
+  3: { color: 'danger', text: '已下架' },
+  4: { color: 'primary', text: '已出兽' },
+}
 export default {
   name: 'UserBaseInfo',
   data: () => ({
+    state,
     status: {
       1: { color: 'warning', text: '待出售' },
       2: { color: 'success', text: '进行中' },
