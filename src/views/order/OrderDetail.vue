@@ -201,39 +201,41 @@ import OrderStep from './components/OrderStep.vue'
 
 import { getOrderDetail } from '@/request/api/order'
 
+const status = {
+  1: {
+    text: '进行中',
+    color: 'primary',
+    icon: 'el-icon-loading',
+  },
+  2: {
+    text: '已完成',
+    color: 'success',
+    icon: 'el-icon-check',
+  },
+  3: {
+    text: '已取消',
+    color: 'danger',
+    icon: 'el-icon-close',
+  },
+}
+const payment = {
+  huabei: '余额支付',
+  weixin: '微信支付',
+  zhifubao: '支付宝支付',
+  yinlian: '银行卡支付',
+}
 export default {
   name: 'OrderDetail',
   components: { OrderStep },
 
   data() {
     return {
+      status,
+      payment,
       detail: null,
       text: '123',
       orderID: '',
       goodsList: [],
-      status: {
-        1: {
-          text: '进行中',
-          color: 'primary',
-          icon: 'el-icon-loading',
-        },
-        2: {
-          text: '已完成',
-          color: 'success',
-          icon: 'el-icon-check',
-        },
-        3: {
-          text: '已取消',
-          color: 'danger',
-          icon: 'el-icon-close',
-        },
-      },
-      payment: {
-        huabei: '余额支付',
-        weixin: '微信支付',
-        zhifubao: '支付宝支付',
-        yinlian: '银行卡支付',
-      },
     }
   },
 

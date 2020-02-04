@@ -127,7 +127,7 @@
                   </el-tooltip>
                 </vs-td>
                 <vs-td>
-                  {{ $dayjs(tr.sell_time).format('YYYY-MM-DD') }}
+                  {{ $dayjs(tr.sell_time).format('YYYY年M月D日') }}
                 </vs-td>
                 <vs-td>
                   <el-dropdown>

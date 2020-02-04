@@ -21,10 +21,15 @@
         :class="{'active': isHover}"
       >
         <div class="p-5">
-          <div class="mt-5 text-center">
+          <div
+            class="name mt-5 text-center"
+            :class="{'active': isHover}"
+          >
             <div>{{ info.nickname }}</div>
             <small style="color: #919191;">{{ info.school.name }}</small>
           </div>
+
+          <!-- 乐享值 -->
           <div
             class="progress my-2 flex items-center"
             :class="{'active': isHover}"
@@ -78,8 +83,8 @@ import { mapState } from 'vuex'
 
 const routerLinks = [
   { label: '消息中心', icon: 'bell', to: '/message' },
-  { label: '我的空间', icon: 'user', to: '/user-center' },
-  { label: '我的订单', icon: 'shopping-bag', to: '/user-center' },
+  { label: '个人空间', icon: 'user', to: '/user-center' },
+  { label: '我的订单', icon: 'shopping-bag', to: '/order-list' },
   { label: '我的收藏', icon: 'star', to: '/user-collections' },
 ]
 export default {
@@ -125,6 +130,37 @@ export default {
     box-shadow: 0 0 15px 5px rgba(var(--vs-dark), 0.08);
     opacity: 1;
   }
+
+  .name {
+    &.active {
+      animation: slide-left 0.3s ease-out;
+    }
+  }
+
+  .progress {
+    &.active {
+      animation: slide-left 0.4s ease-out;
+    }
+  }
+
+  .link-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-column-gap: 1rem;
+    grid-row-gap: 0.5rem;
+    &.active {
+      animation: slide-left 0.45s ease-out;
+    }
+    .link {
+      display: flex;
+      align-items: center;
+      transition: all 0.3s;
+      cursor: pointer;
+      &:hover {
+        color: $primary;
+      }
+    }
+  }
 }
 
 @keyframes slide-left {
@@ -138,31 +174,6 @@ export default {
   100% {
     opacity: 1;
     transform: translateX(0);
-  }
-}
-
-.progress {
-  &.active {
-    animation: slide-left 0.4s ease-out;
-  }
-}
-
-.link-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-column-gap: 1rem;
-  grid-row-gap: 0.5rem;
-  &.active {
-    animation: slide-left 0.45s ease-out;
-  }
-  .link {
-    display: flex;
-    align-items: center;
-    transition: all 0.3s;
-    cursor: pointer;
-    &:hover {
-      color: $primary;
-    }
   }
 }
 </style>

@@ -130,12 +130,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-$footer-height: 65px !global;
-
 #layout-main {
   position: relative;
   width: 100%;
-  min-width: 900px;
+  min-width: $layout-min-width;
   padding: 0 30px;
   background: rgb(248, 248, 248);
 }
@@ -152,7 +150,7 @@ $footer-height: 65px !global;
   top: 0;
   z-index: 999;
   width: 100%;
-  min-width: 900px;
+  min-width: $layout-min-width;
   box-sizing: border-box;
 }
 
@@ -160,7 +158,7 @@ $footer-height: 65px !global;
   position: relative;
   min-height: 100vh;
   width: 1200px;
-  @media (max-width: 1260px) {
+  @media (max-width: $router-view-max-width) {
     min-width: 100%;
   }
   .router-content {

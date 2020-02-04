@@ -14,15 +14,15 @@
             v-login
             tag="div"
             class="mr-3"
-            v-for="(item, index) in navIcons"
+            v-for="(it, index) in navIcons"
             :key="index"
-            :to="item.route"
+            :to="it.route"
           >
-            <el-tooltip :content="item.tip">
-              <i
+            <el-tooltip :content="it.tip">
+              <feather
                 class="nav-icon"
-                :class="item.icon"
-              ></i>
+                :type="it.icon"
+              ></feather>
             </el-tooltip>
           </router-link>
           <el-tooltip content="在线聊">
@@ -118,10 +118,10 @@ const Notice = Vue.component(
   'Notice',
   () => import('./the-navbar/Notice.vue'),
 )
-const navIcons = [
-  { tip: '发布我的闲置', icon: 'el-icon-sell', route: '/goods-addition' },
-]
 
+const navIcons = [
+  { tip: '发布我的闲置', icon: 'upload-cloud', route: '/goods-addition' },
+]
 export default {
   name: 'TheNavbar',
   components: { Avatar, Cart, Notice },

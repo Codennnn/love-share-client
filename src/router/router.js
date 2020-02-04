@@ -66,6 +66,12 @@ export const routes = [
         meta: { title: '每日签到' },
       },
       {
+        path: '/order-list',
+        name: 'OrderList',
+        component: () => import('@/views/order/OrderList.vue'),
+        meta: { title: '我的订单' },
+      },
+      {
         path: '/order-detail',
         name: 'OrderDetail',
         component: () => import('@/views/order/OrderDetail.vue'),

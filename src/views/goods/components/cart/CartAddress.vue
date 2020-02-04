@@ -59,11 +59,13 @@
               </el-select>
             </el-form-item>
             <el-form-item class="btn-group">
-              <vs-button @click="onSetAddress()">设置地址并保存</vs-button>
+              <vs-button @click="onSetAddress({notSave: false})">
+                设置地址并保存
+              </vs-button>
               <vs-button
                 class="ml-2"
                 type="flat"
-                @click="onSetAddress({ notSave:  true })"
+                @click="onSetAddress({notSave:  true})"
               >仅设置地址</vs-button>
               <vs-button
                 color="success"

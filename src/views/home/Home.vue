@@ -54,7 +54,11 @@
       </div>
     </div>
 
-    <p class="title-divider cursor-default">为你推荐</p>
+    <p
+      title="双击刷新 (´・ω・`)"
+      class="title-divider select-none cursor-default"
+      @dblclick="getRecommendGoodsList()"
+    >为你推荐</p>
     <GoodsList :goodsList="goodsList" />
   </div>
 </template>

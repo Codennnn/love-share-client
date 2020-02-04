@@ -15,7 +15,7 @@
                 <el-image
                   class="h-full w-full"
                   fit="cover"
-                  :src="it.goods.img_list[0]"
+                  :src="`${it.goods.img_list[0]}?imageView2/2/w/250`"
                 />
               </div>
               <div
