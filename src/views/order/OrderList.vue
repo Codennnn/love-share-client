@@ -103,18 +103,18 @@
             </td>
 
             <!-- 订单状态 -->
-            <td class="px-4 text-right">
+            <td class="px-4 py-2 text-right">
               <div
                 class="flex-row-center"
-                :class="`text-${status[order.status].color}`"
+                :class="`text-${status[tr.goods.status].color}`"
               >
                 <feather
                   class="mr-1"
                   size="18"
-                  :type="status[order.status].icon"
+                  :type="status[tr.goods.status].icon"
                 ></feather>
                 <div>
-                  {{ status[order.status].text }}
+                  {{ status[tr.goods.status].text }}
                 </div>
               </div>
               <div
@@ -145,6 +145,11 @@
                         query: {orderId: order._id}
                       })">订单详情</el-dropdown-item>
                     <el-dropdown-item
+                      v-if="order.status !== 2"
+                      @click.native="cancelOrder(order._id)"
+                    >确认送达</el-dropdown-item>
+                    <el-dropdown-item
+                      v-if="order.status !== 3"
                       class="text-danger"
                       @click.native="cancelOrder(order._id)"
                     >取消订单</el-dropdown-item>
@@ -183,20 +188,25 @@
 import { getOrdersByUser, cancelOrder } from '@/request/api/order'
 
 const status = {
-  1: {
+  2: {
     text: '进行中',
     color: 'primary',
     icon: 'chevrons-right',
-  },
-  2: {
-    text: '已完成',
-    color: 'success',
-    icon: 'check-circle',
   },
   3: {
     text: '已取消',
     color: 'danger',
     icon: 'alert-circle',
+  },
+  4: {
+    text: '已完成',
+    color: 'success',
+    icon: 'check-circle',
+  },
+  5: {
+    text: '派送中',
+    color: 'primary',
+    icon: 'truck',
   },
 }
 const payment = {

@@ -217,9 +217,9 @@ import { updateManyGoods } from '@/request/api/goods'
 
 const state = {
   1: { color: 'warning', text: '待出售' },
-  2: { color: 'success', text: '进行中' },
+  2: { color: 'primary', text: '进行中' },
   3: { color: 'danger', text: '已下架' },
-  4: { color: 'primary', text: '已出兽' },
+  4: { color: 'success', text: '已出兽' },
 }
 export default {
   name: 'UserBaseInfo',
