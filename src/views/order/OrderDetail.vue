@@ -173,22 +173,23 @@ export default {
 
   mounted() {
     this.orderId = this.$route.query.orderId
-    this.getOrderDetail(this.orderId)
+    this.subId = this.$route.query.subId
+    this.getOrderDetail(this.orderId, this.subId)
   },
 
   methods: {
-    async getOrderDetail(order_id) {
+    async getOrderDetail(order_id, sub_id) {
       this.$vs.loading({
         container: '#div-with-loading',
         scale: 1,
       })
 
       try {
-        const { code, data: { order_detail } } = await getOrderDetail({ order_id })
+        const { code, data: { order_detail } } = await getOrderDetail({ order_id, sub_id })
         if (code === 2000) {
           if (order_detail) {
             this.detail = order_detail
-            this.goodsList = order_detail.goods_list
+            this.goodsList = order_detail.sub_order.goods_list
           } else {
             this.$router.replace('/not-found')
           }

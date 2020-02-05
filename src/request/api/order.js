@@ -8,6 +8,14 @@ export function createOrder(data) {
   })
 }
 
+export function completedOrder(data) {
+  return request({
+    url: '/order/completed',
+    method: 'put',
+    data,
+  })
+}
+
 export function cancelOrder(data) {
   return request({
     url: '/order/cancel',

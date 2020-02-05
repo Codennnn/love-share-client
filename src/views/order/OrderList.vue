@@ -153,13 +153,13 @@
                   <el-dropdown-menu slot="dropdown">
                     <el-dropdown-item @click.native="$router.push({
                           path: '/order-detail',
-                          query: {orderId: order._id}
+                          query: {orderId: order._id, subId: sub._id}
                         })">
                       订单详情
                     </el-dropdown-item>
                     <el-dropdown-item
                       v-if="sub.status === 1"
-                      @click.native="cancelOrder(order._id)"
+                      @click.native="completedOrder(order._id, sub._id, sub.goods_list)"
                     >
                       确认收货
                     </el-dropdown-item>
@@ -214,7 +214,7 @@
 </template>
 
 <script>
-import { getOrdersByUser, cancelOrder } from '@/request/api/order'
+import { getOrdersByUser, completedOrder, cancelOrder } from '@/request/api/order'
 
 const status = {
   1: {
@@ -277,6 +277,16 @@ export default {
       return false
     },
 
+    // 完成订单
+    async completedOrder(order_id, sub_id, goodsList) {
+      const goods_id_list = goodsList.map(el => el.goods._id)
+      const { code } = await completedOrder({ order_id, sub_id, goods_id_list })
+      if (code === 2000) {
+        this.getOrdersByUser()
+      }
+    },
+
+    // 取消订单
     async cancelOrder(order_id, sub_id, goodsList) {
       const goods_id_list = goodsList.map(el => el.goods._id)
       const { code } = await cancelOrder({ order_id, sub_id, goods_id_list })
