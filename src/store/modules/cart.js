@@ -82,6 +82,8 @@ export default {
       },
       0,
     ),
+    // 有效的商品
+    validCartList: state => state.cartList.filter(li => li.goods.status === 1),
     isInCart: state => id => state.cartList.some(item => item.goods._id === id),
   },
 }

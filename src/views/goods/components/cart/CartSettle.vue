@@ -111,7 +111,7 @@
       <div class="p-5 rounded-lg base-shadow bg-white">
         <p class="mb-4 text-lg font-bold">价格明细</p>
         <div class="mb-1 flex justify-between items-center text-sm">
-          <span class="text-gray-600">{{ cartAmount }} 件商品</span>
+          <span class="text-gray-600">{{ validCartList.length }} 件商品</span>
           <span class="font-bold">￥{{ Number(amountPayable).toFixed(2) }}</span>
         </div>
         <div class="flex justify-between items-center text-sm">
@@ -142,8 +142,6 @@
 <script>
 import { mapState, mapGetters } from 'vuex'
 
-import { createOrder } from '@/request/api/order'
-
 export default {
   payBtnDisable: false,
   name: 'CartSettle',
@@ -159,12 +157,12 @@ export default {
 
   computed: {
     ...mapState('cart', ['cartList', 'address']),
-    ...mapGetters('cart', ['cartAmount', 'deliveryCharges', 'amountPayable']),
+    ...mapGetters('cart', ['validCartList', 'deliveryCharges', 'amountPayable']),
     payBtnDisable() {
-      if (this.cartList.length <= 0 || !this.payment) {
-        return true
+      if (this.validCartList.length > 0 && this.payment && this.address.receiver) {
+        return false
       }
-      return false
+      return true
     },
   },
 
@@ -179,10 +177,10 @@ export default {
       })
 
       try {
-        const goodsList = this.cartList.map(el => ({
+        const goodsList = this.validCartList.map(el => ({
           amount: el.amount,
-          goods: el.goods._id,
           name: el.goods.name,
+          goods: el.goods._id,
           seller: el.goods.seller._id,
         }))
         const body = {
@@ -192,7 +190,7 @@ export default {
           total_price: this.amountPayable,
           actual_price: this.amountPayable,
         }
-        const { code, data } = await createOrder(body)
+        const { code, data } = await this.$store.dispatch('createOrder', body)
         if (code === 2000) {
           await this.$store.dispatch('cart/clearCartList')
           this.$store.commit('cart/SET_ORDER_ID', data.order_id)

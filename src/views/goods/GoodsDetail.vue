@@ -152,7 +152,6 @@
           class="footer flex items-center text-sm"
           style="height: 4rem;"
         >
-
           <vs-button
             class="ml-4"
             type="flat"
@@ -161,6 +160,7 @@
           >关闭</vs-button>
           <vs-button
             class="w-1/3 ml-auto mr-6"
+            :disabled="payBtndisabled"
             @click="onPay()"
           >确认并付款</vs-button>
         </div>
@@ -216,7 +216,6 @@ import {
   getGoodsSeller,
   getGoodsComments,
 } from '@/request/api/goods'
-import { createOrder } from '@/request/api/order'
 
 const icons = [
   { icon: 'weixinzhifu', label: '微信支付', value: 'weixin' },
@@ -255,6 +254,10 @@ export default {
 
   computed: {
     ...mapState('user', ['addressList', 'defaultAddress']),
+    payBtndisabled() {
+      console.log(!this.currAddr.receiver)
+      return !this.currAddr.receiver
+    },
   },
 
   watch: {
@@ -315,8 +318,8 @@ export default {
     async getGoodsComments(page = 1) {
       const { code, data } = await getGoodsComments({
         goods_id: this.goodsId,
-        page,
         page_size: 5,
+        page,
       })
       if (code === 2000) {
         this.comments = data.comments
@@ -324,6 +327,7 @@ export default {
       }
     },
 
+    // 确认付款
     async onPay() {
       this.$vs.loading({
         container: '#sidebar-container',
@@ -334,18 +338,18 @@ export default {
       try {
         const goodsList = [{
           amount: this.amount,
-          goods: this.goodsId,
           name: this.goods.name,
+          goods: this.goodsId,
           seller: this.goods.seller,
         }]
-        const body = {
+        const data = {
           goods_list: goodsList,
           payment: this.payment,
           address: this.currAddr,
           total_price: this.goods.price,
           actual_price: this.goods.price,
         }
-        const { code } = await createOrder(body)
+        const { code } = await this.$store.dispatch('createOrder', data)
         if (code === 2000) {
           this.$router.replace('/user-center')
         } else if (code === 5000) {
@@ -357,7 +361,7 @@ export default {
           text: '服务器发生错误(点击关闭)',
           icon: 'remove_shopping_cart',
           color: 'danger',
-          position: 'top-left',
+          position: 'top-right',
           fixed: true,
         })
       } finally {

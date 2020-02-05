@@ -6,7 +6,7 @@
         style="font-size: 80px;"
       ></i>
       <p class="mt-2 text-2xl">付款成功</p>
-      <p class="mb-6 text-gray-600">获得乐享豆 {{ 20 }} 颗</p>
+      <p class="mb-6 text-gray-600">感谢您对乐享校园的支持</p>
       <div>
         <vs-button
           class="mr-4"

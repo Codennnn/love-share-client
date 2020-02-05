@@ -62,7 +62,7 @@
 
               <!-- 已出售标志 -->
               <div
-                v-if="it.goods.status === 2"
+                v-if="it.goods.status !== 1"
                 class="absolute z-50 cursor-default"
                 style="transform: rotateZ(-45deg);top: 1.5rem; left: -3.5rem;"
               >

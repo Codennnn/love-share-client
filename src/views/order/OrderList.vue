@@ -18,7 +18,7 @@
                 {{ order._id }}
               </span>
             </div>
-            <div v-if="order.goods_list.length > 1">
+            <div v-if="order.sub_order.length > 1">
               <span>收货人：</span>
               <span class="mr-6">{{ order.address.receiver }}</span>
               <span>订单总额：</span>
@@ -27,157 +27,169 @@
               <span>{{ payment[order.payment] }}</span>
             </div>
           </div>
-          <tr
-            class="text-gray-500 text-sm"
-            v-for="(tr, i) in order.goods_list"
-            :key="i"
-          >
-            <td class="px-4">
-              <div class="flex py-3">
-                <el-image
-                  class="mr-2 rounded-lg base-shadow"
-                  style="width: 80px; height: 80px"
-                  fit="cover"
-                  :src="`${tr.goods.img_list[0]}?imageView2/2/w/100`"
-                ></el-image>
-                <div class="w-56 mr-6 p-2 break-words text-sm">{{ tr.goods.name }}</div>
-              </div>
-            </td>
 
-            <!-- 数量 -->
-            <td>
-              <div class="p-1">x{{ tr.amount }}</div>
-            </td>
-
-            <!-- 卖家 -->
-            <td class="px-4 text-gray-600">
-              <el-tooltip content="查看卖家">
-                <div
-                  class="cursor-pointer"
-                  @click="$router.push({
-                    path: '/user-detail',
-                    query: {userId: tr.goods.seller._id},
-                  })"
-                >
-                  @{{ tr.goods.seller.nickname }}
+          <template v-for="sub in order.sub_order">
+            <div
+              v-if="order.sub_order.length > 1"
+              class="px-4 py-2 text-sm text-gray-500 bg-gray-100"
+              :key="sub._id"
+            >
+              <span>{{ $dayjs(sub.created_at).format('YYYY-MM-DD HH:ss') }}</span>
+              <span class="ml-8">订单号：</span>
+              <span>{{ (sub._id).substr(0, 8) }}...</span>
+            </div>
+            <tr
+              class="text-gray-500 text-sm"
+              v-for="(tr, i) in sub.goods_list"
+              :key="tr._id"
+            >
+              <td class="px-4">
+                <div class="flex py-3">
+                  <el-image
+                    class="mr-2 rounded-lg base-shadow"
+                    style="width: 80px; height: 80px"
+                    fit="cover"
+                    :src="`${tr.goods.img_list[0]}?imageView2/2/w/100`"
+                  ></el-image>
+                  <div class="w-56 mr-6 p-2 break-words text-sm">{{ tr.goods.name }}</div>
                 </div>
-              </el-tooltip>
-            </td>
+              </td>
 
-            <!-- 收货人 -->
-            <td class="px-4">
-              <el-popover
-                trigger="hover"
-                placement="right"
-              >
+              <!-- 数量 -->
+              <td>
+                <div class="p-1">x{{ tr.amount }}</div>
+              </td>
+
+              <!-- 卖家 -->
+              <td class="px-4 text-gray-600">
+                <el-tooltip content="查看卖家">
+                  <div
+                    class="cursor-pointer"
+                    @click="$router.push({
+                      path: '/user-detail',
+                      query: {userId: tr.goods.seller._id},
+                    })"
+                  >
+                    @{{ tr.goods.seller.nickname }}
+                  </div>
+                </el-tooltip>
+              </td>
+
+              <!-- 收货人 -->
+              <td class="px-4">
+                <el-popover
+                  trigger="hover"
+                  placement="right"
+                >
+                  <div
+                    slot="reference"
+                    class="flex-row-center"
+                  >
+                    <feather
+                      class="mr-1"
+                      size="18"
+                      type="user"
+                    ></feather>
+                    {{ order.address.receiver }}
+                  </div>
+                  <div>{{ order.address.receiver }}</div>
+                  <div class="my-1">{{ order.address.address }}</div>
+                  <div>{{ order.address.phone }}</div>
+                </el-popover>
+              </td>
+
+              <!-- 支付信息 -->
+              <td class="px-4">
+                <template v-if="order.sub_order.length > 1">
+                  <div>
+                    ￥{{ Number(tr.goods.price).toFixed(2) }}
+                  </div>
+                </template>
+                <template v-else>
+                  <div>
+                    ￥{{ Number(order.total_price).toFixed(2) }}
+                  </div>
+                  <div>{{ payment[order.payment] }}</div>
+                </template>
+              </td>
+
+              <!-- 订单状态 -->
+              <td class="px-4 py-2 text-right">
                 <div
-                  slot="reference"
                   class="flex-row-center"
+                  :class="`text-${status[sub.status].color}`"
                 >
                   <feather
                     class="mr-1"
                     size="18"
-                    type="user"
+                    :type="status[sub.status].icon"
                   ></feather>
-                  {{ order.address.receiver }}
+                  <div>
+                    {{ status[sub.status].text }}
+                  </div>
                 </div>
-                <div>{{ order.address.receiver }}</div>
-                <div class="my-1">{{ order.address.address }}</div>
-                <div>{{ order.address.phone }}</div>
-              </el-popover>
-            </td>
+                <div
+                  v-if="tr.goods.status === 4"
+                  class="cursor-pointer"
+                >卖了换钱</div>
+                <div
+                  v-if="tr.goods.status === 4"
+                  class="cursor-pointer"
+                >评价</div>
+              </td>
 
-            <!-- 支付信息 -->
-            <td class="px-4">
-              <template v-if="order.goods_list.length > 1">
-                <div>
-                  ￥{{ Number(tr.goods.price).toFixed(2) }}
-                </div>
+              <!-- 更多操作 -->
+              <template v-if="sub.goods_list.length > 1">
+                <td
+                  v-if="i === 0"
+                  class="px-6"
+                  :rowspan="item.goods_list.length"
+                >
+                  <el-dropdown>
+                    <feather
+                      size="20"
+                      type="more-horizontal"
+                    ></feather>
+                    <el-dropdown-menu slot="dropdown">
+                      <el-dropdown-item @click.native="$router.push({
+                          path: '/order-detail',
+                          query: {orderId: order._id}
+                        })">订单详情</el-dropdown-item>
+                      <el-dropdown-item
+                        v-if="order.status !== 2"
+                        @click.native="cancelOrder(order._id)"
+                      >确认送达</el-dropdown-item>
+                      <el-dropdown-item
+                        v-if="order.status !== 3"
+                        class="text-danger"
+                        @click.native="cancelOrder(order._id)"
+                      >取消订单</el-dropdown-item>
+                    </el-dropdown-menu>
+                  </el-dropdown>
+                </td>
               </template>
               <template v-else>
-                <div>
-                  ￥{{ Number(order.total_price).toFixed(2) }}
-                </div>
-                <div>{{ payment[order.payment] }}</div>
+                <td class="px-6">
+                  <el-dropdown>
+                    <feather
+                      size="20"
+                      type="more-horizontal"
+                    ></feather>
+                    <el-dropdown-menu slot="dropdown">
+                      <el-dropdown-item @click.native="$router.push({
+                          path: '/order-detail',
+                          query: {orderId: order._id}
+                        })">订单详情</el-dropdown-item>
+                      <el-dropdown-item
+                        class="text-danger"
+                        @click.native="cancelOrder(order._id)"
+                      >取消订单</el-dropdown-item>
+                    </el-dropdown-menu>
+                  </el-dropdown>
+                </td>
               </template>
-            </td>
-
-            <!-- 订单状态 -->
-            <td class="px-4 py-2 text-right">
-              <div
-                class="flex-row-center"
-                :class="`text-${status[tr.goods.status].color}`"
-              >
-                <feather
-                  class="mr-1"
-                  size="18"
-                  :type="status[tr.goods.status].icon"
-                ></feather>
-                <div>
-                  {{ status[tr.goods.status].text }}
-                </div>
-              </div>
-              <div
-                v-if="tr.goods.status === 4"
-                class="cursor-pointer"
-              >卖了换钱</div>
-              <div
-                v-if="tr.goods.status === 4"
-                class="cursor-pointer"
-              >评价</div>
-            </td>
-
-            <!-- 更多操作 -->
-            <template v-if="order.goods_list.length > 1">
-              <td
-                v-if="i === 0"
-                class="px-6"
-                rowspan="3"
-              >
-                <el-dropdown>
-                  <feather
-                    size="20"
-                    type="more-horizontal"
-                  ></feather>
-                  <el-dropdown-menu slot="dropdown">
-                    <el-dropdown-item @click.native="$router.push({
-                        path: '/order-detail',
-                        query: {orderId: order._id}
-                      })">订单详情</el-dropdown-item>
-                    <el-dropdown-item
-                      v-if="order.status !== 2"
-                      @click.native="cancelOrder(order._id)"
-                    >确认送达</el-dropdown-item>
-                    <el-dropdown-item
-                      v-if="order.status !== 3"
-                      class="text-danger"
-                      @click.native="cancelOrder(order._id)"
-                    >取消订单</el-dropdown-item>
-                  </el-dropdown-menu>
-                </el-dropdown>
-              </td>
-            </template>
-            <template v-else>
-              <td class="px-6">
-                <el-dropdown>
-                  <feather
-                    size="20"
-                    type="more-horizontal"
-                  ></feather>
-                  <el-dropdown-menu slot="dropdown">
-                    <el-dropdown-item @click.native="$router.push({
-                        path: '/order-detail',
-                        query: {orderId: order._id}
-                      })">订单详情</el-dropdown-item>
-                    <el-dropdown-item
-                      class="text-danger"
-                      @click.native="cancelOrder(order._id)"
-                    >取消订单</el-dropdown-item>
-                  </el-dropdown-menu>
-                </el-dropdown>
-              </td>
-            </template>
-          </tr>
+            </tr>
+          </template>
         </div>
       </tbody>
     </table>
@@ -188,26 +200,27 @@
 import { getOrdersByUser, cancelOrder } from '@/request/api/order'
 
 const status = {
-  2: {
+  1: {
     text: '进行中',
     color: 'primary',
     icon: 'chevrons-right',
   },
-  3: {
-    text: '已取消',
-    color: 'danger',
-    icon: 'alert-circle',
-  },
-  4: {
+  2: {
     text: '已完成',
     color: 'success',
     icon: 'check-circle',
   },
-  5: {
+  3: {
     text: '派送中',
     color: 'primary',
     icon: 'truck',
   },
+  4: {
+    text: '已取消',
+    color: 'danger',
+    icon: 'alert-circle',
+  },
+
 }
 const payment = {
   huabei: '余额支付',
