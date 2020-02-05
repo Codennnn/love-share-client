@@ -340,6 +340,7 @@ export default {
           name: this.goods.name,
           goods: this.goodsId,
           seller: this.goods.seller,
+          price: this.goods.price,
         }]
         const data = {
           goods_list: goodsList,

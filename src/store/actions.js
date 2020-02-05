@@ -10,7 +10,12 @@ const action = {
   },
 
   async createOrder(_, data) {
-    if (data.address.receiver) {
+    const valid = Object.keys(data.address)
+      .every(key => Object.prototype.hasOwnProperty.call(data.address, key))
+      && data.goods_list
+        .every(el => Object.keys(el)
+          .every(key => Object.prototype.hasOwnProperty.call(el, key)))
+    if (valid) {
       const res = await createOrder(data)
       return res
     }

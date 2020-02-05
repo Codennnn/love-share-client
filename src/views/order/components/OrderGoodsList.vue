@@ -1,5 +1,6 @@
 <template>
   <vs-table
+    class="bg-white"
     noDataText="暂无数据"
     :data="goodsList"
   >

@@ -3,28 +3,28 @@
     id="div-with-loading"
     class="vs-con-loading__container"
   >
-    <div v-if="detail">
+    <div>
       <!-- 订单进度 -->
       <div class="card flex items-center">
         <div class="text-sm">
           <p class="mr-3">
             订单号：
-            <span class="text-gray-500">{{ detail._id }}</span>
+            <span class="text-gray-500">{{ subOrder._id }}</span>
           </p>
           <div
             class="p-6 flex-col-center text-2xl font-bold"
-            :class="`text-${status[detail.status].color}`"
+            :class="`text-${status[subOrder.status].color}`"
           >
             <feather
               class="ml-1 mb-1"
               size="30"
-              :type="status[detail.status].icon"
+              :type="status[subOrder.status].icon"
             ></feather>
-            {{ status[detail.status].text }}
+            {{ status[subOrder.status].text }}
           </div>
         </div>
         <div class="flex-1">
-          <OrderStep :step="detail.step" />
+          <OrderStep :step="2" />
         </div>
       </div>
 
@@ -69,15 +69,15 @@
             <div class="order-info__col">
               <div class="info__item">
                 <div class="label">收货人</div>
-                <div class="value">{{ detail.address.receiver }}</div>
+                <div class="value">{{ address.receiver }}</div>
               </div>
               <div class="info__item">
                 <div class="label">联系电话</div>
-                <div class="value">{{ detail.address.phone }}</div>
+                <div class="value">{{ address.phone }}</div>
               </div>
               <div class="info__item">
                 <div class="label">收货地址</div>
-                <div class="value">{{ detail.address.address }}</div>
+                <div class="value">{{ address.address }}</div>
               </div>
             </div>
             <div class="order-info__col">
@@ -98,7 +98,7 @@
               <div class="info__item">
                 <div class="label">支付时间</div>
                 <div class="value">
-                  {{ $dayjs(detail.created_at).format('YYYY-MM-DD HH:mm:ss') }}
+                  {{ $dayjs(subOrder.created_at).format('YYYY-MM-DD HH:mm:ss') }}
                 </div>
               </div>
               <div class="info__item">
@@ -129,6 +129,11 @@ import OrderGoodsList from './components/OrderGoodsList.vue'
 import { getOrderDetail } from '@/request/api/order'
 
 const status = {
+  undefined: {
+    text: '进行中',
+    color: 'primary',
+    icon: 'loader',
+  },
   1: {
     text: '进行中',
     color: 'primary',
@@ -140,6 +145,11 @@ const status = {
     icon: 'check-circle',
   },
   3: {
+    text: '派送中',
+    color: 'warning',
+    icon: 'truck',
+  },
+  4: {
     text: '已取消',
     color: 'danger',
     icon: 'alert-circle',
@@ -165,16 +175,16 @@ export default {
     status,
     payment,
     logistics,
-    detail: null,
+    detail: {},
+    address: {},
+    subOrder: {},
     text: '123',
-    orderID: '',
     goodsList: [],
   }),
 
   mounted() {
-    this.orderId = this.$route.query.orderId
-    this.subId = this.$route.query.subId
-    this.getOrderDetail(this.orderId, this.subId)
+    const { orderId, subId } = this.$route.query
+    this.getOrderDetail(orderId, subId)
   },
 
   methods: {
@@ -189,6 +199,8 @@ export default {
         if (code === 2000) {
           if (order_detail) {
             this.detail = order_detail
+            this.address = order_detail.address
+            this.subOrder = order_detail.sub_order
             this.goodsList = order_detail.sub_order.goods_list
           } else {
             this.$router.replace('/not-found')

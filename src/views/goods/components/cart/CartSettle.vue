@@ -182,6 +182,7 @@ export default {
           name: el.goods.name,
           goods: el.goods._id,
           seller: el.goods.seller._id,
+          price: el.goods.price,
         }))
         const body = {
           goods_list: goodsList,
