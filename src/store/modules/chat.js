@@ -60,16 +60,29 @@ const mutations = {
 }
 
 const actions = {
-  async addContact({ commit }, { _id, nickname, avatar_url }) {
-    commit('ADD_CONTACT', { _id, nickname, avatar_url })
-    await addContact({ contact_id: _id })
+  async initChat({ dispatch }) {
+    await Promise.all([
+      dispatch('getContactList'),
+      dispatch('getChatData'),
+    ])
   },
 
-  async deleteContact({ state, commit }, contact_id) {
-    deleteContact({ contact_id })
-    Vue.delete(state.chats, contact_id)
-    commit('SET_CONTACT_LIST', state.contactList.filter(it => it._id !== contact_id))
-    commit('SET_ACTIVE_CHAT_USER', state.contactList[0])
+  async addContact({ dispatch }, contact_id) {
+    const { code } = await addContact({ contact_id })
+    if (code === 2000) {
+      await dispatch('initChat')
+    } else {
+      throw new Error('添加联系人出错')
+    }
+  },
+
+  async deleteContact({ dispatch }, contact_id) {
+    const { code } = await deleteContact({ contact_id })
+    if (code === 2000) {
+      await dispatch('initChat')
+    } else {
+      throw new Error('删除联系人出错')
+    }
   },
 
   async getContactList({ commit }) {
@@ -84,10 +97,6 @@ const actions = {
     if (code === 2000) {
       commit('SET_CHAT_DATA', data.chats)
     }
-  },
-
-  sendChatMessage({ commit }, msg) {
-    commit('SEND_CHAT_MESSAGE', msg)
   },
 
   async receiveMessage({ getters, commit }, msg) {

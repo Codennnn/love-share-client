@@ -78,10 +78,14 @@
               <td class="px-4">
                 <div class="flex py-3">
                   <el-image
-                    class="mr-2 rounded-lg base-shadow"
+                    class="mr-2 rounded-lg base-shadow cursor-pointer"
                     style="width: 80px; height: 80px"
                     fit="cover"
                     :src="`${tr.goods.img_list[0]}?imageView2/2/w/100`"
+                    @click="$router.push({
+                      path: '/goods-detail',
+                      query: {goodsId: tr.goods._id}
+                    })"
                   ></el-image>
                   <div class="w-56 mr-6 p-2 break-words text-sm">{{ tr.goods.name }}</div>
                 </div>

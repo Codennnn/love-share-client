@@ -130,11 +130,11 @@ export default {
 
     // 联系卖家
     async contactSeller() {
-      const { _id, nickname, avatar_url } = this.seller
+      const { _id, nickname } = this.seller
       if (!this.$store.getters['chat/isInChat'](_id)) {
-        this.$store.dispatch('chat/addContact', { _id, nickname, avatar_url })
+        await this.$store.dispatch('chat/addContact', _id)
       }
-      this.$store.commit('chat/SET_ACTIVE_CHAT_USER', { _id, nickname, avatar_url })
+      this.$store.commit('chat/SET_ACTIVE_CHAT_USER', { _id, nickname })
       this.$store.commit('chat/SET_CHAT_OPEN')
     },
 

@@ -156,8 +156,7 @@ export default {
   }),
 
   created() {
-    this.$store.dispatch('chat/getContactList')
-    this.$store.dispatch('chat/getChatData')
+    this.$store.dispatch('chat/initChat')
   },
 
   mounted() {
@@ -218,20 +217,20 @@ export default {
       })
     },
 
-    sendMessage() {
+    async sendMessage() {
       if (this.message.length <= 0) return
 
       const message = {
-        type: 'text',
-        msg: this.message,
-        is_sent: true,
-        is_seen: false,
-        client: this.userId,
-        target: this.activeChatUser,
+        type: 'text', // 消息类型
+        msg: this.message, // 消息内容
+        is_sent: true, // 是否为发送方
+        is_seen: false, // 是否已读
+        client: this.userId, // 自己的 ID
+        target: this.activeChatUser, // 对方的 ID
         time: Date.now(),
       }
-      this.$socket.emit('sendMessage', message)
-      this.$store.dispatch('chat/sendChatMessage', message)
+      await this.$socket.emit('sendMessage', message)
+      this.$store.commit('chat/SEND_CHAT_MESSAGE', message)
       this.message = ''
       this.$nextTick(() => {
         // 发送消息后聊天框滚动到底部
