@@ -36,7 +36,7 @@
             >
               <span>{{ $dayjs(sub.created_at).format('YYYY-MM-DD HH:ss') }}</span>
               <span class="ml-8">订单号：</span>
-              <span>{{ (sub._id).substr(0, 8) }}...</span>
+              <span :title="sub._id">{{ (sub._id).substr(0, 8) }}...</span>
             </div>
             <tr
               class="text-gray-500 text-sm"
@@ -129,65 +129,82 @@
                   </div>
                 </div>
                 <div
-                  v-if="tr.goods.status === 4"
+                  v-if="sub.status === 2"
                   class="cursor-pointer"
                 >卖了换钱</div>
                 <div
-                  v-if="tr.goods.status === 4"
+                  v-if="sub.status === 2"
                   class="cursor-pointer"
                 >评价</div>
               </td>
 
               <!-- 更多操作 -->
-              <template v-if="sub.goods_list.length > 1">
-                <td
-                  v-if="i === 0"
-                  class="px-6"
-                  :rowspan="item.goods_list.length"
-                >
-                  <el-dropdown>
-                    <feather
-                      size="20"
-                      type="more-horizontal"
-                    ></feather>
-                    <el-dropdown-menu slot="dropdown">
-                      <el-dropdown-item @click.native="$router.push({
+              <!-- <template v-if="sub.goods_list.length > 1"> -->
+              <td
+                v-if="isMultiItems(sub.goods_list.length, i)"
+                class="px-6"
+                :rowspan="sub.goods_list.length"
+              >
+                <el-dropdown>
+                  <feather
+                    size="20"
+                    type="more-horizontal"
+                  ></feather>
+                  <el-dropdown-menu slot="dropdown">
+                    <el-dropdown-item @click.native="$router.push({
                           path: '/order-detail',
                           query: {orderId: order._id}
-                        })">订单详情</el-dropdown-item>
-                      <el-dropdown-item
-                        v-if="order.status !== 2"
-                        @click.native="cancelOrder(order._id)"
-                      >确认送达</el-dropdown-item>
-                      <el-dropdown-item
-                        v-if="order.status !== 3"
-                        class="text-danger"
-                        @click.native="cancelOrder(order._id)"
-                      >取消订单</el-dropdown-item>
-                    </el-dropdown-menu>
-                  </el-dropdown>
-                </td>
-              </template>
-              <template v-else>
-                <td class="px-6">
-                  <el-dropdown>
-                    <feather
-                      size="20"
-                      type="more-horizontal"
-                    ></feather>
-                    <el-dropdown-menu slot="dropdown">
-                      <el-dropdown-item @click.native="$router.push({
+                        })">
+                      订单详情
+                    </el-dropdown-item>
+                    <el-dropdown-item
+                      v-if="sub.status === 1"
+                      @click.native="cancelOrder(order._id)"
+                    >
+                      确认收货
+                    </el-dropdown-item>
+                    <el-dropdown-item
+                      v-if="sub.status === 1"
+                      class="text-danger"
+                      @click.native="cancelOrder(order._id, sub._id, sub.goods_list)"
+                    >
+                      取消订单
+                    </el-dropdown-item>
+                  </el-dropdown-menu>
+                </el-dropdown>
+              </td>
+              <!-- </template> -->
+              <!-- <template v-else> -->
+              <!-- <td class="px-6">
+                <el-dropdown>
+                  <feather
+                    size="20"
+                    type="more-horizontal"
+                  ></feather>
+                  <el-dropdown-menu slot="dropdown">
+                    <el-dropdown-item @click.native="$router.push({
                           path: '/order-detail',
                           query: {orderId: order._id}
-                        })">订单详情</el-dropdown-item>
-                      <el-dropdown-item
-                        class="text-danger"
-                        @click.native="cancelOrder(order._id)"
-                      >取消订单</el-dropdown-item>
-                    </el-dropdown-menu>
-                  </el-dropdown>
-                </td>
-              </template>
+                        })">
+                      订单详情
+                    </el-dropdown-item>
+                    <el-dropdown-item
+                      v-if="sub.status === 1"
+                      @click.native="cancelOrder(sub._id)"
+                    >
+                      确认收货
+                    </el-dropdown-item>
+                    <el-dropdown-item
+                      v-if="sub.status === 1"
+                      class="text-danger"
+                      @click.native="cancelOrder(order._id, sub._id)"
+                    >
+                      取消订单
+                    </el-dropdown-item>
+                  </el-dropdown-menu>
+                </el-dropdown>
+              </td> -->
+              <!-- </template> -->
             </tr>
           </template>
         </div>
@@ -250,8 +267,19 @@ export default {
       }
     },
 
-    async cancelOrder(id) {
-      const { code } = await cancelOrder({ goods_id: id })
+    isMultiItems(length, index) {
+      if (length > 1 && index === 0) {
+        return true
+      }
+      if (length === 1) {
+        return true
+      }
+      return false
+    },
+
+    async cancelOrder(order_id, sub_id, goodsList) {
+      const goods_id_list = goodsList.map(el => el.goods._id)
+      const { code } = await cancelOrder({ order_id, sub_id, goods_id_list })
       if (code === 2000) {
         this.getOrdersByUser()
       }

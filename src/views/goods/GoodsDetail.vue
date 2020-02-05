@@ -255,7 +255,6 @@ export default {
   computed: {
     ...mapState('user', ['addressList', 'defaultAddress']),
     payBtndisabled() {
-      console.log(!this.currAddr.receiver)
       return !this.currAddr.receiver
     },
   },
@@ -352,7 +351,7 @@ export default {
         const { code } = await this.$store.dispatch('createOrder', data)
         if (code === 2000) {
           this.$router.replace('/user-center')
-        } else if (code === 5000) {
+        } else {
           throw new Error()
         }
       } catch {

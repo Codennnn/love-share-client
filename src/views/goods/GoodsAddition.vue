@@ -292,7 +292,8 @@ export default {
         if (code === 2000 && data.img_list.length > 0) {
           this.imgList = data.img_list
           return true
-        } if (code === 5000) {
+        }
+        if (code === 5000) {
           this.$vs.notify({
             color: 'danger',
             title: '图片上传失败',

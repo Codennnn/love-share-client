@@ -15,8 +15,6 @@ service.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencod
 
 service.interceptors.request.use(
   (config) => {
-    // console.log('>>>>>>>>>>>>')
-
     // 每次请求都带上token
     const token = getToken()
     if (token) {
@@ -47,7 +45,7 @@ const errorHandler = {
     this.errorNotify({ title: `${status}`, message: `找不到资源 - ${statusText}` })
   },
   418(status) {
-    this.errorNotify({ title: `${status}`, message: '登录过期，请重新登录~', duration: '3000' })
+    this.errorNotify({ title: `${status}`, message: '登录过期，请重新登录~', duration: 3000 })
   },
   500(status, statusText) {
     this.errorNotify({ title: `${status}`, message: `服务器出问题了 - ${statusText}` })
