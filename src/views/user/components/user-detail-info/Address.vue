@@ -111,8 +111,8 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
 import _cloneDeepWith from 'lodash/cloneDeepWith'
+import { mapState } from 'vuex'
 import CollapseTransition from 'element-ui/lib/transitions/collapse-transition'
 
 export default {

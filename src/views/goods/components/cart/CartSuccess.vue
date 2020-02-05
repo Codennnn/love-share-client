@@ -18,7 +18,7 @@
         <vs-button
           size="small"
           color="#a0aec0"
-          @click="$router.replace({path: '/order-detail', query: { orderId }})"
+          @click="$router.replace('/order-list')"
         >查看订单</vs-button>
       </div>
     </div>
@@ -28,12 +28,5 @@
 <script>
 export default {
   name: 'CartSuccess',
-  data: () => ({
-    orderId: '',
-  }),
-
-  mounted() {
-    this.orderId = this.$store.state.cart.orderId
-  },
 }
 </script>

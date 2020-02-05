@@ -1,6 +1,9 @@
 <template>
   <div>
-    <table class="order-list">
+    <table
+      v-if="orderList.length > 0"
+      class="order-list"
+    >
       <thead>123456</thead>
       <tbody>
         <div
@@ -18,13 +21,35 @@
                 {{ order._id }}
               </span>
             </div>
-            <div v-if="order.sub_order.length > 1">
+            <div
+              v-if="order.sub_order.length > 1"
+              class="flex"
+            >
               <span>收货人：</span>
               <span class="mr-6">{{ order.address.receiver }}</span>
               <span>订单总额：</span>
               <span class="mr-6">￥{{ Number(order.total_price).toFixed(2) }}</span>
               <span>支付方式：</span>
-              <span>{{ payment[order.payment] }}</span>
+              <span class="mr-6">{{ payment[order.payment] }}</span>
+              <el-popover
+                v-if="order.split_info"
+                trigger="hover"
+                class="ml-auto cursor-pointer"
+              >
+                <span slot="reference">订单已拆分</span>
+                <div class="w-56">
+                  <div class="mb-1">
+                    <span>拆分时间：</span>
+                    <span>
+                      {{ $dayjs(order.split_info.created_at).format('YYYY-MM-DD HH:ss') }}
+                    </span>
+                  </div>
+                  <div>
+                    <span>拆分原因：</span>
+                    <span>{{ order.split_info.reason }}</span>
+                  </div>
+                </div>
+              </el-popover>
             </div>
           </div>
 
@@ -34,9 +59,16 @@
               class="px-4 py-2 text-sm text-gray-500 bg-gray-100"
               :key="sub._id"
             >
-              <span>{{ $dayjs(sub.created_at).format('YYYY-MM-DD HH:ss') }}</span>
-              <span class="ml-8">订单号：</span>
-              <span :title="sub._id">{{ (sub._id).substr(0, 8) }}...</span>
+              <span class="mr-6">
+                {{ $dayjs(sub.created_at).format('YYYY-MM-DD HH:ss') }}
+              </span>
+              <span>订单号：</span>
+              <span
+                class="mr-6"
+                :title="sub._id"
+              >{{ (sub._id).substr(0, 8) }}...</span>
+              <span>总额：</span>
+              <span class="mr-6">{{ Number(sub.total_price).toFixed(2) }}</span>
             </div>
             <tr
               class="text-gray-500 text-sm"
@@ -132,14 +164,9 @@
                   v-if="sub.status === 2"
                   class="cursor-pointer"
                 >卖了换钱</div>
-                <div
-                  v-if="sub.status === 2"
-                  class="cursor-pointer"
-                >评价</div>
               </td>
 
               <!-- 更多操作 -->
-              <!-- <template v-if="sub.goods_list.length > 1"> -->
               <td
                 v-if="isMultiItems(sub.goods_list.length, i)"
                 class="px-6"
@@ -170,46 +197,31 @@
                     >
                       取消订单
                     </el-dropdown-item>
+                    <el-dropdown-item
+                      v-if="sub.status === 2"
+                      @click.native="w"
+                    >
+                      评价
+                    </el-dropdown-item>
                   </el-dropdown-menu>
                 </el-dropdown>
               </td>
-              <!-- </template> -->
-              <!-- <template v-else> -->
-              <!-- <td class="px-6">
-                <el-dropdown>
-                  <feather
-                    size="20"
-                    type="more-horizontal"
-                  ></feather>
-                  <el-dropdown-menu slot="dropdown">
-                    <el-dropdown-item @click.native="$router.push({
-                          path: '/order-detail',
-                          query: {orderId: order._id}
-                        })">
-                      订单详情
-                    </el-dropdown-item>
-                    <el-dropdown-item
-                      v-if="sub.status === 1"
-                      @click.native="cancelOrder(sub._id)"
-                    >
-                      确认收货
-                    </el-dropdown-item>
-                    <el-dropdown-item
-                      v-if="sub.status === 1"
-                      class="text-danger"
-                      @click.native="cancelOrder(order._id, sub._id)"
-                    >
-                      取消订单
-                    </el-dropdown-item>
-                  </el-dropdown-menu>
-                </el-dropdown>
-              </td> -->
-              <!-- </template> -->
             </tr>
           </template>
         </div>
       </tbody>
     </table>
+
+    <div
+      v-else
+      class="py-4 flex-col-center text-gray-500"
+    >
+      <el-image
+        fit="cover"
+        :src="require('@/assets/images/no-order.png')"
+      ></el-image>
+      <p>什么都没有 (´；ω；`)</p>
+    </div>
   </div>
 </template>
 
@@ -217,6 +229,11 @@
 import { getOrdersByUser, completedOrder, cancelOrder } from '@/request/api/order'
 
 const status = {
+  undefined: {
+    text: 'Undefined',
+    color: 'danger',
+    icon: 'alert-circle',
+  },
   1: {
     text: '进行中',
     color: 'primary',

@@ -104,13 +104,13 @@
               <div class="info__item">
                 <div class="label">商品总额</div>
                 <div class="value">
-                  ￥{{ Number(detail.total_price).toFixed(2) }}
+                  ￥{{ Number(subOrder.total_price).toFixed(2) }}
                 </div>
               </div>
               <div class="info__item">
                 <div class="label">应付金额</div>
                 <div class="value">
-                  ￥{{ Number(detail.total_price).toFixed(2) }}
+                  ￥{{ Number(subOrder.actual_price).toFixed(2) }}
                 </div>
               </div>
             </div>
@@ -130,9 +130,9 @@ import { getOrderDetail } from '@/request/api/order'
 
 const status = {
   undefined: {
-    text: '进行中',
-    color: 'primary',
-    icon: 'loader',
+    text: 'Undefined',
+    color: 'danger',
+    icon: 'alert-circle',
   },
   1: {
     text: '进行中',
