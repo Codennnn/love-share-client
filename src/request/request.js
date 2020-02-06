@@ -63,7 +63,7 @@ service.interceptors.response.use(
       errorHandler.errorNotify({
         title: `错误代码 - ${code}`,
         message: msg,
-        duration: 0,
+        duration: 5000,
       })
     }
     return data
