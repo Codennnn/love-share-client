@@ -70,6 +70,7 @@ import { getBillboardList } from '@/request/api/common'
 import { getRecommendGoodsList } from '@/request/api/goods'
 
 const categoryIcons = {
+  undefined: 'el-icon-eleme',
   电子数码: 'el-icon-headset',
   宿舍电器: 'el-icon-table-lamp',
   日常用品: 'el-icon-toilet-paper',

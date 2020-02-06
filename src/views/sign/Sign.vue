@@ -4,7 +4,7 @@
     style="background: rgb(239, 242, 247);"
   >
     <div
-      class="absolute z-50 flex items-center"
+      class="absolute z-50 flex items-center text-lg text-gray-600 font-bold"
       style="top: 2rem; left: 4rem;"
     >
       <img
@@ -12,13 +12,13 @@
         src="@/assets/images/logo.png"
       >
       <router-link
-        class="mr-4 text-lg font-semibold text-gray-600"
+        class="mr-4"
         to="/home"
-      >Home</router-link>
+      >首 页</router-link>
       <router-link
-        class="mr-4 text-lg font-semibold text-gray-600"
+        class="mr-4"
         to="/home"
-      >Help</router-link>
+      >帮助中心</router-link>
     </div>
 
     <div

@@ -10,9 +10,10 @@
         label="您的学校"
         placeholder="请选择您的学校"
         width="100%"
-        :warning="selectWarning"
         warning-text="请选择您的学校"
         v-model="school"
+        :disabled="schoolList.length === 0"
+        :warning="selectWarning"
         @focus="selectWarning = false"
       >
         <vs-select-item
