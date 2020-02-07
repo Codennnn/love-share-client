@@ -90,22 +90,22 @@
                   @click="showReplyInput(cm._id, it.at, 2)"
                 ></i>
               </p>
+              <div
+                v-if="currRep === cm._id"
+                class="mt-1 flex items-end"
+              >
+                <vs-input
+                  class="flex-1 mr-1"
+                  v-model="repContent"
+                  :label-placeholder="placeholder"
+                  @keyup.enter="replyComment(cm._id, it.sender._id)"
+                />
+                <vs-button
+                  size="small"
+                  @click="replyComment(cm._id, it.sender._id)"
+                >回复</vs-button>
+              </div>
             </li>
-            <div
-              v-if="currRep === cm._id"
-              class="mt-1 flex items-end"
-            >
-              <vs-input
-                class="flex-1 mr-1"
-                v-model="repContent"
-                :label-placeholder="placeholder"
-                @keyup.enter="replyComment(cm._id, it.sender._id)"
-              />
-              <vs-button
-                size="small"
-                @click="replyComment(cm._id, it.sender._id)"
-              >回复</vs-button>
-            </div>
           </ul>
           <div
             v-if="currMsg === cm._id"
@@ -174,14 +174,14 @@ export default {
     counterDanger: true,
     maxHeight: 595,
 
-    placeholder: '',
+    placeholder: '', // 留言输入框的占位文字
     textContent: '', // 留言内容
     repContent: '', // 回复内容
     currMsg: null, // 当前留言
     currRep: null, // 当前回复
-    currPage: 1,
-    hideComment: false, // 显示 “查看更多留言”
-    showComments: false,
+    currPage: 1, // 当前留言的页数
+    hideComment: false, // 显示 "查看更多留言"
+    showComments: false, // 是否显示留言
   }),
 
   mounted() {
@@ -204,6 +204,7 @@ export default {
     async postComment() {
       if (this.textContent.length > 0) {
         const { code } = await postComment({
+          owner: this.owner,
           goods_id: this.goodsId,
           content: this.textContent,
         })
@@ -232,17 +233,18 @@ export default {
     },
 
     showReplyInput(id, { nickname }, type) {
+      // type: 1-回复留言, 2-回复别人的回复
+      this.placeholder = `回复 ${nickname}：`
       if (type === 1) {
         this.currRep = null
-        this.placeholder = `回复 ${nickname}：`
         if (this.currMsg === id) {
           this.currMsg = null
           return
         }
         this.currMsg = id
-      } else if (type === 2) {
+      }
+      if (type === 2) {
         this.currMsg = null
-        this.placeholder = `回复 ${nickname}：`
         this.currRep = id
       }
     },

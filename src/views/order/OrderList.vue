@@ -4,7 +4,7 @@
       v-if="orderList.length > 0"
       class="order-list"
     >
-      <thead>123456</thead>
+      <thead></thead>
       <tbody>
         <div
           class="mb-6 radius light-shadow bg-white overflow-hidden"

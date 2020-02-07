@@ -5,9 +5,20 @@
       <div class="p-2 bg-white rounded-lg">
         <div class="p-1">
           <div
-            class="py-3 text-primary text-lg font-bold cursor-default"
+            class="py-3 flex items-center justify-between"
             style="box-shadow: 0 7px 7px -5px rgba(0, 0, 0, 0.08)"
-          >消息中心</div>
+          >
+            <p class="text-primary text-lg font-bold cursor-default">
+              消息中心
+            </p>
+            <feather
+              title="设置"
+              class="mr-2 text-gray-600 cursor-pointer"
+              size="18"
+              type="sliders"
+              @click="showPopup = !showPopup"
+            ></feather>
+          </div>
           <ul class="mt-4 px-4 py-3">
             <li
               class="li-item"
@@ -16,9 +27,6 @@
               :class="{'text-primary': currentActive === item.title}"
             >
               {{ item.title }}
-            </li>
-            <li class="li-item">
-              消息设置
             </li>
           </ul>
         </div>
@@ -177,6 +185,73 @@
         </div>
       </div>
     </div>
+
+    <vs-popup
+      title="消息设置"
+      class="text-white"
+      :background-color-popup="'#4a5153'"
+      :active.sync="showPopup"
+    >
+      <div class="px-6 py-3">
+        <div class="mb-4">
+          <p class="mb-3">消息提醒（关闭后，消息将不再进行提醒）</p>
+          <ul class="flex items-center">
+            <li class="mr-6">
+              <vs-radio
+                vs-name="radio1"
+                v-model="radio1"
+                :vs-value="true"
+              >开启</vs-radio>
+            </li>
+            <li>
+              <vs-radio
+                vs-name="radio1"
+                v-model="radio1"
+                :vs-value="false"
+              >关闭</vs-radio>
+            </li>
+          </ul>
+        </div>
+        <div class="mb-4">
+          <p class="mb-3">回复我的消息提醒（接受谁的评论消息提醒）</p>
+          <ul class="flex items-center">
+            <li class="mr-6">
+              <vs-radio
+                vs-name="radio2"
+                v-model="radio2"
+                :vs-value="true"
+              >开启</vs-radio>
+            </li>
+            <li>
+              <vs-radio
+                vs-name="radio2"
+                v-model="radio2"
+                :vs-value="false"
+              >关闭</vs-radio>
+            </li>
+          </ul>
+        </div>
+        <div class="mb-4">
+          <p class="mb-3">@我的消息提醒（接受谁的@消息提醒）</p>
+          <ul class="flex items-center">
+            <li class="mr-6">
+              <vs-radio
+                vs-name="radio3"
+                v-model="radio3"
+                :vs-value="true"
+              >开启</vs-radio>
+            </li>
+            <li>
+              <vs-radio
+                vs-name="radio3"
+                v-model="radio3"
+                :vs-value="false"
+              >关闭</vs-radio>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </vs-popup>
   </div>
 </template>
 
@@ -207,6 +282,11 @@ export default {
     noticeType,
     currentActive: '系统通知',
     label: '全部消息',
+
+    showPopup: false,
+    radio1: true,
+    radio2: true,
+    radio3: true,
 
     rawData: [], // 原始数据
     dataList: [], // 显示数据
