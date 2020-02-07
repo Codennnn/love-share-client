@@ -87,7 +87,9 @@
   align-items: center;
 }
 
-
+.transition {
+  transition: all 0.3s;
+}
 
 .quickly {
   animation-duration: 0.2s !important;
