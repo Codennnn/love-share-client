@@ -7,7 +7,7 @@
           multiple
           ref="fileUpload"
           text="图片格式（JPG、PNG）"
-          accept="image/jpeg,image/jpg,image/png"
+          accept="image/jpeg,image/jpg,image/png,,image/webp"
           :limit="6"
           :show-upload-button="false"
         />

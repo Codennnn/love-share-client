@@ -183,6 +183,7 @@ export default {
           goods: el.goods._id,
           seller: el.goods.seller._id,
           price: el.goods.price,
+          delivery_charge: el.goods.delivery_charge,
         }))
         const body = {
           goods_list: goodsList,

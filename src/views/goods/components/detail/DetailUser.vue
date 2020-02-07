@@ -3,7 +3,7 @@
     <div class="mb-5 p-3 text-center bg-white light-shadow radius">
       <vs-avatar
         size="90px"
-        :src="`${seller.avatar_url}?imageView2/2/w/100`"
+        :src="seller.avatar_url ? `${seller.avatar_url}?imageView2/2/w/100` : ''"
         @click="viewUserDetail(seller._id)"
       />
       <div

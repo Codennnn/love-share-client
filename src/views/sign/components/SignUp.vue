@@ -191,7 +191,7 @@ export default {
             password: this.signUpInput[2].value,
             phone: this.signUpInput[4].value,
           })
-          if (code === 2001) {
+          if (code === 2000) {
             const status = await this.$store.dispatch('user/signIn', {
               account: this.signUpInput[4].value,
               password: this.signUpInput[2].value,
@@ -247,17 +247,19 @@ export default {
         return false
       }
 
-      const res = await checkNickname({ nickname: this.signUpInput[1].value })
-      if (res.code === 4003) {
+      const [{ code: code1 }, { code: code2 }] = await Promise.all([
+        checkNickname({ nickname: this.signUpInput[1].value }),
+        checkPhoneNumber({ phone: this.signUpInput[4].value }),
+      ])
+      if (code1 === 4003) {
         this.signUpInput[1].isError = true
         this.signUpInput[1].errorText = '该昵称已被使用'
-        return false
       }
-
-      const { code } = await checkPhoneNumber({ phone: this.signUpInput[4].value })
-      if (code === 4003) {
+      if (code2 === 4003) {
         this.signUpInput[4].isError = true
         this.signUpInput[4].errorText = '手机号已被注册'
+      }
+      if (code1 === 4003 || code2 === 4003) {
         return false
       }
 
@@ -287,6 +289,7 @@ export default {
       }
     },
 
+    // 生成伪验证码
     async getVerificationCode() {
       this.code = Math
         .random()

@@ -18,7 +18,7 @@
           <el-image
             lazy
             class="w-full h-full"
-            fit="cover"
+            fit="contain"
             :src="goods.img_list[0]"
           >
           </el-image>

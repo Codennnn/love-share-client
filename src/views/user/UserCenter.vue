@@ -168,11 +168,8 @@ export default {
     },
   },
 
-  mounted() {
-    this.currentComponent = this.$route.query.component || 'UserBaseInfo'
-  },
-
   activated() {
+    this.currentComponent = this.$route.query.component || 'UserBaseInfo'
     getUserInfoNum().then(({ code, data }) => {
       if (code === 2000) {
         this.num = data.info_num

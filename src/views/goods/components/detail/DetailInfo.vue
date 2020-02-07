@@ -11,7 +11,7 @@
             <el-image
               class="w-full"
               fit="contain"
-              :src="`${url}?imageView2/2/w/600`"
+              :src="url"
             ></el-image>
           </el-carousel-item>
         </el-carousel>

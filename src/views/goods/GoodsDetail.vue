@@ -72,19 +72,20 @@
               <p class="mb-4 text-lg font-bold">￥{{ Number(goods.price).toFixed(2) }}</p>
               <p class="text-sm text-gray-600">购买数量</p>
               <p class="mb-4 text-lg font-bold">{{ amount }}件</p>
-              <p class="text-sm text-gray-600">
+              <p class="pr-2 pb-1 flex justify-between text-sm text-gray-600">
                 收货信息
                 <span
                   v-if="addressList.length > 0"
-                  class="ml-2 cursor-pointer"
-                  style="color: rgba(var(--vs-primary), 1);"
+                  class="ml-2 text-primary cursor-pointer"
                   @click="showPopup = true"
                 >选择地址</span>
                 <span
                   v-else
-                  class="ml-2 cursor-pointer"
-                  style="color: rgba(var(--vs-primary), 1);"
-                  @click="$router.push('/user-center')"
+                  class="ml-2 text-primary cursor-pointer"
+                  @click="$router.push({
+                    path: '/user-center',
+                    query: {component: 'UserDetailInfo'}
+                  })"
                 >添加地址</span>
               </p>
               <div class="mb-4 p-2 text-sm text-gray-600 bg-gray-100 rounded-lg">
@@ -341,6 +342,7 @@ export default {
           goods: this.goodsId,
           seller: this.goods.seller,
           price: this.goods.price,
+          delivery_charge: this.goods.delivery_charge,
         }]
         const data = {
           goods_list: goodsList,

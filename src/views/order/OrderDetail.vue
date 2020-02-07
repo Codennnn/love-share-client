@@ -83,11 +83,14 @@
             <div class="order-info__col">
               <div class="info__item">
                 <div class="label">配送方式</div>
-                <div class="value">自取</div>
+                <div
+                  v-if="subOrder.goods_list"
+                  class="value"
+                >{{ delivery[subOrder.goods_list[0].goods.delivery] }}</div>
               </div>
               <div class="info__item">
                 <div class="label">运费</div>
-                <div class="value">￥{{ Number(0).toFixed(2) }}</div>
+                <div class="value">￥{{ Number(subOrder.delivery_charge).toFixed(2) }}</div>
               </div>
             </div>
             <div class="order-info__col">
@@ -128,6 +131,12 @@ import OrderGoodsList from './components/OrderGoodsList.vue'
 
 import { getOrderDetail } from '@/request/api/order'
 
+const delivery = {
+  undefined: '未定义',
+  1: '包邮',
+  2: '自费',
+  3: '自提',
+}
 const status = {
   undefined: {
     text: 'Undefined',
@@ -172,6 +181,7 @@ export default {
   components: { VuePerfectScrollbar, OrderStep, OrderGoodsList },
 
   data: () => ({
+    delivery,
     status,
     payment,
     logistics,

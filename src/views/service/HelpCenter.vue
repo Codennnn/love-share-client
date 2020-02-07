@@ -1,7 +1,7 @@
 <template>
   <div class="mt-4 flex items-start">
     <!-- 菜单 -->
-    <div class="w-1/5 bg-white rounded-lg">
+    <div class="w-1/5 bg-white radius">
       <vs-collapse>
         <vs-collapse-item
           open
@@ -30,7 +30,7 @@
       id="artical-loading"
       class="vs-con-loading__container w-4/5 pl-6"
     >
-      <div class="p-4 bg-white rounded-lg">
+      <div class="p-4 bg-white radius">
         <div class="flex items-center justify-between">
           <div class="text-xl font-bold">{{ article.title }}</div>
         </div>
