@@ -224,18 +224,35 @@ export default {
     },
 
     initStepsData() {
+      const active = {
+        1: 2,
+        2: 4,
+        3: 3,
+        4: 4,
+      }
+      const { createdAt, status: state } = this.subOrder
+      const time = this.$dayjs(createdAt).format('YYYY-MM-DD HH:ss')
+      let extend = []
+      if (state === 2) {
+        extend = [
+          { title: '订单已完成', description: time },
+        ]
+      }
+      if (state === 4) {
+        extend = [
+          { title: '订单已取消', description: time },
+        ]
+      }
+      const steps = [
+        { title: '创建订单', description: time },
+        { title: '支付成功', description: time },
+        { title: '等待收货', description: '' },
+        ...extend,
+      ]
+      console.log(steps)
       this.stepsData = {
-        active: 1,
-        steps: [
-          {
-            title: '创建订单',
-            description: this.$dayjs(this.subOrder.created_at).format('YYYY-MM-DD HH:ss'),
-          },
-          {
-            title: '支付成功',
-            description: this.$dayjs(this.subOrder.created_at).format('YYYY-MM-DD HH:ss'),
-          },
-        ],
+        active: active[state],
+        steps,
       }
     },
   },

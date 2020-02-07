@@ -24,18 +24,3 @@ export default {
   },
 }
 </script>
-
-<style lang="scss" scoped>
-.item {
-  display: flex;
-  align-items: center;
-  .label {
-    margin-right: 5px;
-    padding: 2px 5px;
-    color: gray;
-    border-radius: 4px;
-    font-size: 12px;
-    background: #ebebeb;
-  }
-}
-</style>

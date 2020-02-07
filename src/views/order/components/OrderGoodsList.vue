@@ -19,7 +19,7 @@
         <vs-td>
           <el-image
             class="w-20 h-20 rounded-lg base-shadow"
-            fit="cover"
+            fit="contain"
             :src="`${tr.goods.img_list[0]}?imageView2/2/w/100`"
           >
           </el-image>
