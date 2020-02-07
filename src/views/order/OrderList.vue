@@ -80,7 +80,7 @@
                   <el-image
                     class="mr-2 rounded-lg base-shadow cursor-pointer"
                     style="width: 80px; height: 80px"
-                    fit="cover"
+                    fit="contain"
                     :src="`${tr.goods.img_list[0]}?imageView2/2/w/100`"
                     @click="$router.push({
                       path: '/goods-detail',
@@ -197,7 +197,8 @@
                     <el-dropdown-item
                       v-if="sub.status === 1"
                       class="text-danger"
-                      @click.native="cancelOrder(order._id, sub._id, sub.goods_list)"
+                      @click.native="cancelOrder(order._id, sub._id, sub.goods_list,
+                       tr.goods.seller._id)"
                     >
                       取消订单
                     </el-dropdown-item>
@@ -308,9 +309,11 @@ export default {
     },
 
     // 取消订单
-    async cancelOrder(order_id, sub_id, goodsList) {
+    async cancelOrder(order_id, sub_id, goodsList, seller_id) {
       const goods_id_list = goodsList.map(el => el.goods._id)
-      const { code } = await cancelOrder({ order_id, sub_id, goods_id_list })
+      const { code } = await cancelOrder({
+        order_id, sub_id, goods_id_list, seller_id,
+      })
       if (code === 2000) {
         this.getOrdersByUser()
       }
