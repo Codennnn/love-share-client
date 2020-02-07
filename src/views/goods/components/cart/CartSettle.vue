@@ -22,10 +22,11 @@
                 :key="i"
               >
                 <vs-td>
-                  <vs-image
-                    class="w-24 h-24 base-shadow"
+                  <el-image
+                    class="w-24 h-24 base-shadow radius"
+                    fit="contain"
                     :src="`${tr.goods.img_list[0]}?imageView2/2/w/100`"
-                  />
+                  ></el-image>
                 </vs-td>
                 <vs-td>{{ tr.goods.name }}</vs-td>
                 <vs-td>x{{ tr.amount }}</vs-td>

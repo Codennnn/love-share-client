@@ -27,10 +27,11 @@
                 :key="tr._id"
               >
                 <vs-td>
-                  <vs-image
-                    class="w-24 h-24 base-shadow"
+                  <el-image
+                    class="w-24 h-24 base-shadow radius"
+                    fit="contain"
                     :src="`${tr.img_list[0]}?imageView2/2/w/100`"
-                  ></vs-image>
+                  ></el-image>
                 </vs-td>
                 <vs-td>
                   <p>{{ tr.name }}</p>
@@ -62,9 +63,6 @@
                         @click.native="editGoodsInfo(tr._id)"
                       >
                         编辑信息
-                      </el-dropdown-item>
-                      <el-dropdown-item v-if="tr.status === 2">
-                        确认送达
                       </el-dropdown-item>
                       <el-dropdown-item
                         v-if="tr.status === 1"
@@ -127,10 +125,11 @@
                 :key="i"
               >
                 <vs-td>
-                  <vs-image
-                    class="w-24 h-24 base-shadow"
+                  <el-image
+                    class="w-24 h-24 base-shadow radius"
+                    fit="contain"
                     :src="`${tr.img_list[0]}?imageView2/2/w/100`"
-                  ></vs-image>
+                  ></el-image>
                 </vs-td>
                 <vs-td>{{ tr.name }}</vs-td>
                 <vs-td class="font-semibold">￥{{ Number(tr.price).toFixed(2) }}</vs-td>
@@ -245,6 +244,7 @@ export default {
   activated() {
     this.getPublishedGoods()
     this.getBoughtGoods()
+    this.$store.dispatch('chat/getContactList')
   },
 
   methods: {

@@ -8,14 +8,17 @@
             class="py-3 text-primary text-lg font-bold cursor-default"
             style="box-shadow: 0 7px 7px -5px rgba(0, 0, 0, 0.08)"
           >消息中心</div>
-          <ul class="pt-4">
+          <ul class="mt-4 px-4 py-3">
             <li
-              class="li-item px-3 py-1 cursor-pointer"
+              class="li-item"
               v-for="(item, i) in list"
               :key="i"
               :class="{'text-primary': currentActive === item.title}"
             >
               {{ item.title }}
+            </li>
+            <li class="li-item">
+              消息设置
             </li>
           </ul>
         </div>
@@ -350,7 +353,9 @@ export default {
 
 <style lang="scss" scoped>
 .li-item {
+  margin-bottom: 0.3rem;
   transition: color 0.3s;
+  cursor: pointer;
   &:hover {
     color: rgba(var(--vs-primary), 0.8);
   }

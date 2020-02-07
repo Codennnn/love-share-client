@@ -24,7 +24,7 @@
           </div>
         </div>
         <div class="flex-1">
-          <OrderStep :step="2" />
+          <OrderStep :steps-data="stepsData" />
         </div>
       </div>
 
@@ -190,6 +190,7 @@ export default {
     subOrder: {},
     text: '123',
     goodsList: [],
+    stepsData: {},
   }),
 
   mounted() {
@@ -212,12 +213,29 @@ export default {
             this.address = order_detail.address
             this.subOrder = order_detail.sub_order
             this.goodsList = order_detail.sub_order.goods_list
+            this.initStepsData()
           } else {
             this.$router.replace('/not-found')
           }
         }
       } finally {
         this.$vs.loading.close('#div-with-loading > .con-vs-loading')
+      }
+    },
+
+    initStepsData() {
+      this.stepsData = {
+        active: 1,
+        steps: [
+          {
+            title: '创建订单',
+            description: this.$dayjs(this.subOrder.created_at).format('YYYY-MM-DD HH:ss'),
+          },
+          {
+            title: '支付成功',
+            description: this.$dayjs(this.subOrder.created_at).format('YYYY-MM-DD HH:ss'),
+          },
+        ],
       }
     },
   },

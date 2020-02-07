@@ -39,8 +39,7 @@ const actions = {
       commit('SET_TOKEN', data.token) // 将 token 存储到 vuex
       setToken(data.token) // 将 token 缓存到 cookie
 
-      dispatch('getAddressList')
-      dispatch('getUserInfo')
+      dispatch('initValues')
     }
     return code
   },
@@ -50,6 +49,11 @@ const actions = {
     commit('SET_TOKEN', '')
     removeToken() // 移除本地token缓存
     localStorage.removeItem('vuex')
+  },
+
+  async initValues({ dispatch }) {
+    dispatch('getAddressList')
+    dispatch('getUserInfo')
   },
 
   async getUserInfo({ commit }) {

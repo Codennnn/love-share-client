@@ -1,22 +1,14 @@
 <template>
   <el-steps
     align-center
-    :active="step"
+    :active="stepsData.active"
   >
-    <el-step title="创建订单">
-      <div slot="description">2019-08-17 14:25</div>
-    </el-step>
-    <el-step title="支付成功">
-    </el-step>
-
-    <el-step title="等待收货">
-      <div slot="description">
-        <div>2019-08-17 14:25</div>
-      </div>
-    </el-step>
-    <el-step title="已送达">
-    </el-step>
-    <el-step title="交易完成">
+    <el-step
+      v-for="(step, i) in stepsData.steps"
+      :key="i"
+      :title="step.title"
+    >
+      <div slot="description">{{ step.description }}</div>
     </el-step>
   </el-steps>
 </template>
@@ -25,7 +17,10 @@
 export default {
   name: 'OrderStep',
   props: {
-    step: Number,
+    stepsData: {
+      type: Object,
+      required: true,
+    },
   },
 }
 </script>
