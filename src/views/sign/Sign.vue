@@ -45,7 +45,7 @@
 
       <img
         class="w-2/3"
-        src="@/assets/images/pages/login/bg.png"
+        src="@/assets/images/sign-bg.png"
       >
     </div>
   </div>
