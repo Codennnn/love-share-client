@@ -27,8 +27,9 @@ Vue.use(Vuesax, {
       success: '#28C76F',
       danger: '#EA5455',
       warning: '#FF9F43',
-      dark: '#1E1E1E',
       green: '#24c1a0',
+      dark: '#1E1E1E',
+      gray: '#808080',
     },
   },
 })

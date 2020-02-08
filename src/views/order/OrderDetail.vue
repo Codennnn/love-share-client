@@ -188,7 +188,6 @@ export default {
     detail: {},
     address: {},
     subOrder: {},
-    text: '123',
     goodsList: [],
     stepsData: {},
   }),
@@ -249,7 +248,6 @@ export default {
         { title: '等待收货', description: '' },
         ...extend,
       ]
-      console.log(steps)
       this.stepsData = {
         active: active[state],
         steps,

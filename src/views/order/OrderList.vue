@@ -1,237 +1,287 @@
 <template>
-  <div>
-    <table
-      v-if="orderList.length > 0"
-      class="order-list"
-    >
-      <thead class="table-thead ml-1 mb-4 flex">
-        <div
-          class="mr-4 text-sm text-gray-600 cursor-pointer"
-          v-for="(it, i) in items"
-          :key="i"
-        >{{ it.text }}</div>
-      </thead>
-      <tbody>
-        <div
-          class="mb-6 radius light-shadow bg-white overflow-hidden"
-          v-for="order in orderList"
-          :key="order._id"
-        >
-          <div class="px-4 py-3 text-sm text-gray-600 bg-gray-150">
-            <div class="mb-2">
-              <span class="mr-4">
-                {{ $dayjs(order.created_at).format('YYYY-MM-DD HH:ss') }}
-              </span>
-              <span>订单号：</span>
-              <span class="text-gray-500 cursor-pointer hover:text-blue-500 transition">
-                {{ order._id }}
-              </span>
-            </div>
+  <div class="flex pt-4">
+    <!-- 左侧 -->
+    <div class="pr-8">
+      <div
+        class="p-4 radius text-center"
+        style="background: rgba(var(--vs-gray), 0.06);"
+      >
+        <div class="type-select ml-4 relative">
+          <div class="relative z-50 flex">
             <div
-              v-if="order.sub_order.length > 1"
-              class="flex"
+              class="icon-block flex-row-center text-gray-700 cursor-pointer"
+              v-for="(it, i) in icons"
+              :key="i"
+              :title="icons[i].text"
+              @click="changeOrderType(i)"
             >
-              <span>收货人：</span>
-              <span class="mr-6">{{ order.address.receiver }}</span>
-              <span>订单总额：</span>
-              <span class="mr-6">￥{{ Number(order.total_price).toFixed(2) }}</span>
-              <span>支付方式：</span>
-              <span class="mr-6">{{ payment[order.payment] }}</span>
-              <el-popover
-                v-if="order.split_info"
-                trigger="hover"
-                class="ml-auto cursor-pointer"
-              >
-                <span slot="reference">订单已拆分</span>
-                <div class="w-56">
-                  <div class="mb-1">
-                    <span>拆分时间：</span>
-                    <span>
-                      {{ $dayjs(order.split_info.created_at).format('YYYY-MM-DD HH:ss') }}
-                    </span>
-                  </div>
-                  <div>
-                    <span>拆分原因：</span>
-                    <span>{{ order.split_info.reason }}</span>
-                  </div>
-                </div>
-              </el-popover>
+              <feather
+                style="transition: all 0.4s;"
+                size="20"
+                :type="it.type"
+                :class="{'text-white': i === current}"
+              ></feather>
             </div>
           </div>
+          <div
+            class="absolute bottom-0 color-block transition"
+            :class="`bg-${color}`"
+            :style="`transform: translateX(${translateX}rem)`"
+          >
+            <svg
+              v-for="(it, i) in ['round-left', 'round-right']"
+              :key="i"
+              xmlns="http://www.w3.org/2000/svg"
+              width="160"
+              height="160"
+              viewBox="0 0 160 160"
+              class="round"
+              :class="[it, `round-${color}`]"
+            >
+              <path
+                id="Trazado_200"
+                data-name="Trazado 200"
+                d="M0-10,150,0l10,150S137.643,80.734,100.143,43.234,0-10,0-10Z"
+                transform="translate(0 10)"
+              ></path>
+            </svg>
+          </div>
+        </div>
+        <div
+          class="content w-48 h-12 radius flex-row-center text-white transition"
+          :class="`bg-${color}`"
+        >{{ icons[current].text }}</div>
+      </div>
+    </div>
 
-          <template v-for="sub in order.sub_order">
-            <div
-              v-if="order.sub_order.length > 1"
-              class="px-4 py-2 text-sm text-gray-500 bg-gray-100"
-              :key="sub._id"
-            >
-              <span class="mr-6">
-                {{ $dayjs(sub.created_at).format('YYYY-MM-DD HH:ss') }}
-              </span>
-              <span>订单号：</span>
-              <span
-                class="mr-6"
-                :title="sub._id"
-              >{{ (sub._id).substr(0, 8) }}...</span>
-              <span>总额：</span>
-              <span class="mr-6">{{ Number(sub.total_price).toFixed(2) }}</span>
+    <!-- 右侧 -->
+    <div class="flex-1">
+      <table
+        v-if="orderFilterList.length > 0"
+        class="order-list"
+      >
+        <tbody>
+          <div
+            class="mb-6 radius light-shadow bg-white overflow-hidden"
+            v-for="order in orderFilterList"
+            :key="order._id"
+          >
+            <div class="px-4 py-3 text-sm text-gray-600 bg-gray-150">
+              <div class="mb-2">
+                <span class="mr-4">
+                  {{ $dayjs(order.created_at).format('YYYY-MM-DD HH:ss') }}
+                </span>
+                <span>订单号：</span>
+                <span class="text-gray-500 cursor-pointer hover:text-blue-500 transition">
+                  {{ order._id }}
+                </span>
+              </div>
+              <div
+                v-if="order.sub_order.length > 1"
+                class="flex"
+              >
+                <span>收货人：</span>
+                <span class="mr-6">{{ order.address.receiver }}</span>
+                <span>订单总额：</span>
+                <span class="mr-6">￥{{ Number(order.total_price).toFixed(2) }}</span>
+                <span>支付方式：</span>
+                <span class="mr-6">{{ payment[order.payment] }}</span>
+                <el-popover
+                  v-if="order.split_info"
+                  trigger="hover"
+                  class="ml-auto cursor-pointer"
+                >
+                  <span slot="reference">订单已拆分</span>
+                  <div class="w-56">
+                    <div class="mb-1">
+                      <span>拆分时间：</span>
+                      <span>
+                        {{ $dayjs(order.split_info.created_at).format('YYYY-MM-DD HH:ss') }}
+                      </span>
+                    </div>
+                    <div>
+                      <span>拆分原因：</span>
+                      <span>{{ order.split_info.reason }}</span>
+                    </div>
+                  </div>
+                </el-popover>
+              </div>
             </div>
-            <tr
-              class="text-gray-500 text-sm"
-              v-for="(tr, i) in sub.goods_list"
-              :key="tr._id"
-            >
-              <td class="px-4">
-                <div class="flex py-3">
-                  <el-image
-                    class="mr-2 rounded-lg base-shadow cursor-pointer"
-                    style="width: 80px; height: 80px"
-                    fit="contain"
-                    :src="`${tr.goods.img_list[0]}?imageView2/2/w/100`"
-                    @click="$router.push({
+
+            <template v-for="sub in order.sub_order">
+              <div
+                v-if="order.sub_order.length > 1"
+                class="px-4 py-2 text-sm text-gray-500 bg-gray-100"
+                :key="sub._id"
+              >
+                <span class="mr-6">
+                  {{ $dayjs(sub.created_at).format('YYYY-MM-DD HH:ss') }}
+                </span>
+                <span>订单号：</span>
+                <span
+                  class="mr-6"
+                  :title="sub._id"
+                >{{ (sub._id).substr(0, 8) }}...</span>
+                <span>总额：</span>
+                <span class="mr-6">{{ Number(sub.total_price).toFixed(2) }}</span>
+              </div>
+              <tr
+                class="text-gray-500 text-sm"
+                v-for="(tr, i) in sub.goods_list"
+                :key="tr._id"
+              >
+                <td class="px-4">
+                  <div class="flex py-3">
+                    <el-image
+                      class="mr-2 rounded-lg base-shadow cursor-pointer"
+                      style="width: 80px; height: 80px"
+                      fit="contain"
+                      :src="`${tr.goods.img_list[0]}?imageView2/2/w/100`"
+                      @click="$router.push({
                       path: '/goods-detail',
                       query: {goodsId: tr.goods._id}
                     })"
-                  ></el-image>
-                  <div class="w-56 mr-6 p-2 break-words text-sm">{{ tr.goods.name }}</div>
-                </div>
-              </td>
+                    ></el-image>
+                    <div class="w-56 mr-6 p-2 break-words text-sm">{{ tr.goods.name }}</div>
+                  </div>
+                </td>
 
-              <!-- 数量 -->
-              <td>
-                <div class="p-1">x{{ tr.amount }}</div>
-              </td>
+                <!-- 数量 -->
+                <td>
+                  <div class="p-1">x{{ tr.amount }}</div>
+                </td>
 
-              <!-- 卖家 -->
-              <td class="px-4 text-gray-600">
-                <el-tooltip content="查看卖家">
-                  <div
-                    class="cursor-pointer"
-                    @click="$router.push({
+                <!-- 卖家 -->
+                <td class="px-4 text-gray-600">
+                  <el-tooltip content="查看卖家">
+                    <div
+                      class="cursor-pointer"
+                      @click="$router.push({
                       path: '/user-detail',
                       query: {userId: tr.goods.seller._id},
                     })"
-                  >
-                    @{{ tr.goods.seller.nickname }}
-                  </div>
-                </el-tooltip>
-              </td>
+                    >
+                      @{{ tr.goods.seller.nickname }}
+                    </div>
+                  </el-tooltip>
+                </td>
 
-              <!-- 收货人 -->
-              <td class="px-4">
-                <el-popover
-                  trigger="hover"
-                  placement="right"
-                >
+                <!-- 收货人 -->
+                <td class="px-4">
+                  <el-popover
+                    trigger="hover"
+                    placement="right"
+                  >
+                    <div
+                      slot="reference"
+                      class="flex-row-center"
+                    >
+                      <feather
+                        class="mr-1"
+                        size="18"
+                        type="user"
+                      ></feather>
+                      {{ order.address.receiver }}
+                    </div>
+                    <div>{{ order.address.receiver }}</div>
+                    <div class="my-1">{{ order.address.address }}</div>
+                    <div>{{ order.address.phone }}</div>
+                  </el-popover>
+                </td>
+
+                <!-- 支付信息 -->
+                <td class="px-4">
+                  <template v-if="order.sub_order.length > 1">
+                    <div>
+                      ￥{{ Number(tr.goods.price).toFixed(2) }}
+                    </div>
+                  </template>
+                  <template v-else>
+                    <div>
+                      ￥{{ Number(order.total_price).toFixed(2) }}
+                    </div>
+                    <div>{{ payment[order.payment] }}</div>
+                  </template>
+                </td>
+
+                <!-- 订单状态 -->
+                <td class="px-4 py-2 text-right">
                   <div
-                    slot="reference"
                     class="flex-row-center"
+                    :class="`text-${status[sub.status].color}`"
                   >
                     <feather
                       class="mr-1"
                       size="18"
-                      type="user"
+                      :type="status[sub.status].icon"
                     ></feather>
-                    {{ order.address.receiver }}
+                    <div>
+                      {{ status[sub.status].text }}
+                    </div>
                   </div>
-                  <div>{{ order.address.receiver }}</div>
-                  <div class="my-1">{{ order.address.address }}</div>
-                  <div>{{ order.address.phone }}</div>
-                </el-popover>
-              </td>
+                  <div
+                    v-if="sub.status === 2"
+                    class="cursor-pointer"
+                  >卖了换钱</div>
+                </td>
 
-              <!-- 支付信息 -->
-              <td class="px-4">
-                <template v-if="order.sub_order.length > 1">
-                  <div>
-                    ￥{{ Number(tr.goods.price).toFixed(2) }}
-                  </div>
-                </template>
-                <template v-else>
-                  <div>
-                    ￥{{ Number(order.total_price).toFixed(2) }}
-                  </div>
-                  <div>{{ payment[order.payment] }}</div>
-                </template>
-              </td>
-
-              <!-- 订单状态 -->
-              <td class="px-4 py-2 text-right">
-                <div
-                  class="flex-row-center"
-                  :class="`text-${status[sub.status].color}`"
+                <!-- 更多操作 -->
+                <td
+                  v-if="isMultiItems(sub.goods_list.length, i)"
+                  class="px-6"
+                  :rowspan="sub.goods_list.length"
                 >
-                  <feather
-                    class="mr-1"
-                    size="18"
-                    :type="status[sub.status].icon"
-                  ></feather>
-                  <div>
-                    {{ status[sub.status].text }}
-                  </div>
-                </div>
-                <div
-                  v-if="sub.status === 2"
-                  class="cursor-pointer"
-                >卖了换钱</div>
-              </td>
-
-              <!-- 更多操作 -->
-              <td
-                v-if="isMultiItems(sub.goods_list.length, i)"
-                class="px-6"
-                :rowspan="sub.goods_list.length"
-              >
-                <el-dropdown>
-                  <feather
-                    size="20"
-                    type="more-horizontal"
-                  ></feather>
-                  <el-dropdown-menu slot="dropdown">
-                    <el-dropdown-item @click.native="$router.push({
+                  <el-dropdown>
+                    <feather
+                      size="20"
+                      type="more-horizontal"
+                    ></feather>
+                    <el-dropdown-menu slot="dropdown">
+                      <el-dropdown-item @click.native="$router.push({
                           path: '/order-detail',
                           query: {orderId: order._id, subId: sub._id}
                         })">
-                      订单详情
-                    </el-dropdown-item>
-                    <el-dropdown-item
-                      v-if="sub.status === 1"
-                      @click.native="completedOrder(order._id, sub._id, sub.goods_list)"
-                    >
-                      确认收货
-                    </el-dropdown-item>
-                    <el-dropdown-item
-                      v-if="sub.status === 1"
-                      class="text-danger"
-                      @click.native="cancelOrder(order._id, sub._id, sub.goods_list,
+                        订单详情
+                      </el-dropdown-item>
+                      <el-dropdown-item
+                        v-if="sub.status === 1"
+                        @click.native="completedOrder(order._id, sub._id, sub.goods_list)"
+                      >
+                        确认收货
+                      </el-dropdown-item>
+                      <el-dropdown-item
+                        v-if="sub.status === 1"
+                        class="text-danger"
+                        @click.native="cancelOrder(order._id, sub._id, sub.goods_list,
                        tr.goods.seller._id)"
-                    >
-                      取消订单
-                    </el-dropdown-item>
-                    <el-dropdown-item
-                      v-if="sub.status === 2"
-                      @click.native="w"
-                    >
-                      评价
-                    </el-dropdown-item>
-                  </el-dropdown-menu>
-                </el-dropdown>
-              </td>
-            </tr>
-          </template>
-        </div>
-      </tbody>
-    </table>
+                      >
+                        取消订单
+                      </el-dropdown-item>
+                      <el-dropdown-item
+                        v-if="sub.status === 2"
+                        @click.native="postComment(order._id, sub._id,)"
+                      >
+                        评价
+                      </el-dropdown-item>
+                    </el-dropdown-menu>
+                  </el-dropdown>
+                </td>
+              </tr>
+            </template>
+          </div>
+        </tbody>
+      </table>
 
-    <div
-      v-else
-      class="py-4 flex-col-center text-gray-500"
-    >
-      <el-image
-        fit="cover"
-        :src="require('@/assets/images/no-order.png')"
-      ></el-image>
-      <p>什么都没有 (´；ω；`)</p>
+      <div
+        v-else
+        class="py-4 flex-col-center text-gray-500"
+      >
+        <el-image
+          fit="cover"
+          :src="require('@/assets/images/no-order.png')"
+        ></el-image>
+        <p>什么都没有 (´；ω；`)</p>
+      </div>
     </div>
   </div>
 </template>
@@ -239,6 +289,12 @@
 <script>
 import { getOrdersByUser, completedOrder, cancelOrder } from '@/request/api/order'
 
+const icons = [
+  { type: 'menu', color: 'primary', text: '全部订单' },
+  { type: 'dollar-sign', color: 'success', text: '待付款' },
+  { type: 'truck', color: 'warning', text: '待收货' },
+  { type: 'edit-3', color: 'danger', text: '待评价' },
+]
 const status = {
   undefined: {
     text: 'Undefined',
@@ -273,21 +329,38 @@ const payment = {
   zhifubao: '支付宝支付',
   yinlian: '银行卡支付',
 }
-const items = [
-  { text: '全部订单' },
-  { text: '待付款' },
-  { text: '待收货' },
-  { text: '待评价' },
-]
 export default {
   name: 'OrderList',
   data: () => ({
-    items,
+    icons,
     status,
     payment,
+
+    color: 'primary',
+    current: 0,
+    translateX: 0,
+
     orderList: [],
     pagination: {},
   }),
+
+  computed: {
+    orderFilterList() {
+      if (this.current === 0) {
+        return this.orderList
+      }
+      if (this.current === 1) {
+        return this.orderList.filter(el => el.sub_order.some(or => or.status === 5))
+      }
+      if (this.current === 2) {
+        return this.orderList.filter(el => el.sub_order.some(or => or.status === 3))
+      }
+      if (this.current === 3) {
+        return this.orderList.filter(el => el.sub_order.some(or => or.status === 2))
+      }
+      return []
+    },
+  },
 
   created() {
     this.getOrdersByUser()
@@ -302,6 +375,14 @@ export default {
       }
     },
 
+    // 切换订单查询类型
+    changeOrderType(i) {
+      this.current = i
+      this.color = this.icons[i].color
+      this.translateX = i * 2.5
+    },
+
+    // 子订单是否有多个商品
     isMultiItems(length, index) {
       if (length > 1 && index === 0) {
         return true
@@ -331,6 +412,14 @@ export default {
         this.getOrdersByUser()
       }
     },
+
+    // 评论订单
+    async postComment(orderId, subId) {
+      this.$router.push({
+        path: '/order-evaluation',
+        query: { orderId, subId },
+      })
+    },
   },
 }
 </script>
@@ -340,6 +429,45 @@ export default {
   td {
     vertical-align: middle;
   }
+}
+
+$opacity: 0.9;
+.type-select {
+  $wh: 2.5rem;
+  .icon-block {
+    width: $wh;
+    height: $wh;
+  }
+  .color-block {
+    width: $wh;
+    height: $wh;
+    border-radius: 10px 10px 0 0;
+    opacity: $opacity;
+  }
+  .round {
+    position: absolute;
+    bottom: -1px;
+    z-index: 50;
+    width: 10px;
+    height: 10px;
+    opacity: $opacity;
+    @each $color in primary, success, warning, danger {
+      &.round-#{$color} {
+        fill: rgba(var(--vs-#{$color}), 1);
+      }
+    }
+    &.round-left {
+      left: -8px;
+      transform: rotate(90deg);
+    }
+    &.round-right {
+      right: -8px;
+      transform: rotate(180deg);
+    }
+  }
+}
+.content {
+  opacity: $opacity;
 }
 
 .table-thead {
