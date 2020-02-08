@@ -37,7 +37,10 @@
           :class="{'px-1 py-2 bg-gray-100 rounded-lg': currMsg === cm._id}"
         >
           <div class="flex items-center">
-            <vs-avatar :src="`${cm.sender.avatar_url}?imageView2/2/w/50`"></vs-avatar>
+            <vs-avatar
+              :src="`${cm.sender.avatar_url}?imageView2/2/w/50`"
+              @click="viewUserDetail(cm.sender._id)"
+            ></vs-avatar>
             <p class="name ml-1">
               {{ cm.sender.nickname }}
             </p>
@@ -54,6 +57,8 @@
             class="reply absolute cursor-pointer"
             @click="showReplyInput(cm._id, cm.sender, 1)"
           >回复</p>
+
+          <!-- 回复区 -->
           <ul
             v-if="cm.replies.length > 0"
             class="ml-6 p-2 bg-gray-100 rounded-lg"
@@ -64,19 +69,25 @@
               :key="index"
             >
               <p class="text-sm">
-                <span class="name cursor-pointer">
-                  {{ it.sender.nickname }}
+                <span>
+                  <span
+                    class="name cursor-pointer"
+                    @click="viewUserDetail(it.sender._id)"
+                  >{{ it.sender.nickname }}</span>
                   <span
                     v-if="it.sender._id === owner"
-                    class="owner"
+                    class="owner cursor-default"
                   >主人</span>
                 </span>
                 <span class="mx-1 text-gray-500">回复</span>
-                <span class="name cursor-pointer">
-                  {{ it.at.nickname }}
+                <span>
+                  <span
+                    class="name cursor-pointer"
+                    @click="viewUserDetail(it.at._id)"
+                  >{{ it.at.nickname }}</span>
                   <span
                     v-if="it.at._id === owner"
-                    class="owner"
+                    class="owner cursor-default"
                   >主人</span>
                   :
                 </span>
@@ -252,6 +263,15 @@ export default {
     showMoreComments() {
       this.maxHeight = 10000
       this.showComments = true
+    },
+
+    viewUserDetail(userId) {
+      if (userId !== this.owner) {
+        this.$router.push({
+          path: '/user-detail',
+          query: { userId },
+        })
+      }
     },
   },
 }

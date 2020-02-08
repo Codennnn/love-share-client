@@ -1,5 +1,4 @@
 import Vue from 'vue'
-
 import {
   getContactList, getChatData, getContactInfo, addContact, deleteContact,
 } from '@/request/api/chat'
