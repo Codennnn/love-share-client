@@ -230,7 +230,7 @@ export default {
         4: 4,
       }
       const { createdAt, status: state } = this.subOrder
-      const time = this.$dayjs(createdAt).format('YYYY-MM-DD HH:ss')
+      const time = this.$dayjs(createdAt).format('YYYY-MM-DD HH:mm')
       let extend = []
       if (state === 2) {
         extend = [

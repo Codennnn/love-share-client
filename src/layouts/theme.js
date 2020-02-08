@@ -14,7 +14,7 @@ import {
   Badge, Container, Dropdown, Carousel, CarouselItem,
   DropdownMenu, DropdownItem, DatePicker, Form, FormItem, Image, Input,
   Menu, MenuItem, MenuItemGroup, Message, Option,
-  Popover, Radio, RadioGroup, Submenu, Steps, Step, Select,
+  Popover, Radio, RadioGroup, Rate, Submenu, Steps, Step, Select,
   Tooltip, Table, TableColumn, Tag, Transfer, Timeline, TimelineItem, Upload,
 } from 'element-ui' // 按需引入组件
 import 'element-ui/lib/theme-chalk/index.css'
@@ -72,6 +72,7 @@ Vue.use(Steps)
 Vue.use(Step)
 
 Vue.use(Image)
+Vue.use(Rate)
 Vue.use(Tag)
 Vue.use(Transfer)
 Vue.use(Timeline)

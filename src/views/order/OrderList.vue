@@ -69,7 +69,7 @@
             <div class="px-4 py-3 text-sm text-gray-600 bg-gray-150">
               <div class="mb-2">
                 <span class="mr-4">
-                  {{ $dayjs(order.created_at).format('YYYY-MM-DD HH:ss') }}
+                  {{ $dayjs(order.created_at).format('YYYY-MM-DD HH:mm') }}
                 </span>
                 <span>订单号：</span>
                 <span class="text-gray-500 cursor-pointer hover:text-blue-500 transition">
@@ -96,7 +96,7 @@
                     <div class="mb-1">
                       <span>拆分时间：</span>
                       <span>
-                        {{ $dayjs(order.split_info.created_at).format('YYYY-MM-DD HH:ss') }}
+                        {{ $dayjs(order.split_info.created_at).format('YYYY-MM-DD HH:mm') }}
                       </span>
                     </div>
                     <div>
@@ -115,7 +115,7 @@
                 :key="sub._id"
               >
                 <span class="mr-6">
-                  {{ $dayjs(sub.created_at).format('YYYY-MM-DD HH:ss') }}
+                  {{ $dayjs(sub.created_at).format('YYYY-MM-DD HH:mm') }}
                 </span>
                 <span>订单号：</span>
                 <span
@@ -290,7 +290,7 @@
 import { getOrdersByUser, completedOrder, cancelOrder } from '@/request/api/order'
 
 const icons = [
-  { type: 'menu', color: 'primary', text: '全部订单' },
+  { type: 'credit-card', color: 'primary', text: '全部订单' },
   { type: 'dollar-sign', color: 'success', text: '待付款' },
   { type: 'truck', color: 'warning', text: '待收货' },
   { type: 'edit-3', color: 'danger', text: '待评价' },
