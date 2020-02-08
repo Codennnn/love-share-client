@@ -1,18 +1,19 @@
 <template>
   <div>
     <div class="py-2 flex items-center justify-end text-gray-700">
-      <i class="el-icon-map-location text-xl"></i>
-      <p class="mx-2">{{ selectedSchoolName }}</p>
-      <el-dropdown trigger="click">
-        <div class="text-sm text-primary cursor-pointer">切换</div>
-        <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item
-            v-for="(it, i) in schoolList"
-            :key="i"
-            @click.native="switchSchool(it._id, it.name)"
-          >{{ it.name }}</el-dropdown-item>
-        </el-dropdown-menu>
-      </el-dropdown>
+      <el-select
+        v-model="selectedSchool"
+        @change="switchSchool"
+      >
+        <el-option
+          v-for="it in schoolList"
+          :key="it._id"
+          :label="it.name"
+          :value="it._id"
+          @click.native="switchSchool(it._id, it.name)"
+        >
+        </el-option>
+      </el-select>
     </div>
     <div class="container flex">
       <!-- 左侧 -->
@@ -42,11 +43,11 @@
         </h6>
         <!-- 搜索框 -->
         <vs-input
-          class="search-input mb-6 top-0 z-40 w-full shadow rounded-lg overflow-hidden"
+          class="search-input mb-6 w-full radius"
           icon="search"
           size="large"
           icon-no-border
-          placeholder="输入商品 ID 进行搜索..."
+          placeholder="输入商品名称进行搜索..."
           v-model="searchText"
         />
 
@@ -70,6 +71,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import GoodsList from '@/views/goods/GoodsList.vue'
 
 import { getGoodsListOfSameSchool } from '@/request/api/goods'
@@ -83,7 +85,6 @@ export default {
     goodsList: [],
     schoolList: [],
     selectedSchool: '',
-    selectedSchoolName: '',
     selectedCategory: 'all',
     searchText: '',
 
@@ -93,9 +94,7 @@ export default {
   }),
 
   computed: {
-    categoryList() {
-      return this.$store.state.categoryList
-    },
+    ...mapState(['categoryList']),
   },
 
   created() {
@@ -104,7 +103,6 @@ export default {
 
   mounted() {
     this.selectedSchool = this.$store.state.user.info.school._id
-    this.selectedSchoolName = this.$store.state.user.info.school.name
     this.getGoodsListOfSameSchool(this.selectedSchool)
   },
 
@@ -137,6 +135,7 @@ export default {
       })
     },
 
+    // 切换商品类型
     changeCategory(v) {
       if (v === 'all') {
         this.getGoodsListOfSameSchool(this.selectedSchool)
@@ -145,10 +144,9 @@ export default {
       }
     },
 
-    switchSchool(id, name) {
+    // 切换学校
+    switchSchool(id) {
       this.selectedCategory = 'all'
-      this.selectedSchool = id
-      this.selectedSchoolName = name
       this.getGoodsListOfSameSchool(id)
     },
   },
@@ -173,23 +171,21 @@ export default {
   }
 }
 
-.search-input {
+.search-input::v-deep {
   // 重设输入框样式
-  &::v-deep {
-    .vs-inputx {
-      border: none !important;
-      box-shadow: none;
-      border-radius: 0;
-    }
-    .vs-input--input,
-    .vs-input--placeholder {
-      padding-left: 40px;
-    }
-    .vs-icon {
-      top: 0.75rem;
-      left: 10px;
-      font-size: 25px;
-    }
+  .vs-inputx {
+    border: none !important;
+    box-shadow: none;
+    border-radius: 0;
+  }
+  .vs-input--input,
+  .vs-input--placeholder {
+    padding-left: 40px;
+  }
+  .vs-icon {
+    top: 0.75rem;
+    left: 10px;
+    font-size: 25px;
   }
 }
 
