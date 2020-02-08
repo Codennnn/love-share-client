@@ -4,7 +4,13 @@
       v-if="orderList.length > 0"
       class="order-list"
     >
-      <thead></thead>
+      <thead class="table-thead ml-1 mb-4 flex">
+        <div
+          class="mr-4 text-sm text-gray-600 cursor-pointer"
+          v-for="(it, i) in items"
+          :key="i"
+        >{{ it.text }}</div>
+      </thead>
       <tbody>
         <div
           class="mb-6 radius light-shadow bg-white overflow-hidden"
@@ -267,9 +273,16 @@ const payment = {
   zhifubao: '支付宝支付',
   yinlian: '银行卡支付',
 }
+const items = [
+  { text: '全部订单' },
+  { text: '待付款' },
+  { text: '待收货' },
+  { text: '待评价' },
+]
 export default {
   name: 'OrderList',
   data: () => ({
+    items,
     status,
     payment,
     orderList: [],
@@ -326,6 +339,20 @@ export default {
 .order-list {
   td {
     vertical-align: middle;
+  }
+}
+
+.table-thead {
+  position: relative;
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: -0.3rem;
+    width: 2rem;
+    height: 0.25rem;
+    border-radius: 1rem;
+    background: $primary;
+    transition: all 0.3s;
   }
 }
 

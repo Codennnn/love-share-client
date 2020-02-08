@@ -46,10 +46,10 @@ export default {
 .msg {
   max-width: 18rem;
   &.left {
-    border-radius: 1rem 1em 1rem 0.3rem;
+    border-radius: 0.3rem 1rem 1em 1rem;
   }
   &.right {
-    border-radius: 1rem 1em 0.3rem 1rem;
+    border-radius: 1rem 0.3rem 1em 1rem;
     background: rgba(var(--vs-primary), 0.9);
   }
 }
