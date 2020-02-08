@@ -80,7 +80,7 @@ const categoryIcons = {
 const grids = [
   { icon: 'xianlu', label: '逛同校', to: '/goods-school-list' },
   { icon: 'qizhi', label: '签到领币', to: '/check-in' },
-  { icon: 'guolvqi', label: '旧物回收', to: '/' },
+  { icon: 'guolvqi', label: '旧物回收', to: '/recycle' },
   { icon: 'yingbi', label: '物品租借', to: '/' },
   { icon: 'gouwu', label: '求购物品', to: '/begging-list' },
   { icon: 'lubiao', label: '帮助中心', to: '/help-center' },

@@ -66,6 +66,12 @@ export const routes = [
         meta: { title: '每日签到' },
       },
       {
+        path: '/recycle',
+        name: 'Recycle',
+        component: () => import('@/views/recycle/Recycle.vue'),
+        meta: { title: '旧物回收' },
+      },
+      {
         path: '/order-list',
         name: 'OrderList',
         component: () => import('@/views/order/OrderList.vue'),

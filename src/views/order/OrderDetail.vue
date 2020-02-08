@@ -30,14 +30,14 @@
 
       <!-- 所购商品表格 -->
       <div class="card">
-        <div class="card-header">购物清单</div>
-        <div class="mt-6 flex">
+        <div class="card-header mb-2">购物清单</div>
+        <div class="flex">
           <OrderGoodsList
             class="w-2/3"
             :goods-list="goodsList"
           />
           <VuePerfectScrollbar
-            class="w-1/3"
+            class="w-1/3 px-2"
             style="height: 300px;"
             :settings="{
               maxScrollbarLength: 160,
@@ -48,6 +48,7 @@
               <el-timeline-item
                 v-for="(lo, i) in logistics"
                 :key="i"
+                :type="i === 3 ? 'primary': ''"
                 :timestamp="lo.timestamp"
               >
                 {{ lo.content }}

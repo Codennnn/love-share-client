@@ -29,7 +29,7 @@
     </div>
 
     <div
-      class="p-8 flex items-center bg-white radius"
+      class="mb-6 p-8 flex items-center bg-white radius"
       v-for="(it, i) in subOrder.goods_list"
       :key="i"
     >
@@ -61,6 +61,10 @@
           />
         </div>
       </div>
+    </div>
+
+    <div class="p-8 radius bg-white text-center">
+      <vs-button class="w-56">发 表</vs-button>
     </div>
   </div>
 </template>
