@@ -50,9 +50,9 @@
           </vs-td>
           <vs-td>
             <div>
-              <span class="text-gray-600 font-bold">￥{{ Number(tr.min_price).toFixed(2) }}</span>
+              <span class="text-gray-600 font-bold">￥{{ $numFixed(tr.min_price) }}</span>
               -
-              <span class="text-gray-600 font-bold">￥{{ Number(tr.max_price).toFixed(2) }}</span>
+              <span class="text-gray-600 font-bold">￥{{ $numFixed(tr.max_price) }}</span>
             </div>
           </vs-td>
           <vs-td>

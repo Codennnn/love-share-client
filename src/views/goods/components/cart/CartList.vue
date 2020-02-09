@@ -40,7 +40,7 @@
                 </div>
                 <div class="w-full mt-2 mb-4 text-center">
                   <span class="text-sm text-gray-600">单价：</span>
-                  <span class="text-lg font-bold">￥{{ Number(it.goods.price).toFixed(2) }}</span>
+                  <span class="text-lg font-bold">￥{{ $numFixed(it.goods.price) }}</span>
                 </div>
                 <div
                   class="btn mb-2"
@@ -87,7 +87,7 @@
           </div>
           <div class="item">
             <span class="item-label">总价</span>
-            <span class="item-value">￥{{ Number(amountPayable).toFixed(2) }}</span>
+            <span class="item-value">￥{{ $numFixed(amountPayable) }}</span>
           </div>
           <div class="item">
             <span class="item-label">折扣</span>
@@ -98,7 +98,7 @@
             <span class="item-value">
               {{
                 typeof tweenedDelivery === 'number'
-                  ? Number(tweenedDelivery).toFixed(2)
+                  ? $numFixed(tweenedDelivery)
                   : tweenedDelivery
               }}
             </span>
@@ -107,7 +107,7 @@
           <div class="flex justify-between">
             <span class="label">实付</span>
             <span class="label text-lg">
-              ￥{{ Number(tweenedAmount).toFixed(2) }}
+              ￥{{ $numFixed(tweenedAmount) }}
             </span>
           </div>
           <vs-button

@@ -91,7 +91,7 @@
               </div>
               <div class="info__item">
                 <div class="label">运费</div>
-                <div class="value">￥{{ Number(subOrder.delivery_charge).toFixed(2) }}</div>
+                <div class="value">￥{{ $numFixed(subOrder.delivery_charge) }}</div>
               </div>
             </div>
             <div class="order-info__col">
@@ -108,13 +108,13 @@
               <div class="info__item">
                 <div class="label">商品总额</div>
                 <div class="value">
-                  ￥{{ Number(subOrder.total_price).toFixed(2) }}
+                  ￥{{ $numFixed(subOrder.total_price) }}
                 </div>
               </div>
               <div class="info__item">
                 <div class="label">应付金额</div>
                 <div class="value">
-                  ￥{{ Number(subOrder.actual_price).toFixed(2) }}
+                  ￥{{ $numFixed(subOrder.actual_price) }}
                 </div>
               </div>
             </div>

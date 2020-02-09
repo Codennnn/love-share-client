@@ -99,7 +99,7 @@
                 <span>收货人：</span>
                 <span class="mr-6">{{ order.address.receiver }}</span>
                 <span>订单总额：</span>
-                <span class="mr-6">￥{{ Number(order.total_price).toFixed(2) }}</span>
+                <span class="mr-6">￥{{ $numFixed(order.total_price) }}</span>
                 <span>支付方式：</span>
                 <span class="mr-6">{{ payment[order.payment] }}</span>
                 <el-popover
@@ -139,7 +139,7 @@
                   :title="sub._id"
                 >{{ (sub._id).substr(0, 8) }}...</span>
                 <span>总额：</span>
-                <span class="mr-6">{{ Number(sub.total_price).toFixed(2) }}</span>
+                <span class="mr-6">{{ $numFixed(sub.total_price) }}</span>
               </div>
               <tr
                 class="text-gray-500 text-sm"
@@ -209,12 +209,12 @@
                 <td class="px-4">
                   <template v-if="order.sub_order.length > 1">
                     <div>
-                      ￥{{ Number(tr.goods.price).toFixed(2) }}
+                      ￥{{ $numFixed(tr.goods.price) }}
                     </div>
                   </template>
                   <template v-else>
                     <div>
-                      ￥{{ Number(order.total_price).toFixed(2) }}
+                      ￥{{ $numFixed(order.total_price) }}
                     </div>
                     <div>{{ payment[order.payment] }}</div>
                   </template>

@@ -36,7 +36,7 @@
                 <vs-td>
                   <p>{{ tr.name }}</p>
                 </vs-td>
-                <vs-td class="font-semibold">￥{{ Number(tr.price).toFixed(2) }}</vs-td>
+                <vs-td class="font-semibold">￥{{ $numFixed(tr.price) }}</vs-td>
                 <vs-td>
                   <div class="whitespace-no-wrap">{{ $timeDiff(tr.created_at) }}</div>
                 </vs-td>
@@ -132,7 +132,7 @@
                   ></el-image>
                 </vs-td>
                 <vs-td>{{ tr.name }}</vs-td>
-                <vs-td class="font-semibold">￥{{ Number(tr.price).toFixed(2) }}</vs-td>
+                <vs-td class="font-semibold">￥{{ $numFixed(tr.price) }}</vs-td>
                 <vs-td>{{ tr.amount }}</vs-td>
                 <vs-td>
                   <el-tooltip content="进入TA的主页">

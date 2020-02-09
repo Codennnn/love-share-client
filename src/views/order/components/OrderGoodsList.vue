@@ -26,7 +26,7 @@
         </vs-td>
         <vs-td>{{ tr.goods.name }}</vs-td>
         <vs-td>1</vs-td>
-        <vs-td>￥{{ tr.goods.price }}</vs-td>
+        <vs-td>￥{{ $numFixed(tr.goods.price) }}</vs-td>
       </vs-tr>
     </template>
   </vs-table>

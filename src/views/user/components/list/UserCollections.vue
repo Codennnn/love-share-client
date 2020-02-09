@@ -44,7 +44,7 @@
           </vs-td>
           <vs-td>{{ tr.goods.name }}</vs-td>
           <vs-td>
-            <p class="text-gray-600 font-bold">￥{{ Number(tr.goods.price).toFixed(2) }}</p>
+            <p class="text-gray-600 font-bold">￥{{ $numFixed(tr.goods.price) }}</p>
           </vs-td>
           <vs-td>
             <p class="text-gray-600">{{ $timeDiff(tr.created_at) }}</p>

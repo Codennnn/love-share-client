@@ -63,14 +63,14 @@
           <vs-chip>价 格</vs-chip>
           <div>
             <span class="text-2xl text-primary font-semibold">
-              ￥{{ Number(goods.price).toFixed(2) }}
+              ￥{{ $numFixed(goods.price) }}
             </span>
             <span
               v-if="goods.original_price !== 0"
               class="text-gray-500"
               style="text-decoration: line-through;"
             >
-              ￥{{ Number(goods.original_price).toFixed(2) }}
+              ￥{{ $numFixed(goods.original_price) }}
             </span>
           </div>
         </div>
@@ -101,7 +101,7 @@
             v-if="goods.delivery === '2'"
             style="margin-bottom: 4px; font-size: 15px;"
           >
-            (￥{{ Number(goods.delivery_charge).toFixed(2) }})
+            (￥{{ $numFixed(goods.delivery_charge) }})
           </span>
         </div>
         <div

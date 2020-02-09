@@ -70,7 +70,7 @@
               <div class="text-sm text-gray-500">二手价（单价）</div>
               <div class="flex items-center">
                 <span class="mr-5 text-2xl text-primary font-bold">
-                  ￥{{ Number(goods.price).toFixed(2) }}
+                  ￥{{ $numFixed(goods.price) }}
                 </span>
                 <vs-input-number v-model.number="goods.price" />
               </div>
@@ -88,7 +88,7 @@
                   class="mr-5 text-2xl font-bold"
                   :class="goods.checked ? 'text-warning' : 'text-gray-500'"
                 >
-                  ￥{{ Number(goods.original_price).toFixed(2) }}
+                  ￥{{ $numFixed(goods.original_price) }}
                 </span>
                 <vs-input-number
                   color="warning"
@@ -104,7 +104,7 @@
                   color="success"
                   v-model.number="goods.quantity"
                   :min="1"
-                  @input="(v) => { goods.quantity = Number(v).toFixed(0) }"
+                  @input="(v) => { goods.quantity = $numFixed(v, 0) }"
                 />
               </div>
             </div>
@@ -134,7 +134,7 @@
               class="mt-1 flex items-center"
             >
               <span class="mr-5 text-xl text-gray-600 font-bold">
-                ￥{{ Number(goods.delivery_charge).toFixed(2) }}
+                ￥{{ $numFixed(goods.delivery_charge) }}
               </span>
               <vs-input-number
                 color="#718096"

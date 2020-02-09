@@ -69,7 +69,7 @@
               <p class="text-sm text-gray-600">商品名称</p>
               <p class="mb-4 text-lg font-bold">{{ goods.name }}</p>
               <p class="text-sm text-gray-600">商品价格</p>
-              <p class="mb-4 text-lg font-bold">￥{{ Number(goods.price).toFixed(2) }}</p>
+              <p class="mb-4 text-lg font-bold">￥{{ $numFixed(goods.price) }}</p>
               <p class="text-sm text-gray-600">购买数量</p>
               <p class="mb-4 text-lg font-bold">{{ amount }}件</p>
               <p class="pr-2 pb-1 flex justify-between text-sm text-gray-600">

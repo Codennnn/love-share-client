@@ -31,7 +31,7 @@
             {{ goods.name }}
           </p>
           <div class="flex justify-between items-center">
-            <div class="text-lg text-primary font-bold">￥{{ Number(goods.price).toFixed(2) }}</div>
+            <div class="text-lg text-primary font-bold">￥{{ $numFixed(goods.price) }}</div>
           </div>
         </div>
       </div>

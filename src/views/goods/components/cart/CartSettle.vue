@@ -30,9 +30,9 @@
                 </vs-td>
                 <vs-td>{{ tr.goods.name }}</vs-td>
                 <vs-td>x{{ tr.amount }}</vs-td>
-                <vs-td>{{ Number(tr.goods.delivery_charge).toFixed(2) }}</vs-td>
+                <vs-td>{{ $numFixed(tr.goods.delivery_charge) }}</vs-td>
                 <vs-td class="text-primary font-bold">
-                  ￥{{ Number(tr.goods.price).toFixed(2) }}
+                  ￥{{ $numFixed(tr.goods.price) }}
                 </vs-td>
                 <vs-td>
                 </vs-td>
@@ -113,14 +113,14 @@
         <p class="mb-4 text-lg font-bold">价格明细</p>
         <div class="mb-1 flex justify-between items-center text-sm">
           <span class="text-gray-600">{{ validCartList.length }} 件商品</span>
-          <span class="font-bold">￥{{ Number(amountPayable).toFixed(2) }}</span>
+          <span class="font-bold">￥{{ $numFixed(amountPayable) }}</span>
         </div>
         <div class="flex justify-between items-center text-sm">
           <span class="text-gray-600">运费</span>
           <span class="text-success">
             {{
               typeof deliveryCharges === 'number'
-                ? Number(deliveryCharges).toFixed(2)
+                ? $numFixed(deliveryCharges)
                 : deliveryCharges
             }}
           </span>
@@ -128,7 +128,7 @@
         <vs-divider />
         <div class="flex justify-between items-center text-sm">
           <span class="text-gray-600">应付金额</span>
-          <span class="font-bold">￥{{ Number(amountPayable).toFixed(2) }}</span>
+          <span class="font-bold">￥{{ $numFixed(amountPayable) }}</span>
         </div>
       </div>
       <vs-button

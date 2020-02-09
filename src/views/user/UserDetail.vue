@@ -145,7 +145,7 @@
             <vs-td>
               <p>{{ tr.name }}</p>
             </vs-td>
-            <vs-td class="font-semibold">￥{{ Number(tr.price).toFixed(2) }}</vs-td>
+            <vs-td class="font-semibold">￥{{ $numFixed(tr.price) }}</vs-td>
             <vs-td>
               <div class="whitespace-no-wrap">{{ $timeDiff(tr.created_at) }}</div>
             </vs-td>

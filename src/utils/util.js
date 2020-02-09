@@ -74,4 +74,8 @@ export function dataURItoBlob(dataURI) {
   return new Blob([ia], { type: mimeString })
 }
 
+export function numFixed(num, digit = 2) {
+  return Number(num).toFixed(digit)
+}
+
 export const cloneDeepWith = _cloneDeepWith

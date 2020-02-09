@@ -57,7 +57,7 @@
           :src="it.goods.img_list[0]"
         ></el-image>
         <p class="my-3 text-gray-600">{{ it.goods.name }}</p>
-        <p class="text-gray-700 font-bold">￥{{ Number(it.goods.price).toFixed(2) }}</p>
+        <p class="text-gray-700 font-bold">￥{{ $numFixed(it.goods.price) }}</p>
       </div>
       <div
         v-if="reviews.length > 0"
