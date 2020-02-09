@@ -28,9 +28,13 @@
               >
                 <vs-td>
                   <el-image
-                    class="w-24 h-24 base-shadow radius"
+                    class="w-24 h-24 base-shadow radius cursor-pointer"
                     fit="contain"
                     :src="`${tr.img_list[0]}?imageView2/2/w/100`"
+                    @click="$router.push({
+                      path: '/goods-detail',
+                      query: {goodsId: tr._id}
+                    })"
                   ></el-image>
                 </vs-td>
                 <vs-td>
@@ -126,9 +130,13 @@
               >
                 <vs-td>
                   <el-image
-                    class="w-24 h-24 base-shadow radius"
+                    class="w-24 h-24 base-shadow radius cursor-pointer"
                     fit="contain"
                     :src="`${tr.img_list[0]}?imageView2/2/w/100`"
+                    @click="$router.push({
+                      path: '/goods-detail',
+                      query: {goodsId: tr._id}
+                    })"
                   ></el-image>
                 </vs-td>
                 <vs-td>{{ tr.name }}</vs-td>
