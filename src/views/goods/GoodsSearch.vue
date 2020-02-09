@@ -1,5 +1,17 @@
 <template>
-  <div>
+  <div
+    id="loading"
+    class="loading vs-con-loading__container"
+  >
+    <div
+      v-if="goodsList.length <= 0"
+      class="text-warning text-center font-bold"
+    >
+      抱歉，没有找到与 "
+      <span class="text-gray-600">{{ this.searchText }}</span>
+      " 相关的商品
+    </div>
+
     <GoodsList
       :goodsList="goodsList"
       :columns="5"
@@ -32,27 +44,57 @@ export default {
     pagination: {},
   }),
 
+  computed: {
+    searchText() {
+      return this.$store.state.searchText
+    },
+  },
+
+  watch: {
+    searchText() {
+      this.init()
+    },
+  },
+
   mounted() {
-    const { search } = this.$route.query
-    this.setTitle(search)
-    this.getGoodsListBySearch(search)
+    this.init()
+  },
+
+  beforeDestroy() {
+    this.$store.commit('CHANGE_SEARCH_TEXT', '')
   },
 
   methods: {
-    async getGoodsListBySearch(search) {
-      const { code, data } = await getGoodsListBySearch({
-        page: this.page,
-        page_size: this.pageSize,
-        search,
+    init() {
+      this.getGoodsListBySearch()
+      this.setTitle()
+    },
+
+    async getGoodsListBySearch() {
+      if (this.searchText.length <= 0) return
+
+      this.$vs.loading({
+        type: 'sound',
+        container: '.loading',
+        scale: 1,
       })
-      if (code === 2000) {
-        this.goodsList = data.goods_list
-        this.pagination = data.pagination
+      try {
+        const { code, data } = await getGoodsListBySearch({
+          page: this.page,
+          page_size: this.pageSize,
+          search: this.searchText,
+        })
+        if (code === 2000) {
+          this.goodsList = data.goods_list
+          this.pagination = data.pagination
+        }
+      } finally {
+        this.$vs.loading.close('.loading > .con-vs-loading')
       }
     },
 
-    setTitle(search) {
-      document.title = `${search} - 商品搜索`
+    setTitle() {
+      document.title = `${this.searchText} - 商品搜索`
     },
   },
 }

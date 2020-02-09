@@ -42,7 +42,10 @@
         <div class="flex items-center">
           <!-- 搜索图标 -->
           <div class="relative h-10 mr-6 bg-gray-150 radius overflow-hidden">
-            <div class="absolute z-50 left-0 w-10 h-10 flex-row-center">
+            <div
+              class="absolute z-50 left-0 w-10 h-10 flex-row-center"
+              @click="onSearch()"
+            >
               <feather
                 class="nav-icon text-gray-100"
                 size="20"
@@ -132,6 +135,18 @@ export default {
     isFullScreen: false, // 是否全屏,
   }),
 
+  computed: {
+    search() {
+      return this.$store.state.searchText
+    },
+  },
+
+  watch: {
+    search(v) {
+      this.searchText = v
+    },
+  },
+
   mounted() {
     if (screenfull.enabled) {
       screenfull.on('change', this.screenChange)
@@ -165,11 +180,8 @@ export default {
     // 搜索
     onSearch() {
       if (this.searchText.length > 0) {
-        this.$router.push({
-          path: '/goods-search',
-          query: { search: this.searchText },
-        })
-        this.searchText = ''
+        this.$store.commit('CHANGE_SEARCH_TEXT', this.searchText)
+        this.$router.push('/goods-search')
       }
     },
   },
