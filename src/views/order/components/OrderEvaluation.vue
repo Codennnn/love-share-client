@@ -59,24 +59,53 @@
         <p class="my-3 text-gray-600">{{ it.goods.name }}</p>
         <p class="text-gray-700 font-bold">￥{{ Number(it.goods.price).toFixed(2) }}</p>
       </div>
-      <div class="flex-1 pr-16">
+      <div
+        v-if="reviews.length > 0"
+        class="flex-1 pr-16"
+      >
         <div class="mb-6 flex items-center">
           <div class="w-32">商品评分</div>
           <el-rate
+            v-if="!it.goods.review || !it.goods.review._id"
             v-model="reviews[i].star"
             :colors="colors"
+          ></el-rate>
+          <el-rate
+            v-else
+            disabled
+            v-model="it.goods.review.star"
+            :colors="colors"
+          ></el-rate>
+          <div
+            v-if="it.goods.review && it.goods.review._id"
+            class="flex items-center text-gray-700"
           >
-          </el-rate>
+            <feather
+              class="ml-4 mr-2 text-success"
+              type="check-circle"
+            ></feather>
+            已完成评价
+          </div>
         </div>
         <div class="flex items-start">
           <div class="w-32">评价晒单</div>
           <vs-textarea
+            v-if="!it.goods.review || !it.goods.review._id"
             class="w-2/3"
             height="80"
             label="评论超过 20 个字有机会获得 50 乐豆哦~"
             counter="200"
             maxlength="200"
             v-model.trim="reviews[i].content"
+          />
+          <vs-textarea
+            v-else
+            disabled
+            class="w-2/3"
+            height="80"
+            label="已评论此商品~"
+            maxlength="200"
+            v-model.trim="it.goods.review.content"
           />
         </div>
       </div>
@@ -107,20 +136,21 @@ export default {
   }),
 
   mounted() {
-    const { orderId, subId } = this.$route.query
-    this.getOrderDetail(orderId, subId)
+    this.getOrderDetail()
   },
 
   methods: {
-    async getOrderDetail(order_id, sub_id) {
+    async getOrderDetail() {
+      const { orderId: order_id, subId: sub_id } = this.$route.query
       const { code, data: { order_detail } } = await getOrderDetail({ order_id, sub_id })
       if (code === 2000) {
         if (order_detail) {
           this.subOrder = order_detail.sub_order
           this.reviews = order_detail.sub_order.goods_list.map(el => ({
-            goods_id: el.goods._id,
+            _id: el.goods._id,
             star: 0,
             content: '',
+            is_review: !!el.goods?.review?._id,
           }))
         } else {
           this.$router.replace('/not-found')
@@ -129,15 +159,14 @@ export default {
     },
 
     async onPostReview() {
-      const flag = this.reviews.every(
-        ({ star, content }) => star > 0 && content.trim().length > 0,
-      )
-      if (flag) {
-        const { code } = await postReview({ reviews: this.reviews })
+      const reviews = this.reviews
+        .filter(el => !el.is_review) // 过滤掉已评价的商品
+        .filter(({ star, content }) => star > 0 && content.trim().length > 0)
+
+      if (reviews.length > 0) {
+        const { code } = await postReview({ reviews })
         if (code === 2000) {
-          const ids = this.reviews.map(el => el._id)
-          const filter = this.subOrder.goods_list.filter(el => ids.includes(el.goods._id))
-          this.$set(this.subOrder, 'goods_list', filter)
+          await this.getOrderDetail()
           this.showSuccess = true
         }
       }
