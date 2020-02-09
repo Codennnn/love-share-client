@@ -48,7 +48,7 @@
           class="sm:w-1/3 lg:w-1/2"
           fit="cover"
           alt="无数据"
-          :src="require('@/assets/images/data-empty.png')"
+          :src="require('@/assets/images/no-order.png')"
         >
         </el-image>
       </div>

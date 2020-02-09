@@ -43,7 +43,7 @@
         </h6>
         <!-- 搜索框 -->
         <vs-input
-          class="search-input mb-6 w-full radius"
+          class="search-input mb-6 w-full radius overflow-hidden"
           icon="search"
           size="large"
           icon-no-border
