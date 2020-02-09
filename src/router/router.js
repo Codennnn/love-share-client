@@ -30,6 +30,12 @@ export const routes = [
         meta: { title: '购物车' },
       },
       {
+        path: '/goods-search',
+        name: 'GoodsSearch',
+        component: () => import('@/views/goods/GoodsSearch.vue'),
+        meta: { title: '商品搜索' },
+      },
+      {
         path: '/goods-addition',
         name: 'GoodsAddition',
         component: () => import('@/views/goods/GoodsAddition.vue'),

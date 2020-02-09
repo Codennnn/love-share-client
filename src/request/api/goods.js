@@ -40,6 +40,14 @@ export function getGoodsListByCategory(params) {
   })
 }
 
+export function getGoodsListBySearch(params) {
+  return request({
+    url: '/goods/list/by_search',
+    method: 'get',
+    params,
+  })
+}
+
 export function getGoodsListOfSameSchool(data) {
   return request({
     url: '/goods/list/same_school',

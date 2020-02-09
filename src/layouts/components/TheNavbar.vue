@@ -52,8 +52,8 @@
             <vs-input
               class="nav-search w-full h-full"
               placeholder="搜索你想要的宝贝"
-              @keyup.enter="search"
               v-model="searchText"
+              @keyup.enter="onSearch()"
             />
           </div>
 
@@ -163,8 +163,14 @@ export default {
     },
 
     // 搜索
-    search() {
-      console.log(this.searchText)
+    onSearch() {
+      if (this.searchText.length > 0) {
+        this.$router.push({
+          path: '/goods-search',
+          query: { search: this.searchText },
+        })
+        this.searchText = ''
+      }
     },
   },
 }
