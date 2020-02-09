@@ -126,6 +126,14 @@ export function postComment(data) {
   })
 }
 
+export function postReview(data) {
+  return request({
+    url: '/goods/review/post',
+    method: 'post',
+    data,
+  })
+}
+
 export function replyComment(data) {
   return request({
     url: '/goods/comment/reply',

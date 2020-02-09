@@ -147,7 +147,6 @@
 
 <script>
 import VuePerfectScrollbar from 'vue-perfect-scrollbar'
-import _cloneDeepWith from 'lodash/cloneDeepWith'
 
 import { modifyUser } from '@/request/api/user'
 import { getSchoolList } from '@/request/api/common'
@@ -197,7 +196,7 @@ export default {
   watch: {
     isSidebarActive(active) {
       if (active) {
-        this.data = _cloneDeepWith(this.info)
+        this.data = this.$cloneDeepWith(this.info)
         this.data.school = this.data.school._id
       }
     },

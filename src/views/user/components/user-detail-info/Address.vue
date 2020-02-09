@@ -111,7 +111,6 @@
 </template>
 
 <script>
-import _cloneDeepWith from 'lodash/cloneDeepWith'
 import { mapState } from 'vuex'
 import CollapseTransition from 'element-ui/lib/transitions/collapse-transition'
 
@@ -169,7 +168,7 @@ export default {
     // 显示地址表单
     onShowForm(data) {
       if (this.editForm) {
-        this.addressData = _cloneDeepWith(data)
+        this.addressData = this.$cloneDeepWith(data)
       }
       this.showForm = true
     },

@@ -8,7 +8,7 @@ import infiniteScroll from 'vue-infinite-scroll' // 无限滚动
 import VContentmenu from 'v-contextmenu' // 右键菜单
 import 'v-contextmenu/dist/index.css' // 右键菜单样式
 import '@/directives' // 自定义指令
-import { timeDiff } from '@/utils/util' // 时间差工具函数
+import { timeDiff, cloneDeepWith } from '@/utils/util' // 时间差工具函数
 
 import App from './App.vue'
 import store from './store/store'
@@ -31,6 +31,7 @@ Vue.use(VueClipboard)
 Vue.use(infiniteScroll)
 Vue.prototype.$dayjs = dayjs
 Vue.prototype.$timeDiff = timeDiff
+Vue.prototype.$cloneDeepWith = cloneDeepWith
 
 Vue.config.productionTip = false
 
