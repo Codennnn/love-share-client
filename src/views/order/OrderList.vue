@@ -2,10 +2,7 @@
   <div class="flex pt-4">
     <!-- 左侧 -->
     <div class="pr-8">
-      <div
-        class="p-4 radius text-center"
-        style="background: rgba(var(--vs-gray), 0.06);"
-      >
+      <div class="mb-6 py-4 px-6 radius text-center bg-white">
         <div class="type-select ml-4 relative">
           <div class="relative z-50 flex">
             <div
@@ -52,6 +49,25 @@
           :class="`bg-${color}`"
         >{{ icons[current].text }}</div>
       </div>
+
+      <ul class="p-4 text-gray-600 bg-white radius">
+        <li
+          class="mb-5 text-xl text-gray-700"
+          v-for="(menu, i) in menus"
+          :key="i"
+        >
+          <h4 class="mb-1">{{ menu.title }}</h4>
+          <ul>
+            <li
+              class="mb-1 text-sm text-gray-600 cursor-pointer"
+              v-for="it in menu.items"
+              :key="it.text"
+            >
+              {{ it.text }}
+            </li>
+          </ul>
+        </li>
+      </ul>
     </div>
 
     <!-- 右侧 -->
@@ -295,6 +311,26 @@ const icons = [
   { type: 'truck', color: 'warning', text: '待收货' },
   { type: 'edit-3', color: 'danger', text: '待评价' },
 ]
+const menus = [
+  {
+    title: '特色业务',
+    items: [
+      { text: '我的回收单' },
+      { text: '我的拍卖' },
+      { text: '定期购' },
+      { text: '营业厅' },
+    ],
+  },
+  {
+    title: '客户服务',
+    items: [
+      { text: '价格保护' },
+      { text: '意见建议' },
+      { text: '交易纠纷' },
+      { text: '举报中心' },
+    ],
+  },
+]
 const status = {
   undefined: {
     text: 'Undefined',
@@ -333,6 +369,7 @@ export default {
   name: 'OrderList',
   data: () => ({
     icons,
+    menus,
     status,
     payment,
 

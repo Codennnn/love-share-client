@@ -40,25 +40,54 @@
       <!-- 导航栏右侧 -->
       <div class="flex items-center">
         <div class="flex items-center">
-          <!-- 搜索图标 -->
-          <div class="relative h-10 mr-6 bg-gray-150 radius overflow-hidden">
+          <!-- 搜索框 -->
+          <el-popover placement="bottom">
             <div
-              class="absolute z-50 left-0 w-10 h-10 flex-row-center"
-              @click="onSearch()"
+              slot="reference"
+              class="relative h-10 mr-6 bg-gray-150 radius overflow-hidden"
             >
-              <feather
-                class="nav-icon text-gray-100"
-                size="20"
-                type="search"
-              ></feather>
+              <div
+                class="absolute z-50 left-0 w-10 h-10 flex-row-center"
+                @click="onSearch()"
+              >
+                <feather
+                  class="nav-icon text-gray-100"
+                  size="20"
+                  type="search"
+                ></feather>
+              </div>
+              <vs-input
+                class="nav-search w-full h-full"
+                placeholder="搜索你想要的宝贝"
+                v-model="search"
+                @keyup.enter="onSearch()"
+              />
             </div>
-            <vs-input
-              class="nav-search w-full h-full"
-              placeholder="搜索你想要的宝贝"
-              v-model="searchText"
-              @keyup.enter="onSearch()"
-            />
-          </div>
+
+            <div v-if="searchHistory.length > 0">
+              <p class="mb-4 flex justify-between text-gray-500">
+                <span>搜索历史</span>
+                <span
+                  class="cursor-pointer"
+                  @click="$store.commit('CLEAR_SEARCH_HISTORY')"
+                >清空记录</span>
+              </p>
+              <div class="w-56 flex flex-wrap">
+                <vs-chip
+                  class="mb-2 mr-2 cursor-pointer"
+                  v-for="(it, i) in searchHistory"
+                  :key="i"
+                  @click.native="search = it, onSearch()"
+                >{{ it }}</vs-chip>
+              </div>
+            </div>
+            <div
+              v-else
+              class="text-center text-gray-600"
+            >
+              暂无搜索记录
+            </div>
+          </el-popover>
 
           <!-- 头像信息 -->
           <Avatar
@@ -70,6 +99,7 @@
           <el-tooltip :content="isFullScreen ? '退出全屏' : '进入全屏'">
             <feather
               class="nav-icon mx-3"
+              stroke-width="2.2"
               :type="isFullScreen ? 'minimize' : 'maximize'"
               @click="screenfull"
             ></feather>
@@ -108,6 +138,7 @@
 <script>
 import Vue from 'vue'
 import screenfull from 'screenfull'
+import { mapState } from 'vuex'
 
 const Avatar = Vue.component(
   'Avatar',
@@ -131,19 +162,17 @@ export default {
 
   data: () => ({
     navIcons,
-    searchText: '',
+    search: '',
     isFullScreen: false, // 是否全屏,
   }),
 
   computed: {
-    search() {
-      return this.$store.state.searchText
-    },
+    ...mapState(['searchText', 'searchHistory']),
   },
 
   watch: {
-    search(v) {
-      this.searchText = v
+    searchText(v) {
+      this.search = v
     },
   },
 
@@ -179,8 +208,11 @@ export default {
 
     // 搜索
     onSearch() {
-      if (this.searchText.length > 0) {
-        this.$store.commit('CHANGE_SEARCH_TEXT', this.searchText)
+      if (
+        this.search.trim().length > 0
+       && this.search.trim() !== this.searchText.trim()
+      ) {
+        this.$store.commit('CHANGE_SEARCH_TEXT', this.search)
         this.$router.push('/goods-search')
       }
     },

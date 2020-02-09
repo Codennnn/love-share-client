@@ -61,7 +61,7 @@ export default {
   },
 
   beforeDestroy() {
-    this.$store.commit('CHANGE_SEARCH_TEXT', '')
+    this.$store.commit('CLEAR_SEARCH_TEXT')
   },
 
   methods: {
@@ -71,7 +71,7 @@ export default {
     },
 
     async getGoodsListBySearch() {
-      if (this.searchText.length <= 0) return
+      if (this.searchText.trim().length <= 0) return
 
       this.$vs.loading({
         type: 'sound',
