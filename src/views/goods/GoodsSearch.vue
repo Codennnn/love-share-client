@@ -13,6 +13,7 @@
     </div>
 
     <GoodsList
+      class="p-8"
       :goodsList="goodsList"
       :columns="5"
     >
