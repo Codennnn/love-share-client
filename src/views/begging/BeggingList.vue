@@ -27,10 +27,10 @@
 
       <template slot="thead">
         <vs-th sort-key="name">求购标题</vs-th>
-        <vs-th sort-key="category">分类信息</vs-th>
-        <vs-th sort-key="price">求购价</vs-th>
-        <vs-th sort-key="time">发布者</vs-th>
-        <vs-th sort-key="time">发布时间</vs-th>
+        <vs-th>分类信息</vs-th>
+        <vs-th sort-key="min_price">求购价</vs-th>
+        <vs-th sort-key="announcer.nickname">发布者</vs-th>
+        <vs-th sort-key="created_at">发布时间</vs-th>
       </template>
 
       <template slot-scope="{data}">
@@ -68,7 +68,13 @@
             <p class="text-gray-600">{{ $timeDiff(tr.created_at) }}</p>
           </vs-td>
           <vs-td>
-            <i class="el-icon-more-outline"></i>
+            <feather
+              title="联系TA"
+              class="text-primary cursor-pointer"
+              size="19"
+              type="message-square"
+              @click="contactSeller(tr.announcer)"
+            ></feather>
           </vs-td>
         </vs-tr>
       </template>
@@ -78,6 +84,7 @@
     <AddNewDataSidebar
       :isSidebarActive="addNewDataSidebar"
       @closeSidebar="addNewDataSidebar = false"
+      @refreshData="getBeggingList()"
     />
   </div>
 </template>
@@ -111,13 +118,22 @@ export default {
         this.beggingList = data.begging_list
       }
     },
+
+    // 联系卖家
+    async contactSeller({ _id, nickname }) {
+      if (!this.$store.getters['chat/isInChat'](_id)) {
+        await this.$store.dispatch('chat/addContact', _id)
+      }
+      this.$store.commit('chat/SET_ACTIVE_CHAT_USER', { _id, nickname })
+      this.$store.commit('chat/SET_CHAT_OPEN')
+    },
   },
 }
 </script>
 
 <style lang="scss" scoped>
-.data-list {
-  .vs-con-table::v-deep {
+.data-list::v-deep {
+  .vs-con-table {
     background: transparent;
     .vs-table--header {
       height: 45px;
@@ -125,27 +141,6 @@ export default {
       flex-wrap: wrap-reverse;
       margin-left: 1.5rem;
       margin-right: 1.5rem;
-      > span {
-        display: flex;
-        flex-grow: 1;
-      }
-
-      .vs-table--search {
-        .vs-table--search-input {
-          padding: 0.5rem 2.5rem;
-          border: 1px solid rgba(0, 0, 0, 0.1);
-          font-size: 1rem;
-          & + i {
-            left: 1rem;
-          }
-          &:focus + i {
-            left: 1rem;
-          }
-        }
-        .vs-icon {
-          font-size: 1.4rem;
-        }
-      }
     }
 
     .vs-table {
@@ -153,20 +148,17 @@ export default {
       border-spacing: 0 1.3rem;
       padding: 0 1rem;
       tr {
-        box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.05);
+        overflow: hidden;
         td {
           padding: 20px;
           &:first-child {
-            border-top-left-radius: 0.5rem;
-            border-bottom-left-radius: 0.5rem;
+            border-top-left-radius: $large-radius;
+            border-bottom-left-radius: $large-radius;
           }
           &:last-child {
-            border-top-right-radius: 0.5rem;
-            border-bottom-right-radius: 0.5rem;
+            border-top-right-radius: $large-radius;
+            border-bottom-right-radius: $large-radius;
           }
-        }
-        td.td-check {
-          padding: 20px !important;
         }
       }
     }
@@ -179,13 +171,6 @@ export default {
           text-transform: uppercase;
           font-weight: 600;
           color: #6e6e6e;
-        }
-      }
-      th.td-check {
-        padding: 0 15px !important;
-        .con-td-check {
-          background: transparent;
-          box-shadow: none;
         }
       }
       tr {

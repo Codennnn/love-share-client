@@ -80,23 +80,26 @@
             v-model.number="payload.max_price"
           />
         </div>
+        <vs-alert
+          class="mt-5"
+          closable
+          color="danger"
+          :active.sync="showAlert"
+        >
+          填写的数据不符合规范，请修改后再提交！
+        </vs-alert>
       </div>
     </VuePerfectScrollbar>
 
     <div
       slot="footer"
-      class="flex flex-wrap items-center p-6 text-sm"
+      class="p-6 text-sm"
     >
       <vs-button
         class="mr-2"
         :disabled="disabled"
         @click="onPublish()"
       >确认添加</vs-button>
-      <vs-button
-        type="flat"
-        color="danger"
-        @click="$emit('closeSidebar')"
-      >取消操作</vs-button>
     </div>
   </vs-sidebar>
 </template>
@@ -118,6 +121,7 @@ export default {
 
   data: () => ({
     disabled: false,
+    showAlert: false,
     payload: {
       name: '',
       category: [],
@@ -159,8 +163,7 @@ export default {
       if (
         this.payload.name.length > 0
         && this.payload.category.length > 0
-        && this.payload.min_price >= 0
-        && this.payload.max_price > 0
+        && this.payload.min_price <= this.payload.max_price
       ) {
         return true
       }
@@ -181,12 +184,15 @@ export default {
               time: 3000,
             })
             this.$emit('closeSidebar')
+            this.$emit('refreshData')
           } else {
             throw new Error()
           }
-        } catch {
+        } finally {
           this.disabled = false
         }
+      } else {
+        this.showAlert = true
       }
     },
   },

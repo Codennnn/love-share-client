@@ -248,8 +248,8 @@ export default {
       }
     },
 
-    async deleteContact() {
-      await this.$store.dispatch('chat/deleteContact', this.deleteContactId)
+    deleteContact() {
+      this.$store.dispatch('chat/deleteContact', this.deleteContactId)
     },
   },
 }
@@ -305,6 +305,13 @@ $sidebar-width: 310px;
     background: rgb(231, 238, 255);
   }
 
+  // 给头像加白色边框
+  .con-vs-avatar {
+    .con-img.vs-avatar--con-img {
+      border: 2px solid white;
+    }
+  }
+
   .sidebar-spacer--wide {
     width: calc(100% - #{$sidebar-width});
     margin-left: $sidebar-width;
@@ -329,15 +336,6 @@ $sidebar-width: 310px;
 </style>
 
 <style lang="scss">
-#chat-app {
-  // 给头像加白色边框
-  .con-vs-avatar {
-    .con-img.vs-avatar--con-img {
-      border: 2px solid white;
-    }
-  }
-}
-
 .v-contextmenu {
   z-index: 9999999;
   padding: 0;

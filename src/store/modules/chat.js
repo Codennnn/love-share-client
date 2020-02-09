@@ -153,6 +153,6 @@ export default {
       return unseenMsg
     },
 
-    isInChat: state => id => Object.prototype.hasOwnProperty.call(state.chats, id),
+    isInChat: state => id => state.contactList.some(el => el._id === id),
   },
 }
