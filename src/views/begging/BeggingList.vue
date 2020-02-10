@@ -148,6 +148,7 @@ export default {
       border-spacing: 0 1.3rem;
       padding: 0 1rem;
       tr {
+        border-radius: $large-radius;
         overflow: hidden;
         td {
           padding: 20px;

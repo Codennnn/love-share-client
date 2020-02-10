@@ -117,10 +117,8 @@
               <vs-th>图片</vs-th>
               <vs-th>商品名称</vs-th>
               <vs-th>成交价</vs-th>
-              <vs-th>数量</vs-th>
               <vs-th>原主人</vs-th>
               <vs-th>购买日期</vs-th>
-              <vs-th>操作</vs-th>
             </template>
 
             <template slot-scope="{data}">
@@ -141,7 +139,6 @@
                 </vs-td>
                 <vs-td>{{ tr.name }}</vs-td>
                 <vs-td class="font-semibold">￥{{ $numFixed(tr.price) }}</vs-td>
-                <vs-td>{{ tr.amount }}</vs-td>
                 <vs-td>
                   <el-tooltip content="进入TA的主页">
                     <span
@@ -152,11 +149,6 @@
                 </vs-td>
                 <vs-td>
                   {{ $dayjs(tr.sell_time).format('YYYY年M月D日') }}
-                </vs-td>
-                <vs-td>
-                  <vs-chip :color="state[tr.status].color">
-                    {{ state[tr.status].text }}
-                  </vs-chip>
                 </vs-td>
               </vs-tr>
             </template>
