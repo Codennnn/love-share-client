@@ -123,14 +123,14 @@ export default {
   },
 
   mounted() {
-    this.sockets.subscribe(`receiveNotice${this.userId}`, (notice) => {
+    this.sockets.subscribe(`receiveNotice${this.userId}`, () => {
       this.$vs.notify({
         title: '消息提醒',
         text: '收到一条新的通知，请注意查看',
         icon: 'chat',
         position: 'top-right',
       })
-      this.$store.commit('notice/ADD_UNREAD_ITEM', notice)
+      this.$store.dispatch('notice/getUnreadNotices')
     })
   },
 

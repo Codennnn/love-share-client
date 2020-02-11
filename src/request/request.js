@@ -4,7 +4,8 @@ import { Notification } from 'element-ui'
 import { getToken } from '@/utils/token'
 
 const service = Axios.create({
-  baseURL: '/api',
+  // baseURL: '/api',
+  baseURL: process.env.NODE_ENV === 'production' ? 'http://129.204.137.172/api' : '/api',
   timeout: 10000,
   responseType: 'json',
   withCredentials: true,
