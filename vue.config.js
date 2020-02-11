@@ -1,7 +1,9 @@
 module.exports = {
   publicPath: process.env.NODE_ENV === 'production'
-    ? '/dist/'
+    ? '/client/'
     : '/',
+
+  outputDir: 'client',
 
   devServer: {
     host: '0.0.0.0',
