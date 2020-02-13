@@ -110,18 +110,38 @@
       <!-- 输入框 -->
       <div
         v-if="activeChatUser"
-        class="chat-input flex items-center p-4 bg-white"
+        class="chat-input flex items-center px-4 py-3 bg-white"
       >
-        <vs-input
-          class="flex-1"
-          placeholder="输入您的消息..."
-          v-model="message"
-          @keyup.enter="sendMessage()"
-        />
-        <vs-button
-          class="bg-primary-gradient ml-4 text-sm"
-          @click="sendMessage()"
-        >发 送</vs-button>
+        <vs-dropdown
+          class="mr-2"
+          vs-trigger-click
+          vs-custom-content
+        >
+          <div class="py-2 px-3 bg-gray-150 rounded-lg">
+            😊
+          </div>
+          <vs-dropdown-menu>
+            <VEmojiPicker
+              labelSearch="搜索..."
+              @select="onSelectEmoji"
+            />
+          </vs-dropdown-menu>
+        </vs-dropdown>
+        <div class="message relative flex-1 rounded-lg overflow-hidden bg-gray-150">
+          <vs-input
+            class="type-input w-full"
+            placeholder="输入您的消息..."
+            v-model="message"
+            @keyup.enter="sendMessage()"
+          />
+          <div
+            class="absolute top-0 right-0 w-12 h-full ml-4 flex-row-center
+             bg-primary-gradient text-white text-sm cursor-pointer"
+            @click="sendMessage()"
+          >
+            发 送
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -130,6 +150,7 @@
 <script>
 import _debounce from 'lodash/debounce'
 import { mapState } from 'vuex'
+import VEmojiPicker from 'v-emoji-picker'
 
 import VuePerfectScrollbar from 'vue-perfect-scrollbar'
 import ChatContact from './components/ChatContact.vue'
@@ -139,6 +160,7 @@ import ChatLog from './components/ChatLog.vue'
 export default {
   name: 'Chat',
   components: {
+    VEmojiPicker,
     VuePerfectScrollbar,
     ChatContact,
     ChatNavbar,
@@ -215,6 +237,11 @@ export default {
       this.$nextTick(() => {
         this.$refs.chatLogPS.$el.scrollTop = this.$refs.chatLog.scrollHeight
       })
+    },
+
+    onSelectEmoji(emoji) {
+      console.log(emoji.data)
+      this.message += emoji.data
     },
 
     async sendMessage() {
@@ -332,6 +359,18 @@ $sidebar-width: 310px;
 .chat-input {
   position: relative;
   width: 100%;
+}
+
+.message .type-input::v-deep {
+  .vs-inputx {
+    border: none !important;
+    box-shadow: none;
+    background: transparent;
+    padding-right: 3rem;
+  }
+  .input-span-placeholder {
+    padding-right: 3rem;
+  }
 }
 </style>
 
