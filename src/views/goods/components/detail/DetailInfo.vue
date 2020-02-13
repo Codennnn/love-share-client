@@ -266,6 +266,8 @@ export default {
     },
 
     async isGoodsCollected(goods_id) {
+      if (!this.$login()) return
+
       const { code, data } = await isGoodsCollected({ goods_id })
       if (code === 2000) {
         this.isCollected = data.is_collected

@@ -139,6 +139,8 @@ export default {
     },
 
     async isUserFollowed(user_id) {
+      if (!this.$login()) return
+
       const { code, data } = await isUserFollowed({ user_id })
       if (code === 2000) {
         this.isFollowed = data.is_followed
