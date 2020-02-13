@@ -117,7 +117,7 @@
           vs-trigger-click
           vs-custom-content
         >
-          <div class="py-2 px-3 bg-gray-150 rounded-lg">
+          <div class="py-2 px-3 bg-gray-150 radius">
             😊
           </div>
           <vs-dropdown-menu>
@@ -127,7 +127,7 @@
             />
           </vs-dropdown-menu>
         </vs-dropdown>
-        <div class="message relative flex-1 rounded-lg overflow-hidden bg-gray-150">
+        <div class="message relative flex-1 radius overflow-hidden bg-gray-150">
           <vs-input
             class="type-input w-full"
             placeholder="输入您的消息..."
@@ -136,7 +136,7 @@
           />
           <div
             class="absolute top-0 right-0 w-12 h-full ml-4 flex-row-center
-             bg-primary-gradient text-white text-sm cursor-pointer"
+             bg-primary-gradient text-white text-sm rounded cursor-pointer"
             @click="sendMessage()"
           >
             发 送
@@ -150,8 +150,8 @@
 <script>
 import _debounce from 'lodash/debounce'
 import { mapState } from 'vuex'
-import VEmojiPicker from 'v-emoji-picker'
 
+import VEmojiPicker from 'v-emoji-picker'
 import VuePerfectScrollbar from 'vue-perfect-scrollbar'
 import ChatContact from './components/ChatContact.vue'
 import ChatNavbar from './components/ChatNavbar.vue'
@@ -240,7 +240,6 @@ export default {
     },
 
     onSelectEmoji(emoji) {
-      console.log(emoji.data)
       this.message += emoji.data
     },
 
@@ -366,10 +365,10 @@ $sidebar-width: 310px;
     border: none !important;
     box-shadow: none;
     background: transparent;
-    padding-right: 3rem;
+    padding: 0.6rem 3rem 0.6rem 0.6rem;
   }
   .input-span-placeholder {
-    padding-right: 3rem;
+    padding: 0.6rem 3rem 0.6rem 0.6rem;
   }
 }
 </style>
