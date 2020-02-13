@@ -18,6 +18,7 @@ module.exports = {
     'no-underscore-dangle': ['error', { allow: ['_id'] }],
     camelcase: 'off',
     semi: ['error', 'never'],
+    'max-len': ['error', { code: 120 }],
   },
 
   parserOptions: {
