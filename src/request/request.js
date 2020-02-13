@@ -1,6 +1,6 @@
 import Axios from 'axios'
 import Qs from 'qs'
-import { errorNotify } from '@/utils/error-handler'
+import { errorNotify } from '@/utils/util'
 import { getToken } from '@/utils/token'
 
 const service = Axios.create({

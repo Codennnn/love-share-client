@@ -1,11 +1,6 @@
 /* eslint no-underscore-dangle: 0 */
-import { Notification } from 'element-ui'
-
-export function errorNotify({
-  title = '哎呀！', message = '出错啦！', duration = 5000,
-} = {}) {
-  Notification.error({ title, message, duration })
-}
+import request from '@/request/request'
+import { errorNotify } from '@/utils/util'
 
 function formatComponentName(vm) {
   if (vm.$root === vm) return 'root'
@@ -27,6 +22,10 @@ export default (err, vm, info) => {
     component_name,
     route: vm?.$route?.fullPath,
   }
-  console.log(err.message, detail, info)
   errorNotify({ message: err.message })
+  request({
+    url: '/log/add',
+    method: 'post',
+    data: { err, detail, info },
+  })
 }
