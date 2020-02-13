@@ -1,6 +1,7 @@
 <template>
   <div>
     <full-calendar
+      class="radius overflow-hidden"
       :events="events"
       @eventClick="onCheckIn"
       @dayClick="onCheckIn"
