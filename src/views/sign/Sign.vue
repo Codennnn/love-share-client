@@ -9,7 +9,7 @@
     >
       <img
         class="w-12 mr-6"
-        src="@/assets/images/logo.png"
+        src="https://gitee.com/chinesee/images/raw/master/img/img_015.png"
       >
       <router-link
         class="mr-4"
@@ -45,7 +45,7 @@
 
       <img
         class="w-2/3"
-        src="@/assets/images/sign-bg.png"
+        src="https://gitee.com/chinesee/images/raw/master/img/img_013.png"
       >
     </div>
   </div>

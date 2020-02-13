@@ -181,7 +181,7 @@
           v-show="dataList.length <= 0"
           class="py-4 flex justify-center"
         >
-          <img src="@/assets/images/no-data.png">
+          <img src="https://gitee.com/chinesee/images/raw/master/img/img_017.png">
         </div>
       </div>
     </div>

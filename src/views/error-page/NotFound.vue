@@ -7,7 +7,7 @@
         <vs-button to="Home">迷路了，请带我回家</vs-button>
       </div>
       <img
-        src="@/assets/images/404.png"
+        src="https://gitee.com/chinesee/images/raw/master/img/img_014.png"
         alt="404"
       >
     </div>

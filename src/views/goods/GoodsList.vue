@@ -48,7 +48,7 @@
           class="sm:w-1/3 lg:w-1/2"
           fit="cover"
           alt="无数据"
-          :src="require('@/assets/images/no-order.png')"
+          src="https://gitee.com/chinesee/images/raw/master/img/img_017.png"
         >
         </el-image>
       </div>

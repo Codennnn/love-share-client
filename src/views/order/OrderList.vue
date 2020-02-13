@@ -294,7 +294,7 @@
       >
         <el-image
           fit="cover"
-          :src="require('@/assets/images/no-order.png')"
+          src="https://gitee.com/chinesee/images/raw/master/img/img_017.png"
         ></el-image>
         <p>什么都没有 (´；ω；`)</p>
       </div>

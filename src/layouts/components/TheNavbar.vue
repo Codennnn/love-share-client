@@ -5,7 +5,7 @@
       <div class="flex items-center">
         <img
           class="ml-2 mr-8 w-12 cursor-pointer"
-          src="@/assets/images/logo.png"
+          src="https://gitee.com/chinesee/images/raw/master/img/img_015.png"
           alt="LOGO"
           @click="$router.push('/')"
         >
