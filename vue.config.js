@@ -1,9 +1,13 @@
+const CompressionPlugin = require('compression-webpack-plugin')
+
 module.exports = {
   publicPath: process.env.NODE_ENV === 'production'
     ? '/client/'
     : '/',
 
   outputDir: 'client',
+
+  productionSourceMap: false,
 
   devServer: {
     host: '0.0.0.0',
@@ -28,5 +32,18 @@ module.exports = {
     })
   },
 
-  lintOnSave: undefined,
+  configureWebpack: () => {
+    if (process.env.NODE_ENV === 'production') {
+      return {
+        plugins: [
+          new CompressionPlugin({
+            test: /\.js$|\.html$|\.css/,
+            threshold: 8192,
+            deleteOriginalAssets: true,
+          }),
+        ],
+      }
+    }
+    return undefined
+  },
 }

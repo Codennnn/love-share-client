@@ -1,3 +1,4 @@
+/* eslint no-console: 0 */
 export default () => {
   if (process.env.NODE_ENV === 'production') {
     const titleStyle = "padding:6px 0;font-size: 18px;font-family: 'Microsoft YaHei'"
