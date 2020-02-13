@@ -9,6 +9,7 @@ import VContentmenu from 'v-contextmenu' // 右键菜单
 import 'v-contextmenu/dist/index.css' // 右键菜单样式
 import '@/directives' // 自定义指令
 import { timeDiff, numFixed, cloneDeepWith } from '@/utils/util' // 时间差工具函数
+import errorHandler from '@/utils/error-handler' // 错误处理函数
 
 import App from './App.vue'
 import store from './store/store'
@@ -34,6 +35,7 @@ Vue.prototype.$timeDiff = timeDiff
 Vue.prototype.$numFixed = numFixed
 Vue.prototype.$cloneDeepWith = cloneDeepWith
 
+Vue.config.errorHandler = errorHandler
 Vue.config.productionTip = false
 
 new Vue({

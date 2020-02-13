@@ -1,6 +1,6 @@
 import Axios from 'axios'
 import Qs from 'qs'
-import { Notification } from 'element-ui'
+import { errorNotify } from '@/utils/error-handler'
 import { getToken } from '@/utils/token'
 
 const service = Axios.create({
@@ -31,31 +31,26 @@ service.interceptors.request.use(
 )
 
 const errorHandler = {
-  errorNotify({
-    title = '哎呀！', message = '请求出错啦！', duration = 5000,
-  } = {}) {
-    Notification.error({ title, message, duration })
-  },
   400(status, statusText) {
-    this.errorNotify({ title: `${status}`, message: `请求的参数错误 - ${statusText}` })
+    errorNotify({ title: `${status}`, message: `请求的参数错误 - ${statusText}` })
   },
   401(status, statusText) {
-    this.errorNotify({ title: `${status}`, message: `抱歉，您没有权限访问 - ${statusText}` })
+    errorNotify({ title: `${status}`, message: `抱歉，您没有权限访问 - ${statusText}` })
   },
   404(status, statusText) {
-    this.errorNotify({ title: `${status}`, message: `找不到资源 - ${statusText}` })
+    errorNotify({ title: `${status}`, message: `找不到资源 - ${statusText}` })
   },
   418(status) {
-    this.errorNotify({ title: `${status}`, message: '登录过期，请重新登录~' })
+    errorNotify({ title: `${status}`, message: '登录过期，请重新登录~' })
   },
   422(status, statusText) {
-    this.errorNotify({ title: `${status}`, message: `找不到资源 - ${statusText}` })
+    errorNotify({ title: `${status}`, message: `找不到资源 - ${statusText}` })
   },
   500(status, statusText) {
-    this.errorNotify({ title: `${status}`, message: `服务器出问题了 - ${statusText}` })
+    errorNotify({ title: `${status}`, message: `服务器出问题了 - ${statusText}` })
   },
   default() {
-    this.errorNotify()
+    errorNotify()
   },
 }
 
@@ -65,7 +60,7 @@ service.interceptors.response.use(
       const { data } = response
       const { code, msg } = data
       if (code !== 2000) {
-        errorHandler.errorNotify({
+        errorNotify({
           title: `错误代码 - ${code}`,
           message: msg,
           duration: 5000,
@@ -73,7 +68,7 @@ service.interceptors.response.use(
       }
       return data
     } catch (message) {
-      errorHandler.errorNotify({ message })
+      errorNotify({ message })
       return { code: 5000 }
     }
   },
