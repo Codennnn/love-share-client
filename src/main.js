@@ -22,7 +22,7 @@ import '@/layouts/theme' // 网站主题，样式
 // import '@/request/mock/mock' // 本地 mock 模拟请求数据
 
 Vue.use(new VueSocketIO({
-  connection: process.env.NODE_ENV === 'production' ? 'http://129.204.137.172' : 'http://127.0.0.1:7001',
+  connection: process.env.NODE_ENV === 'production' ? 'https://holdme.top' : 'http://127.0.0.1:7001',
 }))
 
 Vue.use(VContentmenu)
