@@ -30,7 +30,7 @@
             <el-image
               class="mr-2 rounded-lg"
               style="width: 80px; height: 80px"
-              fit="cover"
+              fit="contain"
               :src="`${item.goods.img_list[0]}?imageView2/2/w/100`"
             ></el-image>
             <div class="flex-1 overflow-hidden">
