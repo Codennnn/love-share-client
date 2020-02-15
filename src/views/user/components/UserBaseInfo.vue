@@ -51,9 +51,9 @@
                   <div
                     class="w-16 py-1 px-2 text-center whitespace-no-wrap"
                     style="border-radius: 0.4rem;"
-                    :class="[`text-${status[tr.status].color}`]"
-                    :style="`background: rgba(var(--vs-${status[tr.status].color}), 0.2);`"
-                  >{{ status[tr.status].text }}</div>
+                    :class="[`text-${state[tr.status].color}`]"
+                    :style="`background: rgba(var(--vs-${state[tr.status].color}), 0.2);`"
+                  >{{ state[tr.status].text }}</div>
                 </vs-td>
                 <vs-td>
                   <el-dropdown>
@@ -215,21 +215,17 @@ import { cancelOrder } from '@/request/api/order'
 import { updateManyGoods } from '@/request/api/goods'
 
 const state = {
+  undefined: { color: 'dark', text: '未定义' },
   1: { color: 'warning', text: '待出售' },
   2: { color: 'primary', text: '进行中' },
   3: { color: 'danger', text: '已下架' },
   4: { color: 'success', text: '已出兽' },
+  5: { color: 'primary', text: '派送中' },
 }
 export default {
   name: 'UserBaseInfo',
   data: () => ({
     state,
-    status: {
-      1: { color: 'warning', text: '待出售' },
-      2: { color: 'success', text: '进行中' },
-      3: { color: 'danger', text: '已下架' },
-      4: { color: 'primary', text: '已出兽' },
-    },
     publishedGoods: [], // 已发布商品
     boughtGoods: [], // 已购买商品
   }),

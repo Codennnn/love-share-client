@@ -26,6 +26,13 @@ export default (err, vm, info) => {
   request({
     url: '/log/add',
     method: 'post',
-    data: { err, detail, info },
+    data: {
+      err: {
+        stack: err.stack,
+        msg: err.message,
+      },
+      detail,
+      info,
+    },
   })
 }

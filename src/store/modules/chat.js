@@ -70,9 +70,8 @@ const actions = {
     const { code } = await addContact({ contact_id })
     if (code === 2000) {
       await dispatch('initChat')
-    } else {
-      throw new Error('添加联系人出错')
     }
+    return code
   },
 
   async deleteContact({ dispatch }, contact_id) {

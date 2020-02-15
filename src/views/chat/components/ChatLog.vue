@@ -16,7 +16,7 @@
           :class="{'right bg-primary-gradient text-white': msg.is_sent,
            'left border border-solid border-grey-light bg-white': !msg.is_sent}"
         >
-          <span class="text-sm break-words break-all">{{ msg.msg }}</span>
+          <span class="break-words break-all">{{ msg.msg }}</span>
         </div>
       </div>
     </div>
