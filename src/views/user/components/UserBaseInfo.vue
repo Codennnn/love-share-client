@@ -2,7 +2,7 @@
   <div class="flex">
     <div class="w-8/12">
       <!-- 我发布的 -->
-      <div class="p-6 bg-white rounded-lg">
+      <div class="p-6 bg-white radius">
         <div class="text-lg font-bold mb-4">我发布的</div>
         <div>
           <vs-table
@@ -90,7 +90,7 @@
       </div>
 
       <!-- 我购买的 -->
-      <div class="mt-6 p-6 bg-white rounded-lg">
+      <div class="mt-6 p-6 bg-white radius">
         <div class="mb-4 flex items-center justify-between">
           <div class="text-lg font-bold">我购买的</div>
           <div
@@ -159,7 +159,7 @@
 
     <!-- 最近联系人 -->
     <div class="w-4/12 pl-5">
-      <div class="p-5 bg-white rounded-lg">
+      <div class="p-5 bg-white radius">
         <div class="mb-4 text-gray-700">最近联系</div>
         <ul v-if="recentContacts.length > 0">
           <li

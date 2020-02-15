@@ -1,5 +1,5 @@
 <template>
-  <div class="p-6 bg-white rounded-lg">
+  <div class="p-6 bg-white radius">
     <div class="text-xl font-bold text-gray-600">财富收益</div>
     <vs-divider />
     <div class="w-2/3 py-6 flex justify-around">

@@ -61,7 +61,7 @@
     <div
       v-if="!$self(seller._id)"
       class="hover-light py-3 flex-row-center text-white
-       bg-primary-gradient rounded-lg cursor-pointer overflow-hidden"
+       bg-primary-gradient radius cursor-pointer overflow-hidden"
       @click="contactSeller()"
     >
       联系卖家

@@ -1,6 +1,6 @@
 <template>
   <div class="p-4">
-    <div class="p-10 flex flex-col items-center justify-center base-shadow bg-white rounded-lg">
+    <div class="p-10 flex flex-col items-center justify-center base-shadow bg-white radius">
       <i
         class="el-icon-success text-success"
         style="font-size: 80px;"

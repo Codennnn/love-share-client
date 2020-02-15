@@ -144,6 +144,12 @@ export const routes = [
         meta: { title: '编辑商品' },
       },
       {
+        path: '/plus-member',
+        name: 'PlusMember',
+        component: () => import('@/views/plus-member/PlusMember.vue'),
+        meta: { title: '乐享PLUS会员' },
+      },
+      {
         path: '/test',
         name: 'Test',
         component: () => import('@/views/test/Test.vue'),

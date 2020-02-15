@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="mb-6 bg-white rounded-lg p-5">
+    <div class="mb-6 p-5 bg-white radius">
       <div class="mb-3 flex items-center">
         <div class="w-1/2 flex items-center">
           <el-dropdown

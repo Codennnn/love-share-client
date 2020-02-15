@@ -149,7 +149,7 @@
                 <td class="px-4">
                   <div class="flex py-3">
                     <el-image
-                      class="mr-2 rounded-lg base-shadow cursor-pointer"
+                      class="mr-2 radius base-shadow cursor-pointer"
                       style="width: 80px; height: 80px"
                       fit="contain"
                       :src="`${tr.goods.img_list[0]}?imageView2/2/w/100`"

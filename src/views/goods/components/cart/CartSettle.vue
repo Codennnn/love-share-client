@@ -2,7 +2,7 @@
   <div class="main flex vs-con-loading__container">
     <div class="w-2/3 pr-3">
       <div class="p-5 radius light-shadow bg-white">
-        <div class="w-full mt-1 mb-3 p-3 text-lg text-primary bg-gray-150 rounded-lg">购物清单</div>
+        <div class="w-full mt-1 mb-3 p-3 text-lg text-primary bg-gray-150 radius">购物清单</div>
         <vs-table
           noDataText="暂无任何商品"
           :data="cartList"
@@ -47,7 +47,7 @@
           </template>
         </vs-table>
 
-        <div class="w-full mt-6 mb-3 p-3 text-lg text-primary bg-gray-150 rounded-lg">收货信息</div>
+        <div class="w-full mt-6 mb-3 p-3 text-lg text-primary bg-gray-150 radius">收货信息</div>
         <div class="p-2 text-sm text-gray-600">
           <p>
             收货人： {{ address.receiver }} <br />
@@ -61,7 +61,7 @@
 
     <div class="w-1/3 pl-3">
       <!-- 付款方式 -->
-      <div class="mb-5 p-5 rounded-lg base-shadow bg-white">
+      <div class="mb-5 p-5 radius base-shadow bg-white">
         <p class="text-lg font-bold">选择您的付款方式</p>
         <p class="mb-6 text-sm text-gray-500">请务必选择正确的付款方式</p>
         <div>
@@ -109,7 +109,7 @@
       </div>
 
       <!-- 价格明细 -->
-      <div class="p-5 rounded-lg base-shadow bg-white">
+      <div class="p-5 radius base-shadow bg-white">
         <p class="mb-4 text-lg font-bold">价格明细</p>
         <div class="mb-1 flex justify-between items-center text-sm">
           <span class="text-gray-600">{{ validCartList.length }} 件商品</span>

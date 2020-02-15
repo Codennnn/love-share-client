@@ -17,7 +17,7 @@
         />
       </router-link>
       <div
-        class="content absolute w-64 rounded-lg bg-white overflow-hidden"
+        class="content absolute w-64 radius bg-white overflow-hidden"
         :class="{'active': isHover}"
       >
         <div class="p-5">

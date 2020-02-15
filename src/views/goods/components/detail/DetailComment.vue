@@ -34,7 +34,7 @@
           class="msg relative mb-2 transition"
           v-for="(cm, i) in comments"
           :key="i"
-          :class="{'px-1 py-2 bg-gray-100 rounded-lg': currMsg === cm._id}"
+          :class="{'px-1 py-2 bg-gray-100 radius': currMsg === cm._id}"
         >
           <div class="flex items-center">
             <vs-avatar
@@ -61,7 +61,7 @@
           <!-- 回复区 -->
           <ul
             v-if="cm.replies.length > 0"
-            class="ml-6 p-2 bg-gray-100 rounded-lg"
+            class="ml-6 p-2 bg-gray-100 radius"
           >
             <li
               class="reply-item"
@@ -138,7 +138,7 @@
     </VuePerfectScrollbar>
     <p
       v-else
-      class="mt-6 p-2 text-center text-sm text-gray-500 bg-gray-100 rounded-lg"
+      class="mt-6 p-2 text-center text-sm text-gray-500 bg-gray-100 radius"
     >
       还没有留言，快来抢沙发吧！
     </p>

@@ -2,7 +2,7 @@
   <div class="flex">
     <!-- 左侧 -->
     <div class="w-1/4 pr-5">
-      <div class="p-2 bg-white rounded-lg">
+      <div class="p-2 bg-white radius">
         <div class="p-1">
           <div
             class="py-3 flex items-center justify-between"
@@ -37,7 +37,7 @@
     <div class="w-3/4">
       <div
         id="message-with-loading"
-        class="p-4 bg-white rounded-lg vs-con-loading__container"
+        class="p-4 bg-white radius vs-con-loading__container"
       >
         <div class="mb-4 flex items-center justify-end">
           <el-dropdown
@@ -127,7 +127,7 @@
         >
           <li
             v-contextmenu:contextmenu
-            class="mb-3 p-2 flex items-center rounded-lg transition hover:bg-gray-100"
+            class="mb-3 p-2 flex items-center radius transition hover:bg-gray-100"
             v-for="(it, i) in dataList"
             :key="i"
             :data-id="it._id"

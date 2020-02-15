@@ -1,5 +1,5 @@
 <template>
-  <div class="p-6 bg-white rounded-lg">
+  <div class="p-6 bg-white radius">
     <div class="mb-4 flex">
       <vs-button
         color="#999"

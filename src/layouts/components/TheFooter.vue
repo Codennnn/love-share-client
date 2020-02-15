@@ -1,6 +1,10 @@
 <template>
-  <div class="footer-main text-center">
-    <p>LOVE-SHARE-CLIENT @2019-2020 MADE_BY_JACK</p>
+  <div>
+    <div class="grid bg-gray-150 text-gray-600">
+      <div>
+        <h3>购物指南</h3>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -11,11 +15,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.footer-main {
-  width: 100%;
-}
-
-p {
-  color: #919191;
+.grid {
+  padding: 1rem 8rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
 }
 </style>

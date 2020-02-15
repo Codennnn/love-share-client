@@ -28,7 +28,7 @@
             @click="$router.push({path: 'goods-detail', query: { goodsId: item.goods._id }})"
           >
             <el-image
-              class="mr-2 rounded-lg"
+              class="mr-2 radius"
               style="width: 80px; height: 80px"
               fit="contain"
               :src="`${item.goods.img_list[0]}?imageView2/2/w/100`"

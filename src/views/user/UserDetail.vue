@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="mb-6 bg-white rounded-lg p-5">
+    <div class="mb-6 bg-white radius p-5">
       <div class="mb-3 flex items-center">
         <div class="w-1/2 flex items-center">
           <vs-avatar
@@ -112,7 +112,7 @@
       </div>
     </div>
 
-    <div class="p-4 bg-white rounded-lg">
+    <div class="p-4 bg-white radius">
       <div class="text-lg font-bold mb-4">TA 发布的</div>
       <vs-table
         pagination

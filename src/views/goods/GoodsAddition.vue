@@ -1,7 +1,7 @@
 <template>
   <div class="pt-3 flex flex-wrap">
     <div class="md:w-full md:mb-6 lg:pr-3 lg:w-4/12">
-      <div class="p-5 bg-white rounded-lg">
+      <div class="p-5 bg-white radius">
         <div class="mb-2 text-xl text-gray-600">图片上传</div>
         <vs-upload
           multiple
@@ -15,7 +15,7 @@
     </div>
 
     <div class="lg:pl-2 md:w-full lg:w-8/12">
-      <div class="p-5 bg-white rounded-lg">
+      <div class="p-5 bg-white radius">
         <div class="text-xl text-gray-600">商品信息</div>
         <div class="py-3">
           <div class="mb-2 text-gray-500">商品名称</div>

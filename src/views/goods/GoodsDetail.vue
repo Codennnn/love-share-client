@@ -88,7 +88,7 @@
                   })"
                 >添加地址</span>
               </p>
-              <div class="mb-4 p-2 text-sm text-gray-600 bg-gray-100 rounded-lg">
+              <div class="mb-4 p-2 text-sm text-gray-600 bg-gray-100 radius">
                 <p>
                   <i class="el-icon-user"></i>
                   {{ currAddr.receiver }}

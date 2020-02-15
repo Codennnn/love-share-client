@@ -40,6 +40,13 @@
       <!-- 导航栏右侧 -->
       <div class="flex items-center">
         <div class="flex items-center">
+          <el-image
+            title="乐享PLUS会员"
+            class="w-8 mr-4 cursor-pointer"
+            src="https://gitee.com/chinesee/images/raw/master/img/img_025.png"
+            @click="$router.push('/plus-member')"
+          ></el-image>
+
           <!-- 搜索框 -->
           <el-popover placement="bottom">
             <div

@@ -5,7 +5,7 @@
       <TheNavbar id="the-navbar" />
 
       <div id="router-view">
-        <div class="router-content pt-24">
+        <div class="router-content">
           <!-- 主区域 -->
           <transition
             enter-active-class="animated fadeIn faster"
@@ -20,62 +20,61 @@
             </keep-alive>
           </transition>
         </div>
-
-        <!-- 页脚 -->
-        <TheFooter class="router-footer" />
       </div>
-
-      <!-- 在线聊天 -->
-      <template v-if="$login()">
-        <VueDragResize
-          ref="drag"
-          class="fixed cursor-pointer"
-          :isActive="false"
-          :isResizable="false"
-          :w="50"
-          :h="50"
-          :x="30"
-          :y="500"
-          :z="99999999"
-          :parentLimitation="true"
-          @mousedown.native="mousedown"
-          @mouseup.native="mouseup"
-        >
-          <div
-            class="w-12 h-12 flex-row-center bg-primary-gradient rounded-lg"
-            style="box-shadow: 0 0 10px rgba(var(--vs-primary), 1);"
-          >
-            <feather
-              class="text-white"
-              type="message-square"
-            ></feather>
-          </div>
-        </VueDragResize>
-        <transition
-          enter-active-class="animated zoomIn quickly"
-          leave-active-class="animated zoomOutLeft faster"
-          mode="out-in"
-        >
-          <div
-            id="chat-container"
-            v-show="showChatbox"
-          >
-            <Chat />
-          </div>
-        </transition>
-      </template>
-
-      <!-- 回到顶部按钮 -->
-      <BackToTop
-        bottom="5%"
-        visibleoffset="500"
-      >
-        <vs-button
-          icon="arrow_upward"
-          class="shadow-lg"
-        />
-      </BackToTop>
     </div>
+    <!-- 页脚 -->
+    <TheFooter class="router-footer" />
+
+    <!-- 在线聊天 -->
+    <template v-if="$login()">
+      <VueDragResize
+        ref="drag"
+        class="fixed cursor-pointer"
+        :isActive="false"
+        :isResizable="false"
+        :w="50"
+        :h="50"
+        :x="30"
+        :y="500"
+        :z="99999999"
+        :parentLimitation="true"
+        @mousedown.native="mousedown"
+        @mouseup.native="mouseup"
+      >
+        <div
+          class="w-12 h-12 flex-row-center bg-primary-gradient radius"
+          style="box-shadow: 0 0 15px rgba(var(--vs-primary), 0.8);"
+        >
+          <feather
+            class="text-white"
+            type="message-square"
+          ></feather>
+        </div>
+      </VueDragResize>
+      <transition
+        enter-active-class="animated zoomIn quickly"
+        leave-active-class="animated zoomOutLeft faster"
+        mode="out-in"
+      >
+        <div
+          id="chat-container"
+          v-show="showChatbox"
+        >
+          <Chat />
+        </div>
+      </transition>
+    </template>
+
+    <!-- 回到顶部按钮 -->
+    <BackToTop
+      bottom="5%"
+      visibleoffset="500"
+    >
+      <vs-button
+        icon="arrow_upward"
+        class="shadow-lg"
+      />
+    </BackToTop>
   </div>
 </template>
 
@@ -134,7 +133,7 @@ export default {
   position: relative;
   width: 100%;
   min-width: $layout-min-width;
-  padding: 0 30px;
+  // padding: 0 30px;
   background: rgb(248, 248, 248);
 }
 
@@ -157,17 +156,21 @@ export default {
 #router-view {
   position: relative;
   min-height: 100vh;
-  width: 1200px;
+  min-width: 1100px;
+  max-width: 1200px;
   @media (max-width: $router-view-max-width) {
+    padding: 0 2rem;
     min-width: 100%;
   }
   .router-content {
+    padding-top: 6.5rem;
     min-height: calc(100vh - #{$footer-height});
   }
-  .router-footer {
-    height: $footer-height;
-    line-height: $footer-height;
-  }
+}
+
+.router-footer {
+  height: $footer-height;
+  line-height: $footer-height;
 }
 
 #chat-container {

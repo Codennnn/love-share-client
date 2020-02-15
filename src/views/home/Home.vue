@@ -2,7 +2,7 @@
   <div>
     <div class="flex w-full">
       <!-- 商品分类 -->
-      <div class="pt-6 px-8 bg-white rounded-lg text-gray-600">
+      <div class="pt-6 px-8 bg-white radius text-gray-600">
         <ul>
           <li
             class="li-item mb-4 flex items-center cursor-pointer"

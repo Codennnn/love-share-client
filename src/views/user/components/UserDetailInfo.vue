@@ -1,5 +1,5 @@
 <template>
-  <div class="p-6 bg-white rounded-lg">
+  <div class="p-6 bg-white radius">
     <div class="text-xl font-bold text-gray-600">详细资料</div>
     <vs-divider />
     <div class="flex">
