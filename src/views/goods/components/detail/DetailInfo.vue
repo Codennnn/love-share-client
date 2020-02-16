@@ -107,7 +107,7 @@
           </div>
           <div
             class="info-item"
-            v-if="goods.returnable"
+            v-if="!goods.returnable"
           >
             <vs-chip>保 障</vs-chip>
             <span style="margin-bottom: 4px; font-size: 15px;">
@@ -191,7 +191,22 @@
       v-if="goods.review"
       class="p-6 bg-white radius"
     >
-      {{ goods.review }}
+      <div class="mb-3">
+        <span class="mr-1 text-xl font-bold">买家评价</span>
+        <span class="text-sm text-gray-600">
+          用户购买
+          {{ $dayjs(goods.review.created_at).diff($dayjs(goods.sell_time), 'day') }}
+          天后评价
+        </span>
+      </div>
+
+      <el-rate
+        class="mb-4"
+        disabled
+        v-model="goods.review.star"
+      >
+      </el-rate>
+      <div class="w-1/2 py-3 px-5 radius bg-gray-150 text-gray-600">{{ goods.review.content || '未填写' }}</div>
     </div>
   </div>
 </template>
