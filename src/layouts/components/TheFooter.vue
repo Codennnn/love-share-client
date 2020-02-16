@@ -3,6 +3,7 @@
     <div class="grid bg-gray-150 text-gray-600">
       <div>
         <h3>购物指南</h3>
+        <h3>购物指南</h3>
       </div>
     </div>
   </div>

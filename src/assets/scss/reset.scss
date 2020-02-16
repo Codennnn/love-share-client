@@ -24,16 +24,8 @@
   cursor: pointer;
 }
 
-html {
-  min-height: 100%;
-  width: 100%;
-  overflow-y: overlay; // 让滚动条不占页面宽度
-}
-
 body {
   overflow-x: hidden;
-  height: 100%;
-  max-width: 100%;
   font-family: "Microsoft YaHei", "微软雅黑", "PingFang SC", "Helvetica Neue", Helvetica, "Hiragino Sans GB", Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

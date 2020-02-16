@@ -19,11 +19,15 @@
               <router-view />
             </keep-alive>
           </transition>
+          <!-- <br>
+          <br>
+          <br>
+          <br> -->
         </div>
       </div>
+      <!-- 页脚 -->
+      <TheFooter class="router-footer" />
     </div>
-    <!-- 页脚 -->
-    <TheFooter class="router-footer" />
 
     <!-- 在线聊天 -->
     <template v-if="$login()">
@@ -133,14 +137,13 @@ export default {
   position: relative;
   width: 100%;
   min-width: $layout-min-width;
-  // padding: 0 30px;
-  background: rgb(248, 248, 248);
 }
 
 #content-area {
   position: relative;
   display: flex;
   justify-content: center;
+  flex-direction: column;
 }
 
 #the-navbar {
@@ -155,16 +158,17 @@ export default {
 
 #router-view {
   position: relative;
-  min-height: 100vh;
-  min-width: 1100px;
-  max-width: 1200px;
+  // min-height: 100vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  min-height: calc(100vh - #{$footer-height});
   @media (max-width: $router-view-max-width) {
     padding: 0 2rem;
-    min-width: 100%;
   }
   .router-content {
     padding-top: 6.5rem;
-    min-height: calc(100vh - #{$footer-height});
+    max-width: 1200px;
   }
 }
 
