@@ -125,7 +125,7 @@ import { postReview } from '@/request/api/goods'
 import { getOrderDetail } from '@/request/api/order'
 
 export default {
-  name: 'OrderEvaluation',
+  name: 'OrderReview',
   data: () => ({
     subOrder: {},
     reviews: [],
