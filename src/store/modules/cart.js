@@ -30,7 +30,9 @@ const actions = {
     }
   },
 
-  async addCartItem({ dispatch, getters }, { amount, goods_id }) {
+  async addCartItem({ dispatch, getters, rootGetters }, { amount, goods_id, seller }) {
+    if (seller === rootGetters['user/userId']) return
+
     if (!getters.isInCart(goods_id)) {
       const { code } = await addCartItem({ amount, goods_id })
       if (code === 2000) {

@@ -50,6 +50,7 @@
               <vs-td>
                 <vs-input
                   class="w-24"
+                  placeholder="填写备注..."
                   v-model="notes[i]"
                 />
               </vs-td>
@@ -193,9 +194,9 @@ export default {
       })
 
       try {
-        const goodsList = this.validCartList.map(el => ({
+        const goodsList = this.validCartList.map((el, i) => ({
           amount: el.amount,
-          note: el.note,
+          note: this.notes[i],
           name: el.goods.name,
           goods: el.goods._id,
           seller: el.goods.seller._id,
@@ -209,9 +210,9 @@ export default {
           total_price: this.amountPayable,
           actual_price: this.amountPayable,
         }
-        console.log(goodsList)
-        return
+
         const { code, data } = await this.$store.dispatch('createOrder', body)
+
         if (code === 2000) {
           await this.$store.dispatch('cart/clearCartList')
           this.$store.commit('cart/SET_ORDER_ID', data.order_id)

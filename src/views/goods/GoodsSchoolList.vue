@@ -177,9 +177,11 @@ export default {
     border: none !important;
     box-shadow: none;
     border-radius: 0;
+    background: white;
   }
   .vs-input--input,
   .vs-input--placeholder {
+    padding-top: 0.84rem;
     padding-left: 40px;
   }
   .vs-icon {

@@ -33,7 +33,10 @@
           <div class="add-cart-btn h-0 opacity-0 transition overflow-hidden">
             <div
               class="py-2 px-4 flex-row-center text-sm bg-primary text-white radius cursor-pointer"
-              @click="$store.dispatch('cart/addCartItem', { amount: 1, goods_id: goods._id })"
+              @click="$store.dispatch(
+                'cart/addCartItem',
+                 { amount: 1, goods_id: goods._id, seller: goods.seller }
+              )"
             >
               <feather
                 class="mr-2"

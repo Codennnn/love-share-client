@@ -8,7 +8,9 @@
             class="item"
             v-for="it in categoryList"
             :key="it._id"
-          >{{ it.name }}</li>
+          >
+            <span>{{ it.name }}</span>
+          </li>
         </ul>
       </div>
       <div>
@@ -18,7 +20,9 @@
             class="item"
             v-for="it in peisong"
             :key="it"
-          >{{ it }}</li>
+          >
+            <span>{{ it }}</span>
+          </li>
         </ul>
       </div>
       <div>
@@ -28,7 +32,9 @@
             class="item"
             v-for="it in payment"
             :key="it"
-          >{{ it }}</li>
+          >
+            <span>{{ it }}</span>
+          </li>
         </ul>
       </div>
       <div>
@@ -38,7 +44,9 @@
             class="item"
             v-for="it in contacts"
             :key="it"
-          >{{ it }}</li>
+          >
+            <span>{{ it }}</span>
+          </li>
           <li class="item">
             项目地址：
             <a
@@ -110,7 +118,9 @@ export default {
   .item {
     margin-bottom: 0.5rem;
     font-size: 0.75rem;
-    cursor: pointer;
+    span {
+      cursor: pointer;
+    }
   }
 }
 

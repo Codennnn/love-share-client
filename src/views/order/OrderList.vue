@@ -158,7 +158,7 @@
                       query: {goodsId: tr.goods._id}
                     })"
                     ></el-image>
-                    <div class="w-56 mr-6 p-2 break-words text-sm">{{ tr.goods.name }}</div>
+                    <div class="w-48 p-2 break-words text-sm">{{ tr.goods.name }}</div>
                   </div>
                 </td>
 

@@ -241,7 +241,10 @@ export default {
 
       try {
         if (this.amount >= 1 && this.amount <= this.goods.quantity) {
-          await this.$store.dispatch('cart/addCartItem', { amount: this.amount, goods_id: id })
+          await this.$store.dispatch(
+            'cart/addCartItem',
+            { amount: this.amount, goods_id: id, seller: this.sellerId },
+          )
         }
       } finally {
         this.$vs.loading.close('#addCartBtn > .con-vs-loading')
