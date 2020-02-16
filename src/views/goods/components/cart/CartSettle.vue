@@ -18,7 +18,7 @@
             <template v-for="(tr, i) in data">
               <vs-tr
                 v-if="tr.goods.status === 1"
-                class="text-base text-gray-700"
+                class="text-base"
                 :key="i"
               >
                 <vs-td>

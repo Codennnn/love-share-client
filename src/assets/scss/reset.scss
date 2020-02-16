@@ -84,3 +84,8 @@ body {
     font-size: 0.875rem;
   }
 }
+
+// 聊天拖拽
+.vdr.active::before {
+  outline: none;
+}

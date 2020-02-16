@@ -28,7 +28,7 @@
           v-model="chatSearch"
         />
         <i
-          class="el-icon-d-arrow-left text-xl text-gray-700 cursor-pointer"
+          class="el-icon-d-arrow-left text-xl cursor-pointer"
           v-if="!clickNotClose"
           @click.stop="isChatSidebarActive = false"
         ></i>

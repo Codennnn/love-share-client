@@ -160,7 +160,7 @@
     <!-- 最近联系人 -->
     <div class="w-4/12 pl-5">
       <div class="p-5 bg-white radius">
-        <div class="mb-4 text-gray-700">最近联系</div>
+        <div class="mb-4">最近联系</div>
         <ul v-if="recentContacts.length > 0">
           <li
             class="mb-3 flex items-center justify-between"

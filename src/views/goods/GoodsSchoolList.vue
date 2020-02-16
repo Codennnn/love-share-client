@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="py-2 flex items-center justify-end text-gray-700">
+    <div class="py-2 flex items-center justify-end">
       <el-select
         v-model="selectedSchool"
         @change="switchSchool"
@@ -18,7 +18,7 @@
     <div class="container flex">
       <!-- 左侧 -->
       <div class="left pr-4">
-        <h6 class="my-3 text-sm text-gray-700">筛选搜索</h6>
+        <h6 class="my-3 text-sm">筛选搜索</h6>
         <div class="p-4 light-shadow bg-white radius">
           <div class="">
             <el-radio-group
@@ -38,7 +38,7 @@
 
       <!-- 右侧 -->
       <div class="right pl-3">
-        <h6 class="my-3 text-sm text-gray-700">
+        <h6 class="my-3 text-sm">
           共查询到 {{ pagination.total }} 个商品
         </h6>
         <!-- 搜索框 -->

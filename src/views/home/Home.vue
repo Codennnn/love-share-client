@@ -159,7 +159,6 @@ export default {
   text-align: center;
   line-height: 45px;
   overflow: hidden;
-  color: #333;
   &::before,
   &::after {
     content: "";

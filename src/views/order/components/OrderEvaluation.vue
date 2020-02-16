@@ -9,7 +9,7 @@
     </div>
     <div
       v-else
-      class="mb-6 flex-row-center text-gray-600"
+      class="mb-6 flex-row-center"
     >
       <feather
         class="mr-4 text-success"
@@ -17,8 +17,8 @@
         type="check-circle"
       ></feather>
       <div>
-        <div class="text-gray-700 text-xl">评价已提交成功</div>
-        <div>乐豆将于一天左右返回到您的账户中</div>
+        <div class="text-xl">评价已提交成功</div>
+        <div class="text-gray-600">乐豆将于一天左右返回到您的账户中</div>
       </div>
     </div>
 
@@ -28,7 +28,7 @@
         alt="物流"
       >
       <div class="ml-4 mr-32">
-        <div class="mb-1 text-gray-700 text-xl">物流服务评价</div>
+        <div class="mb-1 text-xl">物流服务评价</div>
         <div class="text-sm text-gray-600">羞涩的配送小哥还没更新个人信息</div>
       </div>
       <div
@@ -57,7 +57,7 @@
           :src="it.goods.img_list[0]"
         ></el-image>
         <p class="my-3 text-gray-600">{{ it.goods.name }}</p>
-        <p class="text-gray-700 font-bold">￥{{ $numFixed(it.goods.price) }}</p>
+        <p class="font-bold">￥{{ $numFixed(it.goods.price) }}</p>
       </div>
       <div
         v-if="reviews.length > 0"
@@ -78,7 +78,7 @@
           ></el-rate>
           <div
             v-if="it.goods.review && it.goods.review._id"
-            class="flex items-center text-gray-700"
+            class="flex items-center"
           >
             <feather
               class="ml-4 mr-2 text-success"

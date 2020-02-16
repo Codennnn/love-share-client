@@ -22,7 +22,7 @@
                 class="w-1/3 py-4 px-5 flex-col"
                 style="border-right: 1px dashed #cfcfcf;"
               >
-                <div class="font-bold text-gray-700">{{ it.goods.name }}</div>
+                <div class="font-bold">{{ it.goods.name }}</div>
                 <div class="text-sm">数量</div>
                 <div class="flex">
                   <vs-input-number

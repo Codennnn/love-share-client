@@ -1,6 +1,6 @@
 <template>
   <div class="mt-40">
-    <p class="w-full pb-4 text-2xl font-bold text-gray-700">
+    <p class="w-full pb-4 text-2xl font-bold">
       欢迎登录
     </p>
     <vs-input

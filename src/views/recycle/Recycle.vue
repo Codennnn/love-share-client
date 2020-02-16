@@ -10,7 +10,7 @@
           v-for="(it,i) in menus"
           :key="i"
         >
-          <span class="text-gray-700 font-bold">{{ it.text }}</span>
+          <span class="font-bold">{{ it.text }}</span>
         </li>
       </ul>
       <div>

@@ -6,7 +6,7 @@
         <div class="type-select ml-4 relative">
           <div class="relative z-50 flex">
             <div
-              class="icon-block flex-row-center text-gray-700 cursor-pointer"
+              class="icon-block flex-row-center cursor-pointer"
               v-for="(it, i) in icons"
               :key="i"
               :title="icons[i].text"
@@ -50,9 +50,9 @@
         >{{ icons[current].text }}</div>
       </div>
 
-      <ul class="p-4 text-gray-600 bg-white radius">
+      <ul class="p-4 bg-white radius">
         <li
-          class="mb-5 text-xl text-gray-700"
+          class="mb-5 text-xl"
           v-for="(menu, i) in menus"
           :key="i"
         >

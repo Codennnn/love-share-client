@@ -1,6 +1,6 @@
 <template>
   <div class="mt-8">
-    <p class="w-full pb-2 text-2xl font-bold text-gray-700">
+    <p class="w-full pb-2 text-2xl font-bold">
       注册新用户
     </p>
     <div class="overflow-hidden">

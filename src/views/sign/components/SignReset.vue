@@ -1,6 +1,6 @@
 <template>
   <div class="mt-40">
-    <p class="w-full pb-4 flex items-center text-2xl font-bold text-gray-700">
+    <p class="w-full pb-4 flex items-center text-2xl font-bold">
       <i
         title="返回到登录"
         class="el-icon-back mr-4 cursor-pointer"
