@@ -66,8 +66,8 @@ export default {
   justify-content: center;
   align-items: center;
   flex: 1;
-  border-radius: 0.5rem;
-  box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.1);
+  border-radius: $large-radius;
+  box-shadow: $base-shadow;
   cursor: pointer;
 }
 </style>

@@ -99,7 +99,7 @@
                 </div>
                 <div class="info-item">
                   <vs-chip>邮 箱</vs-chip>
-                  <span class="val">{{ info.email || '未填写' }}</span>
+                  <span class="val break-all break-words">{{ info.email || '未填写' }}</span>
                 </div>
                 <div class="info-item">
                   <vs-chip>手机号码</vs-chip>
@@ -278,6 +278,7 @@ export default {
     margin-right: 0.5rem;
   }
   .val {
+    width: 9rem;
     font-size: 0.8rem;
   }
 }

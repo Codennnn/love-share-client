@@ -32,6 +32,14 @@ export function getOrderDetail(params) {
   })
 }
 
+export function getOrderId(params) {
+  return request({
+    url: '/order/id',
+    method: 'get',
+    params,
+  })
+}
+
 export function getOrdersByUser() {
   return request({
     url: '/order/by_user',

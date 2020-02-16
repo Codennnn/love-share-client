@@ -63,22 +63,35 @@
                         查看主页
                       </el-dropdown-item>
                       <el-dropdown-item
-                        v-if="tr.status !== 2"
+                        v-if="tr.status !== 1 || tr.status !== 3"
+                        @click.native="viewOrderDetail(tr._id, tr.buyer)"
+                      >
+                        订单详情
+                      </el-dropdown-item>
+                      <el-dropdown-item
+                        v-if="tr.status === 1"
                         @click.native="editGoodsInfo(tr._id)"
                       >
                         编辑信息
                       </el-dropdown-item>
                       <el-dropdown-item
                         v-if="tr.status === 1"
-                        @click.native="updateManyGoods(tr._id, 3)"
+                        @click.native="updateGoodsStatus(tr._id, 3)"
                       >
                         下架商品
                       </el-dropdown-item>
                       <el-dropdown-item
                         v-if="tr.status === 3"
-                        @click.native="updateManyGoods(tr._id, 1)"
+                        @click.native="updateGoodsStatus(tr._id, 1)"
                       >
                         重新上架
+                      </el-dropdown-item>
+                      <el-dropdown-item
+                        v-if="tr.status === 3"
+                        class="text-danger"
+                        @click.native="deleteGoods(tr._id)"
+                      >
+                        删除发布
                       </el-dropdown-item>
                     </el-dropdown-menu>
                   </el-dropdown>
@@ -211,8 +224,8 @@
 
 <script>
 import { getPublishedGoods, getBoughtGoods } from '@/request/api/user'
-import { cancelOrder } from '@/request/api/order'
-import { updateManyGoods } from '@/request/api/goods'
+import { cancelOrder, getOrderId } from '@/request/api/order'
+import { updateManyGoods, deleteGoods } from '@/request/api/goods'
 
 const state = {
   undefined: { color: 'dark', text: '未定义' },
@@ -284,11 +297,15 @@ export default {
       })
     },
 
-    viewOrderDetail(orderId) {
-      this.$router.push({
-        path: '/order-detail',
-        query: { orderId },
-      })
+    // 查看订单详情
+    async viewOrderDetail(goods_id, buyer) {
+      const { code, data: { order_id, sub_id } } = await getOrderId({ goods_id, buyer })
+      if (code === 2000) {
+        this.$router.push({
+          path: '/order-detail',
+          query: { orderId: order_id, subId: sub_id },
+        })
+      }
     },
 
     editGoodsInfo(goodsId) {
@@ -299,11 +316,19 @@ export default {
     },
 
     // 更新商品的状态
-    async updateManyGoods(id, status) {
+    async updateGoodsStatus(id, status) {
       const { code } = await updateManyGoods({
         goods_id_list: [id],
         status,
       })
+      if (code === 2000) {
+        this.getPublishedGoods()
+      }
+    },
+
+    // 更新商品的状态
+    async deleteGoods(goods_id) {
+      const { code } = await deleteGoods({ goods_id })
       if (code === 2000) {
         this.getPublishedGoods()
       }

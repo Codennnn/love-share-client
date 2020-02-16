@@ -68,7 +68,7 @@
         </div>
         <div
           class="py-2 text-sm text-center bg-gray-200 text-gray-500
-        hover:text-gray-600 transition cursor-pointer"
+        hover:text-blue-500 transition cursor-pointer"
           @click="signOut()"
         >
           退出登录

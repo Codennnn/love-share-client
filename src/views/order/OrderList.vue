@@ -141,148 +141,156 @@
                 <span>总额：</span>
                 <span class="mr-6">{{ $numFixed(sub.total_price) }}</span>
               </div>
-              <tr
-                class="text-gray-500 text-sm"
-                v-for="(tr, i) in sub.goods_list"
-                :key="tr._id"
-              >
-                <td class="px-4">
-                  <div class="flex py-3">
-                    <el-image
-                      class="mr-2 radius base-shadow cursor-pointer"
-                      style="width: 80px; height: 80px"
-                      fit="contain"
-                      :src="`${tr.goods.img_list[0]}?imageView2/2/w/100`"
-                      @click="$router.push({
+              <template v-for="(tr, i) in sub.goods_list">
+                <tr
+                  class="text-gray-500 text-sm"
+                  v-if="tr.goods"
+                  :key="tr._id"
+                >
+                  <td class="px-4">
+                    <div class="flex py-3">
+                      <el-image
+                        class="mr-2 radius base-shadow cursor-pointer"
+                        style="width: 80px; height: 80px"
+                        fit="contain"
+                        :src="`${tr.goods.img_list[0]}?imageView2/2/w/100`"
+                        @click="$router.push({
                       path: '/goods-detail',
                       query: {goodsId: tr.goods._id}
                     })"
-                    ></el-image>
-                    <div class="w-48 p-2 break-words text-sm">{{ tr.goods.name }}</div>
-                  </div>
-                </td>
+                      ></el-image>
+                      <div class="w-48 p-2 break-words text-sm">{{ tr.goods.name }}</div>
+                    </div>
+                  </td>
 
-                <!-- 数量 -->
-                <td>
-                  <div class="p-1">x{{ tr.amount }}</div>
-                </td>
+                  <!-- 数量 -->
+                  <td>
+                    <div class="p-1">x{{ tr.amount }}</div>
+                  </td>
 
-                <!-- 卖家 -->
-                <td class="px-4 text-gray-600">
-                  <el-tooltip content="查看卖家">
-                    <div
-                      class="cursor-pointer"
-                      @click="$router.push({
+                  <!-- 卖家 -->
+                  <td class="px-4 text-gray-600">
+                    <el-tooltip content="查看卖家">
+                      <div
+                        class="cursor-pointer"
+                        @click="$router.push({
                       path: '/user-detail',
                       query: {userId: tr.goods.seller._id},
                     })"
-                    >
-                      @{{ tr.goods.seller.nickname }}
-                    </div>
-                  </el-tooltip>
-                </td>
+                      >
+                        @{{ tr.goods.seller.nickname }}
+                      </div>
+                    </el-tooltip>
+                  </td>
 
-                <!-- 收货人 -->
-                <td class="px-4">
-                  <el-popover
-                    trigger="hover"
-                    placement="right"
-                  >
+                  <!-- 收货人 -->
+                  <td class="px-4">
+                    <el-popover
+                      trigger="hover"
+                      placement="right"
+                    >
+                      <div
+                        slot="reference"
+                        class="flex-row-center"
+                      >
+                        <feather
+                          class="mr-1"
+                          size="18"
+                          type="user"
+                        ></feather>
+                        {{ order.address.receiver }}
+                      </div>
+                      <div>{{ order.address.receiver }}</div>
+                      <div class="my-1">{{ order.address.address }}</div>
+                      <div>{{ order.address.phone }}</div>
+                    </el-popover>
+                  </td>
+
+                  <!-- 支付信息 -->
+                  <td class="px-4">
+                    <template v-if="order.sub_order.length > 1">
+                      <div>
+                        ￥{{ $numFixed(tr.goods.price) }}
+                      </div>
+                    </template>
+                    <template v-else>
+                      <div>
+                        ￥{{ $numFixed(order.total_price) }}
+                      </div>
+                      <div>{{ payment[order.payment] }}</div>
+                    </template>
+                  </td>
+
+                  <!-- 订单状态 -->
+                  <td class="px-4 py-2 text-right">
                     <div
-                      slot="reference"
                       class="flex-row-center"
+                      :class="`text-${status[sub.status].color}`"
                     >
                       <feather
                         class="mr-1"
                         size="18"
-                        type="user"
+                        :type="status[sub.status].icon"
                       ></feather>
-                      {{ order.address.receiver }}
+                      <div>
+                        {{ status[sub.status].text }}
+                      </div>
                     </div>
-                    <div>{{ order.address.receiver }}</div>
-                    <div class="my-1">{{ order.address.address }}</div>
-                    <div>{{ order.address.phone }}</div>
-                  </el-popover>
-                </td>
+                    <div
+                      v-if="sub.status === 2"
+                      class="cursor-pointer"
+                    >卖了换钱</div>
+                  </td>
 
-                <!-- 支付信息 -->
-                <td class="px-4">
-                  <template v-if="order.sub_order.length > 1">
-                    <div>
-                      ￥{{ $numFixed(tr.goods.price) }}
-                    </div>
-                  </template>
-                  <template v-else>
-                    <div>
-                      ￥{{ $numFixed(order.total_price) }}
-                    </div>
-                    <div>{{ payment[order.payment] }}</div>
-                  </template>
-                </td>
-
-                <!-- 订单状态 -->
-                <td class="px-4 py-2 text-right">
-                  <div
-                    class="flex-row-center"
-                    :class="`text-${status[sub.status].color}`"
+                  <!-- 更多操作 -->
+                  <td
+                    v-if="isMultiItems(sub.goods_list.length, i)"
+                    class="px-6"
+                    :rowspan="sub.goods_list.length"
                   >
-                    <feather
-                      class="mr-1"
-                      size="18"
-                      :type="status[sub.status].icon"
-                    ></feather>
-                    <div>
-                      {{ status[sub.status].text }}
-                    </div>
-                  </div>
-                  <div
-                    v-if="sub.status === 2"
-                    class="cursor-pointer"
-                  >卖了换钱</div>
-                </td>
-
-                <!-- 更多操作 -->
-                <td
-                  v-if="isMultiItems(sub.goods_list.length, i)"
-                  class="px-6"
-                  :rowspan="sub.goods_list.length"
-                >
-                  <el-dropdown>
-                    <feather
-                      size="20"
-                      type="more-horizontal"
-                    ></feather>
-                    <el-dropdown-menu slot="dropdown">
-                      <el-dropdown-item @click.native="$router.push({
+                    <el-dropdown>
+                      <feather
+                        size="20"
+                        type="more-horizontal"
+                      ></feather>
+                      <el-dropdown-menu slot="dropdown">
+                        <el-dropdown-item @click.native="$router.push({
                           path: '/order-detail',
                           query: {orderId: order._id, subId: sub._id}
                         })">
-                        订单详情
-                      </el-dropdown-item>
-                      <el-dropdown-item
-                        v-if="sub.status === 1"
-                        @click.native="completedOrder(order._id, sub._id, sub.goods_list)"
-                      >
-                        确认收货
-                      </el-dropdown-item>
-                      <el-dropdown-item
-                        v-if="sub.status === 1"
-                        class="text-danger"
-                        @click.native="cancelOrder(order._id, sub._id, sub.goods_list,
+                          订单详情
+                        </el-dropdown-item>
+                        <el-dropdown-item
+                          v-if="sub.status === 1"
+                          @click.native="completedOrder(order._id, sub._id, sub.goods_list)"
+                        >
+                          确认收货
+                        </el-dropdown-item>
+                        <el-dropdown-item
+                          v-if="sub.status === 1"
+                          class="text-danger"
+                          @click.native="cancelOrder(order._id, sub._id, sub.goods_list,
                        tr.goods.seller._id)"
-                      >
-                        取消订单
-                      </el-dropdown-item>
-                      <el-dropdown-item
-                        v-if="sub.status === 2"
-                        @click.native="postComment(order._id, sub._id,)"
-                      >
-                        评价
-                      </el-dropdown-item>
-                    </el-dropdown-menu>
-                  </el-dropdown>
-                </td>
-              </tr>
+                        >
+                          取消订单
+                        </el-dropdown-item>
+                        <el-dropdown-item
+                          v-if="sub.status === 2"
+                          @click.native="postComment(order._id, sub._id,)"
+                        >
+                          评价
+                        </el-dropdown-item>
+                      </el-dropdown-menu>
+                    </el-dropdown>
+                  </td>
+                </tr>
+                <tr
+                  v-else
+                  :key="tr._id"
+                >
+                  <td class="p-6 text-red-300">该子订单已取消，原物品已被主人从库中删除</td>
+                </tr>
+              </template>
             </template>
           </div>
         </tbody>

@@ -98,11 +98,11 @@
                   title="回复"
                   class="reply-icon el-icon-chat-dot-square ml-2
                  cursor-pointer text-base text-gray-600"
-                  @click="showReplyInput(cm._id, it.at, 2)"
+                  @click="showReplyInput(it._id, it.sender, 2)"
                 ></i>
               </p>
               <div
-                v-if="currRep === cm._id"
+                v-if="currRep === it._id"
                 class="mt-1 flex items-end"
               >
                 <vs-input
@@ -255,6 +255,10 @@ export default {
         this.currMsg = id
       }
       if (type === 2) {
+        if (this.currRep) {
+          this.currRep = null
+          return
+        }
         this.currMsg = null
         this.currRep = id
       }

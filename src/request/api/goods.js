@@ -8,6 +8,14 @@ export function createGoods(data) {
   })
 }
 
+export function deleteGoods(data) {
+  return request({
+    url: '/goods/delete',
+    method: 'delete',
+    data,
+  })
+}
+
 export function editGoods(data) {
   return request({
     url: '/goods/edit',
@@ -61,13 +69,6 @@ export function getGoodsDetail(params) {
     url: '/goods/detail',
     method: 'get',
     params,
-  })
-}
-
-export function deleteGoods() {
-  return request({
-    url: '/goods/delete',
-    method: 'delete',
   })
 }
 
