@@ -27,7 +27,7 @@
     />
     <vs-button
       id="resetBtn"
-      class="w-full mt-3 mb-1 vs-con-loading__container"
+      class="w-full mt-3 mb-1 m-radius vs-con-loading__container"
       color="rgb(103, 123, 255)"
       gradient-color-secondary="rgb(91, 143, 255)"
       type="gradient"

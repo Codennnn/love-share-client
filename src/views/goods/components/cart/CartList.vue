@@ -13,7 +13,7 @@
             >
               <div class="w-1/3">
                 <el-image
-                  class="h-full w-full"
+                  class="h-full w-full p-4"
                   fit="contain"
                   :src="`${it.goods.img_list[0]}?imageView2/2/w/250`"
                 />
@@ -55,7 +55,7 @@
                   style="background: rgba(var(--vs-primary), 1);"
                   @click="$router.push({path: '/goods-detail', query: { goodsId: it.goods._id }})"
                 >
-                  <i class="el-icon-star-off mr-1 text-lg"></i>
+                  <i class="el-icon-position mr-1 text-lg"></i>
                   查看商品
                 </div>
               </div>
@@ -75,7 +75,7 @@
 
       <!-- 右侧 -->
       <div class="w-1/3 pl-5">
-        <div class="p-4 bg-white light-shadow radius">
+        <div class="p-4 bg-white radius">
           <p class="mb-1 text-sm text-gray-500">购物车账单总览</p>
           <div class="flex justify-between cursor-pointer">
             <span class="label">优惠券</span>

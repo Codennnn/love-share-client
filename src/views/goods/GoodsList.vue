@@ -23,15 +23,25 @@
           >
           </el-image>
         </div>
-        <div class="p-3">
-          <p
-            class="mb-3 text-overflow-multi"
-            style="height: 2.7rem;"
-          >
+        <div class="absolute bottom-0 p-3">
+          <p class="mb-1 text-overflow-multi">
             {{ goods.name }}
           </p>
           <div class="flex justify-between items-center">
             <div class="text-lg text-primary font-bold">￥{{ $numFixed(goods.price) }}</div>
+          </div>
+          <div class="add-cart-btn h-0 opacity-0 transition overflow-hidden">
+            <div
+              class="py-2 px-4 flex-row-center text-sm bg-primary text-white radius cursor-pointer"
+              @click="$store.dispatch('cart/addCartItem', { amount: 1, goods_id: goods._id })"
+            >
+              <feather
+                class="mr-2"
+                size="16"
+                type="shopping-cart"
+              ></feather>
+              加入购物车
+            </div>
           </div>
         </div>
       </div>
@@ -48,7 +58,7 @@
           class="sm:w-1/3 lg:w-1/2"
           fit="cover"
           alt="无数据"
-          src="https://gitee.com/chinesee/images/raw/master/img/img_017.png"
+          src="https://gitee.com/chinesee/images/raw/master/img/img_016.png"
         >
         </el-image>
       </div>
@@ -106,17 +116,25 @@ export default {
   display: grid;
   grid-column-gap: 24px;
   grid-row-gap: 26px;
-  @media (max-width: 1050px) {
-    grid-template-columns: 1fr 1fr 1fr !important;
+  @media (max-width: 1080px) {
+    grid-template-columns: 1fr 1fr 1fr 1fr !important;
   }
   .goods-item {
-    border-radius: 10px;
+    position: relative;
+    padding-bottom: 6.5rem;
+    border-radius: $large-radius;
     background: #fff;
     overflow: hidden;
     box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.01);
     transition: all 0.4s;
     &:hover {
       box-shadow: 0 0 25px 10px rgba(var(--vs-primary), 0.2);
+      .add-cart-btn {
+        margin-top: 0.5rem;
+        height: 3rem;
+        opacity: 1;
+        overflow: auto;
+      }
     }
     .img-wrapper {
       display: flex;

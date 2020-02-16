@@ -7,7 +7,6 @@
       <vs-select
         autocomplete
         class="mb-1"
-        label="您的学校"
         placeholder="请选择您的学校"
         width="100%"
         warning-text="请选择您的学校"
@@ -26,7 +25,7 @@
     </div>
 
     <vs-input
-      class="w-full"
+      class="w-full pb-1"
       val-icon-warning="report_problem"
       val-icon-danger="clear"
       v-for="(item, i) in signUpInput"
@@ -59,7 +58,7 @@
     </div>
     <vs-button
       id="signUpBtn"
-      class="w-full mt-2 mb-1 vs-con-loading__container"
+      class="w-full mt-2 mb-1 m-radius vs-con-loading__container"
       color="rgb(103, 123, 255)"
       gradient-color-secondary="rgb(var(--vs-primary), 1)"
       type="gradient"
@@ -123,7 +122,7 @@ const signUpInput = [
     placeholder: '确认密码',
     value: '',
     type: 'password',
-    description: '再次确认密码，请输入相同的密码',
+    description: '',
     reg: /^[\w]{6,16}$/,
     isWarnng: false,
     isError: false,

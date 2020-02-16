@@ -158,23 +158,19 @@ export default {
 
 #router-view {
   position: relative;
-  // min-height: 100vh;
+  padding-bottom: 4rem;
   width: 100%;
   display: flex;
   justify-content: center;
   min-height: calc(100vh - #{$footer-height});
   @media (max-width: $router-view-max-width) {
-    padding: 0 2rem;
+    padding-left: 2rem;
+    padding-right: 2rem;
   }
   .router-content {
     padding-top: 6.5rem;
-    max-width: 1200px;
+    width: 1100px;
   }
-}
-
-.router-footer {
-  height: $footer-height;
-  line-height: $footer-height;
 }
 
 #chat-container {

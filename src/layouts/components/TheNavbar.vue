@@ -51,7 +51,7 @@
           <el-popover placement="bottom">
             <div
               slot="reference"
-              class="relative h-10 mr-6 bg-gray-150 radius overflow-hidden"
+              class="relative h-10 mr-6 radius overflow-hidden"
             >
               <div
                 class="absolute z-50 left-0 w-10 h-10 flex-row-center"
@@ -248,24 +248,22 @@ export default {
 .nav-search::v-deep {
   .vs-con-input {
     height: 100%;
-  }
-  $padding-left: 2.8rem !global;
-  .vs-inputx {
-    height: 100%;
-    padding-left: $padding-left;
-    padding-top: 0.5rem;
-    border: none !important;
-    box-shadow: none;
-    background: transparent;
-    border-radius: 0;
-    &.vs-input--input:focus {
+    $padding-left: 2.8rem !global;
+    .vs-inputx {
+      height: 100%;
+      padding: 0.5rem 0.4rem 0.4rem $padding-left;
       border: none !important;
+      box-shadow: none;
+      background: $bg-gray-150;
+      border-radius: 0;
+      &.vs-input--input:focus {
+        border: none !important;
+      }
     }
-  }
-  .vs-input--placeholder {
-    height: 100%;
-    padding-left: $padding-left;
-    padding-top: 0.6rem;
+    .vs-input--placeholder {
+      height: 100%;
+      padding: 0.6rem 0.5rem 0.4rem $padding-left;
+    }
   }
 }
 </style>

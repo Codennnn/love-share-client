@@ -52,9 +52,8 @@ export default {
 
 <style lang="scss">
 #app {
-  color: #4a5568;
-  // height: 100%;
-  background: rgb(248, 248, 248);
+  color: $text-main-color;
+  background: $page-bg-color;
 }
 
 // 重设跳转进度条的颜色

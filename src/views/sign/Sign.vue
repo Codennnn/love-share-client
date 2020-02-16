@@ -12,12 +12,12 @@
         src="https://gitee.com/chinesee/images/raw/master/img/img_015.png"
       >
       <router-link
-        class="mr-4"
+        class="mr-6"
         to="/home"
       >首 页</router-link>
       <router-link
-        class="mr-4"
-        to="/home"
+        class="mr-6"
+        to="/help-center"
       >帮助中心</router-link>
     </div>
 
@@ -36,6 +36,7 @@
         >
           <keep-alive>
             <component
+              id="sign"
               :is="currentComponent"
               @switchComponent="switchCom"
             />
@@ -83,3 +84,14 @@ export default {
   },
 }
 </script>
+
+<style lang="scss" scoped>
+#sign::v-deep {
+  .vs-con-input {
+    .vs-inputx,
+    .input-span-placeholder {
+      padding: 0.6rem;
+    }
+  }
+}
+</style>

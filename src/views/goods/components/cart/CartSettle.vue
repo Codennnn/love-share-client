@@ -1,11 +1,25 @@
 <template>
   <div class="main flex vs-con-loading__container">
     <div class="w-2/3 pr-3">
-      <div class="p-5 radius light-shadow bg-white">
-        <div class="w-full mt-1 mb-3 p-3 text-lg text-primary bg-gray-150 radius">购物清单</div>
+      <div class="p-5 radius bg-white">
+        <div class="mb-2 overflow-hidden">
+          <vs-button
+            radius
+            class="text-xl"
+            type="flat"
+            color="#999"
+            icon="arrow_back"
+            @click="$emit('switchComponent', {
+              currentStep: 2,
+              currentComponent: 'CartAddress',
+              isActive: true,
+            })"
+          ></vs-button>
+        </div>
+        <div class="w-full mb-3 p-3 text-lg text-primary bg-gray-150 radius">购物清单</div>
         <vs-table
           noDataText="暂无任何商品"
-          :data="cartList"
+          :data="validCartList"
         >
           <template slot="thead">
             <vs-th></vs-th>
@@ -13,37 +27,33 @@
             <vs-th>数量</vs-th>
             <vs-th>运费</vs-th>
             <vs-th>单价</vs-th>
+            <vs-th>备注信息</vs-th>
           </template>
           <template slot-scope="{data}">
-            <template v-for="(tr, i) in data">
-              <vs-tr
-                v-if="tr.goods.status === 1"
-                class="text-base"
-                :key="i"
-              >
-                <vs-td>
-                  <el-image
-                    class="w-24 h-24 base-shadow radius"
-                    fit="contain"
-                    :src="`${tr.goods.img_list[0]}?imageView2/2/w/100`"
-                  ></el-image>
-                </vs-td>
-                <vs-td>{{ tr.goods.name }}</vs-td>
-                <vs-td>x{{ tr.amount }}</vs-td>
-                <vs-td>{{ $numFixed(tr.goods.delivery_charge) }}</vs-td>
-                <vs-td class="text-primary font-bold">
-                  ￥{{ $numFixed(tr.goods.price) }}
-                </vs-td>
-                <vs-td>
-                </vs-td>
-                <template slot="expand">
-                  <vs-input
-                    label-placeholder="添加备注"
-                    v-model="tr.goods.dec"
-                  />
-                </template>
-              </vs-tr>
-            </template>
+            <vs-tr
+              v-for="(tr, i) in data"
+              :key="i"
+            >
+              <vs-td>
+                <el-image
+                  class="w-24 h-24 base-shadow radius"
+                  fit="contain"
+                  :src="`${tr.goods.img_list[0]}?imageView2/2/w/100`"
+                ></el-image>
+              </vs-td>
+              <vs-td>{{ tr.goods.name }}</vs-td>
+              <vs-td>x{{ tr.amount }}</vs-td>
+              <vs-td>{{ $numFixed(tr.goods.delivery_charge) }}</vs-td>
+              <vs-td class="text-primary font-bold">
+                ￥{{ $numFixed(tr.goods.price) }}
+              </vs-td>
+              <vs-td>
+                <vs-input
+                  class="w-24"
+                  v-model="notes[i]"
+                />
+              </vs-td>
+            </vs-tr>
           </template>
         </vs-table>
 
@@ -61,7 +71,7 @@
 
     <div class="w-1/3 pl-3">
       <!-- 付款方式 -->
-      <div class="mb-5 p-5 radius base-shadow bg-white">
+      <div class="mb-5 p-5 radius bg-white">
         <p class="text-lg font-bold">选择您的付款方式</p>
         <p class="mb-6 text-sm text-gray-500">请务必选择正确的付款方式</p>
         <div>
@@ -109,8 +119,8 @@
       </div>
 
       <!-- 价格明细 -->
-      <div class="p-5 radius base-shadow bg-white">
-        <p class="mb-4 text-lg font-bold">价格明细</p>
+      <div class="p-5 radius bg-white">
+        <p class="mb-4 text-lg font-bold">账单明细</p>
         <div class="mb-1 flex justify-between items-center text-sm">
           <span class="text-gray-600">{{ validCartList.length }} 件商品</span>
           <span class="font-bold">￥{{ $numFixed(amountPayable) }}</span>
@@ -144,32 +154,37 @@
 import { mapState, mapGetters } from 'vuex'
 
 export default {
-  payBtnDisable: false,
   name: 'CartSettle',
   data: () => ({
+    notes: [],
     icons: [
       { icon: 'weixinzhifu', label: '微信支付', value: 'weixin' },
       { icon: 'zhifubao', label: '支付宝支付', value: 'zhifubao' },
       { icon: 'yinlian', label: '银行卡支付', value: 'yinlian' },
     ],
     payment: 'huabei', // 支付方式
-    textarea: '',
   }),
 
   computed: {
-    ...mapState('cart', ['cartList', 'address']),
+    ...mapState('cart', ['address']),
     ...mapGetters('cart', ['validCartList', 'deliveryCharges', 'amountPayable']),
     payBtnDisable() {
-      if (this.validCartList.length > 0 && this.payment && this.address.receiver) {
-        return false
-      }
-      return true
+      return !((this.validCartList.length > 0) && this.payment && this.address.receiver)
+    },
+  },
+
+  watch: {
+    validCartList: {
+      handler(v) {
+        v.forEach(() => this.notes.push(''))
+      },
+      immediate: true,
     },
   },
 
   methods: {
     async onPay() {
-      if (this.cartList.length <= 0) return
+      if (this.validCartList.length <= 0) return
 
       this.$vs.loading({
         container: '.main',
@@ -180,6 +195,7 @@ export default {
       try {
         const goodsList = this.validCartList.map(el => ({
           amount: el.amount,
+          note: el.note,
           name: el.goods.name,
           goods: el.goods._id,
           seller: el.goods.seller._id,
@@ -193,6 +209,8 @@ export default {
           total_price: this.amountPayable,
           actual_price: this.amountPayable,
         }
+        console.log(goodsList)
+        return
         const { code, data } = await this.$store.dispatch('createOrder', body)
         if (code === 2000) {
           await this.$store.dispatch('cart/clearCartList')
