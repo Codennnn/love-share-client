@@ -90,9 +90,9 @@ export const routes = [
         meta: { title: '订单详情' },
       },
       {
-        path: '/order-evaluation',
-        name: 'OrderEvaluation',
-        component: () => import('@/views/order/components/OrderEvaluation.vue'),
+        path: '/order-review',
+        name: 'OrderReview',
+        component: () => import('@/views/order/components/OrderReview.vue'),
         meta: { title: '订单评价' },
       },
       {

@@ -461,7 +461,7 @@ export default {
     // 评论订单
     async postComment(orderId, subId) {
       this.$router.push({
-        path: '/order-evaluation',
+        path: '/order-review',
         query: { orderId, subId },
       })
     },

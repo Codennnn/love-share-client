@@ -1,189 +1,198 @@
 <template>
-  <div class="relative p-6 bg-white radius overflow-hidden">
-    <div class="flex">
-      <div style="width: 60%;">
-        <el-carousel :autoplay="false">
-          <el-carousel-item
-            style="display: flex; justify-content: center;"
-            v-for="(url, i) in goods.img_list"
-            :key="i"
-          >
-            <el-image
-              class="w-full"
-              fit="contain"
-              :src="url"
-            ></el-image>
-          </el-carousel-item>
-        </el-carousel>
-        <vs-images hover="zoom">
-          <vs-image
-            v-for="(url, i) in goods.img_list"
-            :key="i"
-            :src="`${url}?imageView2/2/w/100`"
-            @click.native="showViewer = true, viewerList = [url]"
-          />
-        </vs-images>
-      </div>
-      <div
-        class="pl-5"
-        style="width: 40%;"
-      >
-        <p class="text-lg font-semibold">{{ goods.name }}</p>
-        <div class="my-2 flex items-center justify-between text-gray-500 text-sm">
-          <p>发布于 {{ $timeDiff(goods.created_at) }}</p>
-          <div class="flex-row-center">
-            <div
-              class="collect-btn flex items-center"
-              :class="isCollected ? 'is-collected' : 'not-collected'"
-              @click="isCollected ? deleteCollection() : addCollection()"
+  <div>
+    <div class="relative mb-6 p-6 bg-white radius overflow-hidden">
+      <div class="flex">
+        <div style="width: 60%;">
+          <el-carousel :autoplay="false">
+            <el-carousel-item
+              style="display: flex; justify-content: center;"
+              v-for="(url, i) in goods.img_list"
+              :key="i"
             >
-              <feather
-                class="mr-1"
-                size="18"
-                type="star"
-              ></feather>
-              {{ isCollected ? '已收藏' : '收藏' }}
+              <el-image
+                class="w-full"
+                fit="contain"
+                :src="url"
+              ></el-image>
+            </el-carousel-item>
+          </el-carousel>
+          <vs-images hover="zoom">
+            <vs-image
+              v-for="(url, i) in goods.img_list"
+              :key="i"
+              :src="`${url}?imageView2/2/w/100`"
+              @click.native="showViewer = true, viewerList = [url]"
+            />
+          </vs-images>
+        </div>
+        <div
+          class="pl-5"
+          style="width: 40%;"
+        >
+          <p class="text-lg font-semibold">{{ goods.name }}</p>
+          <div class="my-2 flex items-center justify-between text-gray-500 text-sm">
+            <p>发布于 {{ $timeDiff(goods.created_at) }}</p>
+            <div class="flex-row-center">
+              <div
+                class="collect-btn flex items-center"
+                :class="isCollected ? 'is-collected' : 'not-collected'"
+                @click="isCollected ? deleteCollection() : addCollection()"
+              >
+                <feather
+                  class="mr-1"
+                  size="18"
+                  type="star"
+                ></feather>
+                {{ isCollected ? '已收藏' : '收藏' }}
+              </div>
+              <span class="ml-2 text-sm text-gray-600">{{ goods.collect_num }} 人收藏</span>
             </div>
-            <span class="ml-2 text-sm text-gray-600">{{ goods.collect_num }} 人收藏</span>
           </div>
-        </div>
-        <vs-divider border-style="dashed" />
-        <div class="info-item">
-          <vs-chip>类 别</vs-chip>
-          <span
-            class="text-gray-600"
-            style="margin: 0 5px 4px 0; font-size: 15px;"
-            v-for="(item, i) in goods.category"
-            :key="i"
-          >
-            {{ item.name }}
-          </span>
-        </div>
-        <div class="info-item">
-          <vs-chip>价 格</vs-chip>
-          <div>
-            <span class="text-2xl text-primary font-semibold">
-              ￥{{ $numFixed(goods.price) }}
-            </span>
+          <vs-divider border-style="dashed" />
+          <div class="info-item">
+            <vs-chip>类 别</vs-chip>
             <span
-              v-if="goods.original_price !== 0"
-              class="text-gray-500"
-              style="text-decoration: line-through;"
+              class="text-gray-600"
+              style="margin: 0 5px 4px 0; font-size: 15px;"
+              v-for="(item, i) in goods.category"
+              :key="i"
             >
-              ￥{{ $numFixed(goods.original_price) }}
+              {{ item.name }}
             </span>
           </div>
-        </div>
-        <div class="info-item">
-          <vs-chip>新 旧</vs-chip>
-          <span
-            class="font-bold"
-            style="margin-bottom: 2px;"
-            :class="{
+          <div class="info-item">
+            <vs-chip>价 格</vs-chip>
+            <div>
+              <span class="text-2xl text-primary font-semibold">
+                ￥{{ $numFixed(goods.price) }}
+              </span>
+              <span
+                v-if="goods.original_price !== 0"
+                class="text-gray-500"
+                style="text-decoration: line-through;"
+              >
+                ￥{{ $numFixed(goods.original_price) }}
+              </span>
+            </div>
+          </div>
+          <div class="info-item">
+            <vs-chip>新 旧</vs-chip>
+            <span
+              class="font-bold"
+              style="margin-bottom: 2px;"
+              :class="{
               'text-success': goods.degree > 70,
               'text-warning': goods.degree >= 30 && goods.degree < 70,
               'text-danger': goods.degree < 30,
             } "
-          >
-            {{ goods.degree }}%
-          </span>
-        </div>
-        <div class="info-item">
-          <vs-chip>数 量</vs-chip>
-          <span style="margin-bottom: 2px;">{{ goods.quantity }}</span>
-        </div>
-        <div class="info-item">
-          <vs-chip>配 送</vs-chip>
-          <span style="margin-bottom: 4px; font-size: 15px;">
-            {{ goods.delivery === '1' ? '包邮' : goods.delivery === '2' ? '自费' : '自提' }}
-          </span>
-          <span
-            v-if="goods.delivery === '2'"
-            style="margin-bottom: 4px; font-size: 15px;"
-          >
-            (￥{{ $numFixed(goods.delivery_charge) }})
-          </span>
-        </div>
-        <div
-          class="info-item"
-          v-if="goods.returnable"
-        >
-          <vs-chip>保 障</vs-chip>
-          <span style="margin-bottom: 4px; font-size: 15px;">
-            7天无理由退换货
-          </span>
-        </div>
-        <vs-divider border-style="dashed" />
-        <div class="flex items-center mt-6">
-          <vs-input-number
-            class="mr-4"
-            v-model="amount"
-            :min="1"
-            :max="goods.quantity"
-          />
+            >
+              {{ goods.degree }}%
+            </span>
+          </div>
+          <div class="info-item">
+            <vs-chip>数 量</vs-chip>
+            <span style="margin-bottom: 2px;">{{ goods.quantity }}</span>
+          </div>
+          <div class="info-item">
+            <vs-chip>配 送</vs-chip>
+            <span style="margin-bottom: 4px; font-size: 15px;">
+              {{ goods.delivery === '1' ? '包邮' : goods.delivery === '2' ? '自费' : '自提' }}
+            </span>
+            <span
+              v-if="goods.delivery === '2'"
+              style="margin-bottom: 4px; font-size: 15px;"
+            >
+              (￥{{ $numFixed(goods.delivery_charge) }})
+            </span>
+          </div>
           <div
-            v-if="goods.status === 1 && !$self(sellerId)"
-            class="btn-group"
+            class="info-item"
+            v-if="goods.returnable"
           >
-            <vs-button
-              id="addCartBtn"
-              class="btnx text-sm vs-con-loading__container"
-              :disabled="addCartDisable"
-              @click="$emit('settle')"
-            >立即购买</vs-button>
-            <vs-dropdown>
+            <vs-chip>保 障</vs-chip>
+            <span style="margin-bottom: 4px; font-size: 15px;">
+              7天无理由退换货
+            </span>
+          </div>
+          <vs-divider border-style="dashed" />
+          <div class="flex items-center mt-6">
+            <vs-input-number
+              class="mr-4"
+              v-model="amount"
+              :min="1"
+              :max="goods.quantity"
+            />
+            <div
+              v-if="goods.status === 1 && !$self(sellerId)"
+              class="btn-group"
+            >
               <vs-button
-                class="btn-drop"
-                icon="expand_more"
-              ></vs-button>
+                id="addCartBtn"
+                class="btnx text-sm vs-con-loading__container"
+                :disabled="addCartDisable"
+                @click="$emit('settle')"
+              >立即购买</vs-button>
+              <vs-dropdown>
+                <vs-button
+                  class="btn-drop"
+                  icon="expand_more"
+                ></vs-button>
 
-              <vs-dropdown-menu>
-                <vs-dropdown-item
-                  v-if="!isInCart(goods._id)"
-                  @click="addCartItem(goods._id)"
-                >
-                  加入购物车
-                </vs-dropdown-item>
-                <vs-dropdown-item
-                  v-else
-                  @click="$router.push('/goods-cart')"
-                >
-                  在购物车中查看
-                </vs-dropdown-item>
-              </vs-dropdown-menu>
-            </vs-dropdown>
-          </div>
-          <div v-else-if="goods.status === 2 || goods.status === 4">
-            <vs-button
-              size="small"
-              :disabled="true"
-            >该商品已被购买</vs-button>
-          </div>
-          <div v-else-if="goods.status === 3">
-            <vs-button
-              color="danger"
-              size="small"
-              :disabled="true"
-            >该商品已下架</vs-button>
+                <vs-dropdown-menu>
+                  <vs-dropdown-item
+                    v-if="!isInCart(goods._id)"
+                    @click="addCartItem(goods._id)"
+                  >
+                    加入购物车
+                  </vs-dropdown-item>
+                  <vs-dropdown-item
+                    v-else
+                    @click="$router.push('/goods-cart')"
+                  >
+                    在购物车中查看
+                  </vs-dropdown-item>
+                </vs-dropdown-menu>
+              </vs-dropdown>
+            </div>
+            <div v-else-if="goods.status === 2 || goods.status === 4">
+              <vs-button
+                size="small"
+                :disabled="true"
+              >该商品已被购买</vs-button>
+            </div>
+            <div v-else-if="goods.status === 3">
+              <vs-button
+                color="danger"
+                size="small"
+                :disabled="true"
+              >该商品已下架</vs-button>
+            </div>
           </div>
         </div>
       </div>
+
+      <div class="mt-4">
+        <p class="text-gray-600">商品详细介绍</p>
+        <div
+          class="mt-2 text-sm goods-desc"
+          v-html="goods.description"
+        ></div>
+      </div>
+
+      <!-- 图片预览 -->
+      <el-image-viewer
+        v-show="showViewer"
+        :on-close="() => { showViewer = false }"
+        :url-list="viewerList"
+      />
     </div>
 
-    <div class="mt-4">
-      <p class="text-gray-600">商品详细介绍</p>
-      <div
-        class="mt-2 text-sm goods-desc"
-        v-html="goods.description"
-      ></div>
+    <div
+      v-if="goods.review"
+      class="p-6 bg-white radius"
+    >
+      {{ goods.review }}
     </div>
-
-    <!-- 图片预览 -->
-    <el-image-viewer
-      v-show="showViewer"
-      :on-close="() => { showViewer = false }"
-      :url-list="viewerList"
-    />
   </div>
 </template>
 
