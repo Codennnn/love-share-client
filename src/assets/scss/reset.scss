@@ -70,6 +70,20 @@ body {
   }
 }
 
+.vs-con-input {
+  .vs-inputx.vs-input--input {
+    border: none !important;
+    box-shadow: none;
+    background: rgba(0, 0, 0, 0.04);
+    border-radius: $medium-radius;
+    // padding: 0.6rem 3rem 0.6rem 0.6rem;
+  }
+
+  .input-span-placeholder {
+    // padding: 0.6rem 3rem 0.6rem 0.6rem;
+  }
+}
+
 // 修改 vuesax 中等按钮的字体大小
 .vs-button:not(.medium, .large) {
   & .vs-button-text {

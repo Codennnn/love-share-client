@@ -5,6 +5,9 @@ $danger: rgba(var(--vs-danger), 1);
 $warning:rgba(var(--vs-warning), 1);
 $dark: rgba(var(--vs-dark), 1);
 $gray: rgba(var(--vs-gray), 1);
+$bg-gray-150: rgb(245, 248, 255);
+$text-main-color: #4a5568;
+$page-bg-color: rgb(248, 248, 248);
 
 // Shadow
 $light-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.05);
@@ -18,7 +21,7 @@ $large-radius: 0.8rem;
 
 // Layout
 $layout-min-width: 1000px;
-$footer-height: 165px;
+$footer-height: 303px;
 $router-view-max-width: 1260px;
 $warning:rgba(var(--vs-warning), 1);
 $dark: rgba(var(--vs-dark), 1);

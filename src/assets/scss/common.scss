@@ -45,7 +45,7 @@
 }
 
 .bg-gray-150 {
-  background-color: rgb(245, 248, 255);
+  background-color: $bg-gray-150;
   // background-color: rgba(var(--vs-primary), 0.06);
 }
 
@@ -71,6 +71,9 @@
   box-shadow: $heavy-shadow;
 }
 
+.m-radius {
+  border-radius: $medium-radius;
+}
 .radius {
   border-radius: $large-radius;
 }
