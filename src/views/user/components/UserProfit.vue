@@ -2,7 +2,7 @@
   <div class="p-6 bg-white radius">
     <div class="text-xl font-bold text-gray-600">财富收益</div>
     <vs-divider />
-    <div class="w-2/3 py-6 flex justify-around">
+    <div class="grid py-6 flex justify-around">
       <div class="box">
         <div>
           <i class="el-icon-money text-4xl text-gray-600"></i>
@@ -11,7 +11,9 @@
           <div class="text-2xl font-bold">{{ balance || '0.00' }}</div>
           <div class="text-gray-600 text-sm">余额</div>
         </div>
+        <div class="absolute top-0 right-0 mt-2 mr-3 text-sm primary cursor-pointer">充值</div>
       </div>
+
       <div class="box">
         <div>
           <i class="el-icon-cherry text-4xl text-gray-600"></i>
@@ -21,6 +23,7 @@
           <div class="text-gray-600 text-sm">乐豆</div>
         </div>
       </div>
+
       <div class="box">
         <div>
           <i class="el-icon-postcard text-4xl text-gray-600"></i>
@@ -59,15 +62,22 @@ export default {
   box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.1);
 }
 
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-column-gap: 1.8rem;
+}
+
 .box {
-  margin-right: 1.5rem;
-  padding: 1.25rem 1.5rem;
+  position: relative;
+  padding: 1.4rem 1.8rem;
   display: flex;
   justify-content: center;
   align-items: center;
-  flex: 1;
   border-radius: $large-radius;
   box-shadow: $base-shadow;
-  cursor: pointer;
+  i {
+    margin-right: 1rem;
+  }
 }
 </style>
