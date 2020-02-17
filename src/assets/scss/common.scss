@@ -1,4 +1,24 @@
 // text classes
+.primary {
+  color: $primary !important;
+}
+
+.success {
+  color: $success !important;
+}
+
+.danger {
+  color: $danger !important;
+}
+
+.warning {
+  color: $warning !important;
+}
+
+.dark {
+  color: $dark !important;
+}
+
 .text-primary {
   color: $primary !important;
 }
@@ -74,6 +94,7 @@
 .m-radius {
   border-radius: $medium-radius;
 }
+
 .radius {
   border-radius: $large-radius;
 }
