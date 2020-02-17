@@ -72,7 +72,7 @@ export default {
     },
 
     async getGoodsListBySearch() {
-      if (this.searchText.trim().length <= 0) return
+      if (this.searchText.length <= 0) return
 
       this.$vs.loading({
         type: 'sound',

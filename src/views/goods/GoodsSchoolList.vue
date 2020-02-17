@@ -10,7 +10,6 @@
           :key="it._id"
           :label="it.name"
           :value="it._id"
-          @click.native="switchSchool(it._id, it.name)"
         >
         </el-option>
       </el-select>
@@ -86,6 +85,7 @@ export default {
     schoolList: [],
     selectedSchool: '',
     selectedCategory: 'all',
+    catchCategory: '',
     searchText: '',
 
     currentPage: 1,
@@ -137,11 +137,14 @@ export default {
 
     // 切换商品类型
     changeCategory(v) {
+      if (this.catchCategory === v) return
+
       if (v === 'all') {
         this.getGoodsListOfSameSchool(this.selectedSchool)
       } else {
         this.getGoodsListOfSameSchool(this.selectedSchool, [v])
       }
+      this.catchCategory = v
     },
 
     // 切换学校

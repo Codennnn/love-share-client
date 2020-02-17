@@ -58,7 +58,7 @@ export function getGoodsListBySearch(params) {
 
 export function getGoodsListOfSameSchool(data) {
   return request({
-    url: '/goods/list/same_school',
+    url: '/goods/list/by_school_or_category',
     method: 'post',
     data,
   })

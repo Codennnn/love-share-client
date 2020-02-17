@@ -1,6 +1,6 @@
 const mutations = {
   CHANGE_SEARCH_TEXT(state, text) {
-    if (text.trim().length <= 0) return
+    if (text.length <= 0) return
 
     state.searchText = text
 

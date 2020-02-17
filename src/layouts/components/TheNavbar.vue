@@ -66,7 +66,7 @@
               <vs-input
                 class="nav-search w-full h-full"
                 placeholder="搜索你想要的宝贝"
-                v-model="search"
+                v-model.trim="search"
                 @keyup.enter="onSearch()"
               />
             </div>
@@ -216,8 +216,8 @@ export default {
     // 搜索
     onSearch() {
       if (
-        this.search.trim().length > 0
-       && this.search.trim() !== this.searchText.trim()
+        this.search.length > 0
+       && this.search !== this.searchTex
       ) {
         this.$store.commit('CHANGE_SEARCH_TEXT', this.search)
         this.$router.push('/goods-search')

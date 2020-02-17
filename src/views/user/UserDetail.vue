@@ -203,7 +203,7 @@ export default {
 
   created() {
     const user_id = this.$route.query.userId
-    if (user_id !== this.$store.state.user.info._id) {
+    if (user_id !== this.$store.getters['user/userId']) {
       this.isUserFollowed(user_id)
       getUserInfoNum({ user_id }).then(({ code, data }) => {
         if (code === 2000) {

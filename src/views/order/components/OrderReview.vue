@@ -161,7 +161,7 @@ export default {
     async onPostReview() {
       const reviews = this.reviews
         .filter(el => !el.is_review) // 过滤掉已评价的商品
-        .filter(({ star, content }) => star > 0 && content.trim().length > 0)
+        .filter(({ star, content }) => star > 0 && content.length > 0)
 
       if (reviews.length > 0) {
         const { code } = await postReview({ reviews })
