@@ -51,6 +51,7 @@ export default {
 </script>
 
 <style lang="scss">
+body,
 #app {
   color: $text-main-color;
   background: $page-bg-color;

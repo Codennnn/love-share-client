@@ -156,6 +156,12 @@ export const routes = [
         meta: { title: '乐享PLUS会员' },
       },
       {
+        path: '/recharge',
+        name: 'Recharge',
+        component: () => import('@/views/recharge/Recharge.vue'),
+        meta: { title: '充值' },
+      },
+      {
         path: '/test',
         name: 'Test',
         component: () => import('@/views/test/Test.vue'),

@@ -11,7 +11,10 @@
           <div class="text-2xl font-bold">{{ balance || '0.00' }}</div>
           <div class="text-gray-600 text-sm">余额</div>
         </div>
-        <div class="absolute top-0 right-0 mt-2 mr-3 text-sm primary cursor-pointer">充值</div>
+        <div
+          class="absolute top-0 right-0 mt-2 mr-3 text-sm primary cursor-pointer"
+          @click="$router.push('/recharge')"
+        >充值</div>
       </div>
 
       <div class="box">
