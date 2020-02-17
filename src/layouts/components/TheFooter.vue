@@ -1,8 +1,8 @@
 <template>
   <div>
-    <div class="grid bg-gray-150 text-gray-600">
+    <div class="grid text-gray-600">
       <div>
-        <h3 class="title">购物指南</h3>
+        <h3 class="title">物品分类</h3>
         <ul>
           <li
             class="item"
@@ -107,7 +107,7 @@ export default {
 
 <style lang="scss" scoped>
 .grid {
-  padding: 3rem 8rem 2rem 8rem;
+  padding: 3rem 8rem 1rem 8rem;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
 
@@ -126,6 +126,5 @@ export default {
 
 .footer {
   padding: 1rem 8rem;
-  background: white;
 }
 </style>

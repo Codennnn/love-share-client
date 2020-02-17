@@ -78,6 +78,12 @@ export const routes = [
         meta: { title: '旧物回收' },
       },
       {
+        path: '/rental',
+        name: 'Rental',
+        component: () => import('@/views/rental/Rental.vue'),
+        meta: { title: '物品租借' },
+      },
+      {
         path: '/order-list',
         name: 'OrderList',
         component: () => import('@/views/order/OrderList.vue'),
