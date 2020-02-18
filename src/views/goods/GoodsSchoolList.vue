@@ -19,7 +19,7 @@
       <div class="left pr-4">
         <h6 class="my-3 text-sm">筛选搜索</h6>
         <div class="p-4 light-shadow bg-white radius">
-          <div class="">
+          <div>
             <el-radio-group
               v-model="selectedCategory"
               @change="changeCategory"

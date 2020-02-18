@@ -1,5 +1,5 @@
 <template>
-  <div class="">
+  <div>
     <div class="mb-6 flex">
       <ul
         class="px-4 py-6 bg-white radius"

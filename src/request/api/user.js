@@ -164,3 +164,19 @@ export function isUserFollowed(data) {
     data,
   })
 }
+
+export function rechargeBalance(data) {
+  return request({
+    url: '/user/balance/recharge',
+    method: 'post',
+    data,
+  })
+}
+
+export function getBillList(params) {
+  return request({
+    url: '/user/bill/list',
+    method: 'get',
+    params,
+  })
+}
