@@ -133,10 +133,9 @@ export default {
       if (!this.$login()) return
 
       const { _id, nickname } = this.seller
-      if (!this.$store.getters['chat/isInChat'](_id)) {
-        const code = await this.$store.dispatch('chat/addContact', _id)
-        if (code !== 2000) return
-      }
+      const code = await this.$store.dispatch('chat/addContact', _id)
+      if (code !== 2000) return
+
       this.$store.commit('chat/SET_ACTIVE_CHAT_USER', { _id, nickname })
       this.$store.commit('chat/SET_CHAT_OPEN')
     },

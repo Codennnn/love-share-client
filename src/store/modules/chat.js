@@ -66,12 +66,15 @@ const actions = {
     ])
   },
 
-  async addContact({ dispatch }, contact_id) {
-    const { code } = await addContact({ contact_id })
-    if (code === 2000) {
-      await dispatch('initChat')
+  async addContact({ getters, dispatch }, contact_id) {
+    if (!getters.isInChat(contact_id)) {
+      const { code } = await addContact({ contact_id })
+      if (code === 2000) {
+        await dispatch('initChat')
+      }
+      return code
     }
-    return code
+    return 2000
   },
 
   async deleteContact({ dispatch }, contact_id) {

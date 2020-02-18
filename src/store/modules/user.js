@@ -49,6 +49,8 @@ const actions = {
     commit('SET_TOKEN', '')
     commit('SET_INFO', {})
     commit('SET_ADDRESS', [])
+    commit('chat/SET_CONTACT_LIST', [], { root: true })
+    commit('chat/SET_CHAT_DATA', {}, { root: true })
     removeToken() // 移除本地token缓存
     localStorage.removeItem('vuex')
   },
