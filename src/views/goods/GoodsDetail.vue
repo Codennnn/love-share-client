@@ -82,24 +82,21 @@
                 <span
                   v-else
                   class="ml-2 text-primary cursor-pointer"
-                  @click="$router.push({
-                    path: '/user-center',
-                    query: {component: 'UserDetailInfo'}
-                  })"
+                  @click="onAddAddress()"
                 >添加地址</span>
               </p>
               <div class="mb-4 p-2 text-sm text-gray-600 bg-gray-100 radius">
                 <p>
                   <i class="el-icon-user"></i>
-                  {{ currAddr.receiver }}
+                  {{ currAddr.receiver || '请添加收货人！' }}
                 </p>
                 <p>
                   <i class="el-icon-phone-outline"></i>
-                  {{ currAddr.phone }}
+                  {{ currAddr.phone || '请添加联系方式！' }}
                 </p>
                 <p>
                   <i class="el-icon-location-information"></i>
-                  {{ currAddr.address }}
+                  {{ currAddr.address || '请添加收货地址！' }}
                 </p>
               </div>
             </div>
@@ -324,6 +321,18 @@ export default {
       if (code === 2000) {
         this.comments = data.comments
         this.pagination = data.pagination
+      }
+    },
+
+    onAddAddress() {
+      if (this.$login()) {
+        this.$router.push({
+          path: '/user-center',
+          query: { component: 'UserDetailInfo' },
+        })
+      } else {
+        this.isSidebarActive = false
+        this.$router.push('/sign')
       }
     },
 

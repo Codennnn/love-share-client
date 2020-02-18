@@ -45,7 +45,7 @@
             :key="i"
             :to="it.to"
           >
-            <svg class="w-12 h-12">
+            <svg class="svg w-12 h-12 transition">
               <use :xlink:href="`#icon-${it.icon}`" />
             </svg>
             <p class="mt-1 text-sm">{{ it.label }}</p>
@@ -140,9 +140,10 @@ export default {
   grid-template-columns: 1fr 1fr;
   grid-row-gap: 1rem;
   .grid-item {
-    transition: 0.3s;
     &:hover {
-      transform: translateY(-0.25rem);
+      .svg {
+        transform: translateY(-0.25rem);
+      }
     }
   }
 }

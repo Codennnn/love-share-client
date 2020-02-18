@@ -130,6 +130,8 @@ export default {
 
     // 联系卖家
     async contactSeller() {
+      if (!this.$login()) return
+
       const { _id, nickname } = this.seller
       if (!this.$store.getters['chat/isInChat'](_id)) {
         const code = await this.$store.dispatch('chat/addContact', _id)

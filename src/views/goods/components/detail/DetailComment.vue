@@ -4,12 +4,12 @@
     class="relative p-3 bg-white radius overflow-hidden"
     :style="`max-height: ${maxHeight}px;`"
   >
-    <div class="mb-1 flex justify-between items-center">
+    <div class="mb-2 flex justify-between items-center">
       <span class="mb-2 text-gray-600">留言板</span>
       <vs-button
         size="small"
         @click="postComment()"
-      >发 送</vs-button>
+      >{{ $login() ? '发 送' : '登录后可留言' }}</vs-button>
     </div>
     <div>
       <vs-textarea
@@ -213,7 +213,7 @@ export default {
 
   methods: {
     async postComment() {
-      if (this.textContent.length > 0) {
+      if (this.textContent.length > 0 && this.$login()) {
         const { code } = await postComment({
           owner: this.owner,
           goods_id: this.goodsId,
