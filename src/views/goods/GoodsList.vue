@@ -30,7 +30,7 @@
           <div class="flex justify-between items-center">
             <div class="text-lg text-primary font-bold">￥{{ $numFixed(goods.price) }}</div>
           </div>
-          <div class="add-cart-btn h-0 opacity-0 transition overflow-hidden">
+          <div class="add-cart-btn opacity-0 transition overflow-hidden">
             <div
               class="py-2 px-4 flex-row-center text-sm bg-primary text-white radius cursor-pointer"
               @click="$store.dispatch(
@@ -130,11 +130,14 @@ export default {
     overflow: hidden;
     box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.01);
     transition: all 0.4s;
+    .add-cart-btn {
+      max-height: 0;
+    }
     &:hover {
       box-shadow: 0 0 25px 10px rgba(var(--vs-primary), 0.2);
       .add-cart-btn {
         margin-top: 0.5rem;
-        height: 3rem;
+        max-height: 4rem;
         opacity: 1;
         overflow: auto;
       }

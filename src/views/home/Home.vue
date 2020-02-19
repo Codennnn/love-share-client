@@ -27,9 +27,10 @@
         <el-carousel-item
           v-for="(item, i) in billboardList"
           :key="i"
+          @click.native.stop="billboardClick(item)"
         >
           <el-image
-            class="w-full h-full"
+            class="w-full h-full cursor-pointer"
             fit="cover"
             :src="item.url"
           ></el-image>
@@ -120,6 +121,17 @@ export default {
       if (code === 2000) {
         this.goodsList = data.goods_list
         this.pagination = data.pagination
+      }
+    },
+
+    billboardClick({ type, link }) {
+      if (!link) return
+
+      if (type === 2) {
+        this.$router.push(link)
+      }
+      if (type === 3) {
+        window.open(link)
       }
     },
   },

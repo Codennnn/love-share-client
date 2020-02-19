@@ -391,4 +391,10 @@ $sidebar-width: 310px;
     background-color: rgba(var(--vs-danger), 0.95);
   }
 }
+
+#EmojiPicker {
+  .category.active {
+    border-color: $primary;
+  }
+}
 </style>
