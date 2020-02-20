@@ -28,7 +28,7 @@
         <vs-td>{{ tr.goods.name }}</vs-td>
         <vs-td>{{ tr.amount }}</vs-td>
         <vs-td>￥{{ $numFixed(tr.goods.price) }}</vs-td>
-        <vs-td class="w-40 break-words break-all">{{ tr.note }}</vs-td>
+        <vs-td class="w-40 break-words break-all">{{ tr.note || '无' }}</vs-td>
       </vs-tr>
     </template>
   </vs-table>

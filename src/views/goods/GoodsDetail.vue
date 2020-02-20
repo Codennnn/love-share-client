@@ -297,7 +297,10 @@ export default {
   methods: {
     // 获取商品信息
     async getGoodsDetail() {
-      const { code, data } = await getGoodsDetail({ goods_id: this.goodsId })
+      const { code, data } = await getGoodsDetail({
+        goods_id: this.goodsId,
+        viewed: this.$viewed(this.goodsId),
+      })
       if (code === 2000) {
         this.goods = data.goods_detail
       }

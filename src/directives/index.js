@@ -28,3 +28,15 @@ Vue.prototype.$login = () => {
   }
   return false
 }
+
+// 判断用户是否已浏览过
+const validate = () => { throw new Error('$viewed: id为必选参数') }
+Vue.prototype.$viewed = (id = validate()) => {
+  const viewedList = JSON.parse(localStorage.getItem('viewed_list')) || []
+  if (viewedList.includes(id)) {
+    return 1
+  }
+  viewedList.push(id)
+  localStorage.setItem('viewed_list', JSON.stringify(viewedList))
+  return 0
+}

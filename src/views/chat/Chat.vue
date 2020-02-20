@@ -115,6 +115,7 @@
         <el-popover
           class="mr-2 cursor-pointer"
           popper-class="emoji-dropdown"
+          transition="el-zoom-in-bottom"
         >
           <VEmojiPicker
             labelSearch="搜索..."
@@ -400,8 +401,11 @@ $sidebar-width: 310px;
   #EmojiPicker {
     border-radius: $large-radius !important;
     border: none;
-    .category.active {
-      border-color: $primary;
+    .category {
+      padding: 0.5rem 0;
+      &.active {
+        border-color: $primary;
+      }
     }
   }
 }

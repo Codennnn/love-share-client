@@ -63,7 +63,7 @@
                         查看主页
                       </el-dropdown-item>
                       <el-dropdown-item
-                        v-if="tr.status !== 1 || tr.status !== 3"
+                        v-if="tr.status !== 1 && tr.status !== 3"
                         @click.native="viewOrderDetail(tr._id, tr.buyer)"
                       >
                         订单详情
