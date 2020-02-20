@@ -3,7 +3,7 @@
     <div
       v-if="goodsList.length > 0"
       class="grid-list"
-      :class="[cols[columns - 1]]"
+      :class="[cols[col - 1]]"
     >
       <div
         class="goods-item"
@@ -97,11 +97,27 @@ export default {
       type: Boolean,
       default: false,
     },
+    minWidth: {
+      type: Number,
+      default: 1100,
+    },
   },
 
   data: () => ({
     cols,
+    col: 5,
   }),
+
+  activated() {
+    this.col = this.columns
+    window.addEventListener('resize', this.$debounce(() => {
+      if (document.body.clientWidth <= this.minWidth) {
+        this.col = this.columns - 1
+      } else {
+        this.col = this.columns
+      }
+    }, 400), true)
+  },
 
   methods: {
     viewGoodsDetail(goodsId) {

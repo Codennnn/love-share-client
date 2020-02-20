@@ -60,8 +60,9 @@
       @dblclick="getRecommendGoodsList()"
     >为你推荐</p>
     <GoodsList
-      :columns="columns"
       :goodsList="goodsList"
+      :columns="5"
+      :min-width="1000"
     />
   </div>
 </template>
@@ -95,7 +96,6 @@ export default {
   data: () => ({
     categoryIcons,
     grids,
-    columns: 5,
     billboardList: [],
     goodsList: [],
     pagination: {},
