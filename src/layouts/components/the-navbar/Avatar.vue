@@ -67,7 +67,7 @@
           </div>
         </div>
         <div
-          class="py-2 text-sm text-center bg-gray-200 text-gray-500
+          class="py-2 text-sm text-center bg-gray-150 text-gray-500
         hover:text-gray-600 transition cursor-pointer"
           @click="signOut()"
         >

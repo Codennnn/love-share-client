@@ -22,7 +22,7 @@
       >
         <ul v-if="this.cartList.length > 0">
           <li
-            class="flex p-2 transition cursor-pointer hover:bg-gray-200"
+            class="flex p-2 transition cursor-pointer hover:bg-gray-150"
             v-for="(item, i) in cartList"
             :key="i"
             @click="$router.push({path: 'goods-detail', query: { goodsId: item.goods._id }})"
@@ -65,7 +65,7 @@
       </VuePerfectScrollbar>
       <div
         class="w-full p-2 text-center text-primary transition
-                cursor-pointer font-semibold bg-gray-100 hover:bg-gray-200"
+                cursor-pointer font-semibold bg-gray-100 hover:bg-gray-250"
         @click="$router.push('/goods-cart')"
       >
         <span>进入购物车</span>

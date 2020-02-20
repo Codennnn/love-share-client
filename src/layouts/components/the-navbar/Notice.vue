@@ -34,7 +34,7 @@
         >
           <li
             class="notice relative p-4 flex justify-between transition
-                    cursor-pointer hover:bg-gray-200"
+                    cursor-pointer hover:bg-gray-150"
             v-for="(nt, i) in unreadNotices"
             :key="i"
           >
@@ -83,7 +83,7 @@
         </div>
       </VuePerfectScrollbar>
       <div class="w-full py-2 px-4 flex justify-between items-center text-sm
-        transition bg-gray-100 hover:bg-gray-200">
+        transition bg-gray-100 hover:bg-gray-250">
         <span
           class="text-gray-600 cursor-pointer"
           @click="setAllNoticesRead()"
