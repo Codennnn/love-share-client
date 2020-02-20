@@ -8,7 +8,9 @@ import infiniteScroll from 'vue-infinite-scroll' // 无限滚动
 import VContentmenu from 'v-contextmenu' // 右键菜单
 import 'v-contextmenu/dist/index.css' // 右键菜单样式
 import '@/directives' // 自定义指令
-import { timeDiff, numFixed, cloneDeepWith } from '@/utils/util' // 时间差工具函数
+import {
+  timeDiff, numFixed, cloneDeepWith, debounce,
+} from '@/utils/util' // 时间差工具函数
 import errorHandler from '@/utils/error-handler' // 错误处理函数
 
 import App from './App.vue'
@@ -34,6 +36,7 @@ Vue.prototype.$dayjs = dayjs
 Vue.prototype.$timeDiff = timeDiff
 Vue.prototype.$numFixed = numFixed
 Vue.prototype.$cloneDeepWith = cloneDeepWith
+Vue.prototype.$debounce = debounce
 
 Vue.config.errorHandler = errorHandler
 Vue.config.productionTip = false

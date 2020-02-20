@@ -59,7 +59,10 @@
       class="title-divider select-none cursor-default"
       @dblclick="getRecommendGoodsList()"
     >为你推荐</p>
-    <GoodsList :goodsList="goodsList" />
+    <GoodsList
+      :columns="columns"
+      :goodsList="goodsList"
+    />
   </div>
 </template>
 
@@ -92,6 +95,7 @@ export default {
   data: () => ({
     categoryIcons,
     grids,
+    columns: 5,
     billboardList: [],
     goodsList: [],
     pagination: {},

@@ -1,6 +1,7 @@
 /* eslint no-console: 0 */
 
 import _cloneDeepWith from 'lodash/cloneDeepWith'
+import _debounce from 'lodash/debounce'
 import { Notification } from 'element-ui'
 
 export function timeDiff(time) {
@@ -97,3 +98,4 @@ export function consoleLog(log, leftLabel = 'Axios', rightLabel = 'error') {
 }
 
 export const cloneDeepWith = _cloneDeepWith
+export const debounce = _debounce

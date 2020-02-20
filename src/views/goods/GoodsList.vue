@@ -119,9 +119,6 @@ export default {
   display: grid;
   grid-column-gap: 24px;
   grid-row-gap: 26px;
-  @media (max-width: 1080px) {
-    grid-template-columns: 1fr 1fr 1fr 1fr !important;
-  }
   .goods-item {
     position: relative;
     padding-bottom: 6.5rem;
@@ -148,20 +145,17 @@ export default {
       align-items: center;
     }
   }
-  &.columns-1 {
-    grid-template-columns: 1fr;
-  }
-  &.columns-2 {
-    grid-template-columns: 1fr 1fr;
-  }
-  &.columns-3 {
-    grid-template-columns: 1fr 1fr 1fr;
-  }
-  &.columns-4 {
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-  }
-  &.columns-5 {
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  $frames: (
+    1: 1fr,
+    2: 1fr 1fr,
+    3: 1fr 1fr 1fr,
+    4: 1fr 1fr 1fr 1fr,
+    5: 1fr 1fr 1fr 1fr 1fr
+  );
+  @each $name, $glyph in $frames {
+    &.columns-#{$name} {
+      grid-template-columns: $glyph;
+    }
   }
 }
 

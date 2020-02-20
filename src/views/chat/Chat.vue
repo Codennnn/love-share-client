@@ -149,9 +149,7 @@
 </template>
 
 <script>
-import _debounce from 'lodash/debounce'
 import { mapState } from 'vuex'
-
 import VEmojiPicker from 'v-emoji-picker'
 import VuePerfectScrollbar from 'vue-perfect-scrollbar'
 import ChatContact from './components/ChatContact.vue'
@@ -183,7 +181,7 @@ export default {
   },
 
   mounted() {
-    window.onresize = _debounce(() => {
+    window.onresize = this.$debounce(() => {
       if (document.body.clientWidth <= 1000) {
         this.setSidebarActive(false)
       } else {

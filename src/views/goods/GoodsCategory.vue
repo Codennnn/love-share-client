@@ -43,6 +43,7 @@
         <GoodsList
           :goodsList="goodsList"
           :columns="4"
+          :client-width="1100"
         >
         </GoodsList>
 
