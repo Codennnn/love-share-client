@@ -2,6 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
+@variants hover,
+focus {
+  .bg-gray-150 {
+    background: $bg-gray-150;
+  }
+  .bg-gray-250 {
+    background: $bg-gray-250;
+  }
+}
+
 button:focus {
   outline: none;
 }
