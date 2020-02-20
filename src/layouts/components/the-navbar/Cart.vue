@@ -10,7 +10,11 @@
       ></feather>
     </el-badge>
     <vs-dropdown-menu class="menu-box">
-      <div class="w-full py-4 text-center text-white bg-primary cursor-pointer">
+      <div
+        title="点击刷新 (=・ω・=)"
+        class="w-full py-4 text-center text-white bg-primary cursor-pointer"
+        @click="$store.dispatch('cart/getCartList')"
+      >
         <p class="text-xl">共有 {{ this.cartAmount }} 件商品</p>
       </div>
       <VuePerfectScrollbar
@@ -36,6 +40,10 @@
             <div class="flex-1 overflow-hidden">
               <div class="text-overflow">
                 {{ item.goods.name }}
+                <span
+                  v-if="item.goods.status !== 1"
+                  class="ml-1 danger font-bold"
+                >[已下架]</span>
               </div>
               <div class="mt-2 flex justify-between items-center">
                 <div class="whitespace-no-wrap text-sm text-gray-500">

@@ -1,3 +1,4 @@
+import { Message } from 'element-ui'
 import {
   getCartList, addCartItem, removeCartItem, clearCartList,
 } from '@/request/api/cart'
@@ -31,7 +32,10 @@ const actions = {
   },
 
   async addCartItem({ dispatch, getters, rootGetters }, { amount, goods_id, seller }) {
-    if (seller === rootGetters['user/userId']) return
+    if (seller === rootGetters['user/userId']) {
+      Message.warning('您不能将自己发布的商品加入购物车哦')
+      return
+    }
 
     if (!getters.isInCart(goods_id)) {
       const { code } = await addCartItem({ amount, goods_id })

@@ -11,7 +11,10 @@
               :key="it._id"
               :id="`li-loading${it._id}`"
             >
-              <div class="w-1/3">
+              <div
+                class="w-1/3"
+                style="max-height: 13rem;"
+              >
                 <el-image
                   class="h-full w-full p-4"
                   fit="contain"
@@ -66,7 +69,7 @@
                 class="absolute z-50 cursor-default"
                 style="transform: rotateZ(-45deg);top: 1.5rem; left: -3.5rem;"
               >
-                <div class="w-48 py-1 text-center text-white text-xl bg-danger">已卖出</div>
+                <div class="w-48 py-1 text-center text-white text-xl bg-danger">已下架</div>
               </div>
             </li>
           </ul>
@@ -182,6 +185,10 @@ export default {
       },
       immediate: true,
     },
+  },
+
+  activated() {
+    this.$store.dispatch('cart/getCartList')
   },
 
   methods: {

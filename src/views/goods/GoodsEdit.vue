@@ -319,6 +319,7 @@ export default {
               .then(async ({ code }) => {
                 if (code === 2000) {
                   if (this.deleteList.length > 0) {
+                    // 更新商品信息时才执行删除图片操作
                     await deleteGoodsImg({ img_list: this.deleteList })
                   }
                   this.$router.go(-1)
