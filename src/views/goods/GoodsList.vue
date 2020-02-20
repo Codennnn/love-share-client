@@ -48,7 +48,17 @@
           </div>
         </div>
       </div>
+
     </div>
+
+    <!-- 分页器 -->
+    <vs-pagination
+      v-if="totalItems > 0"
+      class="mt-12 mb-5"
+      v-model="page"
+      :goto="totalItems >= maxItems * 10"
+      :total="Math.ceil(totalItems / maxItems)"
+    ></vs-pagination>
 
     <!-- 空状态提示 -->
     <div v-else>
@@ -97,6 +107,14 @@ export default {
       type: Boolean,
       default: false,
     },
+    totalItems: {
+      type: Number,
+      default: 0,
+    },
+    maxItems: {
+      type: Number,
+      default: 20,
+    },
     minWidth: {
       type: Number,
       default: 1100,
@@ -106,7 +124,14 @@ export default {
   data: () => ({
     cols,
     col: 5,
+    page: 1,
   }),
+
+  watch: {
+    page(page) {
+      this.$emit('switchPage', page)
+    },
+  },
 
   activated() {
     this.col = this.columns

@@ -44,16 +44,11 @@
           :goodsList="goodsList"
           :columns="4"
           :min-width="1100"
+          :max-items="maxItems"
+          :totalItems="pagination.total"
+          @switchPage="page => getGoodsListByCategory(page)"
         >
         </GoodsList>
-
-        <vs-pagination
-          v-if="goodsList.length > 0"
-          class="mt-12 mb-5"
-          v-model="page"
-          :goto="goodsList.length > 10"
-          :total="Math.ceil(pagination.total / this.pageSize)"
-        ></vs-pagination>
       </div>
     </div>
   </div>
@@ -80,8 +75,7 @@ export default {
     priceRange: 'all',
     goodsList: [],
     category: '',
-    page: 1,
-    pageSize: 10,
+    maxItems: 8,
     pagination: {},
     searchText: '',
   }),
@@ -98,10 +92,10 @@ export default {
   },
 
   methods: {
-    async getGoodsListByCategory() {
+    async getGoodsListByCategory(page = 1) {
       const { code, data } = await getGoodsListByCategory({
-        page: this.page,
-        page_size: this.pageSize,
+        page,
+        page_size: this.maxItems,
         category: this.category,
       })
       if (code === 2000) {

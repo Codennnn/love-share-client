@@ -31,11 +31,11 @@
         >
           <p class="text-lg font-semibold">{{ goods.name }}</p>
           <div class="my-2 text-gray-500 text-sm">
-            <p>发布于 {{ $timeDiff(goods.created_at) }}，已被浏览{{ goods.views }}次</p>
+            <p>发布于 {{ $timeDiff(goods.created_at) }}，已被浏览<span class="mx-1">{{ goods.views }}</span>次</p>
 
             <div class="mt-2 flex items-center justify-end">
               <div
-                v-if="goods.can_bargin"
+                v-if="goods.can_bargain"
                 class="mr-auto py-1 px-3 bg-gray-250 primary rounded-lg"
               >可议价</div>
               <span class="mr-2 text-sm text-gray-600">{{ goods.collect_num }} 人收藏</span>

@@ -57,12 +57,16 @@
     <p
       title="双击刷新 (´・ω・`)"
       class="title-divider select-none cursor-default"
-      @dblclick="getRecommendGoodsList()"
+      @dblclick="getRecommendGoodsList(), $refs.goodsList.page = 1"
     >为你推荐</p>
     <GoodsList
+      ref="goodsList"
       :goodsList="goodsList"
       :columns="5"
       :min-width="1000"
+      :max-items="maxItems"
+      :totalItems="pagination.total"
+      @switchPage="page => getRecommendGoodsList(page)"
     />
   </div>
 </template>
@@ -98,6 +102,7 @@ export default {
     grids,
     billboardList: [],
     goodsList: [],
+    maxItems: 15,
     pagination: {},
   }),
 
@@ -120,8 +125,8 @@ export default {
       }
     },
 
-    async getRecommendGoodsList() {
-      const { code, data } = await getRecommendGoodsList({ page: 1, page_size: 10 })
+    async getRecommendGoodsList(page = 1) {
+      const { code, data } = await getRecommendGoodsList({ page, page_size: this.maxItems })
       if (code === 2000) {
         this.goodsList = data.goods_list
         this.pagination = data.pagination
