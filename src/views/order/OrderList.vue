@@ -82,7 +82,7 @@
             v-for="order in orderFilterList"
             :key="order._id"
           >
-            <div class="px-4 py-3 text-sm text-gray-600 bg-gray-150">
+            <div class="px-4 py-3 text-sm text-gray-600 bg-gray-250">
               <div class="mb-2">
                 <span class="mr-4">
                   {{ $dayjs(order.created_at).format('YYYY-MM-DD HH:mm') }}

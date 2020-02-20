@@ -34,6 +34,10 @@
             <p>发布于 {{ $timeDiff(goods.created_at) }}，已被浏览{{ goods.views }}次</p>
 
             <div class="mt-2 flex items-center justify-end">
+              <div
+                v-if="goods.can_bargin"
+                class="mr-auto py-1 px-3 bg-gray-250 primary rounded-lg"
+              >可议价</div>
               <span class="mr-2 text-sm text-gray-600">{{ goods.collect_num }} 人收藏</span>
               <div
                 class="collect-btn flex items-center"

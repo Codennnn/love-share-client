@@ -106,7 +106,7 @@ export default {
   },
 
   data: () => ({
-    alivePages: ['Home', 'UserCenter', 'GoodsCart', 'GoodsDetail'], // 允许缓存的路由
+    alivePages: ['Home', 'UserCenter', 'GoodsCart', 'GoodsDetail', 'GoodsCategory'], // 允许缓存的路由
     mouseDownPos: {},
   }),
 

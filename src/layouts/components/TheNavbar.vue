@@ -283,11 +283,7 @@ export default {
     background: rgba(var(--vs-primary), 1);
   }
   .notice-content {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
+    @include textOverflow($width: 100%, $line: 2);
     color: #989898;
   }
 }

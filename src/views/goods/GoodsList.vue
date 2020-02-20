@@ -166,13 +166,6 @@ export default {
 }
 
 .text-overflow-multi {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  /* autoprefixer: ignore next */
-  -webkit-box-orient: vertical;
-  word-break: break-all;
-  word-wrap: break-word;
+  @include textOverflow($width: 100%, $line: 2);
 }
 </style>

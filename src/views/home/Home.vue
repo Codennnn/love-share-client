@@ -6,8 +6,8 @@
         <ul>
           <li
             class="li-item mb-4 flex items-center cursor-pointer"
-            v-for="(item, i) in categoryList"
-            :key="i"
+            v-for="item in categoryList"
+            :key="item._id"
             @click="$router.push({path: '/goods-category', query: {category: item._id}})"
           >
             <i
