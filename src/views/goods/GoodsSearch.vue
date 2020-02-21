@@ -13,19 +13,10 @@
     </div>
 
     <GoodsList
-      class="p-8"
       :goodsList="goodsList"
       :columns="5"
     >
     </GoodsList>
-
-    <vs-pagination
-      v-if="goodsList.length > 0"
-      class="mt-12 mb-5"
-      v-model="page"
-      :goto="goodsList.length > 10"
-      :total="Math.ceil(pagination.total / this.pageSize)"
-    ></vs-pagination>
   </div>
 </template>
 

@@ -9,7 +9,7 @@
             v-for="it in categoryList"
             :key="it._id"
           >
-            <span>{{ it.name }}</span>
+            <span @click="routeTo('/goods-category', {category: it._id})">{{ it.name }}</span>
           </li>
         </ul>
       </div>
@@ -26,14 +26,14 @@
         </ul>
       </div>
       <div>
-        <h3 class="title">支付方式</h3>
+        <h3 class="title">帮助中心</h3>
         <ul>
           <li
             class="item"
             v-for="it in payment"
             :key="it"
           >
-            <span>{{ it }}</span>
+            <span @click="routeTo('/help-center')">{{ it }}</span>
           </li>
         </ul>
       </div>
@@ -78,11 +78,11 @@ const peisong = [
   '海外配送',
 ]
 const payment = [
-  '货到付款',
-  '在线支付',
-  '分期付款',
-  '邮局汇款',
-  '公司转账',
+  '购物指南',
+  '常见问题',
+  '售后政策',
+  '退款说明',
+  '价格保护',
 ]
 const contacts = [
   'Phone：13724540846',
@@ -100,6 +100,12 @@ export default {
   computed: {
     categoryList() {
       return this.$store.state.categoryList
+    },
+  },
+
+  methods: {
+    routeTo(path, query) {
+      this.$router.push({ path, query })
     },
   },
 }

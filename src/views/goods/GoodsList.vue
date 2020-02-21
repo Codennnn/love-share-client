@@ -1,64 +1,64 @@
 <template>
   <div>
-    <div
-      v-if="goodsList.length > 0"
-      class="grid-list"
-      :class="[cols[col - 1]]"
-    >
+    <template v-if="goodsList.length > 0">
       <div
-        class="goods-item"
-        v-for="(goods, i) in goodsList"
-        :key="i"
+        class="grid-list"
+        :class="[cols[col - 1]]"
       >
         <div
-          class="img-wrapper w-full sm:h-56 md:h-56 h-40 py-8 px-4
-           flex items-center  cursor-pointer"
-          @click="viewGoodsDetail(goods._id)"
+          class="goods-item"
+          v-for="(goods, i) in goodsList"
+          :key="i"
         >
-          <el-image
-            lazy
-            class="w-full h-full"
-            fit="contain"
-            :src="goods.img_list[0]"
+          <div
+            class="img-wrapper w-full sm:h-56 md:h-56 h-40 py-8 px-4
+           flex items-center  cursor-pointer"
+            @click="viewGoodsDetail(goods._id)"
           >
-          </el-image>
-        </div>
-        <div class="absolute bottom-0 p-3">
-          <p class="mb-1 text-overflow-multi">
-            {{ goods.name }}
-          </p>
-          <div class="flex justify-between items-center">
-            <div class="text-lg text-primary font-bold">￥{{ $numFixed(goods.price) }}</div>
+            <el-image
+              lazy
+              class="w-full h-full"
+              fit="contain"
+              :src="goods.img_list[0]"
+            >
+            </el-image>
           </div>
-          <div class="add-cart-btn opacity-0 transition overflow-hidden">
-            <div
-              class="py-2 px-4 flex-row-center text-sm bg-primary text-white radius cursor-pointer"
-              @click="$store.dispatch(
+          <div class="absolute bottom-0 p-3">
+            <p class="mb-1 text-overflow-multi">
+              {{ goods.name }}
+            </p>
+            <div class="flex justify-between items-center">
+              <div class="text-lg text-primary font-bold">￥{{ $numFixed(goods.price) }}</div>
+            </div>
+            <div class="add-cart-btn opacity-0 transition overflow-hidden">
+              <div
+                class="py-2 px-4 flex-row-center text-sm bg-primary text-white radius cursor-pointer"
+                @click="$store.dispatch(
                 'cart/addCartItem',
                  { amount: 1, goods_id: goods._id, seller: goods.seller }
               )"
-            >
-              <feather
-                class="mr-2"
-                size="16"
-                type="shopping-cart"
-              ></feather>
-              加入购物车
+              >
+                <feather
+                  class="mr-2"
+                  size="16"
+                  type="shopping-cart"
+                ></feather>
+                加入购物车
+              </div>
             </div>
           </div>
         </div>
       </div>
 
-    </div>
-
-    <!-- 分页器 -->
-    <vs-pagination
-      v-if="totalItems > 0"
-      class="mt-12 mb-5"
-      v-model="page"
-      :goto="totalItems >= maxItems * 10"
-      :total="Math.ceil(totalItems / maxItems)"
-    ></vs-pagination>
+      <!-- 分页器 -->
+      <vs-pagination
+        v-if="totalItems > 0"
+        class="mt-12 mb-5"
+        v-model="page"
+        :goto="totalItems >= maxItems * 10"
+        :total="Math.ceil(totalItems / maxItems)"
+      ></vs-pagination>
+    </template>
 
     <!-- 空状态提示 -->
     <div v-else>
@@ -134,6 +134,10 @@ export default {
   },
 
   activated() {
+    this.col = this.columns
+  },
+
+  mounted() {
     this.col = this.columns
     window.addEventListener('resize', this.$debounce(() => {
       if (document.body.clientWidth <= this.minWidth) {

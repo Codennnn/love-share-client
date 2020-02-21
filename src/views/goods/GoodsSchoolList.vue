@@ -14,9 +14,12 @@
         </el-option>
       </el-select>
     </div>
-    <div class="container flex">
+    <div class="flex">
       <!-- 左侧 -->
-      <div class="left pr-4">
+      <div
+        class="pr-4"
+        style="min-width: 14rem;"
+      >
         <h6 class="my-3 text-sm">筛选搜索</h6>
         <div class="p-4 light-shadow bg-white radius">
           <div>
@@ -36,7 +39,7 @@
       </div>
 
       <!-- 右侧 -->
-      <div class="right pl-3">
+      <div class="pl-3 flex-1">
         <h6 class="my-3 text-sm">
           共查询到 {{ pagination.total }} 个商品
         </h6>
@@ -51,19 +54,16 @@
         />
 
         <GoodsList
+          ref="goodsList"
           class="mt-4"
           :goodsList="goodsList"
           :columns="4"
+          :min-width="1100"
+          :max-items="maxItems"
+          :totalItems="pagination.total"
+          @switchPage="page => getGoodsListOfSameSchool(page)"
         >
         </GoodsList>
-
-        <vs-pagination
-          v-if="goodsList.length > 0"
-          class="mt-12 mb-5"
-          v-model="currentPage"
-          :goto="goodsList.length > 10"
-          :total="Math.ceil(pagination.total / this.pageSize)"
-        ></vs-pagination>
       </div>
     </div>
   </div>
@@ -85,11 +85,10 @@ export default {
     schoolList: [],
     selectedSchool: '',
     selectedCategory: 'all',
-    catchCategory: '',
+    cacheCategory: '', // 缓存所选的类型
     searchText: '',
 
-    currentPage: 1,
-    pageSize: 10,
+    maxItems: 12,
     pagination: {},
   }),
 
@@ -103,16 +102,17 @@ export default {
 
   mounted() {
     this.selectedSchool = this.$store.state.user.info.school._id
-    this.getGoodsListOfSameSchool(this.selectedSchool)
+    this.getGoodsListOfSameSchool()
   },
 
   methods: {
-    async getGoodsListOfSameSchool(school_id, category) {
+    async getGoodsListOfSameSchool(page = 1) {
+      const category = this.selectedCategory === 'all' ? null : [this.selectedCategory]
       const { code, data } = await getGoodsListOfSameSchool({
-        page: 1,
-        page_size: this.pageSize,
-        school_id,
+        page,
         category,
+        page_size: this.maxItems,
+        school_id: this.selectedSchool,
       })
       if (code === 2000) {
         this.goodsList = data.goods_list
@@ -137,43 +137,25 @@ export default {
 
     // 切换商品类型
     changeCategory(v) {
-      if (this.catchCategory === v) return
-
-      if (v === 'all') {
-        this.getGoodsListOfSameSchool(this.selectedSchool)
-      } else {
-        this.getGoodsListOfSameSchool(this.selectedSchool, [v])
-      }
-      this.catchCategory = v
+      if (this.cacheCategory === v) return
+      this.$refs.goodsList.page = 1
+      this.selectedCategory = v
+      this.cacheCategory = v
+      this.getGoodsListOfSameSchool()
     },
 
     // 切换学校
     switchSchool(id) {
+      this.$refs.goodsList.page = 1
       this.selectedCategory = 'all'
-      this.getGoodsListOfSameSchool(id)
+      this.selectedSchool = id
+      this.getGoodsListOfSameSchool()
     },
   },
 }
 </script>
 
 <style lang="scss" scoped>
-.container {
-  .left {
-    width: 22%;
-  }
-  .right {
-    width: 78%;
-  }
-  @media (max-width: 1200px) {
-    .left {
-      width: 25%;
-    }
-    .right {
-      width: 75%;
-    }
-  }
-}
-
 .search-input::v-deep {
   // 重设输入框样式
   .vs-inputx {
