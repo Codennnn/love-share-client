@@ -1,63 +1,22 @@
 // text classes
-.primary {
-  color: $primary !important;
-}
+$colors: primary,
+success,
+warning,
+danger,
+dark;
 
-.success {
-  color: $success !important;
-}
+@each $color in $colors {
+  .#{$color} {
+    color: rgba(var(--vs-#{$color}), 1);
+  }
 
-.danger {
-  color: $danger !important;
-}
+  .text-#{$color} {
+    color: rgba(var(--vs-#{$color}), 1);
+  }
 
-.warning {
-  color: $warning !important;
-}
-
-.dark {
-  color: $dark !important;
-}
-
-.text-primary {
-  color: $primary !important;
-}
-
-.text-success {
-  color: $success !important;
-}
-
-.text-danger {
-  color: $danger !important;
-}
-
-.text-warning {
-  color: $warning !important;
-}
-
-.text-dark {
-  color: $dark !important;
-}
-
-// background classes
-.bg-primary {
-  background-color: $primary !important;
-}
-
-.bg-success {
-  background-color: $success !important;
-}
-
-.bg-danger {
-  background-color: $danger !important;
-}
-
-.bg-warning {
-  background-color: $warning !important;
-}
-
-.bg-dark {
-  background-color: $dark !important;
+  .bg-#{$color} {
+    background-color: rgba(var(--vs-#{$color}), 1);
+  }
 }
 
 .bg-primary-gradient {
@@ -68,14 +27,8 @@
   background-color: $bg-gray-150;
 }
 
-.text-overflow {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.base-shadow {
-  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.1); // 基础投影
+.bg-gray-250 {
+  background-color: $bg-gray-250;
 }
 
 .base-shadow {
