@@ -108,7 +108,7 @@ export default {
 
   computed: {
     categoryList() {
-      return this.$store.state.categoryList
+      return this.$store.state.categoryList.filter(el => el.activation)
     },
   },
 
