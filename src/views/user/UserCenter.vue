@@ -4,6 +4,7 @@
       <div class="mb-3 flex items-center">
         <div class="w-1/2 flex items-center">
           <el-dropdown
+            trigger="click"
             class="avatar-drop"
             placement="bottom"
           >
@@ -234,7 +235,7 @@ export default {
 
 .avatar-upload::v-deep {
   width: 16rem;
-  height: 8rem;
+  height: 7rem;
   .el-upload,
   .el-upload-dragger {
     width: 100%;
@@ -243,10 +244,10 @@ export default {
     flex-direction: column;
     justify-content: center;
     align-content: center;
+    border: none;
   }
   .el-icon-upload {
     margin: 0;
-    margin-bottom: 0.6rem;
   }
 }
 </style>

@@ -40,7 +40,7 @@
         </div>
         <vs-button
           id="resetBtn"
-          class="w-full mt-3 vs-con-loading__container"
+          class="w-full mt-3 radius vs-con-loading__container"
           type="relief"
           @click="onReset()"
         >重置密码</vs-button>

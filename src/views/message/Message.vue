@@ -152,6 +152,10 @@
                 >
                   {{ $dayjs(it.time).format('YYYY年MM月DD日 HH:mm') }}
                 </span>
+                <span
+                  v-if="isUnread(it._id)"
+                  class="ml-3 py-0 px-2 flex-row-center text-xs radius bg-danger text-white"
+                >未读</span>
               </div>
               <div
                 class="px-6 text-gray-600"
