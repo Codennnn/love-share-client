@@ -66,7 +66,6 @@
 
 .bg-gray-150 {
   background-color: $bg-gray-150;
-  // background-color: rgba(var(--vs-primary), 0.06);
 }
 
 .text-overflow {
@@ -113,14 +112,9 @@
 }
 
 .transition {
-  transition: all 0.3s;
+  transition: $transition;
 }
 
 .quickly {
   animation-duration: 0.2s !important;
-}
-
-img {
-  user-select: none;
-  -webkit-user-drag: none;
 }

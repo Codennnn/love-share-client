@@ -32,6 +32,11 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+img {
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
 // 修正图标大小
 .material-icons {
   font-size: inherit;
@@ -95,4 +100,25 @@ body {
 // 聊天拖拽
 .vdr.active::before {
   outline: none;
+}
+
+// 下拉菜单
+.el-dropdown-menu {
+  padding: 0.2rem 0 !important;
+  border-radius: $medium-radius !important;
+  box-shadow: $base-shadow !important;
+  border: none !important;
+
+  .el-dropdown-menu__item {
+    transition: $transition;
+  }
+
+  .el-dropdown-menu__item:not(.is-disabled):hover,
+  .el-dropdown-menu__item:focus {
+    background-color: rgba(var(--vs-primary), 0.03);
+  }
+}
+
+.el-popover {
+  border-radius: $medium-radius !important;
 }
