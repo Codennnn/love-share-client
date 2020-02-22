@@ -313,40 +313,40 @@ export default {
     // 发布商品
     async onPublish() {
       if (this.onCheck()) {
-        this.$vs.loading({
-          background: 'primary',
-          color: '#fff',
-          container: '#publishBtn',
-          scale: 0.45,
-        })
-        this.publishBtnDisable = true
+        this.$loading(
+          async () => {
+            this.publishBtnDisable = true
 
-        try {
-          const flag = await this.uploadGoodsImg()
-          if (!flag) return
+            const flag = await this.uploadGoodsImg()
+            if (!flag) return
 
-          this.goods.img_list = this.imgList
-          createGoods(this.goods)
-            .then(({ code }) => {
-              if (code === 2000) {
-                localStorage.removeItem('goods')
-                this.$vs.notify({
-                  color: 'success',
-                  title: '成功',
-                  text: '已发布一件闲置物品',
-                })
-                this.$router.push('/')
-              } else {
-                throw new Error()
-              }
-            })
-            .catch(() => {
-              deleteGoodsImg({ img_list: this.imgList })
-            })
-        } finally {
-          this.publishBtnDisable = false
-          this.$vs.loading.close('#publishBtn > .con-vs-loading')
-        }
+            this.goods.img_list = this.imgList
+            createGoods(this.goods)
+              .then(({ code }) => {
+                if (code === 2000) {
+                  localStorage.removeItem('goods')
+                  this.$vs.notify({
+                    color: 'success',
+                    title: '成功',
+                    text: '已发布一件闲置物品',
+                  })
+                  this.$router.push('/')
+                } else {
+                  throw new Error()
+                }
+              })
+              .catch(() => {
+                deleteGoodsImg({ img_list: this.imgList })
+              })
+          },
+          {
+            background: 'primary',
+            color: '#fff',
+            container: '#publishBtn',
+            scale: 0.45,
+          },
+          () => { this.publishBtnDisable = false },
+        )
       }
     },
   },

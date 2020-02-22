@@ -147,18 +147,11 @@ export default {
     },
 
     // 刷新通知
-    async noticesRefresh() {
-      this.$vs.loading({
-        type: 'point',
-        container: '#div-with-loading',
-        scale: 1,
-      })
-
-      try {
-        await this.getUnreadNotices()
-      } finally {
-        this.$vs.loading.close('#div-with-loading > .con-vs-loading')
-      }
+    noticesRefresh() {
+      this.$loading(
+        async () => { await this.getUnreadNotices() },
+        { type: 'point', container: '#div-with-loading', scale: 1 },
+      )
     },
 
     async setNoticeRead(notice_id) {

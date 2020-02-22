@@ -199,28 +199,24 @@ export default {
   },
 
   methods: {
-    async getOrderDetail(order_id, sub_id) {
-      this.$vs.loading({
-        container: '#div-with-loading',
-        scale: 1,
-      })
-
-      try {
-        const { code, data: { order_detail } } = await getOrderDetail({ order_id, sub_id })
-        if (code === 2000) {
-          if (order_detail) {
-            this.detail = order_detail
-            this.address = order_detail.address
-            this.subOrder = order_detail.sub_order
-            this.goodsList = order_detail.sub_order.goods_list
-            this.initStepsData()
-          } else {
-            this.$router.replace('/not-found')
+    getOrderDetail(order_id, sub_id) {
+      this.$loading(
+        async () => {
+          const { code, data: { order_detail } } = await getOrderDetail({ order_id, sub_id })
+          if (code === 2000) {
+            if (order_detail) {
+              this.detail = order_detail
+              this.address = order_detail.address
+              this.subOrder = order_detail.sub_order
+              this.goodsList = order_detail.sub_order.goods_list
+              this.initStepsData()
+            } else {
+              this.$router.replace('/not-found')
+            }
           }
-        }
-      } finally {
-        this.$vs.loading.close('#div-with-loading > .con-vs-loading')
-      }
+        },
+        { container: '#div-with-loading', scale: 1 },
+      )
     },
 
     initStepsData() {

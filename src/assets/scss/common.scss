@@ -7,11 +7,11 @@ dark;
 
 @each $color in $colors {
   .#{$color} {
-    color: rgba(var(--vs-#{$color}), 1);
+    color: rgba(var(--vs-#{$color}), 1) !important;
   }
 
   .text-#{$color} {
-    color: rgba(var(--vs-#{$color}), 1);
+    color: rgba(var(--vs-#{$color}), 1) !important;
   }
 
   .bg-#{$color} {

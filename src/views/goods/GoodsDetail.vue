@@ -340,47 +340,48 @@ export default {
     },
 
     // 确认付款
-    async onPay() {
-      this.$vs.loading({
-        container: '#sidebar-container',
-        scale: 1,
-        text: '正在结算，请稍等...',
-      })
-
-      try {
-        const goodsList = [{
-          amount: this.amount,
-          name: this.goods.name,
-          goods: this.goodsId,
-          seller: this.goods.seller,
-          price: this.goods.price,
-          delivery_charge: this.goods.delivery_charge,
-        }]
-        const data = {
-          goods_list: goodsList,
-          payment: this.payment,
-          address: this.currAddr,
-          total_price: this.goods.price,
-          actual_price: this.goods.price,
-        }
-        const { code } = await this.$store.dispatch('createOrder', data)
-        if (code === 2000) {
-          this.$router.replace('/user-center')
-        } else {
-          throw new Error()
-        }
-      } catch {
-        this.$vs.notify({
-          title: '订单创建失败',
-          text: '服务器发生错误(点击关闭)',
-          icon: 'remove_shopping_cart',
-          color: 'danger',
-          position: 'top-right',
-          fixed: true,
-        })
-      } finally {
-        this.$vs.loading.close('#sidebar-container > .con-vs-loading')
-      }
+    onPay() {
+      this.$loading(
+        async () => {
+          const goodsList = [{
+            amount: this.amount,
+            name: this.goods.name,
+            goods: this.goodsId,
+            seller: this.goods.seller,
+            price: this.goods.price,
+            delivery_charge: this.goods.delivery_charge,
+          }]
+          const data = {
+            goods_list: goodsList,
+            payment: this.payment,
+            address: this.currAddr,
+            total_price: this.goods.price,
+            actual_price: this.goods.price,
+          }
+          const { code } = await this.$store.dispatch('createOrder', data)
+          if (code === 2000) {
+            this.$router.replace('/user-center')
+          } else {
+            throw new Error()
+          }
+        },
+        {
+          container: '#sidebar-container',
+          scale: 1,
+          text: '正在结算，请稍等...',
+        },
+        null,
+        () => {
+          this.$vs.notify({
+            title: '订单创建失败',
+            text: '服务器发生错误(点击关闭)',
+            icon: 'remove_shopping_cart',
+            color: 'danger',
+            position: 'top-right',
+            fixed: true,
+          })
+        },
+      )
     },
   },
 }

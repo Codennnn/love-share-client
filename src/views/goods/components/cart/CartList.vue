@@ -194,16 +194,15 @@ export default {
   methods: {
     // 移出购物车
     async removeCartItem(id) {
-      this.$vs.loading({
-        container: `#li-loading${id}`,
-        scale: 1,
-      })
-
-      try {
-        await this.$store.dispatch('cart/removeCartItem', id)
-      } finally {
-        this.$vs.loading.close(`#li-loading${id} > .con-vs-loading`)
-      }
+      this.$loading(
+        async () => {
+          await this.$store.dispatch('cart/removeCartItem', id)
+        },
+        {
+          container: `#li-loading${id}`,
+          scale: 1,
+        },
+      )
     },
 
     // 清空购物车

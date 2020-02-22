@@ -104,7 +104,7 @@ export default {
   }),
 
   methods: {
-    async onReset() {
+    onReset() {
       if (this.validate() && this.check()) {
         if (this.code.length <= 0) {
           this.codeError = true
@@ -112,36 +112,36 @@ export default {
           return
         }
 
-        this.$vs.loading({
-          background: 'primary',
-          color: '#fff',
-          container: '#resetBtn',
-          scale: 0.45,
-        })
-        this.resetBtnDisable = true
+        this.$loading(
+          async () => {
+            this.resetBtnDisable = true
 
-        try {
-          const { code } = await resetPassword({
-            phone: this.inputs[2].value,
-            password: this.inputs[0].value,
-          })
-          if (code === 2000) {
-            this.$vs.notify({
-              fixed: true,
-              title: '重置密码成功',
-              text: '请重新登录（点击关闭）',
-              color: 'success',
-              position: 'top-right',
-              icon: 'check_box',
+            const { code } = await resetPassword({
+              phone: this.inputs[2].value,
+              password: this.inputs[0].value,
             })
-            // 重新登录
-            await this.$store.dispatch('user/signOut')
-            this.$router.replace('/sign')
-          }
-        } finally {
-          this.$vs.loading.close('#resetBtn > .con-vs-loading')
-          this.resetBtnDisable = false
-        }
+            if (code === 2000) {
+              this.$vs.notify({
+                fixed: true,
+                title: '重置密码成功',
+                text: '请重新登录（点击关闭）',
+                color: 'success',
+                position: 'top-right',
+                icon: 'check_box',
+              })
+              // 重新登录
+              await this.$store.dispatch('user/signOut')
+              this.$router.replace('/sign')
+            }
+          },
+          {
+            background: 'primary',
+            color: '#fff',
+            container: '#resetBtn',
+            scale: 0.45,
+          },
+          () => { this.resetBtnDisable = false },
+        )
       }
     },
 

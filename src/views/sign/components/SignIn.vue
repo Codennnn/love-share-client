@@ -84,7 +84,7 @@ export default {
   }),
 
   methods: {
-    async onSignIn() {
+    onSignIn() {
       // 非空验证不通过，退出
       if (!this.validate()) {
         return
@@ -98,39 +98,37 @@ export default {
         return
       }
 
-      // 显示登录按钮的加载动画
-      this.$vs.loading({
-        background: 'primary',
-        color: '#fff',
-        container: '#signInBtn',
-        scale: 0.45,
-      })
-      this.signInDisable = true
+      this.$loading(
+        async () => {
+          this.signInDisable = true
+          const [account, password] = [this.signInInput[0].value, this.signInInput[1].value]
 
-      const [account, password] = [this.signInInput[0].value, this.signInInput[1].value]
-
-      try {
-        const code = await this.$store.dispatch('user/signIn', { account, password })
-        if (code === 2000) {
-          await this.$store.dispatch('user/getUserInfo')
-          this.$router.replace('/')
-        } else if (code === 4001) {
+          const code = await this.$store.dispatch('user/signIn', { account, password })
+          if (code === 2000) {
+            await this.$store.dispatch('user/getUserInfo')
+            this.$router.replace('/')
+          } else if (code === 4001) {
           // 4001 - 账号未注册
-          this.signInInput[0].isError = true
-          this.signInInput[0].errorText = this.signInInput[0].noneCheckText
-        } else if (code === 4003) {
+            this.signInInput[0].isError = true
+            this.signInInput[0].errorText = this.signInInput[0].noneCheckText
+          } else if (code === 4003) {
           // 4003 - 密码错误
-          this.signInInput[1].isError = true
-          this.signInInput[1].errorText = this.signInInput[1].noneCheckText
-        }
-      } catch (err) {
-        this.signInAlert = true
-        this.signInAlertText = `登录失败 - ${err}`
-      } finally {
-        // 关闭按钮的加载动画
-        this.$vs.loading.close('#signInBtn > .con-vs-loading')
-        this.signInDisable = false
-      }
+            this.signInInput[1].isError = true
+            this.signInInput[1].errorText = this.signInInput[1].noneCheckText
+          }
+        },
+        {
+          background: 'primary',
+          color: '#fff',
+          container: '#signInBtn',
+          scale: 0.45,
+        },
+        () => { this.signInDisable = false },
+        (err) => {
+          this.signInAlert = true
+          this.signInAlertText = `登录失败 - ${err}`
+        },
+      )
     },
 
     // 输入框非空验证

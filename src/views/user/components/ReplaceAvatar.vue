@@ -99,33 +99,32 @@ export default {
         const formData = new FormData()
         formData.append('avatar', blob, filename)
 
-        this.$vs.loading({
-          background: 'primary',
-          color: '#fff',
-          container: '#replaceBtn',
-          scale: 0.45,
-        })
-        this.btnDisable = true
+        this.$loading(
+          async () => {
+            this.btnDisable = true
 
-        try {
-          const { code, data } = await replaceAvatar(formData)
-          if (code === 2000) {
-            this.$store.commit('user/SET_AVATAR', data.avatar_url)
-            this.$vs.notify({
-              title: '图片上传成功',
-              text: '头像已更换',
-              color: 'success',
-            })
-            this.showPopup = false
-          } else if (code === 3000 || code === 4003 || code === 5000) {
-            this.showAlert = true
-          }
-        } catch {
-          this.showAlert = true
-        } finally {
-          this.$vs.loading.close('#replaceBtn > .con-vs-loading')
-          this.btnDisable = false
-        }
+            const { code, data } = await replaceAvatar(formData)
+            if (code === 2000) {
+              this.$store.commit('user/SET_AVATAR', data.avatar_url)
+              this.$vs.notify({
+                title: '图片上传成功',
+                text: '头像已更换',
+                color: 'success',
+              })
+              this.showPopup = false
+            } else if (code === 3000 || code === 4003 || code === 5000) {
+              this.showAlert = true
+            }
+          },
+          {
+            background: 'primary',
+            color: '#fff',
+            container: '#replaceBtn',
+            scale: 0.45,
+          },
+          () => { this.btnDisable = false },
+          () => { this.showAlert = true },
+        )
       })
     },
   },

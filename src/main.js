@@ -9,7 +9,7 @@ import VContentmenu from 'v-contextmenu' // 右键菜单
 import 'v-contextmenu/dist/index.css' // 右键菜单样式
 import '@/directives' // 自定义指令
 import {
-  timeDiff, numFixed, cloneDeepWith, debounce,
+  timeDiff, numFixed, loading, cloneDeepWith, debounce,
 } from '@/utils/util' // 时间差工具函数
 import errorHandler from '@/utils/error-handler' // 错误处理函数
 
@@ -35,6 +35,7 @@ Vue.use(infiniteScroll)
 Vue.prototype.$dayjs = dayjs
 Vue.prototype.$timeDiff = timeDiff
 Vue.prototype.$numFixed = numFixed
+Vue.prototype.$loading = loading
 Vue.prototype.$cloneDeepWith = cloneDeepWith
 Vue.prototype.$debounce = debounce
 

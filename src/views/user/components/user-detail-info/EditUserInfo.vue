@@ -222,40 +222,38 @@ export default {
         return
       }
 
-      this.$vs.loading({
-        container: '#sidebar-container',
-        scale: 1,
-      })
-
-      try {
-        const { code, msg } = await modifyUser(this.data)
-        if (code === 2000) {
-          await this.$store.dispatch('user/getUserInfo')
+      this.$loading(
+        async () => {
+          const { code, msg } = await modifyUser(this.data)
+          if (code === 2000) {
+            await this.$store.dispatch('user/getUserInfo')
+            this.onCancel()
+            this.$vs.notify({
+              time: 3000,
+              title: '操作成功',
+              text: '已更新您的个人信息',
+              color: 'success',
+              icon: 'check_box',
+            })
+          } else if (code === 4003) {
+            this.error = true
+            this.errorText = '昵称已被使用'
+          } else {
+            throw new Error(msg)
+          }
+        },
+        { container: '#sidebar-container', scale: 1 },
+        null,
+        (err) => {
           this.onCancel()
           this.$vs.notify({
             time: 3000,
-            title: '操作成功',
-            text: '已更新您的个人信息',
-            color: 'success',
-            icon: 'check_box',
+            title: '操作失败',
+            color: 'danger',
+            text: err,
           })
-        } else if (code === 4003) {
-          this.error = true
-          this.errorText = '昵称已被使用'
-        } else {
-          throw new Error(msg)
-        }
-      } catch (err) {
-        this.onCancel()
-        this.$vs.notify({
-          time: 3000,
-          title: '操作失败',
-          color: 'danger',
-          text: err,
-        })
-      } finally {
-        this.$vs.loading.close('#sidebar-container > .con-vs-loading')
-      }
+        },
+      )
     },
 
     onCancel() {

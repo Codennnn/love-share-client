@@ -335,30 +335,30 @@ export default {
 
   methods: {
     // 获取通知列表
-    async getNoticeList(page) {
-      this.$vs.loading({
-        type: 'point',
-        container: '#message-with-loading',
-        scale: 1,
-      })
-      this.stop = true
+    getNoticeList(page) {
+      this.$loading(
+        async () => {
+          this.stop = true
 
-      try {
-        const { code, data } = await getNoticeList({ page, page_size: this.pageSize })
-        if (code === 2000) {
-          this.rawData.push(...data.notice_list)
-          this.dataList = [...this.rawData]
-          this.page += 1
-          this.stop = false
-          if (data.notice_list.length < this.pageSize) {
-            this.stop = true
+          const { code, data } = await getNoticeList({ page, page_size: this.pageSize })
+          if (code === 2000) {
+            this.rawData.push(...data.notice_list)
+            this.dataList = [...this.rawData]
+            this.page += 1
+            this.stop = false
+            if (data.notice_list.length < this.pageSize) {
+              this.stop = true
+            }
           }
-        }
-      } catch {
-        this.stop = true
-      } finally {
-        this.$vs.loading.close('#message-with-loading > .con-vs-loading')
-      }
+        },
+        {
+          type: 'point',
+          container: '#message-with-loading',
+          scale: 1,
+        },
+        null,
+        () => { this.stop = true },
+      )
     },
 
     // 加载更多

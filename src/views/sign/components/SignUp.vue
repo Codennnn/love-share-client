@@ -166,7 +166,7 @@ export default {
   },
 
   methods: {
-    async onSignUp() {
+    onSignUp() {
       if (this.validate() && this.check()) {
         if (this.code.length <= 0) {
           this.codeError = true
@@ -174,42 +174,42 @@ export default {
           return
         }
 
-        this.$vs.loading({
-          background: 'primary',
-          color: '#fff',
-          container: '#signUpBtn',
-          scale: 0.45,
-        })
-        this.signUpDisable = true
+        this.$loading(
+          async () => {
+            this.signUpDisable = true
 
-        try {
-          const { code } = await signUp({
-            school: this.school,
-            real_name: this.signUpInput[0].value,
-            nickname: this.signUpInput[1].value,
-            password: this.signUpInput[2].value,
-            phone: this.signUpInput[4].value,
-          })
-          if (code === 2000) {
-            const status = await this.$store.dispatch('user/signIn', {
-              account: this.signUpInput[4].value,
+            const { code } = await signUp({
+              school: this.school,
+              real_name: this.signUpInput[0].value,
+              nickname: this.signUpInput[1].value,
               password: this.signUpInput[2].value,
+              phone: this.signUpInput[4].value,
             })
-            if (status === 2000) {
-              await this.$store.dispatch('user/getUserInfo')
-              this.$router.replace('/')
+            if (code === 2000) {
+              const status = await this.$store.dispatch('user/signIn', {
+                account: this.signUpInput[4].value,
+                password: this.signUpInput[2].value,
+              })
+              if (status === 2000) {
+                await this.$store.dispatch('user/getUserInfo')
+                this.$router.replace('/')
+              }
+            } else if (code === 4002) {
+              this.signUpInput[4].isError = true
+              this.signUpInput[4].errorText = '手机号已被注册'
+            } else if (code === 4003) {
+              this.signUpInput[1].isError = true
+              this.signUpInput[1].errorText = '昵称已被使用'
             }
-          } else if (code === 4002) {
-            this.signUpInput[4].isError = true
-            this.signUpInput[4].errorText = '手机号已被注册'
-          } else if (code === 4003) {
-            this.signUpInput[1].isError = true
-            this.signUpInput[1].errorText = '昵称已被使用'
-          }
-        } finally {
-          this.$vs.loading.close('#signUpBtn > .con-vs-loading')
-          this.signUpDisable = false
-        }
+          },
+          {
+            background: 'primary',
+            color: '#fff',
+            container: '#signUpBtn',
+            scale: 0.45,
+          },
+          () => { this.signUpDisable = false },
+        )
       }
     },
 

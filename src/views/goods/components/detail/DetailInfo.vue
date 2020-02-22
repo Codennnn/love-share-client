@@ -258,27 +258,26 @@ export default {
 
   methods: {
     // 加入购物车
-    async addCartItem(id) {
-      // 显示登录按钮的加载动画
-      this.$vs.loading({
-        background: 'primary',
-        color: '#fff',
-        container: '#addCartBtn',
-        scale: 0.45,
-      })
-      this.addCartDisable = true
+    addCartItem(id) {
+      this.$loading(
+        async () => {
+          this.addCartDisable = true
 
-      try {
-        if (this.amount >= 1 && this.amount <= this.goods.quantity) {
-          await this.$store.dispatch(
-            'cart/addCartItem',
-            { amount: this.amount, goods_id: id, seller: this.sellerId },
-          )
-        }
-      } finally {
-        this.$vs.loading.close('#addCartBtn > .con-vs-loading')
-        this.addCartDisable = false
-      }
+          if (this.amount >= 1 && this.amount <= this.goods.quantity) {
+            await this.$store.dispatch(
+              'cart/addCartItem',
+              { amount: this.amount, goods_id: id, seller: this.sellerId },
+            )
+          }
+        },
+        {
+          background: 'primary',
+          color: '#fff',
+          container: '#addCartBtn',
+          scale: 0.45,
+        },
+        () => { this.addCartDisable = false },
+      )
     },
 
     // 收藏商品

@@ -65,24 +65,24 @@ export default {
     async getGoodsListBySearch() {
       if (this.searchText.length <= 0) return
 
-      this.$vs.loading({
-        type: 'sound',
-        container: '.loading',
-        scale: 1,
-      })
-      try {
-        const { code, data } = await getGoodsListBySearch({
-          page: this.page,
-          page_size: this.pageSize,
-          search: this.searchText,
-        })
-        if (code === 2000) {
-          this.goodsList = data.goods_list
-          this.pagination = data.pagination
-        }
-      } finally {
-        this.$vs.loading.close('.loading > .con-vs-loading')
-      }
+      this.$loading(
+        async () => {
+          const { code, data } = await getGoodsListBySearch({
+            page: this.page,
+            page_size: this.pageSize,
+            search: this.searchText,
+          })
+          if (code === 2000) {
+            this.goodsList = data.goods_list
+            this.pagination = data.pagination
+          }
+        },
+        {
+          type: 'sound',
+          container: '.loading',
+          scale: 1,
+        },
+      )
     },
 
     setTitle() {

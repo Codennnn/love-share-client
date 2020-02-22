@@ -89,34 +89,32 @@ export default {
   methods: {
     onResetPassword() {
       if (this.validate() && this.check()) {
-        // 显示登录按钮的加载动画
-        this.$vs.loading({
-          background: 'primary',
-          color: '#fff',
-          container: '#resetBtn',
-          scale: 0.45,
-        })
-        this.resetBtnDisable = true
+        this.$loading(
+          async () => {
+            this.resetBtnDisable = true
+            const [account, password] = [this.inputs[0].value, this.inputs[1].value]
 
-        const [account, password] = [this.inputs[0].value, this.inputs[1].value]
-
-        resetPassword({ account, password })
-          .then(({ code }) => {
-            if (code === 2000) {
-              this.$vs.notify({
-                title: '重置成功',
-                text: '密码已重置，请重新登录~',
-                position: 'top-center',
-                color: 'success',
+            resetPassword({ account, password })
+              .then(({ code }) => {
+                if (code === 2000) {
+                  this.$vs.notify({
+                    title: '重置成功',
+                    text: '密码已重置，请重新登录~',
+                    position: 'top-center',
+                    color: 'success',
+                  })
+                  this.switchToSignIn()
+                }
               })
-              this.switchToSignIn()
-            }
-          })
-          .finally(() => {
-            // 关闭按钮的加载动画
-            this.$vs.loading.close('#resetBtn > .con-vs-loading')
-            this.resetBtnDisable = false
-          })
+          },
+          {
+            background: 'primary',
+            color: '#fff',
+            container: '#resetBtn',
+            scale: 0.45,
+          },
+          () => { this.resetBtnDisable = false },
+        )
       }
     },
 

@@ -82,6 +82,22 @@ export function numFixed(num, digit = 2) {
   return Number(num).toFixed(digit)
 }
 
+export async function loading(fn, {
+  color = 'primary', type = 'default', scale = 1, text = '', background = 'rgba(255, 255, 255,.8)', container,
+}, finallyMethod, catchMethod) {
+  this.$vs.loading({
+    color, scale, type, text, container, background,
+  })
+  try {
+    await fn()
+  } catch (err) {
+    if (catchMethod) catchMethod(err)
+  } finally {
+    this.$vs.loading.close(`${container} > .con-vs-loading`)
+    if (finallyMethod) finallyMethod()
+  }
+}
+
 export function errorNotify({
   title = '哎呀！', message = '出错啦！', duration = 5000,
 } = {}) {

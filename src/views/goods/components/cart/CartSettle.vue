@@ -184,55 +184,56 @@ export default {
   },
 
   methods: {
-    async onPay() {
+    onPay() {
       if (this.validCartList.length <= 0) return
 
-      this.$vs.loading({
-        container: '.main',
-        scale: 1,
-        text: '正在结算，请稍等...',
-      })
+      this.$loading(
+        async () => {
+          const goodsList = this.validCartList.map((el, i) => ({
+            amount: el.amount,
+            note: this.notes[i],
+            name: el.goods.name,
+            goods: el.goods._id,
+            seller: el.goods.seller._id,
+            price: el.goods.price,
+            delivery_charge: el.goods.delivery_charge,
+          }))
+          const body = {
+            goods_list: goodsList,
+            payment: this.payment,
+            address: this.address,
+            total_price: this.amountPayable,
+            actual_price: this.amountPayable,
+          }
 
-      try {
-        const goodsList = this.validCartList.map((el, i) => ({
-          amount: el.amount,
-          note: this.notes[i],
-          name: el.goods.name,
-          goods: el.goods._id,
-          seller: el.goods.seller._id,
-          price: el.goods.price,
-          delivery_charge: el.goods.delivery_charge,
-        }))
-        const body = {
-          goods_list: goodsList,
-          payment: this.payment,
-          address: this.address,
-          total_price: this.amountPayable,
-          actual_price: this.amountPayable,
-        }
+          const { code, data } = await this.$store.dispatch('createOrder', body)
 
-        const { code, data } = await this.$store.dispatch('createOrder', body)
-
-        if (code === 2000) {
-          await this.$store.dispatch('cart/clearCartList')
-          this.$store.commit('cart/SET_ORDER_ID', data.order_id)
+          if (code === 2000) {
+            await this.$store.dispatch('cart/clearCartList')
+            this.$store.commit('cart/SET_ORDER_ID', data.order_id)
+            this.$emit('switchComponent', {
+              currentStep: 3,
+              currentComponent: 'CartSuccess',
+              isActive: true,
+            })
+          } else {
+            throw new Error()
+          }
+        },
+        {
+          container: '.main',
+          scale: 1,
+          text: '正在结算，请稍等...',
+        },
+        null,
+        () => {
           this.$emit('switchComponent', {
             currentStep: 3,
-            currentComponent: 'CartSuccess',
+            currentComponent: 'CartFail',
             isActive: true,
           })
-        } else {
-          throw new Error()
-        }
-      } catch {
-        this.$emit('switchComponent', {
-          currentStep: 3,
-          currentComponent: 'CartFail',
-          isActive: true,
-        })
-      } finally {
-        this.$vs.loading.close('.main > .con-vs-loading')
-      }
+        },
+      )
     },
   },
 }

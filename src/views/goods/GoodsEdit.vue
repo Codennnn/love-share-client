@@ -301,46 +301,46 @@ export default {
       this.goods.img_list.splice(this.goods.img_list.indexOf(item), 1)
     },
 
-    async onUpdate() {
+    onUpdate() {
       if (this.onCheck()) {
-        this.$vs.loading({
-          background: 'primary',
-          color: '#fff',
-          container: '#updateBtn',
-          scale: 0.45,
-        })
-        this.updateBtnDisable = true
+        this.$loading(
+          async () => {
+            this.updateBtnDisable = true
 
-        try {
-          await this.uploadGoodsImg()
+            await this.uploadGoodsImg()
 
-          if (this.goods.img_list.length > 0) {
-            editGoods(this.goods)
-              .then(async ({ code }) => {
-                if (code === 2000) {
-                  if (this.deleteList.length > 0) {
+            if (this.goods.img_list.length > 0) {
+              editGoods(this.goods)
+                .then(async ({ code }) => {
+                  if (code === 2000) {
+                    if (this.deleteList.length > 0) {
                     // 更新商品信息时才执行删除图片操作
-                    await deleteGoodsImg({ img_list: this.deleteList })
+                      await deleteGoodsImg({ img_list: this.deleteList })
+                    }
+                    this.$router.go(-1)
+                  } else {
+                    throw new Error()
                   }
-                  this.$router.go(-1)
-                } else {
-                  throw new Error()
-                }
+                })
+                .catch(() => {
+                  deleteGoodsImg({ img_list: this.imgList })
+                })
+            } else {
+              this.$vs.notify({
+                color: 'danger',
+                title: '请添加商品图片',
+                text: '赶紧给你的宝贝拍几张照片吧',
               })
-              .catch(() => {
-                deleteGoodsImg({ img_list: this.imgList })
-              })
-          } else {
-            this.$vs.notify({
-              color: 'danger',
-              title: '请添加商品图片',
-              text: '赶紧给你的宝贝拍几张照片吧',
-            })
-          }
-        } finally {
-          this.updateBtnDisable = false
-          this.$vs.loading.close('#updateBtn > .con-vs-loading')
-        }
+            }
+          },
+          {
+            background: 'primary',
+            color: '#fff',
+            container: '#updateBtn',
+            scale: 0.45,
+          },
+          () => { this.updateBtnDisable = false },
+        )
       }
     },
   },
