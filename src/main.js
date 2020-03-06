@@ -26,7 +26,7 @@ import '@/layouts/theme' // 网站主题，样式
 Vue.use(new VueSocketIO({
   connection: process.env.NODE_ENV === 'production' ? 'https://holdme.top' : 'http://127.0.0.1:7001',
 }))
-
+// https://129.204.137.172
 Vue.use(VContentmenu)
 Vue.use(VueFeather)
 Vue.use(animated)
