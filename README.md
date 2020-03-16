@@ -1,4 +1,4 @@
-# [ 乐享校园 ] 客户端
+# [ 乐享校园 ] 用户端
 
 
 🚀 代码优化 ⚡️ 功能优化 🏆 新增功能 🎨 样式调整 🔧 修改配置 🛠️ 修复BUG
@@ -7,6 +7,14 @@
 [更多 Emoji](https://twemoji.maxcdn.com/2/test/preview.html)
 
 [点击查看在线预览](https://holdme.top)
+
+### 界面展示
+![img](https://gitee.com/chinesee/images/raw/master/img/img_030.png)
+![img](https://gitee.com/chinesee/images/raw/master/img/img_031.png)
+![img](https://gitee.com/chinesee/images/raw/master/img/img_032.png)
+![img](https://gitee.com/chinesee/images/raw/master/img/img_033.png)
+![img](https://gitee.com/chinesee/images/raw/master/img/img_034.png)
+
 
 ### 命令
 ```bash
