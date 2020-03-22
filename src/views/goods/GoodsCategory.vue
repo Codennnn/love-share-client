@@ -7,7 +7,6 @@
             class="search-input mb-6 radius"
             placeholder="这里搜索..."
             v-model="searchText"
-            @keyup.enter="getGoodsListBySearch()"
           />
           <h4 class="title">价格区间</h4>
           <ul>
@@ -38,6 +37,15 @@
               >{{ it.name }}</vs-radio>
             </li>
           </ul>
+
+          <div class="pt-5 flex justify-center">
+            <vs-button
+              class="w-3/4 radius"
+              @click="getGoodsListByFilter()"
+            >
+              查询商品
+            </vs-button>
+          </div>
         </div>
       </div>
 
@@ -108,13 +116,34 @@ export default {
       }
     },
 
-    async getGoodsListBySearch(page = 1) {
-      const { code, data } = await getGoodsListByFilter({
+    async getGoodsListByFilter(page = 1) {
+      const body = {
         page,
         page_size: this.maxItems,
         category: this.category,
-        search: this.searchText,
-      })
+      }
+      if (this.searchText.length > 0) {
+        body.search = this.searchText
+      }
+      if (this.priceRange !== 'all') {
+        if (this.priceRange === '10') {
+          body.min_price = 0
+          body.max_price = 9.99
+        }
+        if (this.priceRange === '500') {
+          body.min_price = 10
+          body.max_price = 100
+        }
+        if (this.priceRange === '100') {
+          body.min_price = 100
+          body.max_price = 500
+        }
+        if (this.priceRange === '100') {
+          body.min_price = 500.001
+          body.max_price = Number.POSITIVE_INFINITY
+        }
+      }
+      const { code, data } = await getGoodsListByFilter(body)
       if (code === 2000) {
         this.goodsList = data.goods_list
         this.pagination = data.pagination
