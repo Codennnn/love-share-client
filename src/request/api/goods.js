@@ -48,6 +48,14 @@ export function getGoodsListByCategory(params) {
   })
 }
 
+export function getGoodsListByFilter(params) {
+  return request({
+    url: '/goods/list/by_filter',
+    method: 'get',
+    params,
+  })
+}
+
 export function getGoodsListBySearch(params) {
   return request({
     url: '/goods/list/by_search',

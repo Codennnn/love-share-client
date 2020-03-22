@@ -6,6 +6,8 @@
           <vs-input
             class="search-input mb-6 radius"
             placeholder="这里搜索..."
+            v-model="searchText"
+            @keyup.enter="getGoodsListBySearch()"
           />
           <h4 class="title">价格区间</h4>
           <ul>
@@ -57,7 +59,7 @@
 <script>
 import GoodsList from '@/views/goods/GoodsList.vue'
 
-import { getGoodsListByCategory } from '@/request/api/goods'
+import { getGoodsListByCategory, getGoodsListByFilter } from '@/request/api/goods'
 
 const priceRanges = [
   { label: '全部', value: 'all' },
@@ -72,12 +74,14 @@ export default {
 
   data: () => ({
     priceRanges,
+
     priceRange: 'all',
-    goodsList: [],
+    searchText: '',
     category: '',
+
+    goodsList: [],
     maxItems: 8,
     pagination: {},
-    searchText: '',
   }),
 
   computed: {
@@ -97,6 +101,19 @@ export default {
         page,
         page_size: this.maxItems,
         category: this.category,
+      })
+      if (code === 2000) {
+        this.goodsList = data.goods_list
+        this.pagination = data.pagination
+      }
+    },
+
+    async getGoodsListBySearch(page = 1) {
+      const { code, data } = await getGoodsListByFilter({
+        page,
+        page_size: this.maxItems,
+        category: this.category,
+        search: this.searchText,
       })
       if (code === 2000) {
         this.goodsList = data.goods_list
