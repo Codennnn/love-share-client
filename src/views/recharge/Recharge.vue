@@ -19,8 +19,8 @@
                   class="w-20 h-16 mr-6 flex-row-center transition radius bg-white cursor-pointer"
                   v-for="(val, i) in values"
                   :key="i"
-                  :class="{'bg-primary text-white': select === i}"
-                  :style="select === i ? 'box-shadow: 0 0 15px rgba(var(--vs-primary), 1)' : ''"
+                  :class="{'bg-primary primary': select === i}"
+                  :style="select === i ? 'box-shadow: 0 0 20px 3px rgba(var(--vs-primary), 0.2)' : ''"
                   @click="onSelect(val, i)"
                 >{{ val }}</div>
               </div>

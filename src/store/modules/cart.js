@@ -32,6 +32,11 @@ const actions = {
   },
 
   async addCartItem({ dispatch, getters, rootGetters }, { amount, goods_id, seller }) {
+    if (rootGetters['user/token']?.length <= 0) {
+      Message.warning('请先登入哦')
+      return
+    }
+
     if (seller === rootGetters['user/userId']) {
       Message.warning('您不能将自己发布的商品加入购物车哦')
       return

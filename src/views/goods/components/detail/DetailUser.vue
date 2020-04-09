@@ -130,7 +130,10 @@ export default {
 
     // 联系卖家
     async contactSeller() {
-      if (!this.$login()) return
+      if (!this.$login()) {
+        this.$message.warning('请先登入账号哦')
+        return
+      }
 
       const { _id, nickname } = this.seller
       const code = await this.$store.dispatch('chat/addContact', _id)

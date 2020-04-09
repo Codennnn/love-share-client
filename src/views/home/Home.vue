@@ -58,7 +58,7 @@
       title="双击刷新 (´・ω・`)"
       class="title-divider select-none cursor-default"
       @dblclick="getRecommendGoodsList(), $refs.goodsList.page = 1"
-    >为你推荐</p>
+    >最新上架</p>
     <GoodsList
       ref="goodsList"
       :goodsList="goodsList"
@@ -169,7 +169,7 @@ export default {
   }
 }
 
-// 为你推荐
+// 最新上架
 .title-divider {
   position: relative;
   width: 200px;

@@ -34,9 +34,9 @@
               <div
                 class="py-2 px-4 flex-row-center text-sm bg-primary text-white radius cursor-pointer"
                 @click="$store.dispatch(
-                'cart/addCartItem',
-                 { amount: 1, goods_id: goods._id, seller: goods.seller }
-              )"
+                  'cart/addCartItem',
+                  { amount: 1, goods_id: goods._id, seller: goods.seller }
+                )"
               >
                 <feather
                   class="mr-2"

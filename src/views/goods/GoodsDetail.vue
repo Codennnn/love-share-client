@@ -335,7 +335,7 @@ export default {
         })
       } else {
         this.isSidebarActive = false
-        this.$router.push('/sign')
+        this.$message.warning('请先登入账号哦')
       }
     },
 

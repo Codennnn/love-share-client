@@ -5,7 +5,7 @@ import {
 } from '@/request/api/address'
 
 const state = {
-  token: getToken(),
+  token: getToken() || '',
   info: {},
   defaultAddress: '',
   addressList: [],
@@ -114,6 +114,7 @@ export default {
   mutations,
   actions,
   getters: {
+    token: state => state.token,
     userId: state => state.info._id,
     isFollowed: (state, getters) => id => getters.getFollows.includes(id),
   },

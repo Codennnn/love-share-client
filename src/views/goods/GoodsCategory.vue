@@ -138,7 +138,7 @@ export default {
           body.min_price = 100
           body.max_price = 500
         }
-        if (this.priceRange === '100') {
+        if (this.priceRange === '501') {
           body.min_price = 500.001
           body.max_price = Number.POSITIVE_INFINITY
         }

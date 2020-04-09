@@ -289,9 +289,9 @@ export default {
     font-weight: bold;
   }
   .owner {
+    @apply ml-1 text-xs;
     padding: 0.1rem 0.3rem;
     border-radius: 0.5rem;
-    font-size: 0.6rem;
     font-weight: normal;
     color: rgba(var(--vs-primary), 1);
     background: rgba(var(--vs-primary), 0.15);

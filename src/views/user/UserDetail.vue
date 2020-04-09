@@ -102,7 +102,7 @@
                   <span class="val break-all break-words">{{ info.email || '未填写' }}</span>
                 </div>
                 <div class="info-item">
-                  <vs-chip>手机号码</vs-chip>
+                  <vs-chip>手 机</vs-chip>
                   <span class="val">{{ info.phone || '未填写' }}</span>
                 </div>
               </div>
