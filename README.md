@@ -2,11 +2,11 @@
 
 
 ### 界面展示
-![img](https://gitee.com/chinesee/images/raw/master/img/img_030.png)
-![img](https://gitee.com/chinesee/images/raw/master/img/img_031.png)
-![img](https://gitee.com/chinesee/images/raw/master/img/img_032.png)
-![img](https://gitee.com/chinesee/images/raw/master/img/img_033.png)
-![img](https://gitee.com/chinesee/images/raw/master/img/img_034.png)
+![网站界面截图。看不到图片？开下 VPN 吧](./images/screenshot-1.png)
+![网站界面截图。看不到图片？开下 VPN 吧](./images/screenshot-2.png)
+![网站界面截图。看不到图片？开下 VPN 吧](./images/screenshot-3.png)
+![网站界面截图。看不到图片？开下 VPN 吧](./images/screenshot-4.png)
+![网站界面截图。看不到图片？开下 VPN 吧](./images/screenshot-5.png)
 
 
 ### 命令
