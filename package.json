@@ -27,7 +27,7 @@
     "mockjs": "^1.1.0",
     "nprogress": "^0.2.0",
     "postcss": "^7.0.17",
-    "qs": "^6.9.1",
+    "qs": "^6.9.7",
     "sass-resources-loader": "^2.0.1",
     "screenfull": "^4.2.0",
     "script-loader": "^0.7.2",
